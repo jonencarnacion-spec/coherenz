@@ -1,6 +1,16 @@
-import { base } from '../lib/base';
+import { Fragment } from 'react';
 import { gapStages, gapLeaks } from '../data/gapDiagram';
-import { IconTarget, IconAlignBoxLeftMiddle, IconArrowsSplit, IconTargetArrow } from '@tabler/icons-react';
+import {
+  IconTarget,
+  IconAlignBoxLeftMiddle,
+  IconArrowsSplit,
+  IconTargetArrow,
+  IconRadar,
+  IconCoin,
+  IconHammer,
+  IconBolt,
+  IconTrendingUp,
+} from '@tabler/icons-react';
 
 const promises = [
   { icon: IconTarget, title: 'See the Gaps', desc: 'Make hidden friction visible.' },
@@ -9,88 +19,104 @@ const promises = [
   { icon: IconTargetArrow, title: 'Drive Outcomes', desc: 'Turn delivery into measurable value.' },
 ];
 
+// DESIGN.md §4 concept-category picks. Opportunity/Delivery reuse the exact
+// mappings DESIGN.md's own PDE-OS table gives Discover/Deliver, since those
+// stages are conceptually the same idea (finding opportunity, executing).
+const stageIcons = [IconRadar, IconCoin, IconHammer, IconBolt, IconTrendingUp];
+
 export default function GapDiagram() {
   return (
-    <section id="problem" className="bg-background py-16 sm:py-24">
+    <section id="problem" className="bg-wash-blue py-16 sm:py-24">
       <div className="mx-auto max-w-[1180px] px-6">
         <div className="mx-auto max-w-2xl text-center">
-          <div className="mx-auto h-1 w-12 rounded-full bg-orange" />
-          <h2 className="mt-4 font-serif text-4xl text-navy sm:text-5xl">The Delivery Gap Diagram</h2>
+          <p className="text-sm font-bold uppercase tracking-[0.375em] text-orange">The Master Value Flow</p>
+          <h2 className="mt-4 font-serif text-4xl text-navy sm:text-5xl">Where does value go?</h2>
           <p className="mt-3 text-foreground/70">
-            Value leaks between strategy and outcomes.
-            <br />
-            We help you close the gaps that matter.
+            Value can leak at every handoff between opportunity and outcome. The problem isn't simply slow
+            delivery — it's value lost along the way. Coherenz helps identify where the leakage occurs and
+            focus intervention where it matters most.
           </p>
         </div>
 
-        <div className="mt-14 flex flex-wrap items-start justify-center gap-x-2 gap-y-10">
-          {gapStages.map((stage, i) => (
-            <div key={stage.name} className="flex items-start">
-              <div className="flex w-[140px] flex-col items-center text-center">
-                <div className="relative h-[130px] w-[130px]">
-                  <div className="absolute inset-0 rounded-full border border-line" />
+        <div className="mt-[76px] flex flex-col min-[960px]:flex-row min-[960px]:items-start">
+          {gapStages.map((stage, i) => {
+            const StageIcon = stageIcons[i];
+            return (
+            <Fragment key={stage.name}>
+              <div
+                className="flex items-center gap-[18px] py-3.5 text-left min-[960px]:flex-[1.9_1_0] min-[960px]:min-w-0 min-[960px]:flex-col min-[960px]:items-center min-[960px]:gap-0 min-[960px]:px-2.5 min-[960px]:py-0 min-[960px]:text-center"
+              >
+                <div className="relative h-[76px] w-[76px] shrink-0 min-[960px]:mx-auto min-[960px]:mb-[22px] min-[960px]:h-[130px] min-[960px]:w-[130px]">
+                  <div className="absolute left-1/2 top-1/2 h-[91px] w-[91px] -translate-x-1/2 -translate-y-1/2 rounded-full border-[1.5px] border-[#D8DCE3] min-[960px]:h-[156px] min-[960px]:w-[156px]" />
                   <div
-                    className="absolute inset-[14px] flex items-center justify-center rounded-full"
+                    className="relative flex h-[76px] w-[76px] items-center justify-center rounded-full min-[960px]:h-[130px] min-[960px]:w-[130px]"
                     style={{ background: stage.bg, color: stage.iconColor }}
                   >
-                    <svg viewBox={stage.viewBox} fill="currentColor" className="h-[52px] w-[52px]">
-                      <g transform={stage.iconTransform}>
-                        <path d={stage.iconPath} />
-                      </g>
-                    </svg>
+                    <StageIcon className="h-[30px] w-[30px] min-[960px]:h-[52px] min-[960px]:w-[52px]" strokeWidth={1.6} />
                   </div>
                 </div>
-                <p className="mt-3 font-bold text-navy">{stage.name}</p>
-                <p className="mt-1 text-xs text-muted-foreground">{stage.desc}</p>
+                <div>
+                  <p className="text-base font-extrabold uppercase tracking-wide text-navy">{stage.name}</p>
+                  <p className="mt-2.5 text-[13px] leading-[1.55] text-[#5A6478]">{stage.desc}</p>
+                </div>
               </div>
 
               {i < gapLeaks.length && (
-                <div className="mt-12 flex w-[90px] flex-col items-center px-1 text-center">
-                  <div className="flex items-center gap-1 text-line">
-                    <span className="h-1 w-1 rounded-full bg-current" />
-                    <span className="h-1 w-1 rounded-full bg-current" />
-                    <svg viewBox="0 0 24 10" className="w-5 text-line">
+                <div
+                  key={`leak-${stage.name}`}
+                  className="flex items-start gap-[18px] py-3.5 pl-[37px] text-left min-[960px]:flex-1 min-[960px]:min-w-0 min-[960px]:flex-col min-[960px]:items-center min-[960px]:gap-0 min-[960px]:px-1.5 min-[960px]:py-0 min-[960px]:pl-1.5 min-[960px]:text-center"
+                >
+                  <div className="hidden h-[130px] items-center justify-center gap-1 text-navy min-[960px]:flex">
+                    <span className="h-[5px] w-[5px] shrink-0 rounded-full bg-[#C7CCD8]" />
+                    <span className="h-[5px] w-[5px] shrink-0 rounded-full bg-[#C7CCD8]" />
+                    <svg viewBox="0 0 24 10" className="h-[14px] w-[34px] shrink-0">
                       <line x1="0" y1="5" x2="20" y2="5" stroke="currentColor" strokeWidth="1.6" />
                       <path d="M16 1l4 4-4 4" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
                   </div>
-                  <p className="mt-2 text-[10px] font-bold uppercase tracking-wide text-destructive">Gap</p>
-                  <p className="mt-1 text-[11px] leading-snug text-muted-foreground">{gapLeaks[i].desc}</p>
+
+                  <div className="flex items-center gap-[7px] min-[960px]:mx-auto min-[960px]:mt-11 min-[960px]:flex-col">
+                    <span className="flex h-[22px] w-[22px] shrink-0 items-center justify-center rounded-full bg-[#E8433D] text-[13px] font-extrabold text-white">
+                      !
+                    </span>
+                    <span className="h-[5px] w-[5px] shrink-0 rounded-full bg-orange" />
+                    <span className="h-[5px] w-[5px] shrink-0 rounded-full bg-orange" />
+                    <div className="flex h-[24px] w-[10px] shrink-0 items-center justify-center min-[960px]:mt-[7px] min-[960px]:h-[10px] min-[960px]:w-[24px]">
+                      <svg viewBox="0 0 24 10" className="h-[10px] w-[24px] text-orange min-[960px]:rotate-90">
+                        <line x1="0" y1="5" x2="20" y2="5" stroke="currentColor" strokeWidth="1.6" />
+                        <path d="M16 1l4 4-4 4" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                    </div>
+                  </div>
+
+                  <div>
+                    <p className="text-[14.5px] font-extrabold uppercase tracking-wider text-orange min-[960px]:mt-3.5">Gap</p>
+                    <p className="mt-1.5 text-[14.5px] leading-[1.55] text-[#5A6478] min-[960px]:relative min-[960px]:left-1/2 min-[960px]:mt-1.5 min-[960px]:w-[190%] min-[960px]:-translate-x-1/2">
+                      {gapLeaks[i].desc}
+                    </p>
+                  </div>
                 </div>
               )}
+            </Fragment>
+            );
+          })}
+        </div>
+
+        <div className="mt-16 flex flex-col gap-8 rounded-2xl bg-navy px-8 py-7 text-white sm:flex-row sm:items-start">
+          {promises.map(({ icon: Icon, title, desc }) => (
+            <div key={title} className="sm:flex-[0.99]">
+              <Icon size={30} strokeWidth={1.8} className="text-orange" />
+              <strong className="mt-2 block text-sm">{title}</strong>
+              <span className="mt-1 block text-xs text-white/70">{desc}</span>
             </div>
           ))}
-        </div>
-
-        <div className="mt-16 flex flex-col items-center gap-8 rounded-2xl bg-navy px-8 py-10 text-white sm:flex-row sm:justify-between">
-          <img src={`${base}img/logo-white.svg`} alt="Coherenz" className="h-7" />
-          <p className="text-center text-sm sm:text-left">
+          <p className="text-left text-lg sm:flex-[1.6] sm:self-center">
             We identify the leaks.
             <br />
-            <strong>We close the gaps.</strong>
+            <strong className="text-orange">We close the gaps.</strong>
           </p>
-          <div className="grid grid-cols-2 gap-x-8 gap-y-4 sm:grid-cols-4">
-            {promises.map(({ icon: Icon, title, desc }) => (
-              <div key={title}>
-                <div className="flex items-center gap-2">
-                  <Icon size={20} strokeWidth={1.8} />
-                  <strong className="text-sm">{title}</strong>
-                </div>
-                <span className="text-xs text-white/70">{desc}</span>
-              </div>
-            ))}
-          </div>
         </div>
 
-        <div className="mt-8 flex items-center gap-4 rounded-xl bg-cream px-6 py-5">
-          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-navy text-white">
-            <IconTarget size={20} />
-          </div>
-          <p className="text-sm text-navy">
-            <strong>The Bottom Line:</strong> When the gaps close, <span className="font-bold text-orange">value flows</span> — and outcomes
-            follow.
-          </p>
-        </div>
       </div>
     </section>
   );
