@@ -1,27 +1,23 @@
 ---
-// 21st.dev-sourced interactive background, replacing the earlier static
-// poster-frame placeholder. Colors recolored from the component's default
-// neon cyan to Coherenz's own palette (DESIGN.md §1) — orange nodes, yellow
-// pulses, matching the eyebrow/CTA accent already used in this section.
+// 21st.dev-sourced interactive background — orbital solar-system animation.
+// Base fill and scrim veil were both hardcoded to pure black in the source;
+// replaced with a flat ~15%-darkened Coherenz navy (#1A2744 → #16213A, see
+// orbital-hero-section.tsx) so it keeps the brand's navy tone instead of
+// black. focus/scrim push the Sun/orbits right and darken the left,
+// matching where our real copy sits.
 import { base } from '../lib/base';
-import InteractiveSynapseNetwork from './ui/interactive-synapse-network';
+import OrbitalHeroSection from './ui/orbital-hero-section';
 ---
 
 <section class="relative flex min-h-screen items-center overflow-hidden bg-navy">
   <div class="absolute inset-0">
-    <InteractiveSynapseNetwork
+    <OrbitalHeroSection
       client:load
-      nodeColor="rgba(232,160,48,0.75)"
-      pulseColor="rgba(240,192,64,1)"
-      nodeCount={100}
-      connectionRadius={180}
-      trailOpacity={0.18}
-      ariaLabel="Decorative animated network background"
+      focus={[0.72, 0.45]}
+      scrim="left"
+      scrimStrength={0.85}
     />
   </div>
-  <div class="absolute inset-0 bg-gradient-to-b from-navy/30 via-transparent to-navy/70" />
-
-  <img src={`${base}img/monogram-full.png`} alt="" class="pointer-events-none absolute -right-24 top-1/2 w-[520px] -translate-y-1/2 opacity-10" />
 
   <div class="relative mx-auto w-full max-w-[1180px] px-6 py-32">
     <div class="max-w-2xl">
