@@ -1,0 +1,21 @@
+---
+/**
+ * Only the Home hero and Approach header videos are flagged as off-brand
+ * stock footage (DESIGN.md §10 / MIGRATION.md) — this section's video isn't,
+ * so it's ported as-is rather than downgraded to a static placeholder.
+ */
+import { base } from '../lib/base';
+---
+
+<section class="relative flex items-center justify-center overflow-hidden bg-navy py-24 text-center sm:py-40">
+  <video class="absolute inset-0 h-full w-full object-cover opacity-60" autoplay muted loop playsinline>
+    <source src={`${base}video/pov-bg.mp4`} type="video/mp4" />
+  </video>
+  <div class="relative z-10 mx-auto max-w-2xl px-6">
+    <p class="text-sm font-bold uppercase tracking-[0.375em] text-yellow">Our Point of View</p>
+    <blockquote class="mt-4 font-serif text-3xl leading-snug text-white sm:text-4xl">
+      Better delivery isn't about doing more. It's about creating <span class="text-orange">more value</span> from the
+      capacity you already have.
+    </blockquote>
+  </div>
+</section>

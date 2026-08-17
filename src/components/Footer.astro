@@ -1,0 +1,37 @@
+---
+import { base } from '../lib/base';
+const sitemap = [
+  { label: 'Approach', href: 'approach' },
+  { label: 'Services', href: 'services' },
+  { label: 'Programs', href: 'programs' },
+  { label: 'Diagnostic', href: 'diagnostic' },
+  { label: 'Insights', href: 'insights' },
+  { label: 'Case Studies', href: 'case-studies' },
+  { label: 'About', href: 'about' },
+  { label: 'Contact', href: 'contact' },
+];
+---
+
+<footer class="bg-navy text-white">
+  <div class="mx-auto max-w-[1180px] px-6 py-16">
+    <div class="flex flex-col justify-between gap-10 md:flex-row">
+      <div>
+        <img src={`${base}img/logo-white.svg`} alt="Coherenz" class="h-8" />
+        <p class="mt-2 max-w-[260px] text-xs text-white/55">
+          Product Delivery Economics™ — turning delivery capacity into measurable business value.
+        </p>
+      </div>
+      <nav>
+        <ul class="grid grid-cols-2 gap-x-8 gap-y-2 text-sm sm:flex sm:flex-col">
+          {sitemap.map((item) => (
+            <li><a href={`${base}${item.href}`} class="text-white/80 hover:text-white">{item.label}</a></li>
+          ))}
+        </ul>
+      </nav>
+    </div>
+    <div class="mt-10 flex flex-col gap-2 border-t border-white/10 pt-6 text-xs text-white/55 sm:flex-row sm:justify-between">
+      <span>© Coherenz</span>
+      <span>Product Delivery Economics is a trademark of Coherenz.</span>
+    </div>
+  </div>
+</footer>

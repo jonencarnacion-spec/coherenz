@@ -1,0 +1,38 @@
+---
+// Homepage teaser only — link-out cards, no interactivity. The real
+// click-to-reveal diagnostic funnel lives on the /diagnostic page and is
+// the only one of the three that becomes a React island, per MIGRATION.md.
+import { IconTarget, IconRoute, IconBackpack, IconChecklist, IconSitemap } from '@tabler/icons-react';
+
+import { base } from '../lib/base';
+const dimensions = [
+  { num: '01', name: 'Value', q: 'Are we building the right things?', Icon: IconTarget },
+  { num: '02', name: 'Flow', q: 'How efficiently does work move?', Icon: IconRoute },
+  { num: '03', name: 'Capacity', q: 'Where is our delivery capacity actually going?', Icon: IconBackpack },
+  { num: '04', name: 'Quality', q: 'How much capacity is consumed by defects and rework?', Icon: IconChecklist },
+  { num: '05', name: 'Coordination', q: 'How much effort is lost to dependencies and organizational friction?', Icon: IconSitemap },
+];
+---
+
+<section id="diagnostic-teaser" class="bg-background py-16 sm:py-24">
+  <div class="mx-auto max-w-[1180px] px-6">
+    <p class="text-sm font-bold uppercase tracking-[0.375em] text-orange">The Coherenz Diagnostic</p>
+    <h2 class="mt-3 font-serif text-4xl text-navy sm:text-5xl">Where is value being lost?</h2>
+    <p class="mt-3">
+      <a href={`${base}diagnostic`} class="font-bold text-orange">Take the diagnostic →</a>
+    </p>
+
+    <div class="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-5">
+      {dimensions.map(({ num, name, q, Icon }) => (
+        <div class="rounded-[10px] border-b-4 border-b-navy bg-white p-5 text-center shadow-sm">
+          <p class="text-[11px] font-extrabold text-muted-foreground">{num}</p>
+          <div class="mx-auto mt-2 flex h-[46px] w-[46px] items-center justify-center rounded-full bg-cream text-navy">
+            <Icon size={22} />
+          </div>
+          <h5 class="mt-2 text-sm font-semibold text-navy">{name}</h5>
+          <p class="mt-1.5 text-[11.5px] leading-tight text-muted-foreground">{q}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

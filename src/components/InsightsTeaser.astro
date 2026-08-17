@@ -1,0 +1,35 @@
+---
+// Headlines are explicitly placeholder — Jon is providing real ones
+// separately (MIGRATION.md). Dev-note carried forward, not shipped as final.
+import { base } from '../lib/base';
+const insights = [
+  { tag: 'Product Economics', title: "What Cost of Delay actually measures — and what it doesn't", accent: 'bg-gradient-to-br from-blue to-green' },
+  { tag: 'Delivery Economics', title: 'Why WIP limits are an economic decision, not a process one', accent: 'bg-gradient-to-br from-green to-[#2a7a63]' },
+  { tag: 'Product Leadership', title: 'The operating model question most roadmaps skip', accent: 'bg-gradient-to-br from-orange to-yellow' },
+];
+---
+
+<section id="insights" class="bg-background py-16 sm:py-24">
+  <div class="mx-auto max-w-[1180px] px-6">
+    <p class="text-sm font-bold uppercase tracking-[0.375em] text-orange">Coherenz Thinking</p>
+    <h2 class="mt-3 font-serif text-4xl text-navy sm:text-5xl">Selected insights.</h2>
+    <p class="mt-3">
+      <a href={`${base}insights`} class="font-bold text-orange">See all insights →</a>
+    </p>
+
+    <div class="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-3">
+      {insights.map(({ tag, title, accent }) => (
+        <div class="overflow-hidden rounded-[10px] border border-line bg-white shadow-sm">
+          <div class={`h-32 ${accent}`} />
+          <div class="p-5">
+            <p class="text-xs font-bold uppercase tracking-wide text-yellow">{tag}</p>
+            <h5 class="mt-2 text-[15px] font-semibold leading-snug text-navy">{title}</h5>
+          </div>
+        </div>
+      ))}
+    </div>
+    <p class="mt-4 text-xs italic text-muted-foreground">
+      Draft placeholder headlines — swap for real published pieces before ship.
+    </p>
+  </div>
+</section>

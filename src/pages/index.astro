@@ -1,34 +1,35 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import HydrationCheck from '../components/HydrationCheck.tsx';
+import Nav from '../components/Nav.astro';
+import Hero from '../components/Hero.astro';
+import GapDiagram from '../components/GapDiagram.tsx';
+import FourProblems from '../components/FourProblems.astro';
+import OurPointOfView from '../components/OurPointOfView.astro';
+import ThreeLenses from '../components/ThreeLenses.astro';
+import DiagnosticTeaser from '../components/DiagnosticTeaser.astro';
+import PdeosWheel from '../components/PdeosWheel.tsx';
+import Perspectives from '../components/Perspectives.astro';
+import InsightsTeaser from '../components/InsightsTeaser.astro';
+import AboutTeaser from '../components/AboutTeaser.astro';
+import FinalCta from '../components/FinalCta.astro';
+import Footer from '../components/Footer.astro';
 ---
 
-<Layout title="Coherenz — Astro scaffold check">
-  <main class="mx-auto max-w-3xl px-6 py-24">
-    <p class="font-wordmark text-lg font-semibold text-navy">coherenz</p>
-
-    <h1 class="mt-4 font-serif text-5xl text-navy">Delivery is an investment.</h1>
-    <p class="mt-4 max-w-xl text-base text-foreground/80">
-      Scaffold smoke test — Manrope body copy, DM Serif Display headline, Montserrat wordmark,
-      shadcn-mapped Tailwind tokens, and a hydrated React island below.
-    </p>
-
-    <div class="mt-8 flex items-center gap-4">
-      <a href="#" class="rounded-full bg-primary px-6 py-3 text-sm font-bold text-primary-foreground">
-        Primary button
-      </a>
-      <a href="#" class="rounded-full border-2 border-primary px-6 py-3 text-sm font-bold text-primary">
-        Secondary button
-      </a>
-    </div>
-
-    <div class="mt-10 rounded-[10px] border border-border bg-card p-6 shadow-sm">
-      <p class="text-xs font-bold uppercase tracking-[0.375em] text-muted-foreground">Card token check</p>
-      <p class="mt-2 text-foreground">bg-card / border-border / text-muted-foreground all resolving to DESIGN.md tokens.</p>
-    </div>
-
-    <div class="mt-10">
-      <HydrationCheck client:load />
-    </div>
-  </main>
+<Layout
+  title="Coherenz — Delivery is an investment. Treat it like one."
+  description="Coherenz helps product organizations make better investment, prioritization and delivery decisions—turning delivery capacity into measurable business value."
+>
+  <Nav />
+  <Hero />
+  <GapDiagram client:visible />
+  <FourProblems />
+  <OurPointOfView />
+  <ThreeLenses />
+  <DiagnosticTeaser />
+  <PdeosWheel client:visible />
+  <Perspectives />
+  <InsightsTeaser />
+  <AboutTeaser />
+  <FinalCta />
+  <Footer />
 </Layout>

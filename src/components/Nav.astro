@@ -1,0 +1,72 @@
+---
+import { IconMenu2 } from '@tabler/icons-react';
+
+import { base } from '../lib/base';
+const navLinks = [
+  { label: 'Approach', href: 'approach' },
+  { label: 'Services', href: 'services' },
+  { label: 'Programs', href: 'programs' },
+  { label: 'Insights', href: 'insights' },
+  { label: 'About', href: 'about' },
+];
+---
+
+<header id="site-nav" class="sticky top-0 z-50 bg-navy transition-transform duration-300">
+  <div class="mx-auto flex max-w-[1180px] items-center justify-between px-6 py-4">
+    <a href={base} class="font-wordmark text-lg font-semibold text-white">coherenz</a>
+
+    <ul class="hidden items-center gap-8 text-sm font-medium text-white md:flex">
+      {navLinks.map((link) => (
+        <li><a href={`${base}${link.href}`} class="hover:text-yellow">{link.label}</a></li>
+      ))}
+    </ul>
+
+    <div class="flex items-center gap-4">
+      <a href={`${base}contact`} class="hidden rounded-full bg-primary px-6 py-3 text-sm font-bold text-primary-foreground sm:inline-block">
+        Let's Talk
+      </a>
+      <button id="nav-toggle" aria-label="Toggle menu" aria-expanded="false" class="text-white md:hidden">
+        <IconMenu2 size={24} aria-hidden="true" />
+      </button>
+    </div>
+  </div>
+
+  <ul id="nav-links-mobile" class="hidden flex-col gap-1 border-t border-white/10 px-6 py-4 text-white md:hidden">
+    {navLinks.map((link) => (
+      <li><a href={`${base}${link.href}`} class="block py-2">{link.label}</a></li>
+    ))}
+    <li><a href={`${base}contact`} class="block py-2 font-bold text-orange">Let's Talk</a></li>
+  </ul>
+</header>
+
+<script>
+  const toggle = document.getElementById('nav-toggle');
+  const mobileLinks = document.getElementById('nav-links-mobile');
+  toggle?.addEventListener('click', () => {
+    const open = mobileLinks?.classList.toggle('hidden') === false;
+    toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+
+  // Hide on scroll down, reveal on scroll up — stays visible near the top.
+  const nav = document.getElementById('site-nav');
+  let lastY = window.scrollY;
+  let ticking = false;
+  function update() {
+    const y = window.scrollY;
+    if (y <= 80) {
+      nav?.classList.remove('-translate-y-full');
+    } else if (y > lastY) {
+      nav?.classList.add('-translate-y-full');
+    } else {
+      nav?.classList.remove('-translate-y-full');
+    }
+    lastY = y;
+    ticking = false;
+  }
+  window.addEventListener('scroll', () => {
+    if (!ticking) {
+      requestAnimationFrame(update);
+      ticking = true;
+    }
+  }, { passive: true });
+</script>

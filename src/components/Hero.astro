@@ -1,0 +1,38 @@
+---
+/**
+ * Interim build: static poster-frame background, not the off-brand stock
+ * video currently live on the vanilla site. Real footage is coming from
+ * Jon, sourced from 21st.dev — this section is structured so swapping in
+ * a real hero component later doesn't require restructuring anything else.
+ * See MIGRATION.md "Explicitly NOT locked" and DESIGN.md §10.
+ */
+import { base } from '../lib/base';
+---
+
+<section
+  class="relative flex min-h-[80vh] items-center overflow-hidden bg-navy bg-cover bg-center"
+  style={`background-image: linear-gradient(180deg, rgba(26,39,68,0.55), rgba(26,39,68,0.85)), url('${base}img/photography/home-hero-poster-frame.png')`}
+>
+  <img src={`${base}img/monogram-full.png`} alt="" class="pointer-events-none absolute -right-24 top-1/2 w-[520px] -translate-y-1/2 opacity-20" />
+
+  <div class="relative mx-auto max-w-[1180px] px-6 py-32">
+    <div class="max-w-2xl">
+      <p class="text-sm font-bold uppercase tracking-[0.375em] text-yellow">Product Delivery Economics™</p>
+      <h1 class="mt-4 font-serif text-5xl leading-tight text-white sm:text-6xl">
+        Delivery is an investment.<br />Treat it like one.
+      </h1>
+      <p class="mt-4 max-w-xl text-base text-white/80">
+        Coherenz helps product organizations make better investment, prioritization and delivery
+        decisions—turning delivery capacity into measurable business value.
+      </p>
+      <div class="mt-8 flex flex-wrap items-center gap-4">
+        <a href={`${base}approach`} class="rounded-full bg-primary px-6 py-3 text-sm font-bold text-primary-foreground">
+          Explore our approach →
+        </a>
+        <a href={`${base}contact`} class="rounded-full border-2 border-white px-6 py-3 text-sm font-bold text-white">
+          Talk to Coherenz
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
