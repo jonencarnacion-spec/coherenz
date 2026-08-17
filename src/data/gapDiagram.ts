@@ -9,37 +9,39 @@ export interface GapLeak {
   desc: string;
 }
 
-// Colors ported from css/style.css .gap-icon-circle.{blue,tint-a,tint-b,tint-c,tint-d}.
+// Deeper tonal fills per stage — richer than a near-white wash so the row
+// reads as deliberate color-coded chips rather than a pale tint. Icon color
+// is the same deep hue used for the fill's "full strength" version.
 // Icon choice lives in GapDiagram.tsx (stageIcons) — Tabler icons per DESIGN.md §4.
 export const gapStages: GapStage[] = [
   {
     name: 'Opportunity',
     desc: 'Define direction, goals and value intent.',
-    bg: 'var(--color-blue)',
-    iconColor: 'var(--color-yellow)',
+    bg: '#D6EBE1',
+    iconColor: '#2F8F5B',
   },
   {
     name: 'Investment',
     desc: 'Allocate resources to the right opportunities.',
-    bg: '#FBEFE3',
+    bg: '#F5DFC0',
     iconColor: '#C9761A',
   },
   {
     name: 'Product',
     desc: 'Build the right thing for the right people.',
-    bg: '#FDF6E0',
+    bg: '#F7EBBF',
     iconColor: '#B08900',
   },
   {
     name: 'Delivery',
     desc: 'Execute efficiently with quality and flow.',
-    bg: '#FCEEE0',
+    bg: '#F5DFC0',
     iconColor: '#C9761A',
   },
   {
     name: 'Outcome',
     desc: 'Realize value and measurable impact.',
-    bg: '#FBEAE7',
+    bg: '#F5D6D0',
     iconColor: '#D14A3E',
   },
 ];
