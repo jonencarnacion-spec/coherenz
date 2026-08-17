@@ -1,0 +1,57 @@
+@import "tailwindcss";
+
+@theme {
+  /* Coherenz brand tokens — DESIGN.md §1. Built fresh from the doc, not
+     copied from the live site's stale style.css (see MIGRATION.md). */
+  --color-navy: #1A2744;
+  --color-cream: #F5F0E6;
+  --color-yellow: #F0C040;
+  --color-orange: #E8A030;
+  --color-blue: #2E5077;
+  --color-green: #174E40;
+  --color-ink: #20263A;
+  --color-bg: #F7F6F2;
+  --color-line: #E4DFD3;
+  --color-wash-blue: #EAEEF1;
+  --color-wash-green: #E8EDEC;
+
+  /* shadcn/21st.dev component contract — every component pulled from 21st.dev
+     that uses bg-primary/text-foreground/etc. inherits Coherenz's brand
+     automatically instead of shadcn's default palette. Map once here. */
+  --color-background: var(--color-bg);
+  --color-foreground: var(--color-ink);
+  --color-card: #ffffff;
+  --color-card-foreground: var(--color-ink);
+  --color-popover: #ffffff;
+  --color-popover-foreground: var(--color-ink);
+  --color-primary: var(--color-orange);
+  --color-primary-foreground: #ffffff;
+  --color-secondary: var(--color-blue);
+  --color-secondary-foreground: #ffffff;
+  --color-muted: var(--color-wash-blue);
+  --color-muted-foreground: #6B7593;
+  --color-accent: var(--color-wash-green);
+  --color-accent-foreground: var(--color-green);
+  /* NOT in DESIGN.md — placeholder red until Jon confirms a real "danger" color. */
+  --color-destructive: #C24A3D;
+  --color-destructive-foreground: #ffffff;
+  --color-border: var(--color-line);
+  --color-input: var(--color-line);
+  --color-ring: var(--color-orange);
+
+  /* Typography — DESIGN.md §2 */
+  --font-sans: 'Manrope', 'Inter', 'Plus Jakarta Sans', 'DM Sans', sans-serif;
+  --font-serif: 'DM Serif Display', 'Playfair Display', 'Cormorant Garamond', 'Source Serif Pro', serif;
+  /* "coherenz" wordmark ONLY — never use for headings, nav, or body copy. */
+  --font-wordmark: 'Montserrat', sans-serif;
+  /* Economic formulas / numeric expressions only — DESIGN.md §8 */
+  --font-formula: 'KaTeX_Main', 'Georgia', serif;
+
+  --radius: 0.625rem;
+}
+
+@layer base {
+  body {
+    @apply bg-background text-foreground font-sans;
+  }
+}
