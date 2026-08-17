@@ -11,9 +11,11 @@ const navLinks = [
 ];
 ---
 
-<header id="site-nav" class="sticky top-0 z-50 bg-navy transition-transform duration-300">
+<header id="site-nav" class="fixed inset-x-0 top-0 z-50 bg-transparent transition-[transform,background-color] duration-300">
   <div class="mx-auto flex max-w-[1180px] items-center justify-between px-6 py-4">
-    <a href={base} class="font-wordmark text-lg font-semibold text-white">coherenz</a>
+    <a href={base}>
+      <img src={`${base}img/logo-white.svg`} alt="Coherenz" class="h-11" />
+    </a>
 
     <ul class="hidden items-center gap-8 text-sm font-medium text-white md:flex">
       {navLinks.map((link) => (
@@ -60,9 +62,12 @@ const navLinks = [
     } else {
       nav?.classList.remove('-translate-y-full');
     }
+    nav?.classList.toggle('bg-navy', y > 0);
+    nav?.classList.toggle('bg-transparent', y <= 0);
     lastY = y;
     ticking = false;
   }
+  update();
   window.addEventListener('scroll', () => {
     if (!ticking) {
       requestAnimationFrame(update);

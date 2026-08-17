@@ -1,4 +1,5 @@
 // @ts-check
+import { fileURLToPath } from 'node:url';
 import { defineConfig } from 'astro/config';
 
 import react from '@astrojs/react';
@@ -17,6 +18,13 @@ export default defineConfig({
   integrations: [react()],
 
   vite: {
-    plugins: [tailwindcss()]
+    plugins: [tailwindcss()],
+    // Mirrors tsconfig.json's "@/*" path — shadcn/21st.dev components assume
+    // this alias, so wiring it up once here avoids patching imports per pull.
+    resolve: {
+      alias: {
+        '@': fileURLToPath(new URL('./src', import.meta.url))
+      }
+    }
   }
 });

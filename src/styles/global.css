@@ -55,3 +55,11 @@
     @apply bg-background text-foreground font-sans;
   }
 }
+
+:root {
+  /* Raw HSL triplet (not a Tailwind color token) — used by
+     interactive-synapse-network.tsx's own bg-[hsl(var(--network-bg))].
+     Matches --color-navy (#1A2744) so the pre-hydration/no-JS fallback
+     matches the brand instead of rendering transparent. */
+  --network-bg: 222 45% 18%;
+}
