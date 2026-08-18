@@ -19,7 +19,7 @@ export default function PdeosWheel() {
 
   return (
     <section id="pdeos-wheel-section" className="bg-bg py-16 sm:py-24">
-      <div className="mx-auto max-w-[1180px] px-6">
+      <div className="mx-auto max-w-[1536px] px-6 sm:px-8 lg:px-10 xl:px-14">
         <div className="grid items-center gap-12 lg:grid-cols-[1fr_1.1fr]">
           <div>
             <div className="h-1 w-12 rounded-full bg-orange" />

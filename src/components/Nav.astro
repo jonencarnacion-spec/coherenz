@@ -12,9 +12,9 @@ const navLinks = [
 ---
 
 <header id="site-nav" class="fixed inset-x-0 top-0 z-50 bg-transparent transition-[transform,background-color] duration-300">
-  <div class="mx-auto flex max-w-[1180px] items-center justify-between px-6 py-4">
+  <div class="mx-auto flex max-w-[1536px] items-center justify-between px-6 py-3 sm:px-8 lg:px-10 xl:px-14">
     <a href={base}>
-      <img src={`${base}img/logo-white.svg`} alt="Coherenz" class="h-11" />
+      <img src={`${base}img/logo-white.svg`} alt="Coherenz" class="h-10" />
     </a>
 
     <ul class="hidden items-center gap-8 text-sm font-medium text-white md:flex">
@@ -24,8 +24,8 @@ const navLinks = [
     </ul>
 
     <div class="flex items-center gap-4">
-      <a href={`${base}contact`} class="hidden rounded-full bg-primary px-6 py-3 text-sm font-bold text-primary-foreground sm:inline-block">
-        Let's Talk
+      <a href={`${base}contact`} class="hidden rounded-full bg-primary px-6 py-2.5 text-sm font-bold text-primary-foreground sm:inline-block">
+        Talk to Coherenz
       </a>
       <button id="nav-toggle" aria-label="Toggle menu" aria-expanded="false" class="text-white md:hidden">
         <IconMenu2 size={24} aria-hidden="true" />
@@ -37,7 +37,7 @@ const navLinks = [
     {navLinks.map((link) => (
       <li><a href={`${base}${link.href}`} class="block py-2">{link.label}</a></li>
     ))}
-    <li><a href={`${base}contact`} class="block py-2 font-bold text-orange">Let's Talk</a></li>
+    <li><a href={`${base}contact`} class="block py-2 font-bold text-orange">Talk to Coherenz</a></li>
   </ul>
 </header>
 

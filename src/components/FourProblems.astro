@@ -1,30 +1,52 @@
 ---
 import { base } from '../lib/base';
-import ColorChangeCards from './ui/color-change-card';
+import { ChallengeCard } from './ui/card-21';
 
+// themeColor values are HSL triplets ("H S% L%") matching DESIGN.md's brand
+// hues, converted from their hex tokens (orange #E8A030, blue #2E5077,
+// green #174E40) so hsl(var(--theme-color)/alpha) works in the card's
+// gradient/glow. Gold substitutes for the reference's purple accent, which
+// isn't a locked DESIGN.md color — using the deeper gold (#B08900) already
+// established for the Product stage elsewhere on the site.
 const problems = [
   {
     q: 'Are you investing in the right things?',
     label: 'Product & Portfolio Strategy',
     img: 'solve-strategy.jpg',
-    desc: 'Align strategy, prioritize opportunities, and invest in what creates the most value.',
     pain: "We're investing in the wrong things.",
+    themeColor: '36 80% 55%',
   },
-  { q: 'Are you getting enough value from your delivery capacity?', label: 'Product Delivery Economics™', img: 'solve-delivery-economics.jpg' },
-  { q: 'Is your delivery system struggling to keep up?', label: 'Delivery Stabilization', img: 'solve-delivery-stabilization.jpg' },
-  { q: 'Is your organization ready to scale?', label: 'Product Operating Model', img: 'solve-operating-model.jpg' },
+  {
+    q: 'Are you getting enough value from your delivery capacity?',
+    label: 'Product Delivery Economics™',
+    img: 'solve-delivery-economics.jpg',
+    themeColor: '212 44% 32%',
+  },
+  {
+    q: 'Is your delivery system struggling to keep up?',
+    label: 'Delivery Stabilization',
+    img: 'solve-delivery-stabilization.jpg',
+    themeColor: '47 100% 35%',
+  },
+  {
+    q: 'Is your organization ready to scale?',
+    label: 'Product Operating Model',
+    img: 'solve-operating-model.jpg',
+    themeColor: '165 55% 20%',
+  },
 ];
 
 const cardItems = problems.map((p) => ({
-  heading: p.label,
-  description: p.desc ?? p.q,
-  imgSrc: `${base}img/photography/${p.img}`,
-  pain: p.pain,
+  imageUrl: `${base}img/photography/${p.img}`,
+  headline: p.pain ?? p.label,
+  label: p.pain ? p.label : p.q,
+  href: `${base}services`,
+  themeColor: p.themeColor,
 }));
 ---
 
 <section id="services" class="bg-white py-16 sm:py-24">
-  <div class="mx-auto max-w-[1180px] px-6">
+  <div class="mx-auto max-w-[1536px] px-6 sm:px-8 lg:px-10 xl:px-14">
     <p class="text-sm font-bold uppercase tracking-[0.375em] text-orange">What We Help Solve</p>
     <h2 class="mt-3 font-serif text-4xl text-navy sm:text-5xl">Four questions we help you answer.</h2>
     <p class="mt-3">
@@ -32,7 +54,11 @@ const cardItems = problems.map((p) => ({
     </p>
   </div>
 
-  <div class="mt-14">
-    <ColorChangeCards items={cardItems} client:visible />
+  <div class="mx-auto mt-14 grid max-w-[1536px] grid-cols-1 gap-5 px-6 sm:grid-cols-2 sm:px-8 lg:grid-cols-4 lg:px-10 xl:px-14">
+    {cardItems.map((item) => (
+      <div class="h-[420px]">
+        <ChallengeCard {...item} client:visible />
+      </div>
+    ))}
   </div>
 </section>

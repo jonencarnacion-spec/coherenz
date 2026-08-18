@@ -137,6 +137,8 @@ export interface OrbitalHeroSectionProps
   /** Freeze on the current frame. */
   paused?: boolean;
   sunColor?: string;
+  /** Base canvas fill and host fallback background. Defaults to the ~15%-darkened Coherenz navy. */
+  baseFill?: string;
   children?: React.ReactNode;
 }
 
@@ -251,6 +253,7 @@ export function OrbitalHeroSection({
   interactive = true,
   paused = false,
   sunColor = "#FFF2CC",
+  baseFill = "#16213A",
   className = "",
   children,
   ...rest
@@ -261,12 +264,12 @@ export function OrbitalHeroSection({
   const props = useRef({
     planets, yearSeconds, trailYears, compress, maxTurns, planeSpread, eccentricity, alignToCourse, driftSpeed, apex,
     viewRadius, tilt, spin, roll, lead, focus, scrim, scrimStrength, starCount, glow, showOrbits, showSunTrack,
-    interactive, paused, sunColor,
+    interactive, paused, sunColor, baseFill,
   });
   props.current = {
     planets, yearSeconds, trailYears, compress, maxTurns, planeSpread, eccentricity, alignToCourse, driftSpeed, apex,
     viewRadius, tilt, spin, roll, lead, focus, scrim, scrimStrength, starCount, glow, showOrbits, showSunTrack,
-    interactive, paused, sunColor,
+    interactive, paused, sunColor, baseFill,
   };
 
   useEffect(() => {
@@ -682,11 +685,11 @@ export function OrbitalHeroSection({
       }
 
       ctx!.globalCompositeOperation = "source-over";
-      // Source used a flat pure-black fill ("#000000"). Replaced with a flat
+      // Source used a flat pure-black fill ("#000000"). Defaults to a flat
       // fill in a ~15%-darkened Coherenz navy (#1A2744 → #16213A) — keeps
-      // the brand's navy tone rather than going to black, darkened enough to
-      // avoid reading as a "lighter" background than the previous version.
-      ctx!.fillStyle = "#16213A";
+      // the brand's navy tone rather than going to black by default, but is
+      // driven by the baseFill prop so a section can opt into true black.
+      ctx!.fillStyle = C.baseFill;
       ctx!.fillRect(0, 0, width, height);
       ctx!.globalCompositeOperation = "lighter";
 
@@ -904,12 +907,13 @@ export function OrbitalHeroSection({
         // whole frame and flatten the picture. Sampled at twelve stops rather
         // than three: with only a few, the slope changes at each one and the
         // eye picks the kink out as a faint vertical band.
-        // Source used rgba(0,0,0,...) (pure black) — the same ~15%-darkened
-        // navy as the base fill instead, so the veil deepens toward it
-        // rather than toward flat black.
+        // Source used rgba(0,0,0,...) (pure black) — deepens toward the same
+        // baseFill color as the base fill instead, so a black baseFill still
+        // gets a true black veil while navy keeps its own tone.
+        const [vr, vg, vb] = parseRGB(C.baseFill);
         for (let q = 0; q <= 12; q++) {
           const x = q / 12;
-          g.addColorStop(x, `rgba(22,33,58,${(s * Math.pow(1 - x, 2.4)).toFixed(4)})`);
+          g.addColorStop(x, `rgba(${vr},${vg},${vb},${(s * Math.pow(1 - x, 2.4)).toFixed(4)})`);
         }
         ctx!.fillStyle = g;
         ctx!.fillRect(0, 0, width, height);
@@ -964,7 +968,8 @@ export function OrbitalHeroSection({
   return (
     <div
       ref={hostRef}
-      className={`relative isolate h-full w-full overflow-hidden bg-navy ${className}`}
+      className={`relative isolate h-full w-full overflow-hidden ${className}`}
+      style={{ backgroundColor: baseFill }}
       {...rest}
     >
       <canvas ref={canvasRef} aria-hidden="true" className="absolute inset-0 h-full w-full" />

@@ -29,7 +29,7 @@ export default function GapDiagram() {
   return (
     <section id="problem" className="relative overflow-hidden bg-wash-blue py-16 sm:py-24">
       <SpotlightBackground />
-      <div className="relative z-10 mx-auto max-w-[1180px] px-6">
+      <div className="relative z-10 mx-auto max-w-[1536px] px-6 sm:px-8 lg:px-10 xl:px-14">
         <div className="mx-auto max-w-2xl text-center">
           <p className="text-sm font-bold uppercase tracking-[0.375em] text-orange">The Master Value Flow</p>
           <h2 className="mt-4 font-serif text-4xl text-navy sm:text-5xl">Where does value go?</h2>

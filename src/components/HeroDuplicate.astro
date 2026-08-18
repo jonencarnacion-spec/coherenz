@@ -1,0 +1,51 @@
+---
+// Duplicate of Hero.astro, placed directly after it per request — same
+// copy, background swapped to home-hero-v1.mp4 (from Jon's
+// "coherenz design/videos" folder — not DESIGN.md §10's flagged stock clip)
+// for comparison against the orbital canvas. Gradient overlay (white top ->
+// navy bottom) added for text legibility, since copy sits at the bottom of
+// the section. Heading
+// downgraded h1 -> h2 since a page should only have one h1 (Hero.astro
+// already owns it).
+import { base } from '../lib/base';
+---
+
+<section class="relative flex min-h-screen items-end overflow-hidden bg-navy">
+  <video
+    class="absolute inset-0 h-full w-full object-cover"
+    autoplay
+    muted
+    loop
+    playsinline
+  >
+    <source src={`${base}video/home-hero-v1.mp4`} type="video/mp4" />
+  </video>
+  <div class="absolute inset-0 bg-gradient-to-b from-white/40 to-navy/90" />
+
+  <div class="relative mx-auto w-full max-w-[1180px] px-6 py-32">
+    <div class="mx-auto max-w-[1100px] text-center">
+      <img src={`${base}img/logo-navy.svg`} alt="Coherenz" class="mx-auto h-32" />
+      <h2 class="mt-4 font-serif text-[52px] leading-[1.25] text-white">
+        Making product delivery make economic sense.
+      </h2>
+      <p class="mx-auto mt-4 max-w-[980px] text-[18px] text-white/80">
+        Coherenz was founded to help organizations connect product strategy, delivery execution, and
+        business outcomes. We bring clarity to where value is created, where delivery capacity is
+        lost, and where decisions can have the greatest economic impact. By connecting the dots
+        between investment, product, delivery, and outcomes, Coherenz helps organizations deliver
+        with greater focus, confidence, and measurable value.
+      </p>
+      <div class="mt-8 flex flex-wrap items-center justify-center gap-4">
+        <a href={`${base}approach`} class="w-40 rounded-full bg-primary px-6 py-3 text-center text-sm font-bold text-primary-foreground">
+          Who we are
+        </a>
+        <a href={`${base}approach`} class="w-40 rounded-full bg-primary px-6 py-3 text-center text-sm font-bold text-primary-foreground">
+          Our services
+        </a>
+        <a href={`${base}approach`} class="w-40 rounded-full bg-primary px-6 py-3 text-center text-sm font-bold text-primary-foreground">
+          Our programs
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
