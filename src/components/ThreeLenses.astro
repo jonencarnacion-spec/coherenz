@@ -19,7 +19,8 @@ import {
   IconBolt,
   IconTrendingUp,
   IconArrowRight,
-  IconBinoculars,
+  IconCircleCheckFilled,
+  IconTargetArrow,
   IconX,
 } from '@tabler/icons-react';
 
@@ -103,7 +104,7 @@ const stages = [
     sub: 'HOW efficiently can we deliver?',
     desc: 'Manage flow, capacity, quality, and coordination to deliver value consistently.',
     Icon: IconBolt,
-    color: '#174E40',
+    color: '#2E5077',
   },
   {
     num: '05',
@@ -143,7 +144,7 @@ const stages = [
       <p class="pointer-events-none absolute left-[46.43%] top-[60.4%] w-[30%] -translate-x-1/2 -translate-y-full pb-1 text-center text-[13px] font-bold uppercase leading-tight tracking-wide text-navy">
         The Three<br />Economic Lenses
       </p>
-      <div class="pointer-events-none absolute left-[17%] top-[75.5%] w-[26%] translate-x-[calc(-50%-8px)] -translate-y-1/2 text-right text-white">
+      <div id="what-label" class="pointer-events-none absolute left-[17%] top-[75.5%] w-[26%] translate-x-[calc(-50%-8px)] -translate-y-1/2 text-right text-white">
         <p class="text-[30px] font-extrabold uppercase leading-none">What</p>
         <p class="mt-1 text-[10px] font-medium leading-tight">Value Economics</p>
       </div>
@@ -162,12 +163,12 @@ const stages = [
       class="pointer-events-none absolute inset-0 z-10 h-full w-full opacity-0 transition-opacity duration-200"
       style="overflow: visible;"
     >
-      <line id="what-lens-line" x1="0" y1="0" x2="0" y2="0" stroke="#2E5077" stroke-width="1.5" stroke-dasharray="4 4" />
+      <line id="what-lens-line" x1="0" y1="0" x2="0" y2="0" stroke="#8FADCC" stroke-width="0.5" stroke-dasharray="4 4" />
     </svg>
 
     <div
       id="what-lens-card"
-      class="pointer-events-none absolute z-20 w-[260px] scale-95 rounded-2xl border border-white/50 bg-white/70 p-5 text-center opacity-0 shadow-xl backdrop-blur-lg transition-all duration-200 ease-out"
+      class="pointer-events-none absolute z-20 w-[420px] scale-95 rounded-2xl border border-white/50 bg-white/70 p-5 opacity-0 shadow-xl backdrop-blur-lg transition-all duration-200 ease-out"
     >
       <button
         type="button"
@@ -177,20 +178,35 @@ const stages = [
       >
         <IconX size={16} />
       </button>
-      <div class="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-navy text-white">
-        <IconBinoculars size={26} strokeWidth={1.8} />
+      <div class="text-left">
+        <div class="flex items-center gap-3">
+          <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-orange text-white">
+            <IconTargetArrow size={22} strokeWidth={1.8} />
+          </div>
+          <div>
+            <p class="text-lg font-extrabold uppercase leading-none text-navy">What</p>
+            <p class="mt-1 text-[11px] font-bold uppercase tracking-wide text-blue">Value Economics</p>
+          </div>
+        </div>
+        <p class="mt-4 text-base font-bold text-navy">
+          Are we <span class="text-blue">investing</span> in the <span class="text-blue">right things</span>?
+        </p>
+        <ul class="mt-3 space-y-2">
+          {[
+            'Identify and compare opportunities',
+            'Quantify potential value',
+            'Prioritize where value is highest',
+          ].map((item) => (
+            <li class="flex items-start gap-2 text-xs text-navy">
+              <IconCircleCheckFilled size={16} class="mt-0.5 shrink-0 text-blue" />
+              {item}
+            </li>
+          ))}
+        </ul>
+        <p class="mt-3 inline-block rounded-full bg-wash-blue px-3 py-1 text-[10px] font-bold uppercase tracking-wide text-blue">
+          Covers: Opportunity → Investment
+        </p>
       </div>
-      <p class="mt-3 inline-block border-b-2 border-blue pb-1 text-lg font-extrabold uppercase text-navy">What</p>
-      <p class="mt-3 text-sm text-navy">
-        Are we <span class="font-bold text-blue">investing</span> in the <span class="font-bold text-blue">right things</span>?
-      </p>
-      <p class="mt-3 text-xs font-bold uppercase tracking-wide text-blue">Value Economics</p>
-      <p class="mt-2 text-xs leading-relaxed text-foreground/70">
-        Identify and compare opportunities. Prioritize investment based on the value they can create.
-      </p>
-      <p class="mt-3 inline-block rounded-full bg-wash-blue px-3 py-1 text-[10px] font-bold uppercase tracking-wide text-blue">
-        Covers: Opportunity → Investment
-      </p>
     </div>
 
     <div class="mt-14 flex flex-col gap-8 sm:flex-row sm:items-start sm:gap-0">
@@ -225,6 +241,7 @@ const stages = [
     const wrapper = document.getElementById('lens-content');
     const pyramidWrap = document.getElementById('pyramid-wrap');
     const trigger = document.querySelector('.pyramid-face[data-face="01"]');
+    const label = document.getElementById('what-label');
     const card = document.getElementById('what-lens-card');
     const closeBtn = document.getElementById('what-lens-close');
     const connector = document.getElementById('what-lens-connector');
@@ -236,25 +253,34 @@ const stages = [
     function position() {
       const wrapperRect = wrapper.getBoundingClientRect();
       const pyramidRect = pyramidWrap.getBoundingClientRect();
-      const triggerRect = trigger.getBoundingClientRect();
-      const cardWidth = card.offsetWidth;
-      const cardHeight = card.offsetHeight;
       const gap = 40;
-
-      let cardLeft = triggerRect.left - wrapperRect.left - cardWidth - gap;
       const minLeft = 4;
-      if (cardLeft < minLeft) cardLeft = minLeft;
 
-      // Bottom of the card lines up with the bottom of the pyramid.
-      let cardTop = pyramidRect.bottom - wrapperRect.top - cardHeight;
+      // Shrink the card to fit the gap between the wrapper's left edge and
+      // the pyramid, instead of letting a fixed width overlap the pyramid
+      // on narrower viewports.
+      const maxCardWidth = 420;
+      const minCardWidth = 240;
+      const availableWidth = pyramidRect.left - wrapperRect.left - gap - minLeft;
+      const cardWidth = Math.max(minCardWidth, Math.min(maxCardWidth, availableWidth));
+      card.style.width = `${cardWidth}px`;
+
+      const cardHeight = card.offsetHeight;
+      const cardLeft = Math.max(minLeft, pyramidRect.left - wrapperRect.left - cardWidth - gap);
+
+      // Bottom of the card lines up with the bottom of the pyramid, then
+      // shifted up by half the card's own height.
+      let cardTop = pyramidRect.bottom - wrapperRect.top - cardHeight - cardHeight * 0.5;
       const maxTop = wrapperRect.height - cardHeight - 4;
       cardTop = Math.max(4, Math.min(cardTop, maxTop));
 
       card.style.left = `${cardLeft}px`;
       card.style.top = `${cardTop}px`;
 
-      const x1 = triggerRect.left - wrapperRect.left;
-      const y1 = triggerRect.top - wrapperRect.top + triggerRect.height / 2;
+      // Fixed anchor point (as a fraction of the pyramid box) between the
+      // "01" digit and the WHAT text, confirmed to sit on the orange fill.
+      const x1 = pyramidRect.left - wrapperRect.left + pyramidRect.width * 0.14;
+      const y1 = pyramidRect.top - wrapperRect.top + pyramidRect.height * 0.6;
       const x2 = cardLeft + cardWidth;
       const y2 = cardTop + cardHeight / 2;
       line.setAttribute('x1', String(x1));
