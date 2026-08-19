@@ -1,4 +1,4 @@
-import { Fragment } from 'react';
+import { Fragment, useEffect, useRef, useState } from 'react';
 import { base } from '../lib/base';
 import { gapStages, gapLeaks } from '../data/gapDiagram';
 import {
@@ -41,8 +41,42 @@ const sphereShadow =
   'inset -14px -14px 26px rgba(0,10,30,0.45), inset 8px 8px 16px rgba(255,255,255,0.5), 0 14px 28px rgba(10,30,55,0.35)';
 
 export default function GapDiagram() {
+  // One-shot bounce sequence, triggered the first time the row scrolls
+  // into view: each sphere's animation-delay is staggered by its index
+  // (1s = the bounce's own duration) so they bounce one after another
+  // instead of all at once.
+  const opportunityRef = useRef<HTMLDivElement>(null);
+  const [bounce, setBounce] = useState(false);
+
+  useEffect(() => {
+    const el = opportunityRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setBounce(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.5 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <section id="problem" className="relative overflow-hidden bg-wash-blue pt-16 sm:pt-24 pb-8 sm:pb-10">
+      <style>{`
+        @keyframes sphere-bounce {
+          0% { transform: translateY(0); }
+          30% { transform: translateY(-20px); }
+          50% { transform: translateY(0); }
+          65% { transform: translateY(-10px); }
+          80% { transform: translateY(0); }
+          90% { transform: translateY(-4px); }
+          100% { transform: translateY(0); }
+        }
+      `}</style>
       <div className="-mt-16 mb-6 flex h-12 items-center bg-blue sm:-mt-24 sm:mb-8">
         <div className="mx-auto w-full max-w-[1536px] px-6 sm:px-8 lg:px-10 xl:px-14">
           <p className="text-base font-bold text-white">Our Diagnosis</p>
@@ -71,11 +105,16 @@ export default function GapDiagram() {
                 <div className="relative h-[76px] w-[76px] shrink-0 min-[960px]:mx-auto min-[960px]:mb-3 min-[960px]:h-[130px] min-[960px]:w-[130px]">
                   <div className="absolute left-1/2 top-1/2 h-[91px] w-[91px] -translate-x-1/2 -translate-y-1/2 rounded-full border-[1.5px] border-[#BFC7D1] min-[960px]:h-[156px] min-[960px]:w-[156px]" />
                   <div
-                    className="relative flex h-[76px] w-[76px] items-center justify-center rounded-full min-[960px]:h-[130px] min-[960px]:w-[130px]"
+                    ref={i === 0 ? opportunityRef : undefined}
+                    className={
+                      'relative flex h-[76px] w-[76px] items-center justify-center rounded-full min-[960px]:h-[130px] min-[960px]:w-[130px]' +
+                      (bounce ? ' [animation:sphere-bounce_1s_ease-out]' : '')
+                    }
                     style={{
                       color: '#ffffff',
                       background: sphereGradients[i],
                       boxShadow: sphereShadow,
+                      animationDelay: bounce ? `${i}s` : undefined,
                     }}
                   >
                     <StageIcon className="h-[30px] w-[30px] min-[960px]:h-[52px] min-[960px]:w-[52px]" strokeWidth={1.6} />
