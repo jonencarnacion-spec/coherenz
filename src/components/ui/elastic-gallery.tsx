@@ -1,43 +1,43 @@
 import * as React from 'react';
 import { cn } from '@/lib/utils';
-import { IconArrowUpRight } from '@tabler/icons-react';
 
 // Adapted from a 21st.dev "elastic-gallery" snippet, requested to replace
 // the diagnostic-teaser's plain icon cards.
 // - Source assumed Next.js (`next/image` with `fill`) — swapped for a plain
 //   `<img>` with `absolute inset-0 object-cover`, since this is Astro.
-// - lucide-react's ArrowUpRight swapped for @tabler/icons-react's
-//   IconArrowUpRight (DESIGN.md §4's locked icon system).
 // - Source's Pexels stock photos replaced with Coherenz's own curated
 //   services/programs photography (nothing in the library maps literally
 //   to abstract dimension names like "Flow"/"Coordination" — pairing is
 //   approximate, flagged for Jon to swap if he wants a tighter match).
+// - Cards don't link anywhere yet (no /diagnostic page built), so the
+//   source's link-out CTA and <a> wrapper were dropped — hover/click just
+//   expands the panel, no navigation.
 interface ElasticItemProps {
   id: string;
   title: string;
   q: string;
+  /** Optional short blurb rendered under the question. */
+  subtitle?: string;
   src: string;
   alt: string;
 }
 
 interface ElasticGalleryProps {
   items: ElasticItemProps[];
-  href: string;
 }
 
-function ElasticGallery({ items, href }: ElasticGalleryProps) {
+function ElasticGallery({ items }: ElasticGalleryProps) {
   const [activeId, setActiveId] = React.useState<string | null>(items[2]?.id ?? items[0]?.id ?? null);
 
   return (
     <div className="flex h-[500px] w-full flex-col gap-2 md:h-[520px] md:flex-row md:gap-4">
       {items.map((item) => (
-        <a
+        <div
           key={item.id}
-          href={href}
           onMouseEnter={() => setActiveId(item.id)}
           onClick={() => setActiveId(item.id)}
           className={cn(
-            'relative block cursor-pointer overflow-hidden rounded-2xl border border-line bg-white',
+            'relative cursor-pointer overflow-hidden rounded-2xl border border-line bg-white',
             'transition-[flex,filter] duration-700 ease-[cubic-bezier(0.25,1,0.5,1)]',
             activeId === item.id ? 'flex-[4]' : 'flex-[1]',
             activeId === item.id ? 'brightness-100' : 'brightness-50 hover:brightness-75'
@@ -72,10 +72,7 @@ function ElasticGallery({ items, href }: ElasticGalleryProps) {
               </span>
               <h3 className="text-2xl font-bold uppercase leading-none text-white md:text-4xl">{item.title}</h3>
               <p className="max-w-xs text-sm text-white/80">{item.q}</p>
-              <div className="mt-2 flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-white/80 md:mt-4 md:text-sm">
-                Explore this dimension
-                <IconArrowUpRight className="h-4 w-4" />
-              </div>
+              {item.subtitle && <p className="max-w-xs text-xs text-white/60">{item.subtitle}</p>}
             </div>
 
             <div
@@ -90,7 +87,7 @@ function ElasticGallery({ items, href }: ElasticGalleryProps) {
               <span className="block text-xs font-bold text-white md:hidden">{item.id}</span>
             </div>
           </div>
-        </a>
+        </div>
       ))}
     </div>
   );
