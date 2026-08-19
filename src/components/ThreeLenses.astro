@@ -11,6 +11,7 @@
 // - Stage 03 (Product) uses the deeper gold (#B08900) already established
 //   for the Product stage in gapDiagram.ts, rather than the lighter
 //   --yellow token, for cross-section consistency.
+import pyramidSvgRaw from '../assets/pyramid2.svg?raw';
 import {
   IconSettings,
   IconTargetArrow,
@@ -21,6 +22,41 @@ import {
 } from '@tabler/icons-react';
 
 import { base } from '../lib/base';
+
+// The pyramid's 3 solid-color faces are inlined (rather than <img src>) so
+// each face can get its own hover state. Wrapping targets the exact <path>
+// markup for each face (found by matching its fill class + unique `d`) — no
+// destination/click action wired up yet, per Jon's call to keep this as
+// hover-only feedback for now.
+let pyramidSvg = pyramidSvgRaw.replace(/^<\?xml[^>]*\?>\s*/, '');
+
+const pyramidFaces: [string, string][] = [
+  [
+    '<path class="cls-14" d="M277.16,495.02H23.21c-17.53,0-24.64-12.3-15.87-27.48l126.98-219.86,142.84,82.43v164.91Z"/>',
+    '01',
+  ],
+  [
+    '<path class="cls-18" d="M286.68,313.61l-142.85-82.43L270.81,11.38c8.76-15.18,22.97-15.18,31.74,0l126.98,219.8-142.85,82.43Z"/>',
+    '02',
+  ],
+  [
+    '<path class="cls-29" d="M550.22,495.02h-254.02v-164.85l142.85-82.49,127.03,219.86c8.77,15.18,1.67,27.48-15.87,27.48Z"/>',
+    '03',
+  ],
+];
+
+for (const [facePath, num] of pyramidFaces) {
+  pyramidSvg = pyramidSvg.replace(facePath, `<g class="pyramid-face" data-face="${num}">${facePath}</g>`);
+}
+
+pyramidSvg = pyramidSvg.replace(
+  '</style>',
+  `
+      .pyramid-face { cursor: pointer; }
+      .pyramid-face path { transition: filter .15s ease; }
+      .pyramid-face:hover path { filter: brightness(1.15); }
+    </style>`
+);
 
 const stages = [
   {
@@ -88,8 +124,8 @@ const stages = [
       </p>
     </div>
 
-    <div class="mx-auto mt-10 w-full max-w-md">
-      <img src={`${base}img/pyramid2.svg`} alt="" class="w-full" />
+    <div class="mx-auto mt-10 w-full max-w-md [&>svg]:h-auto [&>svg]:w-full">
+      <Fragment set:html={pyramidSvg} />
     </div>
 
     <div class="mt-14 flex flex-col gap-8 sm:flex-row sm:items-start sm:gap-0">
