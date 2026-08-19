@@ -142,9 +142,9 @@ export default function GapDiagram() {
                   </div>
 
                   <div className="flex items-center gap-[7px] min-[960px]:mx-auto min-[960px]:mt-6 min-[960px]:flex-col">
-                    <span className="h-[5px] w-[5px] shrink-0 rounded-full bg-orange" />
-                    <span className="h-[5px] w-[5px] shrink-0 rounded-full bg-orange" />
-                    <span className="h-[5px] w-[5px] shrink-0 rounded-full bg-orange" />
+                    <span className="h-[5px] w-[5px] shrink-0 rounded-full bg-orange/90" />
+                    <span className="h-[5px] w-[5px] shrink-0 rounded-full bg-orange/90" />
+                    <span className="h-[5px] w-[5px] shrink-0 rounded-full bg-orange/90" />
                     <span className="flex h-[22px] w-[22px] shrink-0 items-center justify-center rounded-full bg-[#E8433D] text-[13px] font-extrabold text-white ring-4 ring-[#E8433D]/20">
                       !
                     </span>
