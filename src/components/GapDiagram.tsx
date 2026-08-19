@@ -158,7 +158,7 @@ export default function GapDiagram() {
 
                   <div>
                     <p className="text-[14.5px] font-extrabold uppercase tracking-wider text-orange min-[960px]:mt-2">Gap</p>
-                    <p className="mt-1.5 flex min-h-[70px] items-center justify-center rounded-[6px] border border-white/60 bg-white/25 px-3 py-2 text-[14.5px] font-medium leading-[1.55] text-[#5A6478] shadow-lg backdrop-blur-md min-[960px]:relative min-[960px]:left-1/2 min-[960px]:mt-1.5 min-[960px]:w-[190%] min-[960px]:-translate-x-1/2">
+                    <p className="mt-1.5 flex h-[86px] items-center justify-center rounded-[6px] border border-white/60 bg-white/25 px-3 py-2 text-[14.5px] font-medium leading-[1.55] text-[#5A6478] shadow-lg backdrop-blur-md min-[960px]:relative min-[960px]:left-1/2 min-[960px]:mt-1.5 min-[960px]:w-[190%] min-[960px]:-translate-x-1/2">
                       {gapLeaks[i].desc}
                     </p>
                   </div>

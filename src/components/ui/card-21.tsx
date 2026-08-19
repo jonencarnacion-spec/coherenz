@@ -94,7 +94,7 @@ const ChallengeCard = React.forwardRef<HTMLDivElement, ChallengeCardProps>(
               />
             )}
 
-            <div className="flex h-[55%] w-full flex-col justify-between bg-white p-6 text-navy">
+            <div className="flex h-[55%] w-full flex-col justify-between bg-white p-5 text-navy">
               <div>
                 <h3
                   className={cn(
