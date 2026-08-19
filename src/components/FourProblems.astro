@@ -22,6 +22,7 @@ const problems = [
     label: 'Product Delivery Economics™',
     img: 'solve-delivery-economics.jpg',
     pain: "We're delivering — but not getting enough value from capacity.",
+    desc: 'Improve flow, reduce waste, and turn your delivery capacity into measurable value.',
     themeColor: '212 44% 32%',
   },
   {
@@ -29,6 +30,7 @@ const problems = [
     label: 'Delivery Stabilization',
     img: 'solve-delivery-stabilization.jpg',
     pain: 'Delivery is struggling to keep up.',
+    desc: 'Unblock constraints, stabilize flow, and restore predictability so you can deliver with confidence.',
     themeColor: '47 100% 35%',
   },
   {
@@ -36,6 +38,7 @@ const problems = [
     label: 'Product Operating Model',
     img: 'solve-operating-model.jpg',
     pain: "We've outgrown our operating model.",
+    desc: 'Design the operating model, roles, and governance to scale product impact sustainably.',
     themeColor: '165 55% 20%',
   },
 ];
@@ -47,6 +50,8 @@ const cardItems = problems.map((p) => ({
   desc: p.pain ? p.desc : undefined,
   href: `${base}services`,
   themeColor: p.themeColor,
+  // Left-align headline/caption/desc text, now applied to all four cards.
+  leftAlignText: true,
   // Split top-image/bottom-text layout, applied to all four cards.
   splitLayout: true,
   // White-frame photo inset (Deloitte reference), now on all four cards.
@@ -76,14 +81,12 @@ const cardItems = problems.map((p) => ({
   </div>
 
   <div class="mx-auto mt-14 max-w-[1536px] px-6 sm:px-8 lg:px-10 xl:px-14">
-    <div class="rounded-3xl border-[1.5px] border-[#BFC7D1] px-6 py-6 sm:px-10 sm:py-8">
-      <div class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
-        {cardItems.map((item) => (
-          <div class="h-[540px]">
-            <ChallengeCard {...item} />
-          </div>
-        ))}
-      </div>
+    <div class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+      {cardItems.map((item) => (
+        <div class="h-[540px]">
+          <ChallengeCard {...item} />
+        </div>
+      ))}
     </div>
   </div>
 </section>

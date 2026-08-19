@@ -40,10 +40,31 @@ interface ChallengeCardProps extends React.HTMLAttributes<HTMLDivElement> {
   swapLabelCta?: boolean;
   /** Optional short blurb rendered under the caption label. */
   desc?: string;
+  /**
+   * Test variant, requested for a single card only: left-aligns the
+   * headline/caption/desc block instead of the default centered text.
+   */
+  leftAlignText?: boolean;
 }
 
 const ChallengeCard = React.forwardRef<HTMLDivElement, ChallengeCardProps>(
-  ({ className, imageUrl, headline, label, href, themeColor, splitLayout, framedImage, swapLabelCta, desc, ...props }, ref) => {
+  (
+    {
+      className,
+      imageUrl,
+      headline,
+      label,
+      href,
+      themeColor,
+      splitLayout,
+      framedImage,
+      swapLabelCta,
+      desc,
+      leftAlignText,
+      ...props
+    },
+    ref
+  ) => {
     if (splitLayout) {
       return (
         <div
@@ -77,7 +98,8 @@ const ChallengeCard = React.forwardRef<HTMLDivElement, ChallengeCardProps>(
               <div>
                 <h3
                   className={cn(
-                    'text-center font-serif text-[20px] font-normal leading-[1.64]',
+                    'font-serif text-[22px] font-normal leading-[1.64]',
+                    leftAlignText ? 'text-left' : 'text-center',
                     // Fixed floor so the CTA below always starts at the same
                     // Y position regardless of how many lines the headline
                     // wraps to (matches the 3-line reference card).
@@ -89,34 +111,28 @@ const ChallengeCard = React.forwardRef<HTMLDivElement, ChallengeCardProps>(
                 {!swapLabelCta && <p className="mt-1 text-sm font-medium text-navy/70">{label}</p>}
                 {swapLabelCta && (
                   <>
-                    <div
-                      className="mt-3 flex items-center justify-between rounded-lg border border-[hsl(var(--theme-color)/0.3)]
-                                 bg-[hsl(var(--theme-color)/0.1)] px-4 py-3
-                                 transition-all duration-300
-                                 group-hover:border-[hsl(var(--theme-color)/0.5)] group-hover:bg-[hsl(var(--theme-color)/0.2)]"
-                      style={{ color: 'hsl(var(--theme-color))' }}
-                    >
-                      <span className="text-sm font-semibold tracking-wide">Explore this challenge</span>
-                      <IconArrowRight className="h-4 w-4 shrink-0 transition-transform duration-300 group-hover:translate-x-1" />
-                    </div>
-                    <p className="mt-1 text-center text-sm font-medium text-navy/70">{label}</p>
-                    {desc && <p className="mt-1 text-center text-sm text-navy/60">{desc}</p>}
+                    <p className={cn('mt-1 text-sm font-medium text-navy/70', leftAlignText ? 'text-left' : 'text-center')}>
+                      {label}
+                    </p>
+                    {desc && (
+                      <p className={cn('mt-1 text-sm text-navy/60', leftAlignText ? 'text-left' : 'text-center')}>
+                        {desc}
+                      </p>
+                    )}
                   </>
                 )}
               </div>
 
-              {swapLabelCta ? null : (
-                <div
-                  className="flex items-center justify-between rounded-lg border border-[hsl(var(--theme-color)/0.3)]
-                             bg-[hsl(var(--theme-color)/0.1)] px-4 py-3
-                             transition-all duration-300
-                             group-hover:border-[hsl(var(--theme-color)/0.5)] group-hover:bg-[hsl(var(--theme-color)/0.2)]"
-                  style={{ color: 'hsl(var(--theme-color))' }}
-                >
-                  <span className="text-sm font-semibold tracking-wide">Explore this challenge</span>
-                  <IconArrowRight className="h-4 w-4 shrink-0 transition-transform duration-300 group-hover:translate-x-1" />
-                </div>
-              )}
+              <div
+                className="flex items-center justify-between rounded-lg border border-[hsl(var(--theme-color)/0.3)]
+                           bg-[hsl(var(--theme-color)/0.1)] px-4 py-3
+                           transition-all duration-300
+                           group-hover:border-[hsl(var(--theme-color)/0.5)] group-hover:bg-[hsl(var(--theme-color)/0.2)]"
+                style={{ color: 'hsl(var(--theme-color))' }}
+              >
+                <span className="text-sm font-semibold tracking-wide">Explore this challenge</span>
+                <IconArrowRight className="h-4 w-4 shrink-0 transition-transform duration-300 group-hover:translate-x-1" />
+              </div>
             </div>
           </a>
         </div>
