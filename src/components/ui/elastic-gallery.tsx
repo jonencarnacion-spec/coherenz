@@ -30,7 +30,7 @@ function ElasticGallery({ items }: ElasticGalleryProps) {
   const [activeId, setActiveId] = React.useState<string | null>(items[2]?.id ?? items[0]?.id ?? null);
 
   return (
-    <div className="flex h-[500px] w-full flex-col gap-2 md:h-[520px] md:flex-row md:gap-4">
+    <div className="flex h-[460px] w-full flex-col gap-2 md:h-[480px] md:flex-row md:gap-4">
       {items.map((item) => (
         <div
           key={item.id}
