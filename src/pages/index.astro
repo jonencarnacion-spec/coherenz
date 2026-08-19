@@ -20,12 +20,23 @@ import Footer from '../components/Footer.astro';
   description="Coherenz helps product organizations make better investment, prioritization and delivery decisions—turning delivery capacity into measurable business value."
 >
   <Nav />
-  <Hero />
-  <HeroDuplicate />
+  <div class="relative isolate">
+    <!--
+      Hero is `position: sticky`, which stays "stuck" for as long as its
+      containing block (this div) is being scrolled through — not just its
+      own height — and would otherwise remain stuck for the rest of the
+      page, painting over every later section that lacks its own
+      `position: relative`. `isolate` bounds that entire sticky/z-index
+      interaction to just these two sections, so nothing after this div
+      needs to know or care that Hero is sticky underneath it.
+    -->
+    <Hero />
+    <HeroDuplicate />
+  </div>
   <GapDiagram client:visible={{ rootMargin: '600px' }} />
   <FourProblems />
-  <ThreeLenses />
   <DiagnosticTeaser />
+  <ThreeLenses />
   <PdeosWheel client:visible />
   <Perspectives />
   <InsightsTeaser />

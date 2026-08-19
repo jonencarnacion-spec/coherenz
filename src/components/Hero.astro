@@ -9,30 +9,32 @@ import { base } from '../lib/base';
 import OrbitalHeroSection from './ui/orbital-hero-section';
 ---
 
-<section class="relative flex min-h-screen items-center overflow-hidden bg-navy">
-  <div class="absolute inset-0">
-    <OrbitalHeroSection
-      client:load
-      focus={[0.72, 0.45]}
-      scrim="left"
-      scrimStrength={0.85}
-    />
-  </div>
+<section class="sticky top-0 z-0 min-h-screen bg-navy">
+  <div class="relative flex h-full min-h-screen items-center overflow-hidden">
+    <div class="absolute inset-0">
+      <OrbitalHeroSection
+        client:load
+        focus={[0.72, 0.45]}
+        scrim="left"
+        scrimStrength={0.85}
+      />
+    </div>
 
-  <div class="relative mx-auto w-full max-w-[1180px] px-6 py-32">
-    <div class="max-w-2xl">
-      <p class="text-sm font-bold uppercase tracking-[0.375em] text-yellow">Product Delivery Economics™</p>
-      <h1 class="mt-4 font-serif text-5xl leading-tight text-white sm:text-6xl">
-        <span class="whitespace-nowrap">Delivery is an investment.</span><br />Treat it like one.
-      </h1>
-      <p class="mt-4 max-w-xl text-base text-white/80">
-        Coherenz helps product organizations make better investment, prioritization and delivery
-        decisions—turning delivery capacity into measurable business value.
-      </p>
-      <div class="mt-8 flex flex-wrap items-center gap-4">
-        <a href={`${base}approach`} class="rounded-full bg-primary px-6 py-3 text-sm font-bold text-primary-foreground">
-          Explore our approach →
-        </a>
+    <div class="relative mx-auto w-full max-w-[1180px] px-6 py-32">
+      <div class="max-w-2xl">
+        <p class="text-sm font-bold uppercase tracking-[0.375em] text-yellow">Product Delivery Economics™</p>
+        <h1 class="mt-4 font-serif text-5xl leading-tight text-white sm:text-6xl">
+          <span class="whitespace-nowrap">Delivery is an investment.</span><br />Treat it like one.
+        </h1>
+        <p class="mt-4 max-w-xl text-base text-white/80">
+          Coherenz helps product organizations make better investment, prioritization and delivery
+          decisions—turning delivery capacity into measurable business value.
+        </p>
+        <div class="mt-8 flex flex-wrap items-center gap-4">
+          <a href={`${base}approach`} class="rounded-full bg-primary px-6 py-3 text-sm font-bold text-primary-foreground">
+            Explore our approach →
+          </a>
+        </div>
       </div>
     </div>
   </div>
