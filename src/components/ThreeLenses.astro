@@ -13,11 +13,11 @@
 //   --yellow token, for cross-section consistency.
 import pyramidSvgRaw from '../assets/pyramid2.svg?raw';
 import {
-  IconSettings,
-  IconTargetArrow,
-  IconCompass,
-  IconChartBar,
-  IconCube,
+  IconRadar,
+  IconCoin,
+  IconHammer,
+  IconBolt,
+  IconTrendingUp,
   IconArrowRight,
 } from '@tabler/icons-react';
 
@@ -54,49 +54,61 @@ pyramidSvg = pyramidSvg.replace(
   `
       .pyramid-face { cursor: pointer; }
       .pyramid-face path { transition: filter .15s ease; }
-      .pyramid-face:hover path { filter: brightness(1.15); }
+      .pyramid-face:hover path { filter: grayscale(45%) brightness(0.92); }
     </style>`
+);
+
+// Bring back the two-tone divider line that sat across the center circle in
+// the first pyramid export (removed earlier along with the circle itself).
+// Same coordinates/colors as the original pyramid.svg — split red/teal bar.
+pyramidSvg = pyramidSvg.replace(
+  '<path class="cls-29" d="M183.73,324.63c0-54.87,44.5-99.34,99.39-99.34s99.39,44.47,99.39,99.34-44.5,99.34-99.39,99.34-99.39-44.48-99.39-99.34Z"/>',
+  `<path class="cls-29" d="M183.73,324.63c0-54.87,44.5-99.34,99.39-99.34s99.39,44.47,99.39,99.34-44.5,99.34-99.39,99.34-99.39-44.48-99.39-99.34Z"/>
+      <g>
+        <rect fill="#ef4038" x="216.09" y="344.14" width="66.73" height="3.08"/>
+        <rect fill="#0c495b" x="282.81" y="344.14" width="66.73" height="3.08"/>
+      </g>`
 );
 
 const stages = [
   {
     num: '01',
     name: 'Opportunity',
-    sub: 'What could create value?',
+    sub: 'WHAT could create value?',
     desc: 'Identify customer needs, market gaps, problems, risks and possibilities.',
-    Icon: IconCompass,
+    Icon: IconRadar,
     color: '#1A2744',
   },
   {
     num: '02',
     name: 'Investment',
-    sub: 'What should we fund?',
+    sub: 'WHAT should we fund?',
     desc: 'Allocate scarce resources to the opportunities with the strongest economic potential.',
-    Icon: IconChartBar,
+    Icon: IconCoin,
     color: '#E8A030',
   },
   {
     num: '03',
     name: 'Product',
-    sub: 'What should we build?',
+    sub: 'WHAT should we build?',
     desc: 'Translate investment decisions into products, capabilities and features that address the need.',
-    Icon: IconCube,
+    Icon: IconHammer,
     color: '#B08900',
   },
   {
     num: '04',
     name: 'Delivery',
-    sub: 'How efficiently can we deliver?',
+    sub: 'HOW efficiently can we deliver?',
     desc: 'Manage flow, capacity, quality, and coordination to deliver value consistently.',
-    Icon: IconSettings,
+    Icon: IconBolt,
     color: '#174E40',
   },
   {
     num: '05',
     name: 'Outcome',
-    sub: 'Did we create value?',
+    sub: 'DID we create value?',
     desc: 'Measure the impact on customers, the business, and the organization.',
-    Icon: IconTargetArrow,
+    Icon: IconTrendingUp,
     color: '#D14A3E',
   },
 ];
@@ -124,8 +136,23 @@ const stages = [
       </p>
     </div>
 
-    <div class="mx-auto mt-10 w-full max-w-md [&>svg]:h-auto [&>svg]:w-full">
+    <div class="relative mx-auto mt-10 w-full max-w-[493px] [&>svg]:h-auto [&>svg]:w-full">
       <Fragment set:html={pyramidSvg} />
+      <p class="pointer-events-none absolute left-[46.43%] top-[60.4%] w-[30%] -translate-x-1/2 -translate-y-full pb-1 text-center text-[13px] font-bold uppercase leading-tight tracking-wide text-navy">
+        The Three<br />Economic Lenses
+      </p>
+      <div class="pointer-events-none absolute left-[17%] top-[75.5%] w-[26%] translate-x-[calc(-50%-8px)] -translate-y-1/2 text-right text-white">
+        <p class="text-[30px] font-extrabold uppercase leading-none">What</p>
+        <p class="mt-1 text-[10px] font-medium leading-tight">Value Economics</p>
+      </div>
+      <div class="pointer-events-none absolute left-[47%] top-[18%] w-[34%] -translate-x-1/2 -translate-y-1/2 text-center text-white">
+        <p class="text-[30px] font-extrabold uppercase leading-none">How</p>
+        <p class="mt-1 text-[10px] font-medium leading-tight">Delivery Economics</p>
+      </div>
+      <div class="pointer-events-none absolute left-[83%] top-[75.5%] w-[24%] translate-x-[calc(-50%-20px)] -translate-y-1/2 text-left text-navy">
+        <p class="text-[30px] font-extrabold uppercase leading-none">Did</p>
+        <p class="mt-1 text-[10px] font-medium leading-tight">Outcome Economics</p>
+      </div>
     </div>
 
     <div class="mt-14 flex flex-col gap-8 sm:flex-row sm:items-start sm:gap-0">
