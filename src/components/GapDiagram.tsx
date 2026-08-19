@@ -1,4 +1,5 @@
 import { Fragment } from 'react';
+import { base } from '../lib/base';
 import { gapStages, gapLeaks } from '../data/gapDiagram';
 import {
   IconTarget,
@@ -41,8 +42,8 @@ const sphereShadow =
 
 export default function GapDiagram() {
   return (
-    <section id="problem" className="relative overflow-hidden bg-wash-blue py-16 sm:py-24">
-      <div className="-mt-16 mb-10 flex h-12 items-center bg-blue sm:-mt-24 sm:mb-14">
+    <section id="problem" className="relative overflow-hidden bg-wash-blue pt-16 sm:pt-24 pb-8 sm:pb-10">
+      <div className="-mt-16 mb-6 flex h-12 items-center bg-blue sm:-mt-24 sm:mb-8">
         <div className="mx-auto w-full max-w-[1536px] px-6 sm:px-8 lg:px-10 xl:px-14">
           <p className="text-base font-bold text-white">Our Diagnosis</p>
         </div>
@@ -50,15 +51,16 @@ export default function GapDiagram() {
       <div className="relative z-10 mx-auto max-w-[1536px] px-6 sm:px-8 lg:px-10 xl:px-14">
         <div className="mx-auto max-w-2xl text-center">
           <p className="text-sm font-bold uppercase tracking-[0.375em] text-orange">The Master Value Flow</p>
-          <h2 className="mt-4 font-serif text-4xl text-navy sm:text-5xl">Where does value go?</h2>
-          <p className="mt-3 text-foreground/70">
+          <h2 className="mt-3 font-serif text-4xl text-navy sm:text-5xl">Where does value go?</h2>
+          <p className="mt-2 text-foreground/70">
             Value can leak at every handoff between opportunity and outcome. The problem isn't simply slow
             delivery — it's value lost along the way. Coherenz helps identify where the leakage occurs and
             focus intervention where it matters most.
           </p>
         </div>
 
-        <div className="mt-[76px] flex flex-col min-[960px]:flex-row min-[960px]:items-start">
+        <div className="mt-8 rounded-3xl border-[1.5px] border-[#BFC7D1] px-6 py-6 sm:mt-10 sm:px-10 sm:py-8">
+        <div className="flex flex-col min-[960px]:flex-row min-[960px]:items-start">
           {gapStages.map((stage, i) => {
             const StageIcon = stageIcons[i];
             return (
@@ -66,7 +68,7 @@ export default function GapDiagram() {
               <div
                 className="flex items-center gap-[18px] py-3.5 text-left min-[960px]:flex-[1.9_1_0] min-[960px]:min-w-0 min-[960px]:flex-col min-[960px]:items-center min-[960px]:gap-0 min-[960px]:px-2.5 min-[960px]:py-0 min-[960px]:text-center"
               >
-                <div className="relative h-[76px] w-[76px] shrink-0 min-[960px]:mx-auto min-[960px]:mb-[22px] min-[960px]:h-[130px] min-[960px]:w-[130px]">
+                <div className="relative h-[76px] w-[76px] shrink-0 min-[960px]:mx-auto min-[960px]:mb-3 min-[960px]:h-[130px] min-[960px]:w-[130px]">
                   <div className="absolute left-1/2 top-1/2 h-[91px] w-[91px] -translate-x-1/2 -translate-y-1/2 rounded-full border-[1.5px] border-[#BFC7D1] min-[960px]:h-[156px] min-[960px]:w-[156px]" />
                   <div
                     className="relative flex h-[76px] w-[76px] items-center justify-center rounded-full min-[960px]:h-[130px] min-[960px]:w-[130px]"
@@ -100,7 +102,7 @@ export default function GapDiagram() {
                     </svg>
                   </div>
 
-                  <div className="flex items-center gap-[7px] min-[960px]:mx-auto min-[960px]:mt-11 min-[960px]:flex-col">
+                  <div className="flex items-center gap-[7px] min-[960px]:mx-auto min-[960px]:mt-6 min-[960px]:flex-col">
                     <span className="h-[5px] w-[5px] shrink-0 rounded-full bg-orange" />
                     <span className="h-[5px] w-[5px] shrink-0 rounded-full bg-orange" />
                     <span className="h-[5px] w-[5px] shrink-0 rounded-full bg-orange" />
@@ -116,8 +118,8 @@ export default function GapDiagram() {
                   </div>
 
                   <div>
-                    <p className="text-[14.5px] font-extrabold uppercase tracking-wider text-orange min-[960px]:mt-3.5">Gap</p>
-                    <p className="mt-1.5 flex min-h-[84px] items-center justify-center rounded-[6px] border border-white/60 bg-white/25 px-3 py-2 text-[14.5px] font-medium leading-[1.55] text-[#5A6478] shadow-lg backdrop-blur-md min-[960px]:relative min-[960px]:left-1/2 min-[960px]:mt-1.5 min-[960px]:w-[190%] min-[960px]:-translate-x-1/2">
+                    <p className="text-[14.5px] font-extrabold uppercase tracking-wider text-orange min-[960px]:mt-2">Gap</p>
+                    <p className="mt-1.5 flex min-h-[70px] items-center justify-center rounded-[6px] border border-white/60 bg-white/25 px-3 py-2 text-[14.5px] font-medium leading-[1.55] text-[#5A6478] shadow-lg backdrop-blur-md min-[960px]:relative min-[960px]:left-1/2 min-[960px]:mt-1.5 min-[960px]:w-[190%] min-[960px]:-translate-x-1/2">
                       {gapLeaks[i].desc}
                     </p>
                   </div>
@@ -127,16 +129,22 @@ export default function GapDiagram() {
             );
           })}
         </div>
+        </div>
 
-        <div className="mt-16 flex flex-col gap-8 rounded-2xl bg-navy px-8 py-7 text-white sm:flex-row sm:items-start">
+        <div className="relative mt-8 flex flex-col gap-8 overflow-hidden rounded-2xl bg-navy px-8 py-5 text-white sm:flex-row sm:items-start">
+          <img
+            src={`${base}img/monogram.svg`}
+            alt=""
+            className="pointer-events-none absolute -right-10 -top-10 w-64 opacity-20"
+          />
           {promises.map(({ icon: Icon, title, desc }) => (
-            <div key={title} className="sm:flex-[0.99]">
+            <div key={title} className="relative sm:flex-[0.99]">
               <Icon size={30} strokeWidth={1.8} className="text-orange" />
               <strong className="mt-2 block text-sm">{title}</strong>
               <span className="mt-1 block text-xs text-white/70">{desc}</span>
             </div>
           ))}
-          <p className="text-left text-lg sm:flex-[1.6] sm:self-center">
+          <p className="relative text-left text-lg sm:flex-[1.6] sm:self-center">
             We identify the leaks.
             <br />
             <strong className="text-orange">We close the gaps.</strong>

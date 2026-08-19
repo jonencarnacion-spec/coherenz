@@ -25,10 +25,16 @@ interface ChallengeCardProps extends React.HTMLAttributes<HTMLDivElement> {
    * overlaid at the bottom.
    */
   splitLayout?: boolean;
+  /**
+   * Test variant, requested for a single card only: insets the top-half
+   * photo in a white "frame" with its own rounded corners (Deloitte
+   * reference), instead of the photo bleeding flush to the card edges.
+   */
+  framedImage?: boolean;
 }
 
 const ChallengeCard = React.forwardRef<HTMLDivElement, ChallengeCardProps>(
-  ({ className, imageUrl, headline, label, href, themeColor, splitLayout, ...props }, ref) => {
+  ({ className, imageUrl, headline, label, href, themeColor, splitLayout, framedImage, ...props }, ref) => {
     if (splitLayout) {
       return (
         <div
@@ -44,10 +50,19 @@ const ChallengeCard = React.forwardRef<HTMLDivElement, ChallengeCardProps>(
                        group-hover:scale-105 group-hover:shadow-[0_0_60px_-15px_hsl(var(--theme-color)/0.6)]"
             aria-label={`Explore: ${headline}`}
           >
-            <div
-              className="h-1/2 w-full bg-cover bg-center transition-transform duration-500 ease-in-out group-hover:scale-110"
-              style={{ backgroundImage: `url(${imageUrl})` }}
-            />
+            {framedImage ? (
+              <div className="h-1/2 w-full bg-white p-3">
+                <div
+                  className="h-full w-full rounded-lg bg-cover bg-center transition-transform duration-500 ease-in-out group-hover:scale-110"
+                  style={{ backgroundImage: `url(${imageUrl})` }}
+                />
+              </div>
+            ) : (
+              <div
+                className="h-1/2 w-full bg-cover bg-center transition-transform duration-500 ease-in-out group-hover:scale-110"
+                style={{ backgroundImage: `url(${imageUrl})` }}
+              />
+            )}
 
             <div className="flex h-1/2 w-full flex-col justify-between bg-white p-6 text-navy">
               <div>

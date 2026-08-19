@@ -42,8 +42,10 @@ const cardItems = problems.map((p) => ({
   label: p.pain ? p.label : p.q,
   href: `${base}services`,
   themeColor: p.themeColor,
-  // Split top-image/bottom-text layout, now applied to all four cards.
+  // Split top-image/bottom-text layout, applied to all four cards.
   splitLayout: true,
+  // White-frame photo inset (Deloitte reference), now on all four cards.
+  framedImage: true,
 }));
 ---
 
