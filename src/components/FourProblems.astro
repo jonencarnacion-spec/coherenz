@@ -14,24 +14,28 @@ const problems = [
     label: 'Product & Portfolio Strategy',
     img: 'solve-strategy.jpg',
     pain: "We're investing in the wrong things.",
+    desc: 'Align strategy, prioritize opportunities, and invest in what creates the most value.',
     themeColor: '36 80% 55%',
   },
   {
     q: 'Are you getting enough value from your delivery capacity?',
     label: 'Product Delivery Economics™',
     img: 'solve-delivery-economics.jpg',
+    pain: "We're delivering — but not getting enough value from capacity.",
     themeColor: '212 44% 32%',
   },
   {
     q: 'Is your delivery system struggling to keep up?',
     label: 'Delivery Stabilization',
     img: 'solve-delivery-stabilization.jpg',
+    pain: 'Delivery is struggling to keep up.',
     themeColor: '47 100% 35%',
   },
   {
     q: 'Is your organization ready to scale?',
     label: 'Product Operating Model',
     img: 'solve-operating-model.jpg',
+    pain: "We've outgrown our operating model.",
     themeColor: '165 55% 20%',
   },
 ];
@@ -40,21 +44,34 @@ const cardItems = problems.map((p) => ({
   imageUrl: `${base}img/photography/${p.img}`,
   headline: p.pain ?? p.label,
   label: p.pain ? p.label : p.q,
+  desc: p.pain ? p.desc : undefined,
   href: `${base}services`,
   themeColor: p.themeColor,
   // Split top-image/bottom-text layout, applied to all four cards.
   splitLayout: true,
   // White-frame photo inset (Deloitte reference), now on all four cards.
   framedImage: true,
+  // Swap caption/CTA position, now applied to all four cards. Headline
+  // gets a fixed min-height (card-21.tsx) so the CTA lands at the same
+  // Y position across all cards regardless of headline length.
+  swapLabelCta: true,
 }));
 ---
 
-<section id="services" class="bg-wash-blue py-16 sm:py-24">
+<section id="services" class="bg-wash-green py-16 sm:py-24">
   <div class="mx-auto max-w-[1536px] px-6 sm:px-8 lg:px-10 xl:px-14">
-    <p class="text-sm font-bold uppercase tracking-[0.375em] text-orange">What We Help Solve</p>
-    <h2 class="mt-3 font-serif text-4xl text-navy sm:text-5xl">Four questions we help you answer.</h2>
+    <p class="text-sm font-bold uppercase tracking-[0.375em] text-orange">Which problem looks most like yours?</p>
+    <h2 class="mt-3 font-serif text-4xl text-navy sm:text-5xl">
+      Every organization hits a different ceiling.
+      <br />
+      Where are you feeling the most friction?
+    </h2>
+    <p class="mt-3 max-w-2xl text-foreground/70">
+      Your challenge determines where value is being lost. Choose the one that resonates most to see
+      how we help leaders close the gap.
+    </p>
     <p class="mt-3">
-      <a href={`${base}services`} class="font-bold text-orange">See all services →</a>
+      <a href={`${base}diagnostic`} class="font-bold text-orange">Take the diagnostic →</a>
     </p>
   </div>
 
@@ -62,7 +79,7 @@ const cardItems = problems.map((p) => ({
     <div class="rounded-3xl border-[1.5px] border-[#BFC7D1] px-6 py-6 sm:px-10 sm:py-8">
       <div class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
         {cardItems.map((item) => (
-          <div class="h-[420px]">
+          <div class="h-[540px]">
             <ChallengeCard {...item} />
           </div>
         ))}

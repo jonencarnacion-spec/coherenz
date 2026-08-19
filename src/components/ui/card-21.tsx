@@ -31,10 +31,19 @@ interface ChallengeCardProps extends React.HTMLAttributes<HTMLDivElement> {
    * reference), instead of the photo bleeding flush to the card edges.
    */
   framedImage?: boolean;
+  /**
+   * Test variant, requested for a single card only: swaps the position of
+   * the caption label and the CTA button — CTA sits right under the
+   * headline, caption is bottom-anchored — instead of the default
+   * label-under-headline / CTA-at-bottom order.
+   */
+  swapLabelCta?: boolean;
+  /** Optional short blurb rendered under the caption label. */
+  desc?: string;
 }
 
 const ChallengeCard = React.forwardRef<HTMLDivElement, ChallengeCardProps>(
-  ({ className, imageUrl, headline, label, href, themeColor, splitLayout, framedImage, ...props }, ref) => {
+  ({ className, imageUrl, headline, label, href, themeColor, splitLayout, framedImage, swapLabelCta, desc, ...props }, ref) => {
     if (splitLayout) {
       return (
         <div
@@ -51,7 +60,7 @@ const ChallengeCard = React.forwardRef<HTMLDivElement, ChallengeCardProps>(
             aria-label={`Explore: ${headline}`}
           >
             {framedImage ? (
-              <div className="h-1/2 w-full bg-white p-3">
+              <div className="h-[45%] w-full bg-white p-3">
                 <div
                   className="h-full w-full rounded-lg bg-cover bg-center transition-transform duration-500 ease-in-out group-hover:scale-110"
                   style={{ backgroundImage: `url(${imageUrl})` }}
@@ -59,27 +68,55 @@ const ChallengeCard = React.forwardRef<HTMLDivElement, ChallengeCardProps>(
               </div>
             ) : (
               <div
-                className="h-1/2 w-full bg-cover bg-center transition-transform duration-500 ease-in-out group-hover:scale-110"
+                className="h-[45%] w-full bg-cover bg-center transition-transform duration-500 ease-in-out group-hover:scale-110"
                 style={{ backgroundImage: `url(${imageUrl})` }}
               />
             )}
 
-            <div className="flex h-1/2 w-full flex-col justify-between bg-white p-6 text-navy">
+            <div className="flex h-[55%] w-full flex-col justify-between bg-white p-6 text-navy">
               <div>
-                <h3 className="font-serif text-2xl font-normal leading-snug">{headline}</h3>
-                <p className="mt-1 text-sm font-medium text-navy/70">{label}</p>
+                <h3
+                  className={cn(
+                    'text-center font-serif text-[20px] font-normal leading-[1.64]',
+                    // Fixed floor so the CTA below always starts at the same
+                    // Y position regardless of how many lines the headline
+                    // wraps to (matches the 3-line reference card).
+                    swapLabelCta && 'min-h-[99px]'
+                  )}
+                >
+                  {headline}
+                </h3>
+                {!swapLabelCta && <p className="mt-1 text-sm font-medium text-navy/70">{label}</p>}
+                {swapLabelCta && (
+                  <>
+                    <div
+                      className="mt-3 flex items-center justify-between rounded-lg border border-[hsl(var(--theme-color)/0.3)]
+                                 bg-[hsl(var(--theme-color)/0.1)] px-4 py-3
+                                 transition-all duration-300
+                                 group-hover:border-[hsl(var(--theme-color)/0.5)] group-hover:bg-[hsl(var(--theme-color)/0.2)]"
+                      style={{ color: 'hsl(var(--theme-color))' }}
+                    >
+                      <span className="text-sm font-semibold tracking-wide">Explore this challenge</span>
+                      <IconArrowRight className="h-4 w-4 shrink-0 transition-transform duration-300 group-hover:translate-x-1" />
+                    </div>
+                    <p className="mt-1 text-center text-sm font-medium text-navy/70">{label}</p>
+                    {desc && <p className="mt-1 text-center text-sm text-navy/60">{desc}</p>}
+                  </>
+                )}
               </div>
 
-              <div
-                className="flex items-center justify-between rounded-lg border border-[hsl(var(--theme-color)/0.3)]
-                           bg-[hsl(var(--theme-color)/0.1)] px-4 py-3
-                           transition-all duration-300
-                           group-hover:border-[hsl(var(--theme-color)/0.5)] group-hover:bg-[hsl(var(--theme-color)/0.2)]"
-                style={{ color: 'hsl(var(--theme-color))' }}
-              >
-                <span className="text-sm font-semibold tracking-wide">Explore this challenge</span>
-                <IconArrowRight className="h-4 w-4 shrink-0 transition-transform duration-300 group-hover:translate-x-1" />
-              </div>
+              {swapLabelCta ? null : (
+                <div
+                  className="flex items-center justify-between rounded-lg border border-[hsl(var(--theme-color)/0.3)]
+                             bg-[hsl(var(--theme-color)/0.1)] px-4 py-3
+                             transition-all duration-300
+                             group-hover:border-[hsl(var(--theme-color)/0.5)] group-hover:bg-[hsl(var(--theme-color)/0.2)]"
+                  style={{ color: 'hsl(var(--theme-color))' }}
+                >
+                  <span className="text-sm font-semibold tracking-wide">Explore this challenge</span>
+                  <IconArrowRight className="h-4 w-4 shrink-0 transition-transform duration-300 group-hover:translate-x-1" />
+                </div>
+              )}
             </div>
           </a>
         </div>
