@@ -19,6 +19,8 @@ import {
   IconBolt,
   IconTrendingUp,
   IconArrowRight,
+  IconBinoculars,
+  IconX,
 } from '@tabler/icons-react';
 
 import { base } from '../lib/base';
@@ -121,7 +123,7 @@ const stages = [
     </div>
   </div>
 
-  <div class="mx-auto max-w-[1536px] px-6 sm:px-8 lg:px-10 xl:px-14">
+  <div id="lens-content" class="relative mx-auto max-w-[1536px] px-6 sm:px-8 lg:px-10 xl:px-14">
     <div class="text-center">
       <p class="text-sm font-bold uppercase tracking-[0.375em] text-orange">The Three Economic Lenses</p>
       <h2 class="mt-3 font-serif text-4xl text-navy sm:text-5xl">
@@ -136,7 +138,7 @@ const stages = [
       </p>
     </div>
 
-    <div class="relative mx-auto mt-10 w-full max-w-[493px] [&>svg]:h-auto [&>svg]:w-full">
+    <div id="pyramid-wrap" class="relative mx-auto mt-10 w-full max-w-[493px] [&>svg]:h-auto [&>svg]:w-full">
       <Fragment set:html={pyramidSvg} />
       <p class="pointer-events-none absolute left-[46.43%] top-[60.4%] w-[30%] -translate-x-1/2 -translate-y-full pb-1 text-center text-[13px] font-bold uppercase leading-tight tracking-wide text-navy">
         The Three<br />Economic Lenses
@@ -153,6 +155,42 @@ const stages = [
         <p class="text-[30px] font-extrabold uppercase leading-none">Did</p>
         <p class="mt-1 text-[10px] font-medium leading-tight">Outcome Economics</p>
       </div>
+    </div>
+
+    <svg
+      id="what-lens-connector"
+      class="pointer-events-none absolute inset-0 z-10 h-full w-full opacity-0 transition-opacity duration-200"
+      style="overflow: visible;"
+    >
+      <line id="what-lens-line" x1="0" y1="0" x2="0" y2="0" stroke="#2E5077" stroke-width="1.5" stroke-dasharray="4 4" />
+    </svg>
+
+    <div
+      id="what-lens-card"
+      class="pointer-events-none absolute z-20 w-[260px] scale-95 rounded-2xl border border-white/50 bg-white/70 p-5 text-center opacity-0 shadow-xl backdrop-blur-lg transition-all duration-200 ease-out"
+    >
+      <button
+        type="button"
+        id="what-lens-close"
+        aria-label="Close"
+        class="absolute right-3 top-3 text-navy/40 hover:text-navy/70"
+      >
+        <IconX size={16} />
+      </button>
+      <div class="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-navy text-white">
+        <IconBinoculars size={26} strokeWidth={1.8} />
+      </div>
+      <p class="mt-3 inline-block border-b-2 border-blue pb-1 text-lg font-extrabold uppercase text-navy">What</p>
+      <p class="mt-3 text-sm text-navy">
+        Are we <span class="font-bold text-blue">investing</span> in the <span class="font-bold text-blue">right things</span>?
+      </p>
+      <p class="mt-3 text-xs font-bold uppercase tracking-wide text-blue">Value Economics</p>
+      <p class="mt-2 text-xs leading-relaxed text-foreground/70">
+        Identify and compare opportunities. Prioritize investment based on the value they can create.
+      </p>
+      <p class="mt-3 inline-block rounded-full bg-wash-blue px-3 py-1 text-[10px] font-bold uppercase tracking-wide text-blue">
+        Covers: Opportunity → Investment
+      </p>
     </div>
 
     <div class="mt-14 flex flex-col gap-8 sm:flex-row sm:items-start sm:gap-0">
@@ -181,3 +219,82 @@ const stages = [
     </div>
   </div>
 </section>
+
+<script>
+  function initWhatLensCard() {
+    const wrapper = document.getElementById('lens-content');
+    const pyramidWrap = document.getElementById('pyramid-wrap');
+    const trigger = document.querySelector('.pyramid-face[data-face="01"]');
+    const card = document.getElementById('what-lens-card');
+    const closeBtn = document.getElementById('what-lens-close');
+    const connector = document.getElementById('what-lens-connector');
+    const line = document.getElementById('what-lens-line');
+    if (!wrapper || !pyramidWrap || !trigger || !card || !closeBtn || !connector || !line) return;
+
+    let open = false;
+
+    function position() {
+      const wrapperRect = wrapper.getBoundingClientRect();
+      const pyramidRect = pyramidWrap.getBoundingClientRect();
+      const triggerRect = trigger.getBoundingClientRect();
+      const cardWidth = card.offsetWidth;
+      const cardHeight = card.offsetHeight;
+      const gap = 40;
+
+      let cardLeft = triggerRect.left - wrapperRect.left - cardWidth - gap;
+      const minLeft = 4;
+      if (cardLeft < minLeft) cardLeft = minLeft;
+
+      // Bottom of the card lines up with the bottom of the pyramid.
+      let cardTop = pyramidRect.bottom - wrapperRect.top - cardHeight;
+      const maxTop = wrapperRect.height - cardHeight - 4;
+      cardTop = Math.max(4, Math.min(cardTop, maxTop));
+
+      card.style.left = `${cardLeft}px`;
+      card.style.top = `${cardTop}px`;
+
+      const x1 = triggerRect.left - wrapperRect.left;
+      const y1 = triggerRect.top - wrapperRect.top + triggerRect.height / 2;
+      const x2 = cardLeft + cardWidth;
+      const y2 = cardTop + cardHeight / 2;
+      line.setAttribute('x1', String(x1));
+      line.setAttribute('y1', String(y1));
+      line.setAttribute('x2', String(x2));
+      line.setAttribute('y2', String(y2));
+    }
+
+    function show() {
+      open = true;
+      position();
+      card.classList.remove('opacity-0', 'scale-95', 'pointer-events-none');
+      card.classList.add('opacity-100', 'scale-100', 'pointer-events-auto');
+      connector.classList.remove('opacity-0');
+      connector.classList.add('opacity-100');
+    }
+
+    function hide() {
+      open = false;
+      card.classList.add('opacity-0', 'scale-95', 'pointer-events-none');
+      card.classList.remove('opacity-100', 'scale-100', 'pointer-events-auto');
+      connector.classList.add('opacity-0');
+      connector.classList.remove('opacity-100');
+    }
+
+    trigger.addEventListener('click', () => (open ? hide() : show()));
+    closeBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      hide();
+    });
+    document.addEventListener('click', (e) => {
+      if (!open) return;
+      const target = e.target as Node;
+      if (!card.contains(target) && !trigger.contains(target)) hide();
+    });
+    window.addEventListener('resize', () => {
+      if (open) position();
+    });
+  }
+
+  initWhatLensCard();
+  document.addEventListener('astro:page-load', initWhatLensCard);
+</script>
