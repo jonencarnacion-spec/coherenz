@@ -21,6 +21,8 @@ import {
   IconArrowRight,
   IconCircleCheckFilled,
   IconTargetArrow,
+  IconChartBar,
+  IconSettingsAutomation,
   IconX,
 } from '@tabler/icons-react';
 
@@ -124,7 +126,7 @@ const stages = [
     </div>
   </div>
 
-  <div id="lens-content" class="relative mx-auto max-w-[1536px] px-6 sm:px-8 lg:px-10 xl:px-14">
+  <div id="lens-content" class="relative isolate mx-auto max-w-[1536px] px-6 sm:px-8 lg:px-10 xl:px-14">
     <div class="text-center">
       <p class="text-sm font-bold uppercase tracking-[0.375em] text-orange">The Three Economic Lenses</p>
       <h2 class="mt-3 font-serif text-4xl text-navy sm:text-5xl">
@@ -139,7 +141,7 @@ const stages = [
       </p>
     </div>
 
-    <div id="pyramid-wrap" class="relative mx-auto mt-10 w-full max-w-[493px] [&>svg]:h-auto [&>svg]:w-full">
+    <div id="pyramid-wrap" class="relative z-10 mx-auto mt-10 w-full max-w-[493px] [&>svg]:h-auto [&>svg]:w-full">
       <Fragment set:html={pyramidSvg} />
       <p class="pointer-events-none absolute left-[46.43%] top-[60.4%] w-[30%] -translate-x-1/2 -translate-y-full pb-1 text-center text-[13px] font-bold uppercase leading-tight tracking-wide text-navy">
         The Three<br />Economic Lenses
@@ -160,10 +162,26 @@ const stages = [
 
     <svg
       id="what-lens-connector"
-      class="pointer-events-none absolute inset-0 z-10 h-full w-full opacity-0 transition-opacity duration-200"
+      class="pointer-events-none absolute inset-0 z-0 h-full w-full opacity-0 transition-opacity duration-200"
       style="overflow: visible;"
     >
       <line id="what-lens-line" x1="0" y1="0" x2="0" y2="0" stroke="#8FADCC" stroke-width="0.5" stroke-dasharray="4 4" />
+    </svg>
+
+    <svg
+      id="did-lens-connector"
+      class="pointer-events-none absolute inset-0 z-0 h-full w-full opacity-0 transition-opacity duration-200"
+      style="overflow: visible;"
+    >
+      <line id="did-lens-line" x1="0" y1="0" x2="0" y2="0" stroke="#8FC7B0" stroke-width="0.5" stroke-dasharray="4 4" />
+    </svg>
+
+    <svg
+      id="how-lens-connector"
+      class="pointer-events-none absolute inset-0 z-0 h-full w-full opacity-0 transition-opacity duration-200"
+      style="overflow: visible;"
+    >
+      <line id="how-lens-line" x1="0" y1="0" x2="0" y2="0" stroke="#E8C596" stroke-width="0.5" stroke-dasharray="4 4" />
     </svg>
 
     <div
@@ -209,6 +227,92 @@ const stages = [
       </div>
     </div>
 
+    <div
+      id="did-lens-card"
+      class="pointer-events-none absolute z-20 w-[420px] scale-95 rounded-2xl border border-white/50 bg-white/70 p-5 opacity-0 shadow-xl backdrop-blur-lg transition-all duration-200 ease-out"
+    >
+      <button
+        type="button"
+        id="did-lens-close"
+        aria-label="Close"
+        class="absolute right-3 top-3 text-navy/40 hover:text-navy/70"
+      >
+        <IconX size={16} />
+      </button>
+      <div class="text-left">
+        <div class="flex items-center gap-3">
+          <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-green text-white">
+            <IconChartBar size={22} strokeWidth={1.8} />
+          </div>
+          <div>
+            <p class="text-lg font-extrabold uppercase leading-none text-navy">Did</p>
+            <p class="mt-1 text-[11px] font-bold uppercase tracking-wide text-green">Outcome Economics</p>
+          </div>
+        </div>
+        <p class="mt-4 text-base font-bold text-navy">
+          Did the investment <span class="text-green">create value</span>?
+        </p>
+        <ul class="mt-3 space-y-2">
+          {[
+            'Measure business and customer outcomes',
+            'Link delivery to economic impact',
+            'Learn and reinvest in what works',
+          ].map((item) => (
+            <li class="flex items-start gap-2 text-xs text-navy">
+              <IconCircleCheckFilled size={16} class="mt-0.5 shrink-0 text-green" />
+              {item}
+            </li>
+          ))}
+        </ul>
+        <p class="mt-3 inline-block rounded-full bg-wash-green px-3 py-1 text-[10px] font-bold uppercase tracking-wide text-green">
+          Covers: Delivery → Outcome
+        </p>
+      </div>
+    </div>
+
+    <div
+      id="how-lens-card"
+      class="pointer-events-none absolute z-20 w-[420px] scale-95 rounded-2xl border border-white/50 bg-white/70 p-5 opacity-0 shadow-xl backdrop-blur-lg transition-all duration-200 ease-out"
+    >
+      <button
+        type="button"
+        id="how-lens-close"
+        aria-label="Close"
+        class="absolute right-3 top-3 text-navy/40 hover:text-navy/70"
+      >
+        <IconX size={16} />
+      </button>
+      <div class="text-left">
+        <div class="flex items-center gap-3">
+          <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-navy text-white">
+            <IconSettingsAutomation size={22} strokeWidth={1.8} />
+          </div>
+          <div>
+            <p class="text-lg font-extrabold uppercase leading-none text-navy">How</p>
+            <p class="mt-1 text-[11px] font-bold uppercase tracking-wide text-orange">Delivery Economics</p>
+          </div>
+        </div>
+        <p class="mt-4 text-base font-bold text-navy">
+          Are we getting <span class="text-orange">enough value</span> from our delivery capacity?
+        </p>
+        <ul class="mt-3 space-y-2">
+          {[
+            'Optimize flow, capacity, and throughput',
+            'Reduce friction and coordination drag',
+            'Align investment to delivery capability',
+          ].map((item) => (
+            <li class="flex items-start gap-2 text-xs text-navy">
+              <IconCircleCheckFilled size={16} class="mt-0.5 shrink-0 text-orange" />
+              {item}
+            </li>
+          ))}
+        </ul>
+        <p class="mt-3 inline-block rounded-full bg-orange/15 px-3 py-1 text-[10px] font-bold uppercase tracking-wide text-orange">
+          Covers: Investment → Delivery
+        </p>
+      </div>
+    </div>
+
     <div class="mt-14 flex flex-col gap-8 sm:flex-row sm:items-start sm:gap-0">
       {stages.map((stage, i) => (
         <Fragment>
@@ -237,51 +341,85 @@ const stages = [
 </section>
 
 <script>
-  function initWhatLensCard() {
+  interface LensCardConfig {
+    triggerSelector: string;
+    cardId: string;
+    closeId: string;
+    connectorId: string;
+    lineId: string;
+    side: 'left' | 'right';
+    // Fixed anchor point for the connector line, as a fraction of the
+    // pyramid box — pick one confirmed (via hit-testing) to sit on that
+    // face's actual fill, since a triangle's bounding box has empty
+    // corners a naive edge/center point can fall into.
+    anchorX: number;
+    anchorY: number;
+    // Where the card's bottom edge lines up vertically, as a fraction of
+    // the pyramid box's height from its top. Defaults to 1 (the pyramid's
+    // own bottom) — HOW's trigger sits near the top, so its card uses a
+    // smaller fraction to land closer to that face instead of the very
+    // bottom of the pyramid.
+    bottomAnchorFraction?: number;
+    // How far to shift the card vertically from that anchor point, in
+    // units of the card's own height. Negative = up, positive = down.
+    // Defaults to -0.5 ("push up half its height").
+    verticalShift?: number;
+  }
+
+  function initLensCard(config: LensCardConfig, registry: Array<() => void>) {
     const wrapper = document.getElementById('lens-content');
     const pyramidWrap = document.getElementById('pyramid-wrap');
-    const trigger = document.querySelector('.pyramid-face[data-face="01"]');
-    const label = document.getElementById('what-label');
-    const card = document.getElementById('what-lens-card');
-    const closeBtn = document.getElementById('what-lens-close');
-    const connector = document.getElementById('what-lens-connector');
-    const line = document.getElementById('what-lens-line');
+    const trigger = document.querySelector(config.triggerSelector);
+    const card = document.getElementById(config.cardId);
+    const closeBtn = document.getElementById(config.closeId);
+    const connector = document.getElementById(config.connectorId);
+    const line = document.getElementById(config.lineId);
     if (!wrapper || !pyramidWrap || !trigger || !card || !closeBtn || !connector || !line) return;
 
     let open = false;
+    const gap = 40;
+    const margin = 4;
+    const maxCardWidth = 420;
+    const minCardWidth = 240;
 
     function position() {
       const wrapperRect = wrapper.getBoundingClientRect();
       const pyramidRect = pyramidWrap.getBoundingClientRect();
-      const gap = 40;
-      const minLeft = 4;
 
-      // Shrink the card to fit the gap between the wrapper's left edge and
-      // the pyramid, instead of letting a fixed width overlap the pyramid
-      // on narrower viewports.
-      const maxCardWidth = 420;
-      const minCardWidth = 240;
-      const availableWidth = pyramidRect.left - wrapperRect.left - gap - minLeft;
+      // Shrink the card to fit the gap between the wrapper edge and the
+      // pyramid, instead of letting a fixed width overlap the pyramid on
+      // narrower viewports.
+      const availableWidth =
+        config.side === 'left'
+          ? pyramidRect.left - wrapperRect.left - gap - margin
+          : wrapperRect.right - pyramidRect.right - gap - margin;
       const cardWidth = Math.max(minCardWidth, Math.min(maxCardWidth, availableWidth));
       card.style.width = `${cardWidth}px`;
 
       const cardHeight = card.offsetHeight;
-      const cardLeft = Math.max(minLeft, pyramidRect.left - wrapperRect.left - cardWidth - gap);
+      const cardLeft =
+        config.side === 'left'
+          ? Math.max(margin, pyramidRect.left - wrapperRect.left - cardWidth - gap)
+          : Math.min(
+              wrapperRect.width - cardWidth - margin,
+              pyramidRect.right - wrapperRect.left + gap
+            );
 
-      // Bottom of the card lines up with the bottom of the pyramid, then
-      // shifted up by half the card's own height.
-      let cardTop = pyramidRect.bottom - wrapperRect.top - cardHeight - cardHeight * 0.5;
-      const maxTop = wrapperRect.height - cardHeight - 4;
-      cardTop = Math.max(4, Math.min(cardTop, maxTop));
+      // Bottom of the card lines up with the configured point on the
+      // pyramid, then shifted vertically by the configured amount.
+      const bottomAnchor =
+        pyramidRect.top + pyramidRect.height * (config.bottomAnchorFraction ?? 1);
+      let cardTop =
+        bottomAnchor - wrapperRect.top - cardHeight + cardHeight * (config.verticalShift ?? -0.5);
+      const maxTop = wrapperRect.height - cardHeight - margin;
+      cardTop = Math.max(margin, Math.min(cardTop, maxTop));
 
       card.style.left = `${cardLeft}px`;
       card.style.top = `${cardTop}px`;
 
-      // Fixed anchor point (as a fraction of the pyramid box) between the
-      // "01" digit and the WHAT text, confirmed to sit on the orange fill.
-      const x1 = pyramidRect.left - wrapperRect.left + pyramidRect.width * 0.14;
-      const y1 = pyramidRect.top - wrapperRect.top + pyramidRect.height * 0.6;
-      const x2 = cardLeft + cardWidth;
+      const x1 = pyramidRect.left - wrapperRect.left + pyramidRect.width * config.anchorX;
+      const y1 = pyramidRect.top - wrapperRect.top + pyramidRect.height * config.anchorY;
+      const x2 = config.side === 'left' ? cardLeft + cardWidth : cardLeft;
       const y2 = cardTop + cardHeight / 2;
       line.setAttribute('x1', String(x1));
       line.setAttribute('y1', String(y1));
@@ -290,6 +428,9 @@ const stages = [
     }
 
     function show() {
+      for (const closeOther of registry) {
+        if (closeOther !== hide) closeOther();
+      }
       open = true;
       position();
       card.classList.remove('opacity-0', 'scale-95', 'pointer-events-none');
@@ -319,8 +460,58 @@ const stages = [
     window.addEventListener('resize', () => {
       if (open) position();
     });
+
+    registry.push(hide);
   }
 
-  initWhatLensCard();
-  document.addEventListener('astro:page-load', initWhatLensCard);
+  function initAllLensCards() {
+    // Anchor points confirmed via hit-testing to sit on each face's fill —
+    // between the "01"/"02"/"03" digit and the WHAT/HOW/DID text. Shared
+    // registry so opening one card closes any other that's open.
+    const registry: Array<() => void> = [];
+    initLensCard(
+      {
+        triggerSelector: '.pyramid-face[data-face="01"]',
+        cardId: 'what-lens-card',
+        closeId: 'what-lens-close',
+        connectorId: 'what-lens-connector',
+        lineId: 'what-lens-line',
+        side: 'left',
+        anchorX: 0.14,
+        anchorY: 0.6,
+      },
+      registry
+    );
+    initLensCard(
+      {
+        triggerSelector: '.pyramid-face[data-face="03"]',
+        cardId: 'did-lens-card',
+        closeId: 'did-lens-close',
+        connectorId: 'did-lens-connector',
+        lineId: 'did-lens-line',
+        side: 'right',
+        anchorX: 0.79,
+        anchorY: 0.6,
+      },
+      registry
+    );
+    initLensCard(
+      {
+        triggerSelector: '.pyramid-face[data-face="02"]',
+        cardId: 'how-lens-card',
+        closeId: 'how-lens-close',
+        connectorId: 'how-lens-connector',
+        lineId: 'how-lens-line',
+        side: 'right',
+        anchorX: 0.4,
+        anchorY: 0.3,
+        bottomAnchorFraction: 0.55,
+        verticalShift: 0,
+      },
+      registry
+    );
+  }
+
+  initAllLensCards();
+  document.addEventListener('astro:page-load', initAllLensCards);
 </script>
