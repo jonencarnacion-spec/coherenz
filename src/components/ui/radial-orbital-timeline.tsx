@@ -241,18 +241,18 @@ export default function RadialOrbitalTimeline({ timelineData, centerContent }: R
                 </div>
 
                 {isExpanded && (
-                  <Card className="absolute left-1/2 top-20 w-64 -translate-x-1/2 overflow-visible border-white/20 bg-blue/75 shadow-xl shadow-blue/30 backdrop-blur-lg">
-                    <div className="absolute -top-3 left-1/2 h-3 w-px -translate-x-1/2 bg-white/50"></div>
+                  <Card className="absolute left-1/2 top-20 w-64 -translate-x-1/2 overflow-visible border-navy/10 bg-white/50 shadow-xl shadow-navy/20 backdrop-blur-lg">
+                    <div className="absolute -top-3 left-1/2 h-3 w-px -translate-x-1/2 bg-navy/30"></div>
                     <CardHeader className="pb-2">
                       <div className="flex items-center justify-between">
                         <Badge className="bg-navy px-2 text-xs text-white border-white">{item.title}</Badge>
-                        <span className="font-mono text-xs text-white/50">{item.date}</span>
+                        <span className="font-mono text-xs text-navy/50">{item.date}</span>
                       </div>
                     </CardHeader>
-                    <CardContent className="text-xs text-white/80">
-                      <p>{item.content}</p>
+                    <CardContent className="text-xs text-navy/80">
+                      <p className="font-bold">{item.content}</p>
 
-                      <div className="mt-4 border-t border-white/10 pt-3">
+                      <div className="mt-4 border-t border-navy/10 pt-3">
                         <div className="mb-1 flex items-center justify-between text-xs">
                           <span className="flex items-center">
                             <IconBolt size={10} className="mr-1" />
@@ -260,7 +260,7 @@ export default function RadialOrbitalTimeline({ timelineData, centerContent }: R
                           </span>
                           <span className="font-mono">{item.energy}%</span>
                         </div>
-                        <div className="h-1 w-full overflow-hidden rounded-full bg-white/10">
+                        <div className="h-1 w-full overflow-hidden rounded-full bg-navy/10">
                           <div
                             className="h-full bg-gradient-to-r from-orange to-yellow"
                             style={{ width: `${item.energy}%` }}
@@ -269,10 +269,10 @@ export default function RadialOrbitalTimeline({ timelineData, centerContent }: R
                       </div>
 
                       {item.relatedIds.length > 0 && (
-                        <div className="mt-4 border-t border-white/10 pt-3">
+                        <div className="mt-4 border-t border-navy/10 pt-3">
                           <div className="mb-2 flex items-center">
-                            <IconLink size={10} className="mr-1 text-white/70" />
-                            <h4 className="text-xs font-medium uppercase tracking-wider text-white/70">
+                            <IconLink size={10} className="mr-1 text-navy/60" />
+                            <h4 className="text-xs font-medium uppercase tracking-wider text-navy/60">
                               Connected Stages
                             </h4>
                           </div>
@@ -284,14 +284,14 @@ export default function RadialOrbitalTimeline({ timelineData, centerContent }: R
                                   key={relatedId}
                                   variant="outline"
                                   size="sm"
-                                  className="flex h-6 items-center rounded-none border-white/20 bg-transparent px-2 py-0 text-xs text-white/80 transition-all hover:bg-white/10 hover:text-white"
+                                  className="flex h-6 items-center rounded-none border-navy/20 bg-transparent px-2 py-0 text-xs text-navy/80 transition-all hover:bg-navy/10 hover:text-navy"
                                   onClick={(e) => {
                                     e.stopPropagation();
                                     toggleItem(relatedId);
                                   }}
                                 >
                                   {relatedItem?.title}
-                                  <IconArrowRight size={8} className="ml-1 text-white/60" />
+                                  <IconArrowRight size={8} className="ml-1 text-navy/60" />
                                 </Button>
                               );
                             })}
