@@ -178,6 +178,14 @@ export default function RadialOrbitalTimeline({ timelineData, centerContent }: R
               transform: `translate(${position.x}px, ${position.y}px)`,
               zIndex: isExpanded ? 200 : position.zIndex,
               opacity: isExpanded ? 1 : position.opacity,
+              // Only ease the transform when jumping to a clicked node's
+              // angle (centerViewOnNode). During continuous auto-rotate the
+              // angle ticks every 50ms, far faster than a 700ms easing
+              // transition can settle — each tick retargets the transition
+              // before the last one finishes, so the eased position chases
+              // a moving target and spirals inward (a pursuit-curve effect)
+              // instead of tracking the true circle radius.
+              transition: autoRotate ? 'none' : 'transform 700ms ease, opacity 300ms ease',
             };
 
             return (
@@ -186,7 +194,7 @@ export default function RadialOrbitalTimeline({ timelineData, centerContent }: R
                 ref={(el) => {
                   nodeRefs.current[item.id] = el;
                 }}
-                className="absolute cursor-pointer transition-all duration-700"
+                className="absolute cursor-pointer"
                 style={nodeStyle}
                 onClick={(e) => {
                   e.stopPropagation();
