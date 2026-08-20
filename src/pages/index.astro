@@ -8,6 +8,7 @@ import FourProblems from '../components/FourProblems.astro';
 import ThreeLenses from '../components/ThreeLenses.astro';
 import DiagnosticTeaser from '../components/DiagnosticTeaser.astro';
 import PdeosWheel from '../components/PdeosWheel.tsx';
+import PdeosOrbitalComparison from '../components/PdeosOrbitalComparison.tsx';
 import Perspectives from '../components/Perspectives.astro';
 import InsightsTeaser from '../components/InsightsTeaser.astro';
 import AboutTeaser from '../components/AboutTeaser.astro';
@@ -38,6 +39,12 @@ import Footer from '../components/Footer.astro';
   <DiagnosticTeaser />
   <ThreeLenses />
   <PdeosWheel client:visible />
+  <section class="bg-wash-blue py-10">
+    <p class="mx-auto max-w-[1536px] px-6 pb-4 text-center text-xs font-bold uppercase tracking-[0.25em] text-navy/50 sm:px-8 lg:px-10 xl:px-14">
+      Comparison build — not final — same 7 stages, alternate layout
+    </p>
+    <PdeosOrbitalComparison client:visible />
+  </section>
   <Perspectives />
   <InsightsTeaser />
   <AboutTeaser />
