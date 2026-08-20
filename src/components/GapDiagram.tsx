@@ -79,7 +79,7 @@ export default function GapDiagram() {
       `}</style>
       <div className="-mt-16 mb-6 flex h-12 items-center bg-blue sm:-mt-24 sm:mb-8">
         <div className="mx-auto w-full max-w-[1536px] px-6 sm:px-8 lg:px-10 xl:px-14">
-          <p className="text-base font-bold text-white">Our Diagnosis</p>
+          <p className="text-base font-bold text-white">HOW WE HELP</p>
         </div>
       </div>
       <div className="relative z-10 mx-auto max-w-[1536px] px-6 sm:px-8 lg:px-10 xl:px-14">
@@ -179,7 +179,7 @@ export default function GapDiagram() {
           {promises.map(({ icon: Icon, title, desc }) => (
             <div key={title} className="relative sm:flex-[0.99]">
               <Icon size={30} strokeWidth={1.8} className="text-orange" />
-              <strong className="mt-2 block text-sm">{title}</strong>
+              <strong className="mt-2 block text-sm uppercase tracking-wide">{title}</strong>
               <span className="mt-1 block text-xs text-white/70">{desc}</span>
             </div>
           ))}
