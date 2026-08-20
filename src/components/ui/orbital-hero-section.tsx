@@ -136,6 +136,16 @@ export interface OrbitalHeroSectionProps
   interactive?: boolean;
   /** Freeze on the current frame. */
   paused?: boolean;
+  /**
+   * CSS selector for a sibling element that visually covers this one (e.g. a
+   * sticky hero with a full-screen section scrolling over it). A plain
+   * IntersectionObserver on this component's own host can't detect that —
+   * `position: sticky` keeps it pinned at the top of the viewport, so it
+   * keeps reporting 100% visible the entire time it's actually hidden
+   * underneath that sibling. When provided, rendering also pauses whenever
+   * the selected element covers ~all of the viewport.
+   */
+  hiddenBehind?: string;
   sunColor?: string;
   /** Base canvas fill and host fallback background. Defaults to the ~15%-darkened Coherenz navy. */
   baseFill?: string;
@@ -252,6 +262,7 @@ export function OrbitalHeroSection({
   showSunTrack = true,
   interactive = true,
   paused = false,
+  hiddenBehind,
   sunColor = "#FFF2CC",
   baseFill = "#16213A",
   className = "",
@@ -297,6 +308,9 @@ export function OrbitalHeroSection({
     let lastFrame = 0;
     let running = true;
     let visible = true;
+    // True while the `hiddenBehind` element covers ~all of the viewport —
+    // see the prop doc for why a plain self-observer can't catch this case.
+    let coveredBySibling = false;
     let raf = 0;
 
     /* --- camera ----------------------------------------------------------- */
@@ -924,7 +938,7 @@ export function OrbitalHeroSection({
     function tick(now: number) {
       if (!running) return;
       raf = requestAnimationFrame(tick);
-      if (!visible) { lastFrame = now; return; }
+      if (!visible || coveredBySibling) { lastFrame = now; return; }
       const dt = lastFrame ? Math.min(0.05, (now - lastFrame) / 1000) : 0;
       lastFrame = now;
       if (!props.current.paused && !reduced) {
@@ -949,6 +963,33 @@ export function OrbitalHeroSection({
     );
     io.observe(host);
 
+    // `hiddenBehind` covers this element for a long stretch of scroll while
+    // `host` (sticky) still reports fully intersecting — this is what
+    // actually stops the wasted redraws while it's hidden. Once the covering
+    // element's top edge reaches the viewport top, it stays glued there:
+    // this component is sticky until exactly that point, and the covering
+    // element is a plain in-flow sibling immediately after it, so from then
+    // on both move in lockstep at the same scroll rate — checked against the
+    // viewport directly (not intersectionRatio, which is relative to the
+    // covering element's OWN area and only hits 1 at a single exact scroll
+    // position for a one-viewport-tall element, not the whole time it's
+    // covering the screen).
+    let coverIo: IntersectionObserver | null = null;
+    if (hiddenBehind) {
+      const coverEl = document.querySelector(hiddenBehind);
+      if (coverEl) {
+        const thresholds = Array.from({ length: 21 }, (_, i) => i / 20);
+        coverIo = new IntersectionObserver(
+          (entries) => {
+            const r = entries[0]?.boundingClientRect;
+            coveredBySibling = !!r && r.top <= 0;
+          },
+          { threshold: thresholds }
+        );
+        coverIo.observe(coverEl);
+      }
+    }
+
     const onVisibility = () => { visible = !document.hidden; lastFrame = 0; };
     document.addEventListener("visibilitychange", onVisibility);
     host.addEventListener("pointermove", onPointer);
@@ -959,11 +1000,12 @@ export function OrbitalHeroSection({
       cancelAnimationFrame(raf);
       ro.disconnect();
       io.disconnect();
+      coverIo?.disconnect();
       document.removeEventListener("visibilitychange", onVisibility);
       host.removeEventListener("pointermove", onPointer);
       host.removeEventListener("pointerleave", onLeave);
     };
-  }, []);
+  }, [hiddenBehind]);
 
   return (
     <div

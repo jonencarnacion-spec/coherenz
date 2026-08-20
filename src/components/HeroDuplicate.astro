@@ -10,8 +10,9 @@
 import { base } from '../lib/base';
 ---
 
-<section class="relative z-10 flex min-h-screen items-end overflow-hidden bg-navy">
+<section id="hero-duplicate" class="relative z-10 flex min-h-screen items-end overflow-hidden bg-navy">
   <video
+    id="hero-duplicate-video"
     class="absolute inset-0 h-full w-full object-cover"
     autoplay
     muted
@@ -46,3 +47,26 @@ import { base } from '../lib/base';
     </div>
   </div>
 </section>
+
+<script>
+  // A looping autoplay video keeps decoding/buffering frames indefinitely
+  // even while scrolled far out of view — pause it off-screen the same way
+  // the Hero canvas above it is paused, and resume on scroll-back.
+  function initHeroDuplicateVideoPause() {
+    const section = document.getElementById('hero-duplicate');
+    const video = document.getElementById('hero-duplicate-video') as HTMLVideoElement | null;
+    if (!section || !video) return;
+
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) video.play().catch(() => {});
+        else video.pause();
+      },
+      { threshold: 0 }
+    );
+    io.observe(section);
+  }
+
+  initHeroDuplicateVideoPause();
+  document.addEventListener('astro:page-load', initHeroDuplicateVideoPause);
+</script>
