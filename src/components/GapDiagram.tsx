@@ -65,7 +65,7 @@ export default function GapDiagram() {
   }, []);
 
   return (
-    <section id="problem" className="relative overflow-hidden bg-wash-blue pt-16 sm:pt-24 pb-8 sm:pb-10">
+    <section id="problem" className="relative bg-wash-blue pt-10 sm:pt-14 pb-8 sm:pb-10">
       <style>{`
         @keyframes sphere-bounce {
           0% { transform: translateY(0); }
@@ -77,11 +77,6 @@ export default function GapDiagram() {
           100% { transform: translateY(0); }
         }
       `}</style>
-      <div className="-mt-16 mb-6 flex h-12 items-center bg-blue sm:-mt-24 sm:mb-8">
-        <div className="mx-auto w-full max-w-[1536px] px-6 sm:px-8 lg:px-10 xl:px-14">
-          <p className="text-base font-bold text-white">HOW WE HELP</p>
-        </div>
-      </div>
       <div className="relative z-10 mx-auto max-w-[1536px] px-6 sm:px-8 lg:px-10 xl:px-14">
         <div className="mx-auto max-w-2xl text-center">
           <p className="text-sm font-bold uppercase tracking-[0.375em] text-orange">The Master Value Flow</p>
