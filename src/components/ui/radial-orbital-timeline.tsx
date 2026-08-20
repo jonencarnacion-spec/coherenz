@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { IconArrowRight, IconLink, IconBolt } from '@tabler/icons-react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
 
 interface TimelineItem {
   id: number;
@@ -123,19 +123,6 @@ export default function RadialOrbitalTimeline({ timelineData, centerContent }: R
     return getRelatedItems(activeNodeId).includes(itemId);
   };
 
-  const getStatusStyles = (status: TimelineItem['status']): string => {
-    switch (status) {
-      case 'completed':
-        return 'text-white bg-black border-white';
-      case 'in-progress':
-        return 'text-black bg-white border-black';
-      case 'pending':
-        return 'text-white bg-black/40 border-white/50';
-      default:
-        return 'text-white bg-black/40 border-white/50';
-    }
-  };
-
   return (
     <div
       className="relative flex h-[700px] w-full items-center justify-center overflow-hidden bg-wash-blue"
@@ -227,16 +214,9 @@ export default function RadialOrbitalTimeline({ timelineData, centerContent }: R
                     <div className="absolute -top-3 left-1/2 h-3 w-px -translate-x-1/2 bg-white/50"></div>
                     <CardHeader className="pb-2">
                       <div className="flex items-center justify-between">
-                        <Badge className={`px-2 text-xs ${getStatusStyles(item.status)}`}>
-                          {item.status === 'completed'
-                            ? 'COMPLETE'
-                            : item.status === 'in-progress'
-                              ? 'IN PROGRESS'
-                              : 'PENDING'}
-                        </Badge>
+                        <Badge className="bg-navy px-2 text-xs text-white border-white">{item.title}</Badge>
                         <span className="font-mono text-xs text-white/50">{item.date}</span>
                       </div>
-                      <CardTitle className="mt-2 text-sm">{item.title}</CardTitle>
                     </CardHeader>
                     <CardContent className="text-xs text-white/80">
                       <p>{item.content}</p>
