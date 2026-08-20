@@ -222,26 +222,26 @@ export default function RadialOrbitalTimeline({ timelineData, centerContent }: R
                 <div
                   className={`flex items-center justify-center rounded-full border-2 text-white transition-all duration-300 ${
                     isExpanded
-                      ? 'h-10 w-10 scale-150 border-white shadow-lg shadow-white/30'
+                      ? 'h-10 w-10 scale-[1.98] border-white shadow-lg shadow-white/30'
                       : isRelated
-                        ? 'h-[48px] w-[48px] animate-pulse border-white'
-                        : 'h-[48px] w-[48px] border-white/30'
+                        ? 'h-14 w-14 animate-pulse border-white'
+                        : 'h-14 w-14 border-white/30'
                   }`}
                   style={{ backgroundColor: item.color }}
                 >
-                  <span className="text-sm font-bold">{item.id}</span>
+                  <span className="text-base font-extrabold">{item.id}</span>
                 </div>
 
                 <div
-                  className={`absolute top-12 whitespace-nowrap text-xs font-semibold tracking-wider transition-all duration-300 ${
-                    isExpanded ? 'scale-125 text-navy' : 'text-navy/60'
+                  className={`absolute top-[59px] whitespace-nowrap text-xs font-bold uppercase tracking-wider transition-all duration-300 ${
+                    isExpanded ? 'scale-125 text-navy' : 'text-navy/80'
                   }`}
                 >
                   {item.title}
                 </div>
 
                 {isExpanded && (
-                  <Card className="absolute left-1/2 top-20 w-64 -translate-x-1/2 overflow-visible border-white/20 bg-navy/75 shadow-xl shadow-navy/30 backdrop-blur-lg">
+                  <Card className="absolute left-1/2 top-20 w-64 -translate-x-1/2 overflow-visible border-white/20 bg-blue/75 shadow-xl shadow-blue/30 backdrop-blur-lg">
                     <div className="absolute -top-3 left-1/2 h-3 w-px -translate-x-1/2 bg-white/50"></div>
                     <CardHeader className="pb-2">
                       <div className="flex items-center justify-between">
