@@ -10,13 +10,26 @@ import { IconSearch, IconCheck, IconClipboardList, IconRocket, IconFlag, IconCha
 // uniform on purpose rather than invented.
 const stageIcons = [IconSearch, IconCheck, IconClipboardList, IconRocket, IconFlag, IconChartBar, IconBulb];
 
+// Longer, card-only restatement of each stage's short wheel tagline (sub) —
+// the wheel's `sub` is a 2-4 word label, too terse for this card's body copy,
+// so this expands it to a full sentence without changing its meaning.
+const cardCopy: Record<string, string> = {
+  Discover: 'Price the opportunity before committing delivery capacity.',
+  Validate: 'Prove the idea is real before delivery work begins.',
+  Plan: 'Design the blueprint before committing delivery capacity.',
+  Deliver: 'Build it right, keeping investment and value connected.',
+  Release: 'Ship it and confirm customers actually adopt it.',
+  Measure: 'Check the return against the original investment case.',
+  Learn: 'Feed what you learn into the next investment decision.',
+};
+
 const timelineData = pdeosStages.map((stage, i) => {
   const total = pdeosStages.length;
   return {
     id: i + 1,
     title: stage.name,
     date: `Stage ${i + 1} / ${total}`,
-    content: stage.sub,
+    content: cardCopy[stage.name] ?? stage.sub,
     category: stage.name,
     icon: stageIcons[i],
     relatedIds: [((i - 1 + total) % total) + 1, ((i + 1) % total) + 1].filter((id) => id !== i + 1),

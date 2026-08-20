@@ -29,6 +29,7 @@ export default function RadialOrbitalTimeline({ timelineData, centerContent }: R
   const [pulseEffect, setPulseEffect] = useState<Record<number, boolean>>({});
   const [centerOffset] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
   const [activeNodeId, setActiveNodeId] = useState<number | null>(null);
+  const [isVisible, setIsVisible] = useState(true);
   const containerRef = useRef<HTMLDivElement>(null);
   const orbitRef = useRef<HTMLDivElement>(null);
   const nodeRefs = useRef<Record<number, HTMLDivElement | null>>({});
@@ -70,10 +71,22 @@ export default function RadialOrbitalTimeline({ timelineData, centerContent }: R
     });
   };
 
+  // Pauses the rotation entirely once the wheel scrolls off-screen, instead
+  // of letting a 20x/sec setInterval re-render 7 nodes indefinitely for the
+  // rest of the session — mirrors the IntersectionObserver pause the Hero
+  // background canvas already uses.
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(([entry]) => setIsVisible(entry.isIntersecting), { threshold: 0 });
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
   useEffect(() => {
     let rotationTimer: ReturnType<typeof setInterval>;
 
-    if (autoRotate) {
+    if (autoRotate && isVisible) {
       rotationTimer = setInterval(() => {
         setRotationAngle((prev) => {
           const newAngle = (prev + 0.3) % 360;
@@ -85,7 +98,7 @@ export default function RadialOrbitalTimeline({ timelineData, centerContent }: R
     return () => {
       if (rotationTimer) clearInterval(rotationTimer);
     };
-  }, [autoRotate]);
+  }, [autoRotate, isVisible]);
 
   const centerViewOnNode = (nodeId: number) => {
     if (!nodeRefs.current[nodeId]) return;
@@ -125,7 +138,7 @@ export default function RadialOrbitalTimeline({ timelineData, centerContent }: R
 
   return (
     <div
-      className="relative flex h-[700px] w-full items-center justify-center overflow-hidden bg-wash-blue"
+      className="relative flex h-[580px] w-full items-center justify-center overflow-hidden bg-wash-blue"
       ref={containerRef}
       onClick={handleContainerClick}
     >
