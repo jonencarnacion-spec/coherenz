@@ -146,7 +146,7 @@ export default function RadialOrbitalTimeline({ timelineData, centerContent }: R
 
   return (
     <div
-      className="relative flex h-[580px] w-full items-center justify-center overflow-hidden bg-wash-blue"
+      className="relative flex h-[560px] w-full items-center justify-center overflow-hidden bg-wash-blue"
       ref={containerRef}
       onClick={handleContainerClick}
     >

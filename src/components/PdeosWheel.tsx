@@ -13,7 +13,7 @@ const promises = [
 
 export default function PdeosWheel() {
   return (
-    <section id="pdeos-wheel-section" className="bg-wash-blue py-12 sm:py-16">
+    <section id="pdeos-wheel-section" className="bg-wash-blue py-8 sm:py-10">
       <div className="mx-auto max-w-[1536px] px-6 sm:px-8 lg:px-10 xl:px-14">
         <div className="mx-auto max-w-4xl text-center">
           <p className="text-sm font-bold uppercase tracking-[0.375em] text-orange">Coherenz PDE-OS™</p>
@@ -23,16 +23,18 @@ export default function PdeosWheel() {
             <br />
             Seven stages, one economic thread — from first idea to the lesson that sharpens the next bet.
           </p>
-          <a href={`${base}approach`} className="mt-7 inline-block rounded-full border-2 border-orange px-6 py-3 text-sm font-bold text-orange">
-            See the full framework →
-          </a>
+          <p className="mt-3">
+            <a href={`${base}approach`} className="font-bold text-orange">
+              See the full framework →
+            </a>
+          </p>
         </div>
       </div>
 
       <PdeosOrbitalComparison />
 
       <div className="mx-auto max-w-[1536px] px-6 sm:px-8 lg:px-10 xl:px-14">
-        <div className="relative mt-8 flex flex-col gap-8 overflow-hidden rounded-2xl bg-navy px-8 py-5 text-white sm:flex-row sm:items-center">
+        <div className="relative mt-4 flex flex-col gap-8 overflow-hidden rounded-2xl bg-navy px-8 py-5 text-white sm:flex-row sm:items-center">
           <img
             src={`${base}img/monogram.svg`}
             alt=""
