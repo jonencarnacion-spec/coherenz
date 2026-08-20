@@ -233,7 +233,7 @@ export default function RadialOrbitalTimeline({ timelineData, centerContent }: R
                 </div>
 
                 <div
-                  className={`absolute top-[59px] whitespace-nowrap text-xs font-bold uppercase tracking-wider transition-all duration-300 ${
+                  className={`absolute left-1/2 top-[59px] -translate-x-1/2 whitespace-nowrap text-xs font-bold uppercase tracking-wider transition-all duration-300 ${
                     isExpanded ? 'scale-125 text-navy' : 'text-navy/80'
                   }`}
                 >
