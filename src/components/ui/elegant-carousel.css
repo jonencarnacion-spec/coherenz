@@ -1,0 +1,276 @@
+/* Coherenz reskin of a pasted 21st.dev "elegant-carousel" component --
+   original demo shipped its own index.css with generic fashion-brand
+   styling; this replaces it with DESIGN.md tokens (Manrope/DM Serif
+   Display, brand hex values) instead of importing the source file. */
+
+.carousel-wrapper {
+  position: relative;
+  overflow: hidden;
+  background: #f5f0e6; /* --cream */
+  isolation: isolate;
+}
+
+.carousel-bg-wash {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  transition: background 700ms ease;
+}
+
+.carousel-inner {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 1fr;
+  min-height: 460px;
+}
+
+@media (min-width: 768px) {
+  .carousel-inner {
+    grid-template-columns: 1fr 1.45fr;
+    min-height: 560px;
+  }
+}
+
+.carousel-content {
+  display: flex;
+  align-items: center;
+  padding: 2.5rem 2rem 2rem;
+}
+
+@media (min-width: 768px) {
+  .carousel-content {
+    padding: 3rem;
+  }
+}
+
+.carousel-content-inner {
+  max-width: 460px;
+}
+
+.carousel-collection-num {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 400ms ease, transform 400ms ease;
+}
+
+.carousel-collection-num.transitioning {
+  opacity: 0;
+  transform: translateY(8px);
+}
+
+.carousel-num-line {
+  width: 2rem;
+  height: 1px;
+  background: #1a2744; /* --navy */
+  opacity: 0.4;
+}
+
+.carousel-num-text {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #1a2744;
+  opacity: 0.6;
+}
+
+.carousel-title {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: 1.75rem;
+  line-height: 1.2;
+  color: #1a2744;
+  margin-bottom: 0.75rem;
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 450ms ease, transform 450ms ease;
+}
+
+@media (min-width: 768px) {
+  .carousel-title {
+    font-size: 2.25rem;
+  }
+}
+
+.carousel-title.transitioning {
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+.carousel-subtitle {
+  display: none;
+}
+
+.carousel-description {
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  color: #1a2744b3; /* navy/70 */
+  margin-bottom: 1.5rem;
+  opacity: 1;
+  transition: opacity 500ms ease;
+}
+
+.carousel-description.transitioning {
+  opacity: 0;
+}
+
+.carousel-cta {
+  display: inline-block;
+  font-weight: 700;
+  font-size: 0.9375rem;
+  color: #e8a030; /* --orange, overridden inline per-slide via style prop */
+  text-decoration: none;
+  margin-bottom: 1.75rem;
+  opacity: 1;
+  transition: opacity 500ms ease;
+}
+
+.carousel-cta.transitioning {
+  opacity: 0;
+}
+
+.carousel-nav-arrows {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.carousel-arrow-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 9999px;
+  border: 1.5px solid #1a274433;
+  background: transparent;
+  color: #1a2744;
+  cursor: pointer;
+  transition: background 200ms ease, border-color 200ms ease;
+}
+
+.carousel-arrow-btn:hover {
+  background: #1a274410;
+  border-color: #1a274466;
+}
+
+.carousel-image-container {
+  position: relative;
+  overflow: hidden;
+  min-height: 260px;
+}
+
+@media (min-width: 768px) {
+  .carousel-image-container {
+    min-height: 0;
+  }
+}
+
+.carousel-image-frame {
+  position: absolute;
+  inset: 0;
+  opacity: 1;
+  transform: scale(1);
+  transition: opacity 700ms ease, transform 700ms ease;
+}
+
+.carousel-image-frame.transitioning {
+  opacity: 0;
+  transform: scale(1.03);
+}
+
+.carousel-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.carousel-image-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.carousel-frame-corner {
+  position: absolute;
+  width: 2.5rem;
+  height: 2.5rem;
+  pointer-events: none;
+  opacity: 0.8;
+  transition: border-color 700ms ease;
+}
+
+.carousel-frame-corner--tl {
+  top: 1.25rem;
+  left: 1.25rem;
+  border-top: 2px solid;
+  border-left: 2px solid;
+}
+
+.carousel-frame-corner--br {
+  bottom: 1.25rem;
+  right: 1.25rem;
+  border-bottom: 2px solid;
+  border-right: 2px solid;
+}
+
+.carousel-progress-bar {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  gap: 0.5rem;
+  padding: 1.25rem 1.5rem 1.5rem;
+  overflow-x: auto;
+  background: #ffffff;
+}
+
+@media (min-width: 768px) {
+  .carousel-progress-bar {
+    padding: 0 3rem 2rem;
+  }
+}
+
+.carousel-progress-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+  flex: 1;
+  min-width: 0;
+  text-align: left;
+}
+
+.carousel-progress-track {
+  width: 100%;
+  height: 2px;
+  background: #1a274420;
+  border-radius: 9999px;
+  overflow: hidden;
+}
+
+.carousel-progress-fill {
+  height: 100%;
+  background: #1a2744;
+  transition: width 50ms linear, background-color 300ms ease;
+}
+
+.carousel-progress-label {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  color: #1a274499;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.carousel-progress-item.active .carousel-progress-label {
+  color: #1a2744;
+}
