@@ -1,5 +1,6 @@
 import RadialOrbitalTimeline from './ui/radial-orbital-timeline';
 import { pdeosStages } from '../data/pdeosWheel';
+import { base } from '../lib/base';
 import { IconSearch, IconCheck, IconClipboardList, IconRocket, IconFlag, IconChartBar, IconBulb } from '@tabler/icons-react';
 
 // Comparison build only — same real 7-stage PDE-OS data as the wheel above,
@@ -26,6 +27,19 @@ const timelineData = pdeosStages.map((stage, i) => {
   };
 });
 
+// Same center-circle branding as the wheel above, minus its subtitle
+// line — the eye here is much smaller, so the description doesn't fit.
+const centerContent = (
+  <>
+    <img src={`${base}img/logo-navy.svg`} alt="Coherenz" className="h-5" />
+    <p className="mt-2 text-sm font-extrabold uppercase leading-tight text-navy">
+      PDE-OS™
+      <br />
+      7-Stage Wheel
+    </p>
+  </>
+);
+
 export default function PdeosOrbitalComparison() {
-  return <RadialOrbitalTimeline timelineData={timelineData} />;
+  return <RadialOrbitalTimeline timelineData={timelineData} centerContent={centerContent} />;
 }

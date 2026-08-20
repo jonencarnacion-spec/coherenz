@@ -19,9 +19,10 @@ interface TimelineItem {
 
 interface RadialOrbitalTimelineProps {
   timelineData: TimelineItem[];
+  centerContent?: React.ReactNode;
 }
 
-export default function RadialOrbitalTimeline({ timelineData }: RadialOrbitalTimelineProps) {
+export default function RadialOrbitalTimeline({ timelineData, centerContent }: RadialOrbitalTimelineProps) {
   const [expandedItems, setExpandedItems] = useState<Record<number, boolean>>({});
   const [rotationAngle, setRotationAngle] = useState<number>(0);
   const [autoRotate, setAutoRotate] = useState<boolean>(true);
@@ -150,16 +151,22 @@ export default function RadialOrbitalTimeline({ timelineData }: RadialOrbitalTim
             transform: `translate(${centerOffset.x}px, ${centerOffset.y}px)`,
           }}
         >
-          <div className="absolute z-10 flex h-16 w-16 animate-pulse items-center justify-center rounded-full bg-gradient-to-br from-orange via-yellow to-green">
-            <div className="absolute h-20 w-20 animate-ping rounded-full border border-navy/25 opacity-70"></div>
+          <div className="absolute z-10 flex h-[207px] w-[207px] animate-pulse items-center justify-center rounded-full bg-gradient-to-br from-orange via-yellow to-green">
+            <div className="absolute h-[259px] w-[259px] animate-ping rounded-full border border-navy/25 opacity-70"></div>
             <div
-              className="absolute h-24 w-24 animate-ping rounded-full border border-navy/15 opacity-50"
+              className="absolute h-[311px] w-[311px] animate-ping rounded-full border border-navy/15 opacity-50"
               style={{ animationDelay: '0.5s' }}
             ></div>
-            <div className="h-8 w-8 rounded-full bg-white/80 backdrop-blur-md"></div>
           </div>
 
-          <div className="absolute h-[463px] w-[463px] rounded-full border border-navy/15"></div>
+          {/* Sibling, not a child, of the pulsing orb above — opacity
+              animations composite their whole subtree, so nesting the eye
+              inside it made the logo/text fade in and out too. */}
+          <div className="absolute z-20 flex h-[143px] w-[143px] flex-col items-center justify-center rounded-full bg-white px-4 text-center">
+            {centerContent}
+          </div>
+
+          <div className="absolute h-[463px] w-[463px] rounded-full border-2 border-dotted border-navy/25"></div>
 
           {timelineData.map((item, index) => {
             const position = calculateNodePosition(index, timelineData.length);
