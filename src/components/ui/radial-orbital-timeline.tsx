@@ -29,7 +29,15 @@ export default function RadialOrbitalTimeline({ timelineData, centerContent }: R
   const [pulseEffect, setPulseEffect] = useState<Record<number, boolean>>({});
   const [centerOffset] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
   const [activeNodeId, setActiveNodeId] = useState<number | null>(null);
-  const [isVisible, setIsVisible] = useState(true);
+  // Defaults false (not true) deliberately: this island hydrates via
+  // client:visible, so the pre-hydration static HTML this component renders
+  // at build time reflects THIS default -- if it were true, the shipped
+  // markup would carry animate-pulse/animate-ping unconditionally, and
+  // they'd run continuously from page load regardless of scroll position
+  // until this component's own IntersectionObserver first fires (which, by
+  // definition of client:visible, is already at/near the viewport by then,
+  // so the flip to true happens immediately with no visible delay).
+  const [isVisible, setIsVisible] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const orbitRef = useRef<HTMLDivElement>(null);
   const nodeRefs = useRef<Record<number, HTMLDivElement | null>>({});
@@ -151,10 +159,20 @@ export default function RadialOrbitalTimeline({ timelineData, centerContent }: R
             transform: `translate(${centerOffset.x}px, ${centerOffset.y}px)`,
           }}
         >
-          <div className="absolute z-10 flex h-[207px] w-[207px] animate-pulse items-center justify-center rounded-full bg-gradient-to-br from-orange via-yellow to-green">
-            <div className="absolute h-[259px] w-[259px] animate-ping rounded-full border border-navy/25 opacity-70"></div>
+          {/* animate-pulse/animate-ping are plain CSS animations, so they
+              don't stop just because the setInterval-driven rotation below
+              is gated on isVisible -- they were found still running (and
+              matching a 2s stutter in an unrelated video elsewhere on the
+              page) indefinitely regardless of scroll position. Gated on the
+              same isVisible flag so they actually stop off-screen too. */}
+          <div
+            className={`absolute z-10 flex h-[207px] w-[207px] items-center justify-center rounded-full bg-gradient-to-br from-orange via-yellow to-green ${isVisible ? 'animate-pulse' : ''}`}
+          >
             <div
-              className="absolute h-[311px] w-[311px] animate-ping rounded-full border border-navy/15 opacity-50"
+              className={`absolute h-[259px] w-[259px] rounded-full border border-navy/25 opacity-70 ${isVisible ? 'animate-ping' : ''}`}
+            ></div>
+            <div
+              className={`absolute h-[311px] w-[311px] rounded-full border border-navy/15 opacity-50 ${isVisible ? 'animate-ping' : ''}`}
               style={{ animationDelay: '0.5s' }}
             ></div>
           </div>
