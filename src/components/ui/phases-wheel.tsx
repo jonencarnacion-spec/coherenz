@@ -3,7 +3,6 @@ import { cn } from '@/lib/utils';
 import { pdeosStages, ellipsePoint } from '../../data/pdeosWheel';
 import { pdeosPhaseDetails, economicSpine } from '../../data/pdeosPhaseDetails';
 import PdeosFlow from './pdeos-flow';
-import { FloatingDock } from './floating-dock';
 import { base } from '../../lib/base';
 import './pdeos-flow.css';
 
@@ -23,6 +22,8 @@ export default function PhasesWheel() {
   const [active, setActive] = useState(0);
   const stage = pdeosStages[active];
   const detail = pdeosPhaseDetails[active];
+  const prevIndex = (active - 1 + N) % N;
+  const nextIndex = (active + 1) % N;
 
   // Sticky-centers the wheel while scrolling through the (much taller) detail
   // panel. A transform-based `top-1/2 -translate-y-1/2` looks equivalent but
@@ -171,20 +172,28 @@ export default function PhasesWheel() {
           </>
         )}
 
+        <div className="mt-8 flex items-center justify-between gap-4 border-t border-line pt-6">
+          <button type="button" onClick={() => setActive(prevIndex)} className="flex flex-col items-start gap-2 text-left">
+            <span className="text-xs font-bold uppercase tracking-wide text-foreground/40">Previous Phase</span>
+            <span
+              className="flex h-14 w-14 items-center justify-center rounded-full text-lg font-extrabold text-white shadow-sm"
+              style={{ backgroundColor: pdeosStages[prevIndex].color }}
+            >
+              {prevIndex + 1}
+            </span>
+            <span className="text-sm font-bold text-navy">{pdeosStages[prevIndex].name}</span>
+          </button>
+          <button type="button" onClick={() => setActive(nextIndex)} className="flex flex-col items-end gap-2 text-right">
+            <span className="text-xs font-bold uppercase tracking-wide text-foreground/40">Next Phase</span>
+            <span
+              className="flex h-14 w-14 items-center justify-center rounded-full text-lg font-extrabold text-white shadow-sm"
+              style={{ backgroundColor: pdeosStages[nextIndex].color }}
+            >
+              {nextIndex + 1}
+            </span>
+            <span className="text-sm font-bold text-navy">{pdeosStages[nextIndex].name}</span>
+          </button>
         </div>
-
-        <div className="flex justify-center">
-          <FloatingDock
-            items={pdeosStages.map((s, i) => ({
-              title: s.name,
-              color: s.color,
-              isActive: i === active,
-              onClick: () => setActive(i),
-              icon: <span className="flex h-full w-full items-center justify-center font-extrabold text-white">{i + 1}</span>,
-            }))}
-            desktopClassName="bg-transparent"
-            mobileClassName="[&>button]:bg-transparent"
-          />
         </div>
       </div>
     </div>
