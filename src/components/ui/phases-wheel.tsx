@@ -28,10 +28,15 @@ export default function PhasesWheel() {
   // Whichever control changes the phase -- a wheel node, or Previous/Next --
   // the view should jump back to the top of the section instead of leaving
   // the user scrolled deep into the previous phase's (much longer) content.
+  // Scrolling this component's own root (the wheel/card row) flush to the
+  // viewport top put the phase title right under the fixed nav bar, which
+  // then overlapped it -- scrolling the outer "Operating Model" section
+  // (with its own heading above this row) leaves enough clearance instead.
   const rootRef = useRef<HTMLDivElement>(null);
   function goToPhase(i: number) {
     setActive(i);
-    rootRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    const section = rootRef.current?.closest('section');
+    (section ?? rootRef.current)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
   // Sticky-centers the wheel while scrolling through the (much taller) detail
@@ -113,7 +118,7 @@ export default function PhasesWheel() {
 
       <div className="flex w-full min-w-0 flex-col gap-6">
         <div className="border border-line bg-white p-6 sm:p-8">
-        <div className="-mx-6 -mt-6 overflow-hidden border-b border-line bg-cream px-6 pt-6 pb-4 text-center sm:-mx-8 sm:-mt-8 sm:px-8 sm:pt-8">
+        <div className="relative -mx-6 -mt-6 overflow-hidden border-b border-line bg-cream px-6 pt-6 pb-4 text-center sm:-mx-8 sm:-mt-8 sm:px-8 sm:pt-8">
           <img
             src={`${base}img/monogram.svg`}
             alt=""
