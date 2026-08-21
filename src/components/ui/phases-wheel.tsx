@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { cn } from '@/lib/utils';
 import { pdeosStages, ellipsePoint } from '../../data/pdeosWheel';
 import { pdeosPhaseDetails, economicSpine } from '../../data/pdeosPhaseDetails';
@@ -24,9 +24,38 @@ export default function PhasesWheel() {
   const stage = pdeosStages[active];
   const detail = pdeosPhaseDetails[active];
 
+  // Sticky-centers the wheel while scrolling through the (much taller) detail
+  // panel. A transform-based `top-1/2 -translate-y-1/2` looks equivalent but
+  // isn't: the translate happens after sticky's own containing-block clamping,
+  // so it can push the element above its parent's top edge and overlap the
+  // "Seven Phases" heading above this row. Baking the offset directly into
+  // `top` (measured from the wheel's own rendered height) keeps it inside
+  // the browser's native sticky clamping, so it can never escape upward.
+  const wheelRef = useRef<HTMLDivElement>(null);
+  const [wheelHeight, setWheelHeight] = useState(0);
+  const [isLgUp, setIsLgUp] = useState(false);
+  useEffect(() => {
+    const el = wheelRef.current;
+    if (!el) return;
+    const observer = new ResizeObserver(([entry]) => setWheelHeight(entry.contentRect.height));
+    observer.observe(el);
+    const mq = window.matchMedia('(min-width: 1024px)');
+    setIsLgUp(mq.matches);
+    const onChange = (e: MediaQueryListEvent) => setIsLgUp(e.matches);
+    mq.addEventListener('change', onChange);
+    return () => {
+      observer.disconnect();
+      mq.removeEventListener('change', onChange);
+    };
+  }, []);
+
   return (
     <div className="flex flex-col gap-10 lg:flex-row lg:items-start lg:gap-14">
-      <div className="relative aspect-square w-full max-w-[420px] shrink-0 lg:sticky lg:top-28">
+      <div
+        ref={wheelRef}
+        className="relative aspect-square w-full max-w-[420px] shrink-0 lg:sticky"
+        style={isLgUp && wheelHeight ? { top: `calc(50% - ${wheelHeight / 2}px)` } : undefined}
+      >
         <div className="absolute inset-[8%] rounded-full border-2 border-dotted border-navy/20" />
         <div className="absolute inset-0 flex items-center justify-center">
           {/* Same center-bubble branding as the homepage's PdeosWheel above,
