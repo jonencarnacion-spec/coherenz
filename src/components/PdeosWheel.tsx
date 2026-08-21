@@ -11,7 +11,13 @@ const promises = [
   { icon: IconRefresh, title: 'Continuous learning', desc: 'Feed insights back into the next cycle.' },
 ];
 
-export default function PdeosWheel() {
+export default function PdeosWheel({
+  ctaHref = `${base}approach`,
+  ctaLabel = 'See the full framework →',
+}: {
+  ctaHref?: string;
+  ctaLabel?: string;
+}) {
   return (
     <section id="pdeos-wheel-section" className="flex flex-col justify-center bg-wash-green py-8 sm:py-10 lg:min-h-screen">
       <div className="mx-auto max-w-[1536px] px-6 sm:px-8 lg:px-10 xl:px-14">
@@ -21,11 +27,11 @@ export default function PdeosWheel() {
           <p className="mt-3 text-foreground/70">
             One continuous cycle for turning delivery into measurable value.
             <br />
-            Seven stages, one economic thread — from first idea to the lesson that sharpens the next bet.
+            Seven phases, one economic thread — from first idea to the lesson that sharpens the next bet.
           </p>
           <p className="mt-3">
-            <a href={`${base}approach`} className="font-bold text-orange">
-              See the full framework →
+            <a href={ctaHref} className="font-bold text-orange">
+              {ctaLabel}
             </a>
           </p>
         </div>

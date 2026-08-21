@@ -68,7 +68,7 @@ function BentoCard({ label, Icon, accent, accentBg, description, className }: Re
   return (
     <div
       className={cn(
-        'group relative flex flex-col overflow-hidden rounded-2xl border border-line bg-white shadow-sm transition-shadow duration-300 hover:shadow-lg',
+        'group relative flex flex-col overflow-hidden border border-line bg-white shadow-sm transition-shadow duration-300 hover:shadow-lg',
         className
       )}
     >

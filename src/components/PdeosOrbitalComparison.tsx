@@ -28,7 +28,7 @@ const timelineData = pdeosStages.map((stage, i) => {
   return {
     id: i + 1,
     title: stage.name,
-    date: `Stage ${i + 1} / ${total}`,
+    date: `Phase ${i + 1} / ${total}`,
     content: cardCopy[stage.name] ?? stage.sub,
     category: stage.name,
     icon: stageIcons[i],
@@ -48,7 +48,7 @@ const centerContent = (
     <p className="mt-2 text-sm font-extrabold uppercase leading-tight text-navy">
       PDE-OS™
       <br />
-      7-Stage Wheel
+      7-Phase Wheel
     </p>
   </>
 );

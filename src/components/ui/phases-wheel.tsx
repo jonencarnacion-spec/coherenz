@@ -82,7 +82,7 @@ export default function PhasesWheel() {
               <p className="mt-1.5 text-[11px] font-extrabold uppercase leading-tight text-navy">
                 PDE-OS™
                 <br />
-                7-Stage Wheel
+                7-Phase Wheel
               </p>
             </div>
           </div>

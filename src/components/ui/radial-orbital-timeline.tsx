@@ -273,7 +273,7 @@ export default function RadialOrbitalTimeline({ timelineData, centerContent }: R
                           <div className="mb-2 flex items-center">
                             <IconLink size={10} className="mr-1 text-navy/60" />
                             <h4 className="text-xs font-medium uppercase tracking-wider text-navy/60">
-                              Connected Stages
+                              Connected Phases
                             </h4>
                           </div>
                           <div className="flex flex-wrap gap-1">
