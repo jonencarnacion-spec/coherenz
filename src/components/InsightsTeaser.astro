@@ -1,35 +1,91 @@
 ---
-// Headlines are explicitly placeholder — Jon is providing real ones
-// separately (MIGRATION.md). Dev-note carried forward, not shipped as final.
+// Real copy + photos supplied by Jon (assets/image options/insights/), replacing
+// the earlier placeholder set. Source text file also sketched a "100% BUSY ≠
+// 100% VALUE" graphic as a future design asset idea ("perhaps a small visual...
+// that would be a fantastic little Coherenz graphic") -- that's not finalized
+// copy or a ready asset, so it's intentionally left out here rather than
+// fabricated; flag to Jon if he wants it built out separately.
 import { base } from '../lib/base';
+import { IconArrowUpRight } from '@tabler/icons-react';
+
+const topInsight = {
+  tag: 'Coherenz Perspective',
+  title: "Busy Doesn't Mean Valuable.",
+  subhead:
+    'The delivery capacity paradox: why maximizing utilization can actually reduce the value your organization creates.',
+  body: "A team can be fully occupied and still be investing its most expensive resource—delivery capacity—in the wrong places.",
+  image: 'insight-top.jpg',
+  imageAlt: 'Motion-blurred figure moving quickly across a crosswalk, evoking constant busyness',
+};
+
 const insights = [
-  { tag: 'Product Economics', title: "What Cost of Delay actually measures — and what it doesn't", accent: 'bg-gradient-to-br from-blue to-green' },
-  { tag: 'Delivery Economics', title: 'Why WIP limits are an economic decision, not a process one', accent: 'bg-gradient-to-br from-green to-[#2a7a63]' },
-  { tag: 'Product Leadership', title: 'The operating model question most roadmaps skip', accent: 'bg-gradient-to-br from-orange to-yellow' },
+  {
+    tag: 'Product Economics',
+    title: 'More Delivery Doesn’t Mean More Value.',
+    description: 'Why increasing output can make a product organization less effective—and what to optimize instead.',
+    image: 'insight-2.jpg',
+    imageAlt: 'Layered street posters and flyers papering a wall, evoking accumulated output',
+  },
+  {
+    tag: 'Portfolio Strategy',
+    title: 'The Cost of Doing Nothing Is Often Hidden.',
+    description: 'Why prioritization should account for the economic cost of delay—not just the value of what gets built.',
+    image: 'insight-3.jpg',
+    imageAlt: 'Silhouetted figure on a wet beach at sunset with a crowd in the distance',
+  },
+  {
+    tag: 'Delivery Stabilization',
+    title: 'Your Delivery Problem May Not Be a Capacity Problem.',
+    description: 'Why adding people rarely fixes the underlying economics of a constrained delivery system.',
+    image: 'insight-4.jpg',
+    imageAlt: 'A Rubik’s cube mid-toss above an open hand',
+  },
 ];
 ---
 
-<section id="insights" class="bg-white py-16 sm:py-24">
+<section id="insights" class="bg-white py-10 sm:py-16">
   <div class="mx-auto max-w-[1536px] px-6 sm:px-8 lg:px-10 xl:px-14">
     <p class="text-sm font-bold uppercase tracking-[0.375em] text-orange">Coherenz Thinking</p>
-    <h2 class="mt-3 font-serif text-4xl text-navy sm:text-5xl">Selected insights.</h2>
-    <p class="mt-3">
+    <h2 class="mt-2 font-serif text-4xl text-navy sm:text-5xl">Perspectives worth your time.</h2>
+    <p class="mt-2">
       <a href={`${base}insights`} class="font-bold text-orange">See all insights →</a>
     </p>
 
-    <div class="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-3">
-      {insights.map(({ tag, title, accent }) => (
-        <div class="overflow-hidden rounded-[10px] border border-line bg-white shadow-sm">
-          <div class={`h-32 ${accent}`} />
-          <div class="p-5">
+    <div class="mt-6 grid grid-cols-1 border border-line md:grid-cols-2 md:h-[360px]">
+      <div class="flex flex-col justify-center overflow-y-auto p-6 sm:p-8">
+        <p class="text-xs font-bold uppercase tracking-wide text-orange">{topInsight.tag}</p>
+        <h3 class="mt-2 font-serif text-3xl text-navy sm:text-4xl">{topInsight.title}</h3>
+        <p class="mt-2 font-medium text-navy/80">{topInsight.subhead}</p>
+        <p class="mt-2 text-sm text-foreground/70">{topInsight.body}</p>
+        <a href={`${base}insights`} class="mt-4 inline-flex items-center gap-2 font-bold text-orange">
+          <IconArrowUpRight size={20} stroke={2} />
+          Read the perspective
+        </a>
+      </div>
+      <div class="min-h-[240px] md:h-full">
+        <img
+          src={`${base}img/photography/${topInsight.image}`}
+          alt={topInsight.imageAlt}
+          class="h-full w-full object-cover"
+        />
+      </div>
+    </div>
+
+    <div class="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-3">
+      {insights.map(({ tag, title, description, image, imageAlt }) => (
+        <div class="border border-line bg-white">
+          <img src={`${base}img/photography/${image}`} alt={imageAlt} class="h-32 w-full object-cover" />
+          <div class="p-4">
             <p class="text-xs font-bold uppercase tracking-wide text-yellow">{tag}</p>
             <h5 class="mt-2 text-[15px] font-semibold leading-snug text-navy">{title}</h5>
+            <p class="mt-2 text-xs text-foreground/70">{description}</p>
+            <a href={`${base}insights`} class="mt-2 inline-flex items-center gap-1.5 text-xs font-bold text-orange">
+              <IconArrowUpRight size={14} stroke={2.25} />
+              Read the perspective
+            </a>
           </div>
         </div>
       ))}
     </div>
-    <p class="mt-4 text-xs italic text-muted-foreground">
-      Draft placeholder headlines — swap for real published pieces before ship.
-    </p>
   </div>
 </section>

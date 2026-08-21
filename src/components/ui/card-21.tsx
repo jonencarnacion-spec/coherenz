@@ -115,7 +115,7 @@ const ChallengeCard = React.forwardRef<HTMLDivElement, ChallengeCardProps>(
                       {label}
                     </p>
                     {desc && (
-                      <p className={cn('mt-1 text-sm text-navy/60', leftAlignText ? 'text-left' : 'text-center')}>
+                      <p className={cn('mt-1 text-xs text-navy/60', leftAlignText ? 'text-left' : 'text-center')}>
                         {desc}
                       </p>
                     )}
