@@ -1,9 +1,10 @@
 import { useState } from 'react';
-import { IconArrowLeft, IconArrowRight } from '@tabler/icons-react';
 import { cn } from '@/lib/utils';
 import { pdeosStages, ellipsePoint } from '../../data/pdeosWheel';
 import { pdeosPhaseDetails, economicSpine } from '../../data/pdeosPhaseDetails';
 import PdeosFlow from './pdeos-flow';
+import { FloatingDock } from './floating-dock';
+import { base } from '../../lib/base';
 import './pdeos-flow.css';
 
 // Ported from assets/html references/PDE-OS_Part1_Foundation.html's
@@ -22,20 +23,25 @@ export default function PhasesWheel() {
   const [active, setActive] = useState(0);
   const stage = pdeosStages[active];
   const detail = pdeosPhaseDetails[active];
-  const prevIndex = (active - 1 + N) % N;
-  const nextIndex = (active + 1) % N;
 
   return (
     <div className="flex flex-col gap-10 lg:flex-row lg:items-start lg:gap-14">
       <div className="relative aspect-square w-full max-w-[420px] shrink-0 lg:sticky lg:top-28">
         <div className="absolute inset-[8%] rounded-full border-2 border-dotted border-navy/20" />
-        <div className="absolute inset-0 flex flex-col items-center justify-center text-center">
-          <p className="text-lg font-extrabold uppercase leading-tight text-navy">
-            Product
-            <br />
-            Delivery Economics
-          </p>
-          <p className="mt-2 text-xs font-bold uppercase tracking-wide text-navy/40">One continuous loop</p>
+        <div className="absolute inset-0 flex items-center justify-center">
+          {/* Same center-bubble branding as the homepage's PdeosWheel above,
+              minus its animate-pulse/animate-ping -- this wheel is static, so
+              the ongoing animation would be motion with no purpose here. */}
+          <div className="flex h-[180px] w-[180px] items-center justify-center rounded-full bg-gradient-to-br from-orange via-yellow to-green">
+            <div className="flex h-[125px] w-[125px] flex-col items-center justify-center rounded-full bg-white px-3 text-center">
+              <img src={`${base}img/logo-navy.svg`} alt="Coherenz" className="h-4" />
+              <p className="mt-1.5 text-[11px] font-extrabold uppercase leading-tight text-navy">
+                PDE-OS™
+                <br />
+                7-Stage Wheel
+              </p>
+            </div>
+          </div>
         </div>
         {pdeosStages.map((s, i) => {
           const pos = ellipsePoint(50, 50, 41, i * (360 / N));
@@ -51,8 +57,8 @@ export default function PhasesWheel() {
             >
               <span
                 className={cn(
-                  'flex h-11 w-11 items-center justify-center rounded-full text-base font-extrabold text-white shadow-sm transition-transform duration-200',
-                  isActive && 'scale-110 ring-4 ring-orange/30'
+                  'flex items-center justify-center rounded-full font-extrabold text-white shadow-sm transition-all duration-200',
+                  isActive ? 'h-[60px] w-[60px] text-lg ring-4 ring-orange/30' : 'h-11 w-11 text-base'
                 )}
                 style={{ backgroundColor: s.color }}
               >
@@ -66,10 +72,11 @@ export default function PhasesWheel() {
         })}
       </div>
 
-      <div className="w-full min-w-0 rounded-2xl border border-line bg-white p-6 sm:p-8">
+      <div className="flex w-full min-w-0 flex-col gap-6">
+        <div className="rounded-2xl border border-line bg-white p-6 sm:p-8">
         <div className="text-center">
           <span
-            className="inline-flex h-10 w-10 items-center justify-center rounded-full text-sm font-extrabold text-white"
+            className="inline-flex h-[60px] w-[60px] items-center justify-center rounded-full text-lg font-extrabold text-white ring-4 ring-orange/30"
             style={{ backgroundColor: stage.color }}
           >
             {active + 1}
@@ -103,7 +110,12 @@ export default function PhasesWheel() {
         </div>
         {detail.roleNote && <p className="mt-3 text-center text-xs italic text-foreground/50">{detail.roleNote}</p>}
 
-        <p className="mt-6 text-center text-xs font-bold uppercase tracking-wide text-blue">Economic spine emphasis</p>
+        <p className="mt-8 text-center text-xs font-bold uppercase tracking-wide text-blue">What happens inside this phase</p>
+        <div className="mt-4">
+          <PdeosFlow flow={detail.flow} phaseKey={active} />
+        </div>
+
+        <p className="mt-8 text-center text-xs font-bold uppercase tracking-wide text-blue">Economic spine emphasis</p>
         <div className="mt-3 flex flex-wrap justify-center gap-2">
           {spineOrder.map((s) => (
             <span
@@ -118,11 +130,6 @@ export default function PhasesWheel() {
           ))}
         </div>
 
-        <p className="mt-8 text-center text-xs font-bold uppercase tracking-wide text-blue">What happens inside this phase</p>
-        <div className="mt-4">
-          <PdeosFlow flow={detail.flow} phaseKey={active} />
-        </div>
-
         <p className="mt-6 text-center text-sm text-foreground/70">
           <span className="font-bold text-navy">Practices used here: </span>
           {detail.practices}
@@ -130,28 +137,25 @@ export default function PhasesWheel() {
 
         {detail.whyMatters && (
           <>
-            <p className="mt-8 text-center text-xs font-bold uppercase tracking-wide text-blue">Why this matters</p>
+            <p className="mt-8 text-center text-sm font-extrabold uppercase tracking-wide text-orange">Why this matters</p>
             <div className="pdeos-detail mt-4" dangerouslySetInnerHTML={{ __html: detail.whyMatters }} />
           </>
         )}
 
-        <div className="mt-8 flex items-center justify-between gap-4 border-t border-line pt-6">
-          <button
-            type="button"
-            onClick={() => setActive(prevIndex)}
-            className="flex items-center gap-2 text-sm font-bold text-navy hover:text-orange"
-          >
-            <IconArrowLeft size={18} />
-            {pdeosStages[prevIndex].name}
-          </button>
-          <button
-            type="button"
-            onClick={() => setActive(nextIndex)}
-            className="flex items-center gap-2 text-sm font-bold text-navy hover:text-orange"
-          >
-            {pdeosStages[nextIndex].name}
-            <IconArrowRight size={18} />
-          </button>
+        </div>
+
+        <div className="flex justify-center">
+          <FloatingDock
+            items={pdeosStages.map((s, i) => ({
+              title: s.name,
+              color: s.color,
+              isActive: i === active,
+              onClick: () => setActive(i),
+              icon: <span className="flex h-full w-full items-center justify-center font-extrabold text-white">{i + 1}</span>,
+            }))}
+            desktopClassName="bg-transparent"
+            mobileClassName="[&>button]:bg-transparent"
+          />
         </div>
       </div>
     </div>

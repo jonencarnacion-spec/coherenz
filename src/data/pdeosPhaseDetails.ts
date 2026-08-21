@@ -12,6 +12,7 @@ export interface PdeosFlowArtifact {
   tag: string;
   html: string;
   wide?: boolean;
+  matchStepWidth?: boolean;
 }
 export interface PdeosFlowStep {
   t: 'step';
@@ -96,7 +97,8 @@ export const pdeosPhaseDetails: PdeosPhaseDetail[] = [
       },
       {
         "t": "artifact",
-        "tag": "Opportunity Details",
+        "tag": "Opportunity Details - Example",
+        "matchStepWidth": true,
         "html": "<p class=\"pd-detail-text\">This quarter's dashboard shows <strong>checkout conversion down 3 points quarter-over-quarter</strong> — quietly costing revenue nobody's quantified yet. A faster, simpler checkout is the leading hypothesis.</p>"
       },
       {
@@ -108,6 +110,7 @@ export const pdeosPhaseDetails: PdeosPhaseDetail[] = [
       {
         "t": "artifact",
         "tag": "Cost of Delay · The Formula",
+        "matchStepWidth": true,
         "html": "<p class=\"impact-intro\">Before deriving a number, here's what Cost of Delay actually measures: value lost per unit of time delayed.</p><div class=\"formula-box\"><div class=\"pdeos-formula\">CoD = ΔValue ÷ ΔTime</div></div><p class=\"gk-note\">ΔValue is what gets built up next. ΔTime is however long the delay lasts — a month, a quarter, whatever the decision window is.</p>"
       },
       {

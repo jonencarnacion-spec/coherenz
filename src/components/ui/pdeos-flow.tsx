@@ -70,7 +70,12 @@ function Connector() {
 
 function Artifact({ node }: { node: Extract<PdeosFlowNode, { t: 'artifact' }> }) {
   return (
-    <div className={cn('rounded-xl border border-dashed border-orange/40 bg-white p-5', node.wide ? '' : 'mx-auto max-w-[560px]')}>
+    <div
+      className={cn(
+        'rounded-xl border border-dashed border-orange/40 bg-white p-5',
+        node.matchStepWidth ? 'mx-auto w-3/5' : node.wide ? '' : 'mx-auto max-w-[560px]'
+      )}
+    >
       <p className="text-center text-xs font-bold uppercase tracking-wide text-orange">{node.tag}</p>
       <div className="mt-2 text-sm text-navy" dangerouslySetInnerHTML={{ __html: node.html }} />
     </div>
@@ -99,16 +104,24 @@ function LoopBox({ node }: { node: Extract<PdeosFlowNode, { t: 'loop' }> }) {
 }
 
 function DecisionBox({ node }: { node: Extract<PdeosFlowNode, { t: 'decision' }> }) {
+  // The diamond is a 100x100 square rotated 45deg, so its visual corners poke
+  // ~20.7px beyond its own layout box on every side ((100*sqrt(2)-100)/2).
+  // Rectangular flow boxes sit flush under the "down" connector with no extra
+  // margin, and the branch boxes below sit flush under it too -- these two
+  // margins compensate for that rotation overflow (top and bottom) so the
+  // diamond follows the same flush-not-overlapping rule as every other box.
   return (
-    <div className="rounded-xl bg-wash-blue p-5">
-      <p className="text-center text-sm font-bold text-navy">{node.label}</p>
-      <div className="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2">
+    <div className="mt-[21px] flex flex-col items-center">
+      <div className="flex h-[100px] w-[100px] shrink-0 rotate-45 items-center justify-center rounded-xl bg-navy shadow-sm">
+        <p className="w-[68px] -rotate-45 text-center text-xs font-bold leading-tight text-white">{node.label}</p>
+      </div>
+      <div className="mt-[37px] mx-auto grid w-3/4 grid-cols-1 gap-3 sm:grid-cols-2">
         {node.branches.map((b) => (
           <div
             key={b.tag}
             className={cn(
-              'flex items-start gap-2 rounded-lg border bg-white p-3',
-              b.tone === 'go' ? 'border-green/30' : 'border-line'
+              'flex items-start gap-2 rounded-lg border p-3',
+              b.tone === 'go' ? 'border-orange bg-wash-green' : 'border-navy bg-wash-blue'
             )}
           >
             {b.tone === 'go' ? (
@@ -117,7 +130,7 @@ function DecisionBox({ node }: { node: Extract<PdeosFlowNode, { t: 'decision' }>
               <IconCircleX size={18} className="mt-0.5 shrink-0 text-navy/40" />
             )}
             <div>
-              <p className={cn('text-xs font-bold uppercase tracking-wide', b.tone === 'go' ? 'text-green' : 'text-navy/50')}>{b.tag}</p>
+              <p className={cn('text-xs font-extrabold uppercase tracking-wide', b.tone === 'go' ? 'text-orange' : 'text-navy')}>{b.tag}</p>
               <p className="mt-0.5 text-sm text-navy">{b.text}</p>
             </div>
           </div>
@@ -158,18 +171,18 @@ function ToggleStep({
         onClick={onToggle}
         aria-expanded={isOpen}
         className={cn(
-          'flex w-full items-center justify-between gap-4 rounded-xl border p-4 text-left transition-colors',
+          'mx-auto flex w-3/5 items-center justify-between gap-3 rounded-xl border p-3 text-center transition-colors',
           nested ? 'border-line bg-white' : 'border-line bg-wash-blue hover:bg-wash-blue/70'
         )}
       >
-        <span>
+        <span className="flex-1">
           <span className="block text-sm font-bold text-navy">{block.step.label}</span>
           <span className="mt-0.5 block text-sm text-foreground/70">{block.step.sub}</span>
         </span>
-        <IconChevronDown size={18} className={cn('shrink-0 text-navy/40 transition-transform', isOpen && 'rotate-180 text-orange')} />
+        <IconChevronDown size={14} className={cn('shrink-0 text-navy/40 transition-transform', isOpen && 'rotate-180 text-orange')} />
       </button>
       {isOpen && (
-        <div className="mt-2 space-y-2 border-l-2 border-line pl-4">
+        <div className="mt-2 space-y-2">
           <BlockList blocks={block.children} openSet={openSet} onToggleIndex={onToggleIndex} />
         </div>
       )}
