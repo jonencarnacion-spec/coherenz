@@ -1,33 +1,58 @@
 ---
 import { base } from '../lib/base';
-const sitemap = [
-  { label: 'Approach', href: 'approach' },
-  { label: 'Services', href: 'services' },
-  { label: 'Programs', href: 'programs' },
-  { label: 'Diagnostic', href: 'diagnostic' },
-  { label: 'Insights', href: 'insights' },
-  { label: 'Case Studies', href: 'case-studies' },
-  { label: 'About', href: 'about' },
-  { label: 'Contact', href: 'contact' },
+
+const footerColumns = [
+  {
+    heading: 'Services',
+    links: [
+      { label: 'Product & Portfolio Strategy', href: 'services' },
+      { label: 'Product Delivery Economics', href: 'services' },
+      { label: 'Delivery Stabilization', href: 'services' },
+      { label: 'Product Operating Model', href: 'services' },
+    ],
+  },
+  {
+    heading: 'Programs',
+    links: [
+      { label: 'Product Delivery Economics Assessment', href: 'programs' },
+      { label: '6-Week Delivery Stabilization', href: 'programs' },
+      { label: 'Product Operating Model Design', href: 'programs' },
+      { label: 'Executive Product Economics Workshop', href: 'programs' },
+    ],
+  },
+  {
+    heading: 'About Us',
+    links: [
+      { label: 'Our Guiding Principles', href: 'about' },
+      { label: 'Our Perspectives', href: 'insights' },
+      { label: 'Our Philosophy', href: 'about' },
+      { label: 'Our Consultants', href: 'about' },
+    ],
+  },
 ];
 ---
 
 <footer class="bg-navy text-white">
-  <div class="mx-auto max-w-[1536px] px-6 py-16 sm:px-8 lg:px-10 xl:px-14">
-    <div class="flex flex-col justify-between gap-10 md:flex-row">
-      <div>
-        <img src={`${base}img/logo-white.svg`} alt="Coherenz" class="h-8" />
-        <p class="mt-2 max-w-[260px] text-xs text-white/55">
-          Product Delivery Economics™ — turning delivery capacity into measurable business value.
+  <div class="mx-auto max-w-[1536px] px-6 py-24 sm:px-8 lg:px-10 xl:px-14">
+    <div class="flex flex-col gap-10 md:flex-row md:justify-between">
+      <div class="md:max-w-[320px]">
+        <img src={`${base}img/logo-white.svg`} alt="Coherenz" class="h-10" />
+        <p class="mt-4 font-serif text-2xl leading-snug text-white">
+          Turning delivery into an investment worth making.
         </p>
       </div>
-      <nav>
-        <ul class="grid grid-cols-2 gap-x-8 gap-y-2 text-sm sm:flex sm:flex-col">
-          {sitemap.map((item) => (
-            <li><a href={`${base}${item.href}`} class="text-white/80 hover:text-white">{item.label}</a></li>
-          ))}
-        </ul>
-      </nav>
+      <div class="grid grid-cols-2 gap-x-8 gap-y-10 sm:grid-cols-3 sm:gap-x-12">
+        {footerColumns.map((col) => (
+          <div>
+            <p class="text-sm font-bold uppercase tracking-wide text-white">{col.heading}</p>
+            <ul class="mt-4 space-y-2 text-sm">
+              {col.links.map((item) => (
+                <li><a href={`${base}${item.href}`} class="text-white/70 hover:text-white">{item.label}</a></li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
     </div>
     <div class="mt-10 flex flex-col gap-2 border-t border-white/10 pt-6 text-xs text-white/55 sm:flex-row sm:justify-between">
       <span>© Coherenz</span>

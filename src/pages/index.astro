@@ -10,7 +10,6 @@ import DiagnosticTeaser from '../components/DiagnosticTeaser.astro';
 import PdeosWheel from '../components/PdeosWheel.tsx';
 import Perspectives from '../components/Perspectives.astro';
 import InsightsTeaser from '../components/InsightsTeaser.astro';
-import AboutTeaser from '../components/AboutTeaser.astro';
 import FinalCta from '../components/FinalCta.astro';
 import Footer from '../components/Footer.astro';
 ---
@@ -72,7 +71,7 @@ import Footer from '../components/Footer.astro';
       InsightsTeaser (not just its immediate section) — it's the first
       child of THIS wrapper, so it stays pinned for the combined height of
       both, releasing only once the wrapper itself has scrolled past,
-      right as AboutTeaser begins.
+      right as FinalCta begins.
     -->
     <div class="sticky top-0 z-40 flex h-12 items-center bg-yellow/50">
       <div class="mx-auto w-full max-w-[1536px] px-6 sm:px-8 lg:px-10 xl:px-14">
@@ -82,7 +81,6 @@ import Footer from '../components/Footer.astro';
     <Perspectives />
     <InsightsTeaser />
   </div>
-  <AboutTeaser />
   <FinalCta />
   <Footer />
 </Layout>
