@@ -13,7 +13,7 @@ const promises = [
 
 export default function PdeosWheel() {
   return (
-    <section id="pdeos-wheel-section" className="bg-wash-blue py-8 sm:py-10">
+    <section id="pdeos-wheel-section" className="flex flex-col justify-center bg-wash-blue py-8 sm:py-10 lg:min-h-screen">
       <div className="mx-auto max-w-[1536px] px-6 sm:px-8 lg:px-10 xl:px-14">
         <div className="mx-auto max-w-4xl text-center">
           <p className="text-sm font-bold uppercase tracking-[0.375em] text-orange">Coherenz PDE-OS™</p>

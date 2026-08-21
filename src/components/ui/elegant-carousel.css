@@ -22,14 +22,14 @@
   z-index: 1;
   display: grid;
   grid-template-columns: 1fr;
-  min-height: 380px;
+  min-height: 437px;
   border: 1px solid #e4dfd3; /* --color-line, matches InsightsTeaser's border-line cards */
 }
 
 @media (min-width: 768px) {
   .carousel-inner {
     grid-template-columns: 1fr 1.45fr;
-    min-height: 460px;
+    min-height: 529px;
   }
 }
 
