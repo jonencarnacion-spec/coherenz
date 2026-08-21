@@ -1,0 +1,178 @@
+---
+// Ported from the vanilla approach.html — same real copy, same section
+// order. PDE-OS section and closing CTA reuse the homepage's PdeosWheel and
+// FinalCta components directly rather than rebuilding a second version of
+// the same wheel/CTA, per the project's "reuse components" convention.
+import Layout from '../layouts/Layout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import FinalCta from '../components/FinalCta.astro';
+import PdeosWheel from '../components/PdeosWheel.tsx';
+import ResourceBento from '../components/ui/resource-bento.tsx';
+import PhasesWheel from '../components/ui/phases-wheel.tsx';
+import { base } from '../lib/base';
+import { IconTarget, IconRoute, IconCircleCheck, IconCircleCheckFilled } from '@tabler/icons-react';
+
+const questions = [
+  {
+    letters: 'WHAT',
+    sub: 'Value Economics',
+    Icon: IconTarget,
+    question: 'What is the economic value of what we could do?',
+    points: [
+      'Identify and quantify potential value',
+      'Compare options through economic impact',
+      'Prioritize where value is highest',
+    ],
+    navy: false,
+  },
+  {
+    letters: 'HOW',
+    sub: 'Delivery Economics',
+    Icon: IconRoute,
+    question: 'How do we deliver the right things economically?',
+    points: [
+      'Optimize flow, throughput, and capacity',
+      'Reduce WIP, dependencies, and coordination drag',
+      'Align investment to delivery capability',
+    ],
+    navy: true,
+  },
+  {
+    letters: 'DID',
+    sub: 'Outcome Economics',
+    Icon: IconCircleCheck,
+    question: 'What economic outcomes did we achieve?',
+    points: [
+      'Measure business and customer outcomes',
+      'Link delivery to adoption, revenue, and risk reduction',
+      'Learn and reinvest in what works',
+    ],
+    navy: false,
+  },
+];
+---
+
+<Layout
+  title="The Coherenz Approach — Product Delivery Economics™"
+  description="Product delivery is an economic system. Every organization has limited money, people, capacity, time and attention — the Coherenz approach treats every product decision as an investment decision."
+>
+  <Nav />
+
+  <section id="approach-hero" class="relative flex min-h-[70vh] items-end overflow-hidden bg-navy">
+    <video
+      id="approach-hero-video"
+      class="absolute inset-0 h-full w-full object-cover"
+      autoplay
+      muted
+      loop
+      playsinline
+    >
+      <source src={`${base}video/approach-hero.mp4`} type="video/mp4" />
+    </video>
+    <div class="absolute inset-0 bg-gradient-to-t from-navy via-navy/70 to-navy/20" />
+    <div class="relative mx-auto w-full max-w-[1536px] px-6 py-20 sm:px-8 lg:px-10 xl:px-14">
+      <p class="text-sm font-bold uppercase tracking-[0.375em] text-orange">The Coherenz Approach</p>
+      <h1 class="mt-3 max-w-2xl font-serif text-4xl text-white sm:text-5xl">
+        Product delivery is an economic system.
+      </h1>
+      <p class="mt-4 max-w-2xl text-white/80">
+        Every organization has limited money, people, capacity, time, and attention. Therefore every
+        product decision is ultimately an investment decision.
+      </p>
+    </div>
+  </section>
+
+  <section id="core-idea" class="bg-white py-16 sm:py-24">
+    <div class="mx-auto max-w-[1536px] px-6 sm:px-8 lg:px-10 xl:px-14">
+      <p class="text-sm font-bold uppercase tracking-[0.375em] text-orange">The Core Idea</p>
+      <h2 class="mt-3 max-w-2xl font-serif text-4xl text-navy sm:text-5xl">
+        Every organization has five things it can never get more of.
+      </h2>
+      <div class="mt-10">
+        <ResourceBento client:visible />
+      </div>
+      <p class="mt-10 max-w-2xl text-lg font-semibold text-navy">
+        Therefore every product decision is ultimately an investment decision.
+      </p>
+    </div>
+  </section>
+
+  <section id="questions" class="bg-wash-blue py-16 sm:py-24">
+    <div class="mx-auto max-w-[1536px] px-6 sm:px-8 lg:px-10 xl:px-14">
+      <p class="text-sm font-bold uppercase tracking-[0.375em] text-orange">The Three Economic Questions</p>
+      <h2 class="mt-3 max-w-2xl font-serif text-4xl text-navy sm:text-5xl">
+        Coherenz connects value, delivery, and outcome.
+      </h2>
+
+      <div class="mt-10 grid grid-cols-1 gap-5 lg:grid-cols-3">
+        {questions.map(({ letters, sub, Icon, question, points, navy }) => (
+          <div class={`rounded-2xl border border-line p-8 ${navy ? 'bg-navy text-white' : 'bg-white text-navy'}`}>
+            <div
+              class={`flex h-12 w-12 items-center justify-center rounded-full ${navy ? 'bg-white/10 text-orange' : 'bg-wash-blue text-blue'}`}
+            >
+              <Icon size={24} strokeWidth={1.8} />
+            </div>
+            <p class="mt-5 text-3xl font-extrabold uppercase tracking-wide">{letters}</p>
+            <p class={`mt-1 text-sm font-bold uppercase tracking-wide ${navy ? 'text-orange' : 'text-blue'}`}>
+              {sub}
+            </p>
+            <p class="mt-4 text-lg font-semibold">{question}</p>
+            <ul class="mt-4 space-y-2">
+              {points.map((point) => (
+                <li class={`flex items-start gap-2 text-sm ${navy ? 'text-white/80' : 'text-foreground/70'}`}>
+                  <IconCircleCheckFilled size={16} class={`mt-0.5 shrink-0 ${navy ? 'text-orange' : 'text-blue'}`} />
+                  {point}
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+
+      <p class="mt-8 text-center font-serif text-2xl text-navy">Coherenz connects all three.</p>
+    </div>
+  </section>
+
+  <PdeosWheel client:visible />
+
+  <section id="phases" class="bg-white py-16 sm:py-24">
+    <div class="mx-auto max-w-[1536px] px-6 sm:px-8 lg:px-10 xl:px-14">
+      <p class="text-sm font-bold uppercase tracking-[0.375em] text-orange">The Operating Model</p>
+      <h2 class="mt-3 max-w-2xl font-serif text-4xl text-navy sm:text-5xl">The Seven Phases</h2>
+      <p class="mt-4 max-w-2xl text-foreground/70">
+        PDE-OS is a loop, not a line — Learn feeds straight back into Discover. Expand any phase below
+        to see its purpose, the question it answers, and what it hands off.
+      </p>
+      <div class="mt-10">
+        <PhasesWheel client:visible />
+      </div>
+    </div>
+  </section>
+
+  <FinalCta />
+  <Footer />
+</Layout>
+
+<script>
+  // Same off-screen pause pattern as HeroDuplicate's video -- a looping
+  // autoplay video keeps decoding/buffering frames indefinitely even while
+  // scrolled far out of view.
+  function initApproachHeroVideoPause() {
+    const section = document.getElementById('approach-hero');
+    const video = document.getElementById('approach-hero-video') as HTMLVideoElement | null;
+    if (!section || !video) return;
+
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) video.play().catch(() => {});
+        else video.pause();
+      },
+      { threshold: 0 }
+    );
+    io.observe(section);
+  }
+
+  initApproachHeroVideoPause();
+  document.addEventListener('astro:page-load', initApproachHeroVideoPause);
+</script>
