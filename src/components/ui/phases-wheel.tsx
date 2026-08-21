@@ -25,6 +25,15 @@ export default function PhasesWheel() {
   const prevIndex = (active - 1 + N) % N;
   const nextIndex = (active + 1) % N;
 
+  // Whichever control changes the phase -- a wheel node, or Previous/Next --
+  // the view should jump back to the top of the section instead of leaving
+  // the user scrolled deep into the previous phase's (much longer) content.
+  const rootRef = useRef<HTMLDivElement>(null);
+  function goToPhase(i: number) {
+    setActive(i);
+    rootRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
   // Sticky-centers the wheel while scrolling through the (much taller) detail
   // panel. A transform-based `top-1/2 -translate-y-1/2` looks equivalent but
   // isn't: the translate happens after sticky's own containing-block clamping,
@@ -51,7 +60,7 @@ export default function PhasesWheel() {
   }, []);
 
   return (
-    <div className="flex flex-col gap-10 lg:flex-row lg:items-start lg:gap-14">
+    <div ref={rootRef} className="flex flex-col gap-10 lg:flex-row lg:items-start lg:gap-14">
       <div
         ref={wheelRef}
         className="relative aspect-square w-full max-w-[420px] shrink-0 lg:sticky"
@@ -80,9 +89,9 @@ export default function PhasesWheel() {
             <button
               key={s.name}
               type="button"
-              onClick={() => setActive(i)}
+              onClick={() => goToPhase(i)}
               style={{ left: `${pos.x}%`, top: `${pos.y}%` }}
-              className="absolute flex w-[92px] -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-1.5"
+              className="absolute flex w-[92px] cursor-pointer -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-1.5"
               aria-pressed={isActive}
             >
               <span
@@ -103,16 +112,21 @@ export default function PhasesWheel() {
       </div>
 
       <div className="flex w-full min-w-0 flex-col gap-6">
-        <div className="rounded-2xl border border-line bg-white p-6 sm:p-8">
-        <div className="text-center">
+        <div className="border border-line bg-white p-6 sm:p-8">
+        <div className="-mx-6 -mt-6 overflow-hidden border-b border-line bg-cream px-6 pt-6 pb-4 text-center sm:-mx-8 sm:-mt-8 sm:px-8 sm:pt-8">
+          <img
+            src={`${base}img/monogram.svg`}
+            alt=""
+            className="pointer-events-none absolute -right-10 -top-10 w-48 opacity-20"
+          />
           <span
-            className="inline-flex h-[60px] w-[60px] items-center justify-center rounded-full text-lg font-extrabold text-white ring-4 ring-orange/30"
+            className="relative inline-flex h-[60px] w-[60px] items-center justify-center rounded-full text-lg font-extrabold text-white ring-4 ring-orange/30"
             style={{ backgroundColor: stage.color }}
           >
             {active + 1}
           </span>
-          <h3 className="mt-3 font-serif text-2xl text-navy">{stage.name}</h3>
-          <p className="mt-1 text-sm italic text-foreground/60">&ldquo;{detail.exq}&rdquo;</p>
+          <h3 className="relative mt-3 font-serif text-2xl text-navy">{stage.name}</h3>
+          <p className="relative mt-1 text-sm italic text-foreground/60">&ldquo;{detail.exq}&rdquo;</p>
         </div>
 
         <div className="mt-6 grid grid-cols-1 gap-4 rounded-xl bg-wash-blue p-4 text-center sm:grid-cols-3">
@@ -173,20 +187,20 @@ export default function PhasesWheel() {
         )}
 
         <div className="mt-8 flex items-center justify-between gap-4 border-t border-line pt-6">
-          <button type="button" onClick={() => setActive(prevIndex)} className="flex flex-col items-start gap-2 text-left">
+          <button type="button" onClick={() => goToPhase(prevIndex)} className="flex cursor-pointer flex-col items-start gap-2 text-left">
             <span className="text-xs font-bold uppercase tracking-wide text-foreground/40">Previous Phase</span>
             <span
-              className="flex h-14 w-14 items-center justify-center rounded-full text-lg font-extrabold text-white shadow-sm"
+              className="flex h-11 w-11 items-center justify-center rounded-full text-base font-extrabold text-white shadow-sm"
               style={{ backgroundColor: pdeosStages[prevIndex].color }}
             >
               {prevIndex + 1}
             </span>
             <span className="text-sm font-bold text-navy">{pdeosStages[prevIndex].name}</span>
           </button>
-          <button type="button" onClick={() => setActive(nextIndex)} className="flex flex-col items-end gap-2 text-right">
+          <button type="button" onClick={() => goToPhase(nextIndex)} className="flex cursor-pointer flex-col items-end gap-2 text-right">
             <span className="text-xs font-bold uppercase tracking-wide text-foreground/40">Next Phase</span>
             <span
-              className="flex h-14 w-14 items-center justify-center rounded-full text-lg font-extrabold text-white shadow-sm"
+              className="flex h-11 w-11 items-center justify-center rounded-full text-base font-extrabold text-white shadow-sm"
               style={{ backgroundColor: pdeosStages[nextIndex].color }}
             >
               {nextIndex + 1}
