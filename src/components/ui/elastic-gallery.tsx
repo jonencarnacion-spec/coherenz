@@ -37,7 +37,7 @@ function ElasticGallery({ items }: ElasticGalleryProps) {
           onMouseEnter={() => setActiveId(item.id)}
           onClick={() => setActiveId(item.id)}
           className={cn(
-            'relative cursor-pointer overflow-hidden rounded-2xl border border-line bg-white',
+            'relative cursor-pointer overflow-hidden border border-line bg-white',
             'transition-[flex,filter] duration-700 ease-[cubic-bezier(0.25,1,0.5,1)]',
             activeId === item.id ? 'flex-[4]' : 'flex-[1]',
             activeId === item.id ? 'brightness-100' : 'brightness-50 hover:brightness-75'

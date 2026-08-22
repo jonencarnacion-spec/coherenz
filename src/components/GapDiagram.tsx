@@ -88,7 +88,7 @@ export default function GapDiagram() {
           </p>
         </div>
 
-        <div className="mt-8 rounded-3xl border-[1.5px] border-[#BFC7D1] px-6 py-6 sm:mt-10 sm:px-10 sm:py-8">
+        <div className="mt-8 px-6 py-6 sm:mt-10 sm:px-10 sm:py-8">
         <div className="flex flex-col min-[960px]:flex-row min-[960px]:items-start">
           {gapStages.map((stage, i) => {
             const StageIcon = stageIcons[i];
@@ -153,7 +153,7 @@ export default function GapDiagram() {
 
                   <div>
                     <p className="text-[14.5px] font-extrabold uppercase tracking-wider text-orange min-[960px]:mt-2">Gap</p>
-                    <p className="mt-1.5 flex h-[86px] items-center justify-center rounded-[6px] border border-white/60 bg-white/25 px-3 py-2 text-[14.5px] font-medium leading-[1.55] text-[#5A6478] shadow-lg backdrop-blur-md min-[960px]:relative min-[960px]:left-1/2 min-[960px]:mt-1.5 min-[960px]:w-[190%] min-[960px]:-translate-x-1/2">
+                    <p className="mt-1.5 flex h-[86px] items-center justify-center border border-white/60 bg-white/25 px-3 py-2 text-[14.5px] font-medium leading-[1.55] text-[#5A6478] shadow-lg backdrop-blur-md min-[960px]:relative min-[960px]:left-1/2 min-[960px]:mt-1.5 min-[960px]:w-[190%] min-[960px]:-translate-x-1/2">
                       {gapLeaks[i].desc}
                     </p>
                   </div>
@@ -165,7 +165,7 @@ export default function GapDiagram() {
         </div>
         </div>
 
-        <div className="relative mt-8 flex flex-col gap-8 overflow-hidden rounded-2xl bg-navy px-8 py-5 text-white sm:flex-row sm:items-start">
+        <div className="relative mt-8 flex flex-col gap-8 overflow-hidden bg-navy px-8 py-5 text-white sm:flex-row sm:items-start">
           <img
             src={`${base}img/monogram.svg`}
             alt=""
