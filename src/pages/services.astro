@@ -1,85 +1,42 @@
 ---
-// Ported from the vanilla services.html — same real copy (four service
-// "detail-block" cards, each keyed to a business question), same section
-// order. Card treatment follows DESIGN.md §6's Service = green top-edge
-// rule (not yet used elsewhere in the rebuild, since no other page has
-// shipped a Service-type card yet).
+// Services landing page, rebuilt per the "Coherenz Services Page" narrative
+// docs (v1/v2/v3 in assets/services page narrative/) -- a hybrid of v3's
+// two-level diagnostic interaction (question -> pills -> pill panel, see
+// ServiceSelector) and v2's page-length discipline (no restating the same
+// four questions twice on one page, no re-running the full seven-stage
+// PDE-OS methodology here since the Approach page already owns it).
+//
+// Every service and program CTA links to a dedicated page
+// (/services/[slug], /programs) that doesn't exist yet -- same
+// forward-linking pattern already used elsewhere in this rebuild (Nav's
+// Insights/Contact links, FinalCta's Insights link). Building those pages
+// is explicitly scoped as separate follow-up work, not silently skipped.
 import Layout from '../layouts/Layout.astro';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 import FinalCta from '../components/FinalCta.astro';
+import ServiceSelector from '../components/ui/service-selector.tsx';
 import { base } from '../lib/base';
-import { IconCompass, IconCalculator, IconShieldCheck, IconHierarchy3 } from '@tabler/icons-react';
+import { systemDimensions, engageStages, programs } from '../data/servicesContent';
+import {
+  IconTarget,
+  IconRoute,
+  IconBackpack,
+  IconClipboardCheck,
+  IconAffiliate,
+  IconSearch,
+  IconShieldCheck,
+  IconHierarchy3,
+  IconPresentation,
+} from '@tabler/icons-react';
 
-const services = [
-  {
-    Icon: IconCompass,
-    eyebrow: 'Product & Portfolio Strategy',
-    question: 'Are you investing in the right things?',
-    lede: 'Help organizations translate strategy into product investment decisions.',
-    tags: [
-      'Product strategy',
-      'Portfolio prioritization',
-      'Roadmap strategy',
-      'Value assessment',
-      'Cost of Delay',
-      'CD3 / WSJF',
-      'Product investment governance',
-    ],
-  },
-  {
-    Icon: IconCalculator,
-    eyebrow: 'Product Delivery Economics™',
-    question: 'Are you getting enough value from your delivery capacity?',
-    tags: [
-      'Delivery economics assessment',
-      'Prioritization model',
-      'Flow analysis',
-      'Throughput',
-      'Cycle Time',
-      'WIP',
-      'Coordination drag',
-      'Capacity analysis',
-      'Quality economics',
-    ],
-  },
-  {
-    Icon: IconShieldCheck,
-    eyebrow: 'Delivery Stabilization',
-    question: 'Is your delivery system struggling to keep up?',
-    tags: [
-      'Delivery diagnostics',
-      'Bottleneck identification',
-      'Dependency management',
-      'Flow improvement',
-      'Predictability',
-      'Quality guardrails',
-      'Operating rhythm',
-      'Leadership visibility',
-    ],
-    note: true,
-  },
-  {
-    Icon: IconHierarchy3,
-    eyebrow: 'Product Operating Model',
-    question: 'Is your organization ready to scale?',
-    tags: [
-      'Product operating model',
-      'Roles & responsibilities',
-      'Product/delivery governance',
-      'Portfolio management',
-      'Team topology',
-      'Decision rights',
-      'Metrics',
-      'Product leadership',
-    ],
-  },
-];
+const dimensionIcons = [IconTarget, IconRoute, IconBackpack, IconClipboardCheck, IconAffiliate];
+const programIcons = [IconSearch, IconShieldCheck, IconHierarchy3, IconPresentation];
 ---
 
 <Layout
   title="Services — Coherenz"
-  description="Coherenz organizes services around business problems: Product & Portfolio Strategy, Product Delivery Economics, Delivery Stabilization, and Product Operating Model."
+  description="Coherenz helps product organizations understand where the system is losing value -- across investment decisions, delivery economics, delivery stability, and operating model -- and where to intervene first."
 >
   <Nav />
 
@@ -98,57 +55,136 @@ const services = [
     <div class="relative mx-auto w-full max-w-[1536px] px-6 py-20 sm:px-8 lg:px-10 xl:px-14">
       <p class="text-sm font-bold uppercase tracking-[0.375em] text-orange">Services</p>
       <h1 class="mt-3 max-w-2xl font-serif text-4xl text-white sm:text-5xl">
-        We organize services around business problems, not a menu of offerings.
+        Better Decisions. Stronger Delivery. Greater Value.
       </h1>
-      <p class="mt-4 max-w-xl text-white/75">Four questions. Four ways we help you answer them.</p>
+      <p class="mt-4 max-w-xl text-white/75">
+        Product organizations rarely have just one problem. Investment decisions affect delivery. Delivery
+        constraints affect value. Operating models affect flow. Coherenz helps leaders understand where the
+        system is losing value—and what to do about it.
+      </p>
+      <a
+        href="#diagnose"
+        class="mt-7 inline-block rounded-full bg-primary px-6 py-3 text-sm font-bold text-primary-foreground"
+      >
+        Find Your Challenge ↓
+      </a>
+    </div>
+  </section>
+
+  <section id="diagnose" class="bg-white py-16 sm:py-24">
+    <div class="mx-auto max-w-[1536px] px-6 sm:px-8 lg:px-10 xl:px-14">
+      <p class="text-sm font-bold uppercase tracking-[0.375em] text-orange">Where Is the Problem?</p>
+      <h2 class="mt-3 max-w-2xl font-serif text-4xl text-navy sm:text-5xl">Which Problem Looks Most Like Yours?</h2>
+      <p class="mt-4 max-w-xl text-foreground/70">
+        Start with the question you're trying to answer. Select a challenge below to explore where Coherenz can
+        help.
+      </p>
+
+      <ServiceSelector client:visible />
+    </div>
+  </section>
+
+  <section class="bg-navy py-16 text-white sm:py-24">
+    <div class="mx-auto max-w-[1536px] px-6 sm:px-8 lg:px-10 xl:px-14">
+      <p class="text-sm font-bold uppercase tracking-[0.375em] text-orange">The Coherenz View</p>
+      <h2 class="mt-3 max-w-2xl font-serif text-4xl text-white sm:text-5xl">Product Delivery Is a System.</h2>
+      <p class="mt-4 max-w-2xl text-white/70">
+        A portfolio problem can become a delivery problem. A delivery problem can become a capacity problem. A
+        capacity problem can expose quality or coordination issues. And an operating model can either amplify or
+        resolve all of them. Coherenz looks across the system to identify where value is being lost and where
+        intervention can have the greatest impact.
+      </p>
+
+      <div class="mt-[50px] flex flex-col gap-3 lg:flex-row lg:items-stretch lg:gap-0">
+        {systemDimensions.map((dim, i) => {
+          const Icon = dimensionIcons[i];
+          return (
+            <Fragment>
+              {i > 0 && (
+                <div class="hidden shrink-0 items-center justify-center px-4 text-white/30 lg:flex" aria-hidden="true">
+                  →
+                </div>
+              )}
+              <div class="flex flex-1 flex-col gap-3 border border-white/15 bg-white/5 p-5">
+                <span class="flex h-10 w-10 items-center justify-center border border-orange/40 text-orange">
+                  <Icon size={20} stroke={1.8} />
+                </span>
+                <p class="text-xs font-bold uppercase tracking-wide text-orange">{dim.number} — {dim.name}</p>
+                <p class="text-sm text-white/70">{dim.question}</p>
+              </div>
+            </Fragment>
+          );
+        })}
+      </div>
+
+      <p class="mt-[50px] text-center font-serif text-2xl text-white">Different symptoms. Connected system.</p>
     </div>
   </section>
 
   <section class="bg-white py-16 sm:py-24">
     <div class="mx-auto max-w-[1536px] px-6 sm:px-8 lg:px-10 xl:px-14">
-      <div class="grid grid-cols-1 gap-6 lg:grid-cols-2">
-        {services.map(({ Icon, eyebrow, question, lede, tags, note }) => (
-          <div class="border border-line border-t-4 border-t-green bg-white p-8 transition-shadow duration-200 hover:shadow-lg">
-            <div class="flex h-12 w-12 items-center justify-center rounded-full bg-wash-green text-green">
-              <Icon size={24} stroke={1.8} />
-            </div>
-            <p class="mt-5 text-xs font-bold uppercase tracking-wide text-green">{eyebrow}</p>
-            <h3 class="mt-2 font-serif text-2xl text-navy">{question}</h3>
-            {lede && <p class="mt-3 text-sm text-foreground/70">{lede}</p>}
-            <div class="mt-5 flex flex-wrap gap-2">
-              {tags.map((tag) => (
-                <span class="rounded-full border border-line bg-wash-green px-3 py-1 text-xs font-bold text-green">{tag}</span>
-              ))}
-            </div>
-            {note && (
-              <p class="mt-4 text-xs italic text-foreground/60">
-                This is where the{' '}
-                <a href={`${base}programs`} class="font-bold not-italic text-orange">6-Week Stabilization Program</a>{' '}
-                becomes a productized offering.
-              </p>
-            )}
+      <p class="text-sm font-bold uppercase tracking-[0.375em] text-orange">From Diagnosis to Action</p>
+      <h2 class="mt-3 max-w-2xl font-serif text-4xl text-navy sm:text-5xl">
+        Find the Problem. Quantify It. Change What Matters.
+      </h2>
+      <p class="mt-4 max-w-2xl text-foreground/70">
+        Coherenz engagements move from evidence to action. The objective isn't to produce another assessment
+        that sits on a shelf—it's to identify the constraints that matter, prioritize the intervention, and
+        measure whether it creates improvement.
+      </p>
+
+      <div class="mt-[50px] grid grid-cols-1 gap-4 sm:grid-cols-3">
+        {engageStages.map((stage) => (
+          <div class="border border-line bg-wash-blue p-6 text-center">
+            <p class="text-xs font-bold uppercase tracking-wide text-blue">{stage.number}</p>
+            <p class="mt-1 text-lg font-bold uppercase tracking-wide text-navy">{stage.name}</p>
+            <p class="mt-2 text-sm text-foreground/70">{stage.description}</p>
           </div>
         ))}
       </div>
     </div>
   </section>
 
-  <section class="bg-cream py-16 text-center sm:py-24">
+  <section class="bg-cream py-16 sm:py-24">
     <div class="mx-auto max-w-[1536px] px-6 sm:px-8 lg:px-10 xl:px-14">
-      <p class="text-sm font-bold uppercase tracking-[0.375em] text-orange">Packaged Engagements</p>
-      <h2 class="mt-3 font-serif text-4xl text-navy sm:text-5xl">
-        See how these services come together as programs.
+      <p class="text-sm font-bold uppercase tracking-[0.375em] text-orange">Ways to Work Together</p>
+      <h2 class="mt-3 max-w-2xl font-serif text-4xl text-navy sm:text-5xl">
+        Start With the Problem. Choose the Right Engagement.
       </h2>
-      <a
-        href={`${base}programs`}
-        class="mt-7 inline-block rounded-full bg-primary px-6 py-3 text-sm font-bold text-primary-foreground"
-      >
-        View Programs →
-      </a>
+      <p class="mt-4 max-w-2xl text-foreground/70">
+        Services describe where Coherenz can help. Programs provide focused ways to engage that expertise.
+      </p>
+
+      <div class="mt-[50px] grid grid-cols-1 gap-6 sm:grid-cols-2">
+        {programs.map((program, i) => {
+          const Icon = programIcons[i];
+          return (
+            <div class="border border-line border-t-4 border-t-orange bg-white p-8">
+              <span class="flex h-12 w-12 items-center justify-center bg-wash-blue text-orange">
+                <Icon size={24} stroke={1.8} />
+              </span>
+              <h3 class="mt-5 font-serif text-2xl text-navy">{program.name}</h3>
+              <p class="mt-2 text-sm font-semibold text-navy">{program.tagline}</p>
+              <p class="mt-3 text-sm text-foreground/70">{program.description}</p>
+              <a href={`${base}programs`} class="mt-5 inline-flex items-center gap-2 text-sm font-bold text-orange">
+                {program.ctaText} →
+              </a>
+            </div>
+          );
+        })}
+      </div>
     </div>
   </section>
 
-  <FinalCta />
+  <FinalCta
+    eyebrow="Find the Leakage"
+    body="Whether the challenge is investment, delivery, capacity or organizational scale, Coherenz helps identify what is getting in the way—and where to focus first."
+    ctaText="Start a Conversation →"
+    secondaryCtaText="Explore Coherenz Insights →"
+    secondaryCtaHref={`${base}insights`}
+  >
+    <Fragment slot="headline">Better Decisions Start With Seeing the System Clearly.</Fragment>
+  </FinalCta>
   <Footer />
 </Layout>
 
