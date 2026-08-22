@@ -1,0 +1,176 @@
+---
+// Ported from the vanilla services.html — same real copy (four service
+// "detail-block" cards, each keyed to a business question), same section
+// order. Card treatment follows DESIGN.md §6's Service = green top-edge
+// rule (not yet used elsewhere in the rebuild, since no other page has
+// shipped a Service-type card yet).
+import Layout from '../layouts/Layout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import FinalCta from '../components/FinalCta.astro';
+import { base } from '../lib/base';
+import { IconCompass, IconCalculator, IconShieldCheck, IconHierarchy3 } from '@tabler/icons-react';
+
+const services = [
+  {
+    Icon: IconCompass,
+    eyebrow: 'Product & Portfolio Strategy',
+    question: 'Are you investing in the right things?',
+    lede: 'Help organizations translate strategy into product investment decisions.',
+    tags: [
+      'Product strategy',
+      'Portfolio prioritization',
+      'Roadmap strategy',
+      'Value assessment',
+      'Cost of Delay',
+      'CD3 / WSJF',
+      'Product investment governance',
+    ],
+  },
+  {
+    Icon: IconCalculator,
+    eyebrow: 'Product Delivery Economics™',
+    question: 'Are you getting enough value from your delivery capacity?',
+    tags: [
+      'Delivery economics assessment',
+      'Prioritization model',
+      'Flow analysis',
+      'Throughput',
+      'Cycle Time',
+      'WIP',
+      'Coordination drag',
+      'Capacity analysis',
+      'Quality economics',
+    ],
+  },
+  {
+    Icon: IconShieldCheck,
+    eyebrow: 'Delivery Stabilization',
+    question: 'Is your delivery system struggling to keep up?',
+    tags: [
+      'Delivery diagnostics',
+      'Bottleneck identification',
+      'Dependency management',
+      'Flow improvement',
+      'Predictability',
+      'Quality guardrails',
+      'Operating rhythm',
+      'Leadership visibility',
+    ],
+    note: true,
+  },
+  {
+    Icon: IconHierarchy3,
+    eyebrow: 'Product Operating Model',
+    question: 'Is your organization ready to scale?',
+    tags: [
+      'Product operating model',
+      'Roles & responsibilities',
+      'Product/delivery governance',
+      'Portfolio management',
+      'Team topology',
+      'Decision rights',
+      'Metrics',
+      'Product leadership',
+    ],
+  },
+];
+---
+
+<Layout
+  title="Services — Coherenz"
+  description="Coherenz organizes services around business problems: Product & Portfolio Strategy, Product Delivery Economics, Delivery Stabilization, and Product Operating Model."
+>
+  <Nav />
+
+  <section id="services-hero" class="relative flex min-h-[70vh] items-end overflow-hidden bg-navy">
+    <video
+      id="services-hero-video"
+      class="absolute inset-0 h-full w-full object-cover"
+      autoplay
+      muted
+      loop
+      playsinline
+    >
+      <source src={`${base}video/services-hero.mp4`} type="video/mp4" />
+    </video>
+    <div class="absolute inset-0 bg-gradient-to-t from-navy via-navy/70 to-navy/20" />
+    <div class="relative mx-auto w-full max-w-[1536px] px-6 py-20 sm:px-8 lg:px-10 xl:px-14">
+      <p class="text-sm font-bold uppercase tracking-[0.375em] text-orange">Services</p>
+      <h1 class="mt-3 max-w-2xl font-serif text-4xl text-white sm:text-5xl">
+        We organize services around business problems, not a menu of offerings.
+      </h1>
+      <p class="mt-4 max-w-xl text-white/75">Four questions. Four ways we help you answer them.</p>
+    </div>
+  </section>
+
+  <section class="bg-white py-16 sm:py-24">
+    <div class="mx-auto max-w-[1536px] px-6 sm:px-8 lg:px-10 xl:px-14">
+      <div class="grid grid-cols-1 gap-6 lg:grid-cols-2">
+        {services.map(({ Icon, eyebrow, question, lede, tags, note }) => (
+          <div class="border border-line border-t-4 border-t-green bg-white p-8 transition-shadow duration-200 hover:shadow-lg">
+            <div class="flex h-12 w-12 items-center justify-center rounded-full bg-wash-green text-green">
+              <Icon size={24} stroke={1.8} />
+            </div>
+            <p class="mt-5 text-xs font-bold uppercase tracking-wide text-green">{eyebrow}</p>
+            <h3 class="mt-2 font-serif text-2xl text-navy">{question}</h3>
+            {lede && <p class="mt-3 text-sm text-foreground/70">{lede}</p>}
+            <div class="mt-5 flex flex-wrap gap-2">
+              {tags.map((tag) => (
+                <span class="rounded-full border border-line bg-wash-green px-3 py-1 text-xs font-bold text-green">{tag}</span>
+              ))}
+            </div>
+            {note && (
+              <p class="mt-4 text-xs italic text-foreground/60">
+                This is where the{' '}
+                <a href={`${base}programs`} class="font-bold not-italic text-orange">6-Week Stabilization Program</a>{' '}
+                becomes a productized offering.
+              </p>
+            )}
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-cream py-16 text-center sm:py-24">
+    <div class="mx-auto max-w-[1536px] px-6 sm:px-8 lg:px-10 xl:px-14">
+      <p class="text-sm font-bold uppercase tracking-[0.375em] text-orange">Packaged Engagements</p>
+      <h2 class="mt-3 font-serif text-4xl text-navy sm:text-5xl">
+        See how these services come together as programs.
+      </h2>
+      <a
+        href={`${base}programs`}
+        class="mt-7 inline-block rounded-full bg-primary px-6 py-3 text-sm font-bold text-primary-foreground"
+      >
+        View Programs →
+      </a>
+    </div>
+  </section>
+
+  <FinalCta />
+  <Footer />
+</Layout>
+
+<script>
+  // Same off-screen pause pattern as the Approach page's hero video -- a
+  // looping autoplay video keeps decoding/buffering frames indefinitely
+  // even while scrolled far out of view.
+  function initServicesHeroVideoPause() {
+    const section = document.getElementById('services-hero');
+    const video = document.getElementById('services-hero-video') as HTMLVideoElement | null;
+    if (!section || !video) return;
+
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) video.play().catch(() => {});
+        else video.pause();
+      },
+      { threshold: 0 }
+    );
+    io.observe(section);
+  }
+
+  initServicesHeroVideoPause();
+  document.addEventListener('astro:page-load', initServicesHeroVideoPause);
+</script>
