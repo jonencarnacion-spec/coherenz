@@ -83,7 +83,7 @@ function BentoCard({ label, Icon, accent, image, imageAlt, description, classNam
         alt={imageAlt}
         className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
       />
-      <div className="relative mt-auto border-t border-white/30 bg-white/50 p-6 backdrop-blur-md">
+      <div className="relative mt-auto border-t border-white/30 bg-gradient-to-r from-white/70 to-white/10 p-6 backdrop-blur-md">
         <div className="flex items-center gap-2">
           <Icon size={22} strokeWidth={1.8} className={accent} />
           <p className="text-xl font-extrabold uppercase tracking-wide text-navy">{label}</p>

@@ -84,7 +84,7 @@ function Artifact({ node }: { node: Extract<PdeosFlowNode, { t: 'artifact' }> })
 
 function CaseBox({ node }: { node: Extract<PdeosFlowNode, { t: 'case' }> }) {
   return (
-    <div className="rounded-xl border border-orange/40 bg-orange/5 p-5">
+    <div className={cn('rounded-xl border border-orange/40 bg-orange/5 p-5', node.matchStepWidth && 'mx-auto w-3/5')}>
       <p className="text-xs font-bold uppercase tracking-wide text-orange">{node.label}</p>
       <p className="mt-1.5 text-sm text-navy">{node.sub}</p>
     </div>
@@ -171,7 +171,7 @@ function ToggleStep({
         onClick={onToggle}
         aria-expanded={isOpen}
         className={cn(
-          'mx-auto flex w-3/5 items-center justify-between gap-3 rounded-xl border p-3 text-center transition-colors',
+          'mx-auto flex w-3/5 cursor-pointer items-center justify-between gap-3 rounded-xl border p-3 text-center transition-colors',
           nested ? 'border-line bg-white' : 'border-line bg-wash-blue hover:bg-wash-blue/70'
         )}
       >
@@ -183,6 +183,7 @@ function ToggleStep({
       </button>
       {isOpen && (
         <div className="mt-2 space-y-2">
+          <Connector />
           <BlockList blocks={block.children} openSet={openSet} onToggleIndex={onToggleIndex} />
         </div>
       )}
@@ -232,13 +233,15 @@ function BlockList({
 
 export default function PdeosFlow({ flow, phaseKey }: { flow: PdeosFlowNode[]; phaseKey: number }) {
   const blocks = useMemo(() => buildBlocks(flow), [flow]);
-  const firstToggleIndex = blocks.find((b) => b.kind === 'toggle')?.index ?? null;
-  const [openSet, setOpenSet] = useState<Set<number>>(() => new Set(firstToggleIndex !== null ? [firstToggleIndex] : []));
+  // All toggle boxes start collapsed -- on first load and on every phase
+  // switch -- rather than auto-opening the first one, so the reader always
+  // starts from a clean, fully-collapsed flow.
+  const [openSet, setOpenSet] = useState<Set<number>>(() => new Set());
   const containerRef = useRef<HTMLDivElement>(null);
 
   // Reset which step is expanded whenever the active phase changes.
   useEffect(() => {
-    setOpenSet(new Set(firstToggleIndex !== null ? [firstToggleIndex] : []));
+    setOpenSet(new Set());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [phaseKey]);
 

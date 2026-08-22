@@ -71,6 +71,42 @@
 .pdeos-detail .research-card.highlight .rc-tag {
   color: var(--pd-orange);
 }
+.pdeos-detail .research-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.pdeos-detail .research-stat {
+  position: relative;
+  padding-left: 16px;
+  font-size: 12.5px;
+  color: var(--pd-ink);
+  font-weight: 500;
+  line-height: 1.5;
+}
+.pdeos-detail .research-stat::before {
+  content: '•';
+  position: absolute;
+  left: 2px;
+  top: 0;
+  color: var(--pd-blue);
+  font-weight: 700;
+}
+.pdeos-detail .research-card.highlight .research-stat::before {
+  color: var(--pd-orange);
+}
+.pdeos-detail .research-stat strong {
+  font-family: var(--font-serif);
+  color: var(--pd-navy);
+  font-weight: 700;
+}
+.pdeos-detail .research-card.highlight .research-stat strong {
+  color: var(--pd-orange);
+}
+
 .pdeos-detail .exp-text {
   font-size: 12.5px;
   color: var(--pd-ink);

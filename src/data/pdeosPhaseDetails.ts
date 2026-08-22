@@ -27,6 +27,7 @@ export interface PdeosFlowCase {
   label: string;
   sub: string;
   highlight?: boolean;
+  matchStepWidth?: boolean;
 }
 export interface PdeosFlowLoop {
   t: 'loop';

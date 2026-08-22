@@ -25,7 +25,7 @@ const questions = [
       'Compare options through economic impact',
       'Prioritize where value is highest',
     ],
-    navy: false,
+    variant: 'blue',
   },
   {
     letters: 'HOW',
@@ -37,7 +37,7 @@ const questions = [
       'Reduce WIP, dependencies, and coordination drag',
       'Align investment to delivery capability',
     ],
-    navy: true,
+    variant: 'navy',
   },
   {
     letters: 'DID',
@@ -49,7 +49,7 @@ const questions = [
       'Link delivery to adoption, revenue, and risk reduction',
       'Learn and reinvest in what works',
     ],
-    navy: false,
+    variant: 'green',
   },
 ];
 ---
@@ -84,13 +84,13 @@ const questions = [
     </div>
   </section>
 
-  <section id="core-idea" class="bg-white py-16 sm:py-24">
+  <section id="core-idea" class="bg-white pt-16 pb-0 sm:pt-24">
     <div class="mx-auto max-w-[1536px] px-6 sm:px-8 lg:px-10 xl:px-14">
       <p class="text-sm font-bold uppercase tracking-[0.375em] text-orange">The Core Idea</p>
       <h2 class="mt-3 max-w-2xl font-serif text-4xl text-navy sm:text-5xl">
         Every organization has five things it can never get more of.
       </h2>
-      <div class="mt-10">
+      <div class="mt-[100px]">
         <ResourceBento client:visible />
       </div>
       <p class="mt-10 max-w-2xl text-lg font-semibold text-navy">
@@ -99,39 +99,55 @@ const questions = [
     </div>
   </section>
 
-  <section id="questions" class="bg-wash-blue py-16 sm:py-24">
+  <section id="questions" class="bg-white pt-[60px] pb-16 sm:pb-24">
     <div class="mx-auto max-w-[1536px] px-6 sm:px-8 lg:px-10 xl:px-14">
       <p class="text-sm font-bold uppercase tracking-[0.375em] text-orange">The Three Economic Questions</p>
       <h2 class="mt-3 max-w-2xl font-serif text-4xl text-navy sm:text-5xl">
         Coherenz connects value, delivery, and outcome.
       </h2>
+      <p class="mt-4 font-serif text-2xl text-navy">Coherenz connects all three.</p>
 
-      <div class="mt-10 grid grid-cols-1 gap-5 lg:grid-cols-3">
-        {questions.map(({ letters, sub, Icon, question, points, navy }) => (
-          <div class={`border border-line p-8 ${navy ? 'bg-navy text-white' : 'bg-white text-navy'}`}>
-            <div
-              class={`flex h-12 w-12 items-center justify-center rounded-full ${navy ? 'bg-white/10 text-orange' : 'bg-wash-blue text-blue'}`}
-            >
-              <Icon size={24} strokeWidth={1.8} />
-            </div>
-            <p class="mt-5 text-3xl font-extrabold uppercase tracking-wide">{letters}</p>
-            <p class={`mt-1 text-sm font-bold uppercase tracking-wide ${navy ? 'text-orange' : 'text-blue'}`}>
-              {sub}
-            </p>
-            <p class="mt-4 text-lg font-semibold">{question}</p>
-            <ul class="mt-4 space-y-2">
-              {points.map((point) => (
-                <li class={`flex items-start gap-2 text-sm ${navy ? 'text-white/80' : 'text-foreground/70'}`}>
-                  <IconCircleCheckFilled size={16} class={`mt-0.5 shrink-0 ${navy ? 'text-orange' : 'text-blue'}`} />
-                  {point}
-                </li>
-              ))}
-            </ul>
-          </div>
-        ))}
+      <!-- First-draft stair-step layout (reference: staggered cards linked by
+           right-angle connector lines). Cards keep their existing content;
+           only the arrangement changes -- each card offset lower than the
+           last on lg+, joined by a small connector column between them.
+           Collapses to a plain stacked list below lg since the staircase
+           only reads as intentional with room to breathe horizontally. -->
+      <div class="mt-16 flex flex-col gap-5 lg:flex-row lg:items-start lg:gap-0">
+        {questions.map(({ letters, sub, Icon, question, points, variant }, i) => {
+          const cardBg = variant === 'navy' ? 'bg-navy text-white' : variant === 'green' ? 'bg-wash-green text-navy' : 'bg-wash-blue text-navy';
+          const accent = variant === 'navy' ? 'text-orange' : variant === 'green' ? 'text-green' : 'text-blue';
+          const iconCircleBg = variant === 'navy' ? 'bg-white/10' : 'bg-white';
+          const bodyText = variant === 'navy' ? 'text-white/80' : 'text-foreground/70';
+          const stepOffset = i === 1 ? 'lg:mt-16' : i === 2 ? 'lg:mt-32' : '';
+          return (
+            <Fragment>
+              {i > 0 && (
+                <div class="hidden lg:flex lg:w-10 lg:shrink-0 lg:flex-col lg:items-center" aria-hidden="true">
+                  <div class={`h-px w-full bg-line ${i === 1 ? 'mt-8' : 'mt-24'}`} />
+                  <div class="h-16 w-px bg-line" />
+                </div>
+              )}
+              <div class={`border border-line p-8 lg:flex-1 ${cardBg} ${stepOffset}`}>
+                <div class={`flex h-12 w-12 items-center justify-center rounded-full ${iconCircleBg} ${accent}`}>
+                  <Icon size={24} strokeWidth={1.8} />
+                </div>
+                <p class="mt-5 text-3xl font-extrabold uppercase tracking-wide">{letters}</p>
+                <p class={`mt-1 text-sm font-bold uppercase tracking-wide ${accent}`}>{sub}</p>
+                <p class="mt-4 text-lg font-semibold">{question}</p>
+                <ul class="mt-4 space-y-2">
+                  {points.map((point) => (
+                    <li class={`flex items-start gap-2 text-sm ${bodyText}`}>
+                      <IconCircleCheckFilled size={16} class={`mt-0.5 shrink-0 ${accent}`} />
+                      {point}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </Fragment>
+          );
+        })}
       </div>
-
-      <p class="mt-8 text-center font-serif text-2xl text-navy">Coherenz connects all three.</p>
     </div>
   </section>
 

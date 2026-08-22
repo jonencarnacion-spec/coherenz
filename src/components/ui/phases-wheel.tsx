@@ -76,7 +76,7 @@ export default function PhasesWheel() {
           {/* Same center-bubble branding as the homepage's PdeosWheel above,
               minus its animate-pulse/animate-ping -- this wheel is static, so
               the ongoing animation would be motion with no purpose here. */}
-          <div className="flex h-[180px] w-[180px] items-center justify-center rounded-full bg-gradient-to-br from-orange via-yellow to-green">
+          <div className="flex h-[198px] w-[198px] items-center justify-center rounded-full bg-gradient-to-br from-orange via-yellow to-green">
             <div className="flex h-[125px] w-[125px] flex-col items-center justify-center rounded-full bg-white px-3 text-center">
               <img src={`${base}img/logo-navy.svg`} alt="Coherenz" className="h-4" />
               <p className="mt-1.5 text-[11px] font-extrabold uppercase leading-tight text-navy">
@@ -90,13 +90,21 @@ export default function PhasesWheel() {
         {pdeosStages.map((s, i) => {
           const pos = ellipsePoint(50, 50, 41, i * (360 / N));
           const isActive = i === active;
+          // The dot + label are a flex-col stack, so centering the whole box
+          // with -translate-y-1/2 (as `-translate-x-1/2 -translate-y-1/2`
+          // would) puts the *label's* midpoint on the ellipse, not the dot's
+          // -- pushing the visible dot off the ring by roughly half the
+          // label's height, unevenly depending on each node's angle. Instead
+          // translate X by -50% (safe, symmetric) and Y by exactly half the
+          // dot's own height, so the dot itself sits on the circle.
+          const dotRadiusPx = isActive ? 30 : 22;
           return (
             <button
               key={s.name}
               type="button"
               onClick={() => goToPhase(i)}
-              style={{ left: `${pos.x}%`, top: `${pos.y}%` }}
-              className="absolute flex w-[92px] cursor-pointer -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-1.5"
+              style={{ left: `${pos.x}%`, top: `${pos.y}%`, transform: `translate(-50%, -${dotRadiusPx}px)` }}
+              className="absolute flex w-[92px] cursor-pointer flex-col items-center gap-1.5"
               aria-pressed={isActive}
             >
               <span
@@ -117,8 +125,8 @@ export default function PhasesWheel() {
       </div>
 
       <div className="flex w-full min-w-0 flex-col gap-6">
-        <div className="border border-line bg-white p-6 sm:p-8">
-        <div className="relative -mx-6 -mt-6 overflow-hidden border-b border-line bg-cream px-6 pt-6 pb-4 text-center sm:-mx-8 sm:-mt-8 sm:px-8 sm:pt-8">
+        <div className="border border-line bg-cream p-6 sm:p-8">
+        <div className="relative -mx-6 -mt-6 overflow-hidden border-b border-line bg-navy px-6 pt-6 pb-4 text-center sm:-mx-8 sm:-mt-8 sm:px-8 sm:pt-8">
           <img
             src={`${base}img/monogram.svg`}
             alt=""
@@ -130,11 +138,11 @@ export default function PhasesWheel() {
           >
             {active + 1}
           </span>
-          <h3 className="relative mt-3 font-serif text-2xl text-navy">{stage.name}</h3>
-          <p className="relative mt-1 text-sm italic text-foreground/60">&ldquo;{detail.exq}&rdquo;</p>
+          <h3 className="relative mt-3 font-serif text-2xl text-white">{stage.name}</h3>
+          <p className="relative mt-1 text-sm italic text-white/70">&ldquo;{detail.exq}&rdquo;</p>
         </div>
 
-        <div className="mt-6 grid grid-cols-1 gap-4 rounded-xl bg-wash-blue p-4 text-center sm:grid-cols-3">
+        <div className="mt-[30px] grid grid-cols-1 gap-4 rounded-xl bg-wash-blue p-4 text-center sm:grid-cols-3">
           <div>
             <p className="text-xs font-bold uppercase tracking-wide text-orange">Purpose</p>
             <p className="mt-1 text-sm text-navy">{detail.purpose}</p>
@@ -149,7 +157,7 @@ export default function PhasesWheel() {
           </div>
         </div>
 
-        <p className="mt-6 text-center text-xs font-bold uppercase tracking-wide text-blue">Primary roles in this phase</p>
+        <p className="mt-[30px] text-center text-xs font-bold uppercase tracking-wide text-blue">Primary roles in this phase</p>
         <div className="mt-3 flex flex-wrap justify-center gap-2">
           {detail.roles.map((role) => (
             <span key={role} className="rounded-full border border-line bg-wash-blue px-3 py-1 text-xs font-bold text-blue">
@@ -159,12 +167,12 @@ export default function PhasesWheel() {
         </div>
         {detail.roleNote && <p className="mt-3 text-center text-xs italic text-foreground/50">{detail.roleNote}</p>}
 
-        <p className="mt-8 text-center text-xs font-bold uppercase tracking-wide text-blue">What happens inside this phase</p>
+        <p className="mt-[30px] text-center text-lg font-bold uppercase tracking-wide text-blue">What happens inside this phase</p>
         <div className="mt-4">
           <PdeosFlow flow={detail.flow} phaseKey={active} />
         </div>
 
-        <p className="mt-8 text-center text-xs font-bold uppercase tracking-wide text-blue">Economic spine emphasis</p>
+        <p className="mt-[30px] text-center text-xs font-bold uppercase tracking-wide text-blue">Economic spine emphasis</p>
         <div className="mt-3 flex flex-wrap justify-center gap-2">
           {spineOrder.map((s) => (
             <span
@@ -179,19 +187,21 @@ export default function PhasesWheel() {
           ))}
         </div>
 
-        <p className="mt-6 text-center text-sm text-foreground/70">
+        <p className="mt-[30px] text-center text-sm text-foreground/70">
           <span className="font-bold text-navy">Practices used here: </span>
           {detail.practices}
         </p>
 
         {detail.whyMatters && (
           <>
-            <p className="mt-8 text-center text-sm font-extrabold uppercase tracking-wide text-orange">Why this matters</p>
+            <p className="mt-[30px] border-t border-line pt-6 text-center text-lg font-extrabold uppercase tracking-wide text-orange">
+              Why this matters
+            </p>
             <div className="pdeos-detail mt-4" dangerouslySetInnerHTML={{ __html: detail.whyMatters }} />
           </>
         )}
 
-        <div className="mt-8 flex items-center justify-between gap-4 border-t border-line pt-6">
+        <div className="mt-[30px] flex items-center justify-between gap-4 border-t border-line pt-6">
           <button type="button" onClick={() => goToPhase(prevIndex)} className="flex cursor-pointer flex-col items-start gap-2 text-left">
             <span className="text-xs font-bold uppercase tracking-wide text-foreground/40">Previous Phase</span>
             <span
