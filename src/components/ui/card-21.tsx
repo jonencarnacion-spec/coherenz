@@ -75,7 +75,7 @@ const ChallengeCard = React.forwardRef<HTMLDivElement, ChallengeCardProps>(
         >
           <a
             href={href}
-            className="relative flex h-full w-full flex-col overflow-hidden rounded-lg shadow-lg
+            className="relative flex h-full w-full flex-col overflow-hidden shadow-lg
                        transition-all duration-500 ease-in-out
                        group-hover:scale-105 group-hover:shadow-[0_0_60px_-15px_hsl(var(--theme-color)/0.6)]"
             aria-label={`Explore: ${headline}`}
@@ -83,7 +83,7 @@ const ChallengeCard = React.forwardRef<HTMLDivElement, ChallengeCardProps>(
             {framedImage ? (
               <div className="h-[45%] w-full bg-white p-3">
                 <div
-                  className="h-full w-full rounded-lg bg-cover bg-center transition-transform duration-500 ease-in-out group-hover:scale-110"
+                  className="h-full w-full bg-cover bg-center transition-transform duration-500 ease-in-out group-hover:scale-110"
                   style={{ backgroundImage: `url(${imageUrl})` }}
                 />
               </div>
@@ -148,7 +148,7 @@ const ChallengeCard = React.forwardRef<HTMLDivElement, ChallengeCardProps>(
       >
         <a
           href={href}
-          className="relative block h-full w-full overflow-hidden rounded-lg shadow-lg
+          className="relative block h-full w-full overflow-hidden shadow-lg
                      transition-all duration-500 ease-in-out
                      group-hover:scale-105 group-hover:shadow-[0_0_60px_-15px_hsl(var(--theme-color)/0.6)]"
           aria-label={`Explore: ${headline}`}
