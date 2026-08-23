@@ -7,7 +7,6 @@ import Layout from '../layouts/Layout.astro';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 import FinalCta from '../components/FinalCta.astro';
-import InsightsTeaser from '../components/InsightsTeaser.astro';
 import PdeosWheel from '../components/PdeosWheel.tsx';
 import ResourceBento from '../components/ui/resource-bento.tsx';
 import PhasesWheel from '../components/ui/phases-wheel.tsx';
@@ -110,8 +109,12 @@ const questions = [
        rather than a full section, so the WHAT/HOW/DID framework right
        after it reads as the direct answer to "these decisions are often
        made separately" rather than a new, unrelated topic. -->
-  <section id="bridge" class="bg-navy py-14 sm:py-20">
-    <div class="mx-auto max-w-2xl px-6 text-center sm:px-8">
+  <section id="bridge" class="relative overflow-hidden bg-navy py-14 sm:py-20">
+    <video id="bridge-video" class="absolute inset-0 h-full w-full object-cover" autoplay muted loop playsinline>
+      <source src={`${base}video/approach-bridge-bg.mp4`} type="video/mp4" />
+    </video>
+    <div class="absolute inset-0 bg-navy/70" />
+    <div class="relative mx-auto max-w-2xl px-6 text-center sm:px-8">
       <div class="mx-auto mb-8 h-px w-16 bg-orange" aria-hidden="true" />
       <p class="font-serif text-2xl text-white sm:text-3xl">
         The challenge is that these decisions are often made separately.
@@ -205,7 +208,6 @@ const questions = [
     </div>
   </section>
 
-  <InsightsTeaser />
   <div class="relative overflow-hidden bg-navy">
     <img
       src={`${base}img/monogram.svg`}
@@ -236,10 +238,11 @@ const questions = [
 
   // Same off-screen pause pattern as HeroDuplicate's video -- a looping
   // autoplay video keeps decoding/buffering frames indefinitely even while
-  // scrolled far out of view.
-  function initApproachHeroVideoPause() {
-    const section = document.getElementById('approach-hero');
-    const video = document.getElementById('approach-hero-video') as HTMLVideoElement | null;
+  // scrolled far out of view. Shared by both background videos on this page
+  // (the hero and the narrative-bridge section).
+  function pauseVideoWhenOffscreen(sectionId: string, videoId: string) {
+    const section = document.getElementById(sectionId);
+    const video = document.getElementById(videoId) as HTMLVideoElement | null;
     if (!section || !video) return;
 
     const io = new IntersectionObserver(
@@ -252,8 +255,13 @@ const questions = [
     io.observe(section);
   }
 
-  initApproachHeroVideoPause();
-  document.addEventListener('astro:page-load', initApproachHeroVideoPause);
+  function initApproachVideoPause() {
+    pauseVideoWhenOffscreen('approach-hero', 'approach-hero-video');
+    pauseVideoWhenOffscreen('bridge', 'bridge-video');
+  }
+
+  initApproachVideoPause();
+  document.addEventListener('astro:page-load', initApproachVideoPause);
 
   // Each card's IMAGE top edge should sit at the vertical midpoint of the
   // image before it (HOW's image at WHAT's image midpoint, DID's image at
