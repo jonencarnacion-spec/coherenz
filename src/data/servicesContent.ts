@@ -12,9 +12,40 @@
 // forward-linking pattern already used elsewhere in this rebuild
 // (Nav's Insights/Contact links, FinalCta's Insights link).
 
+export type PillIconName =
+  | 'target'
+  | 'list-numbers'
+  | 'scale'
+  | 'route'
+  | 'coin'
+  | 'hourglass'
+  | 'gavel'
+  | 'report-analytics'
+  | 'adjustments-horizontal'
+  | 'chart-line'
+  | 'gauge'
+  | 'stopwatch'
+  | 'circle-check'
+  | 'affiliate'
+  | 'filter'
+  | 'stethoscope'
+  | 'trending-up'
+  | 'link'
+  | 'chart-bar'
+  | 'shield-check'
+  | 'refresh'
+  | 'eye'
+  | 'sitemap'
+  | 'user-check'
+  | 'users-group'
+  | 'key'
+  | 'briefcase'
+  | 'user-star';
+
 export interface ServicePill {
   title: string;
   description: string;
+  icon: PillIconName;
 }
 
 export interface ServiceDefinition {
@@ -41,30 +72,37 @@ export const services: ServiceDefinition[] = [
         title: 'Product Strategy',
         description:
           'Define where the product should compete, what outcomes matter and which strategic choices should guide investment.',
+        icon: 'target',
       },
       {
         title: 'Portfolio Prioritization',
         description: 'Determine which initiatives deserve scarce investment and delivery capacity.',
+        icon: 'list-numbers',
       },
       {
         title: 'Value Assessment',
         description: 'Evaluate whether opportunities create sufficient customer, business or strategic value.',
+        icon: 'scale',
       },
       {
         title: 'Roadmap & Sequencing',
         description: 'Sequence initiatives based on value, dependencies, urgency and realistic capacity.',
+        icon: 'route',
       },
       {
         title: 'Investment Economics',
         description: 'Make the economic rationale behind product investment more visible.',
+        icon: 'coin',
       },
       {
         title: 'Cost of Delay',
         description: "Understand what waiting really costs—and use urgency as an economic decision signal.",
+        icon: 'hourglass',
       },
       {
         title: 'Product Governance',
         description: 'Create decision mechanisms that keep product investment aligned as priorities and conditions change.',
+        icon: 'gavel',
       },
     ],
     closing: 'Better portfolios start with better decisions about where to invest.',
@@ -81,34 +119,42 @@ export const services: ServiceDefinition[] = [
       {
         title: 'Delivery Economics Assessment',
         description: 'Understand the economic health of the delivery system across value, flow, capacity, quality and coordination.',
+        icon: 'report-analytics',
       },
       {
         title: 'Prioritization Model',
         description: 'Create a practical way to compare competing work based on value, urgency, risk, effort and economic impact.',
+        icon: 'adjustments-horizontal',
       },
       {
         title: 'Flow Analysis',
         description: 'Identify where work slows, waits or accumulates between commitment and outcome.',
+        icon: 'chart-line',
       },
       {
         title: 'Capacity Analysis',
         description: 'Understand where delivery capacity is actually being consumed.',
+        icon: 'gauge',
       },
       {
         title: 'Throughput & Cycle Time',
         description: 'Use delivery flow metrics to understand how quickly and consistently value moves through the system.',
+        icon: 'stopwatch',
       },
       {
         title: 'Quality Economics',
         description: 'Make the capacity and economic impact of defects, remediation and rework visible.',
+        icon: 'circle-check',
       },
       {
         title: 'Coordination Drag',
         description: 'Identify the delivery capacity lost through dependencies, handoffs and organizational friction.',
+        icon: 'affiliate',
       },
       {
         title: 'WIP & Flow Control',
         description: 'Manage work-in-progress to reduce congestion and improve the movement of valuable work.',
+        icon: 'filter',
       },
     ],
     closing: "The goal isn't to make teams busier. It's to make delivery capacity more valuable.",
@@ -125,34 +171,42 @@ export const services: ServiceDefinition[] = [
       {
         title: 'Delivery Diagnostics',
         description: 'Establish a clear view of the health of the delivery system and identify the signals behind instability.',
+        icon: 'stethoscope',
       },
       {
         title: 'Bottleneck Identification',
         description: 'Find the constraints that are limiting throughput and creating delivery delays.',
+        icon: 'filter',
       },
       {
         title: 'Flow Improvement',
         description: 'Improve how work moves through the system by reducing waiting, congestion and unnecessary handoffs.',
+        icon: 'trending-up',
       },
       {
         title: 'Dependency Management',
         description: 'Reduce delays caused by dependencies between teams, products and functions.',
+        icon: 'link',
       },
       {
         title: 'Predictability',
         description: 'Improve confidence in delivery commitments by aligning demand, capacity and flow.',
+        icon: 'chart-bar',
       },
       {
         title: 'Quality Guardrails',
         description: 'Reduce avoidable defects and rework that consume delivery capacity.',
+        icon: 'shield-check',
       },
       {
         title: 'Operating Rhythm',
         description: 'Establish practical planning, review and decision rhythms that support consistent delivery.',
+        icon: 'refresh',
       },
       {
         title: 'Leadership Visibility',
         description: 'Give leaders a clearer view of delivery health, constraints, risks and emerging issues.',
+        icon: 'eye',
       },
     ],
     closing: "Predictability isn't created by adding pressure. It's created by improving the system.",
@@ -169,34 +223,42 @@ export const services: ServiceDefinition[] = [
       {
         title: 'Operating Model Design',
         description: 'Define how product, technology, delivery and leadership should work together.',
+        icon: 'sitemap',
       },
       {
         title: 'Roles & Accountability',
         description: 'Clarify ownership, responsibilities and decision boundaries.',
+        icon: 'user-check',
       },
       {
         title: 'Team Topology',
         description: 'Design team structures and relationships around the way value actually needs to flow.',
+        icon: 'users-group',
       },
       {
         title: 'Decision Rights',
         description: 'Make important product, investment and delivery decisions faster and clearer.',
+        icon: 'key',
       },
       {
         title: 'Product Governance',
         description: 'Create governance that provides alignment and control without unnecessary bureaucracy.',
+        icon: 'gavel',
       },
       {
         title: 'Portfolio Management',
         description: 'Connect strategic priorities, investment decisions and delivery capacity.',
+        icon: 'briefcase',
       },
       {
         title: 'Product Metrics',
         description: 'Establish measures that connect activity and delivery performance to meaningful outcomes.',
+        icon: 'report-analytics',
       },
       {
         title: 'Product Leadership',
         description: 'Strengthen the leadership mechanisms required to operate effectively at scale.',
+        icon: 'user-star',
       },
     ],
     closing: "The goal isn't more structure. It's the right structure for the work.",
