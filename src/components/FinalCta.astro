@@ -59,7 +59,7 @@ const {
         </slot>
       </h2>
       <p class="mt-3 text-white/70">{body}</p>
-      <div class="mt-7 flex flex-wrap items-center gap-4">
+      <div class:list={['mt-7 flex flex-wrap items-center gap-4', { 'justify-center': !showPortrait }]}>
         <a href={ctaHref} class="inline-block rounded-full bg-primary px-6 py-3 text-sm font-bold text-primary-foreground">
           {ctaText}
         </a>

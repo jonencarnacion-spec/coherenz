@@ -1,3 +1,4 @@
+import { cn } from '../lib/utils';
 import { base } from '../lib/base';
 import PdeosOrbitalComparison from './PdeosOrbitalComparison';
 import { IconTargetArrow, IconAdjustmentsHorizontal, IconChartBar, IconRefresh } from '@tabler/icons-react';
@@ -11,23 +12,40 @@ const promises = [
   { icon: IconRefresh, title: 'Continuous learning', desc: 'Feed insights back into the next cycle.' },
 ];
 
+const DEFAULT_HEADLINE = 'The Product Delivery Economics Framework';
+
 export default function PdeosWheel({
   ctaHref = `${base}approach`,
   ctaLabel = 'See the full framework →',
+  eyebrow = 'Coherenz PDE-OS™',
+  headline = DEFAULT_HEADLINE,
+  body,
 }: {
   ctaHref?: string;
   ctaLabel?: string;
+  eyebrow?: string;
+  headline?: string;
+  body?: React.ReactNode;
 }) {
   return (
     <section id="pdeos-wheel-section" className="flex flex-col justify-center bg-wash-green py-8 sm:py-10 lg:min-h-screen">
       <div className="mx-auto max-w-[1536px] px-6 sm:px-8 lg:px-10 xl:px-14">
         <div className="mx-auto max-w-4xl text-center">
-          <p className="text-sm font-bold uppercase tracking-[0.375em] text-orange">Coherenz PDE-OS™</p>
-          <h2 className="mt-3 whitespace-nowrap font-serif text-4xl text-navy sm:text-5xl">The Product Delivery Economics Framework</h2>
+          <p className="text-sm font-bold uppercase tracking-[0.375em] text-orange">{eyebrow}</p>
+          {/* whitespace-nowrap only fits the original, shorter default headline
+              -- an overridden headline (e.g. the longer Approach-page copy)
+              needs to wrap normally on narrower screens instead of overflowing. */}
+          <h2 className={cn('mt-3 font-serif text-4xl text-navy sm:text-5xl', headline === DEFAULT_HEADLINE && 'whitespace-nowrap')}>
+            {headline}
+          </h2>
           <p className="mt-3 text-foreground/70">
-            One continuous cycle for turning delivery into measurable value.
-            <br />
-            Seven phases, one economic thread — from first idea to the lesson that sharpens the next bet.
+            {body ?? (
+              <>
+                One continuous cycle for turning delivery into measurable value.
+                <br />
+                Seven phases, one economic thread — from first idea to the lesson that sharpens the next bet.
+              </>
+            )}
           </p>
           <p className="mt-3">
             <a href={ctaHref} className="font-bold text-orange">

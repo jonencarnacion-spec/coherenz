@@ -17,6 +17,7 @@ import { IconCircleCheckFilled } from '@tabler/icons-react';
 const questions = [
   {
     letters: 'WHAT',
+    shortQuestion: 'Is it worth doing?',
     sub: 'Value Economics',
     image: 'what.jpg',
     question: 'What is the economic value of what we could do?',
@@ -29,6 +30,7 @@ const questions = [
   },
   {
     letters: 'HOW',
+    shortQuestion: 'Can we deliver it efficiently?',
     sub: 'Delivery Economics',
     image: 'how.jpg',
     question: 'How do we deliver the right things economically?',
@@ -41,6 +43,7 @@ const questions = [
   },
   {
     letters: 'DID',
+    shortQuestion: 'Did it create the value we expected?',
     sub: 'Outcome Economics',
     image: 'did.jpg',
     question: 'What economic outcomes did we achieve?',
@@ -84,26 +87,48 @@ const questions = [
     </div>
   </section>
 
-  <section id="core-idea" class="bg-white pt-16 pb-0 sm:pt-24">
+  <section id="core-idea" class="bg-white pt-16 pb-[100px] sm:pt-24">
     <div class="mx-auto max-w-[1536px] px-6 sm:px-8 lg:px-10 xl:px-14">
       <p class="text-sm font-bold uppercase tracking-[0.375em] text-orange">The Core Idea</p>
       <h2 class="mt-3 max-w-2xl font-serif text-4xl text-navy sm:text-5xl">
-        Every organization has five things it can never get more of.
+        Every organization operates with finite resources.
       </h2>
       <div class="mt-[100px]">
         <ResourceBento client:visible />
       </div>
-      <p class="mt-10 max-w-2xl text-lg font-semibold text-navy">
-        Therefore every product decision is ultimately an investment decision.
+      <p class="mx-auto mt-10 max-w-2xl text-center text-[20px] font-semibold text-navy">
+        Every decision competes for a share of them.
+      </p>
+      <p class="mx-auto mt-2 max-w-2xl text-center text-[20px] font-semibold text-navy">
+        Therefore, every product decision is ultimately an investment decision.
       </p>
     </div>
   </section>
 
-  <section id="questions" class="bg-white pt-[60px] pb-16 sm:pb-24">
+  <!-- Narrative bridge (Change Brief §3) -- the only new content block on
+       the page, deliberately lightweight: a narrow centered statement
+       rather than a full section, so the WHAT/HOW/DID framework right
+       after it reads as the direct answer to "these decisions are often
+       made separately" rather than a new, unrelated topic. -->
+  <section id="bridge" class="bg-navy py-14 sm:py-20">
+    <div class="mx-auto max-w-2xl px-6 text-center sm:px-8">
+      <div class="mx-auto mb-8 h-px w-16 bg-orange" aria-hidden="true" />
+      <p class="font-serif text-2xl text-white sm:text-3xl">
+        The challenge is that these decisions are often made separately.
+      </p>
+      <p class="mt-4 text-white/70">
+        Product teams decide what to pursue. Delivery teams focus on execution. Leaders measure results later.
+        But the connection between investment, delivery, and outcomes is not always visible.
+      </p>
+      <p class="mt-6 text-lg font-bold text-orange">Coherenz connects the decisions across the system.</p>
+    </div>
+  </section>
+
+  <section id="questions" class="bg-white pt-[100px] pb-16 sm:pb-24">
     <div class="mx-auto max-w-[1536px] px-6 sm:px-8 lg:px-10 xl:px-14">
       <p class="text-sm font-bold uppercase tracking-[0.375em] text-orange">The Three Economic Questions</p>
       <h2 class="mt-3 max-w-2xl font-serif text-4xl text-navy sm:text-5xl">
-        Coherenz connects value, delivery, and outcome.
+        Coherenz connects the investment, the delivery, and the return.
       </h2>
       <p class="mt-4 max-w-2xl text-lg font-semibold text-navy">
         Most teams answer these separately, if at all. Coherenz ties them into a single economic thread — from decision to delivery to result.
@@ -116,7 +141,7 @@ const questions = [
            Collapses to a plain stacked list below lg since the staircase
            only reads as intentional with room to breathe horizontally. -->
       <div class="mt-[100px] flex flex-col gap-5 lg:flex-row lg:items-start lg:gap-0">
-        {questions.map(({ letters, sub, image, question, points, variant }, i) => {
+        {questions.map(({ letters, shortQuestion, sub, image, question, points, variant }, i) => {
           const accent = variant === 'navy' ? 'text-orange' : variant === 'green' ? 'text-green' : 'text-blue';
           return (
             <Fragment>
@@ -135,8 +160,9 @@ const questions = [
                     <img src={`${base}img/what-how-did/${image}`} alt="" class="h-full w-full object-cover" />
                   </div>
                   <p class="mt-6 text-3xl font-extrabold uppercase tracking-wide text-navy">{letters}</p>
-                  <p class={`mt-1 text-sm font-bold uppercase tracking-wide ${accent}`}>{sub}</p>
-                  <p class="mt-4 text-lg font-semibold text-navy">{question}</p>
+                  <p class="mt-2 text-xl font-semibold text-navy">{shortQuestion}</p>
+                  <p class={`mt-3 text-sm font-bold uppercase tracking-wide ${accent}`}>{sub}</p>
+                  <p class="mt-3 text-sm text-foreground/70">{question}</p>
                   <ul class="mt-4 space-y-2">
                     {points.map((point) => (
                       <li class="flex items-start gap-2 text-sm text-foreground/70">
@@ -151,15 +177,24 @@ const questions = [
           );
         })}
       </div>
+
+      <p class="mt-[60px] text-center font-serif text-2xl text-navy">Coherenz connects all three.</p>
     </div>
   </section>
 
-  <PdeosWheel client:visible ctaHref="#phases" ctaLabel="See details on all 7 phases below ↓" />
+  <PdeosWheel
+    client:visible
+    eyebrow="Product Delivery Economics™"
+    headline="From connected decisions to continuous learning."
+    body="PDE-OS™ is how we connect investment, delivery, and outcomes throughout the product delivery lifecycle."
+    ctaHref="#phases"
+    ctaLabel="See details on all 7 phases below ↓"
+  />
 
   <section id="phases" class="bg-white py-16 sm:py-24">
     <div class="mx-auto max-w-[1536px] px-6 sm:px-8 lg:px-10 xl:px-14">
       <p class="text-sm font-bold uppercase tracking-[0.375em] text-orange">The Operating Model</p>
-      <h2 class="mt-3 max-w-2xl font-serif text-4xl text-navy sm:text-5xl">The Seven Phases</h2>
+      <h2 class="mt-3 max-w-2xl font-serif text-4xl text-navy sm:text-5xl">PDE-OS in Practice</h2>
       <p class="mt-4 max-w-2xl text-foreground/70">
         PDE-OS is a loop, not a line — Learn feeds straight back into Discover. Expand any phase below
         to see its purpose, the question it answers, and what it hands off.
@@ -177,7 +212,19 @@ const questions = [
       alt=""
       class="pointer-events-none absolute -right-6 -top-20 w-96 opacity-[0.22] sm:-right-4 sm:w-[30rem]"
     />
-    <FinalCta showPortrait={false} showMonogram={false} transparent />
+    <FinalCta
+      showPortrait={false}
+      showMonogram={false}
+      transparent
+      eyebrow="What Happens Next"
+      body="Whether the challenge is choosing what to invest in, improving delivery performance, or understanding where capacity is being lost, Coherenz helps connect the decisions that shape outcomes."
+      ctaText="Explore Our Services →"
+      ctaHref={`${base}services`}
+      secondaryCtaText="Talk to Coherenz →"
+      secondaryCtaHref={`${base}contact`}
+    >
+      <Fragment slot="headline">See where better decisions could create greater value.</Fragment>
+    </FinalCta>
     <Footer transparent />
   </div>
 </Layout>
