@@ -16,22 +16,46 @@ import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 import FinalCta from '../components/FinalCta.astro';
 import ServiceSelector from '../components/ui/service-selector.tsx';
+import { ChallengeCard } from '../components/ui/card-21.tsx';
 import { base } from '../lib/base';
 import { systemDimensions, engageStages, programs } from '../data/servicesContent';
-import {
-  IconTarget,
-  IconRoute,
-  IconBackpack,
-  IconClipboardCheck,
-  IconAffiliate,
-  IconSearch,
-  IconShieldCheck,
-  IconHierarchy3,
-  IconPresentation,
-} from '@tabler/icons-react';
+import { IconTarget, IconRoute, IconBackpack, IconClipboardCheck, IconAffiliate } from '@tabler/icons-react';
 
 const dimensionIcons = [IconTarget, IconRoute, IconBackpack, IconClipboardCheck, IconAffiliate];
-const programIcons = [IconSearch, IconShieldCheck, IconHierarchy3, IconPresentation];
+
+// Same ChallengeCard (card-21) used by the homepage's FourProblems section,
+// per Jon's call to make the Programs grid consistent with it -- same
+// split-layout/framed-image/swap-label-cta/left-align-text variant flags.
+// No dedicated program photography exists yet, so these reuse the closest
+// matching approved service images (product-delivery-economics.jpg for
+// the Assessment, delivery-stabilization.jpg for the 6-Week program,
+// product-operating-model.jpg for the Operating Model program) rather than
+// generating new art; the Executive Workshop has no 1:1 service match, so
+// it borrows the Portfolio Strategy image given the shared investment/
+// leadership framing. Theme colors reuse the exact four HSL values
+// FourProblems.astro already established for the brand hues (see that
+// file's comment for the hex -> HSL mapping), so no new colors introduced.
+const programImages = [
+  'services/product-delivery-economics.jpg',
+  'services/delivery-stabilization.jpg',
+  'services/product-operating-model.jpg',
+  'services/product-portfolio-strategy.jpg',
+];
+const programThemeColors = ['36 80% 55%', '212 44% 32%', '47 100% 35%', '165 55% 20%'];
+const programCardItems = programs.map((program, i) => ({
+  imageUrl: `${base}img/${programImages[i]}`,
+  headline: program.name,
+  label: program.tagline,
+  desc: program.description,
+  href: `${base}programs`,
+  themeColor: programThemeColors[i],
+  leftAlignText: true,
+  splitLayout: true,
+  framedImage: true,
+  swapLabelCta: true,
+  compactHeadline: true,
+  ctaLabel: 'Explore this program',
+}));
 ---
 
 <Layout
@@ -108,7 +132,7 @@ const programIcons = [IconSearch, IconShieldCheck, IconHierarchy3, IconPresentat
                 </div>
               )}
               <div class="flex flex-1 flex-col gap-3 border border-white/50 bg-navy/50 p-5">
-                <span class="flex h-10 w-10 items-center justify-center border border-orange/40 text-orange">
+                <span class="flex h-10 w-10 items-center justify-center rounded-full border border-orange/40 text-orange">
                   <Icon size={20} stroke={1.8} />
                 </span>
                 <p class="text-xs font-bold uppercase tracking-wide text-orange">{dim.number} — {dim.name}</p>
@@ -150,10 +174,14 @@ const programIcons = [IconSearch, IconShieldCheck, IconHierarchy3, IconPresentat
             <div class="lg:min-w-0 lg:flex-1" data-e-card={i}>
               <div class="mb-[30px] hidden h-0.5 w-full bg-gray-300 lg:block" aria-hidden="true" />
               <div data-e-reveal>
-                <div class="border border-line bg-wash-blue p-6 text-center" data-e-box>
-                  <p class="text-xs font-bold uppercase tracking-wide text-blue">{stage.number}</p>
-                  <p class="mt-1 text-lg font-bold uppercase tracking-wide text-navy">{stage.name}</p>
-                  <p class="mt-2 text-sm text-foreground/70">{stage.description}</p>
+                <div class="relative aspect-[16/10] w-full overflow-hidden border border-white text-center" data-e-box>
+                  <img src={`${base}img/engage/${stage.name.toLowerCase()}.jpg`} alt="" class="absolute inset-0 h-full w-full object-cover" />
+                  <div class="absolute inset-0 bg-gradient-to-t from-navy/90 via-navy/40 to-transparent" />
+                  <div class="absolute inset-x-0 bottom-0 p-6">
+                    <p class="text-xs font-bold uppercase tracking-wide text-orange">{stage.number}</p>
+                    <p class="mt-1 text-lg font-bold uppercase tracking-wide text-white">{stage.name}</p>
+                    <p class="mt-2 text-sm text-white/80">{stage.description}</p>
+                  </div>
                 </div>
               </div>
             </div>
@@ -174,36 +202,35 @@ const programIcons = [IconSearch, IconShieldCheck, IconHierarchy3, IconPresentat
       </p>
 
       <div class="mt-[50px] grid grid-cols-1 gap-6 sm:grid-cols-2">
-        {programs.map((program, i) => {
-          const Icon = programIcons[i];
-          return (
-            <div class="border border-line border-t-4 border-t-orange bg-white p-8">
-              <span class="flex h-12 w-12 items-center justify-center bg-wash-blue text-orange">
-                <Icon size={24} stroke={1.8} />
-              </span>
-              <h3 class="mt-5 font-serif text-2xl text-navy">{program.name}</h3>
-              <p class="mt-2 text-sm font-semibold text-navy">{program.tagline}</p>
-              <p class="mt-3 text-sm text-foreground/70">{program.description}</p>
-              <a href={`${base}programs`} class="mt-5 inline-flex items-center gap-2 text-sm font-bold text-orange">
-                {program.ctaText} →
-              </a>
-            </div>
-          );
-        })}
+        {programCardItems.map((item) => (
+          <div class="h-[384px]">
+            <ChallengeCard {...item} />
+          </div>
+        ))}
       </div>
     </div>
   </section>
 
-  <FinalCta
-    eyebrow="Find the Leakage"
-    body="Whether the challenge is investment, delivery, capacity or organizational scale, Coherenz helps identify what is getting in the way—and where to focus first."
-    ctaText="Start a Conversation →"
-    secondaryCtaText="Explore Coherenz Insights →"
-    secondaryCtaHref={`${base}insights`}
-  >
-    <Fragment slot="headline">Better Decisions Start With Seeing the System Clearly.</Fragment>
-  </FinalCta>
-  <Footer />
+  <div class="relative overflow-hidden bg-navy">
+    <img
+      src={`${base}img/monogram.svg`}
+      alt=""
+      class="pointer-events-none absolute -right-6 -top-20 w-96 opacity-[0.22] sm:-right-4 sm:w-[30rem]"
+    />
+    <FinalCta
+      showPortrait={false}
+      showMonogram={false}
+      transparent
+      eyebrow="Find the Leakage"
+      body="Whether the challenge is investment, delivery, capacity or organizational scale, Coherenz helps identify what is getting in the way—and where to focus first."
+      ctaText="Start a Conversation →"
+      secondaryCtaText="Explore Coherenz Insights →"
+      secondaryCtaHref={`${base}insights`}
+    >
+      <Fragment slot="headline">Better Decisions Start With Seeing the System Clearly.</Fragment>
+    </FinalCta>
+    <Footer transparent />
+  </div>
 </Layout>
 
 <script>

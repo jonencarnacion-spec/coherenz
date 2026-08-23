@@ -45,6 +45,18 @@ interface ChallengeCardProps extends React.HTMLAttributes<HTMLDivElement> {
    * headline/caption/desc block instead of the default centered text.
    */
   leftAlignText?: boolean;
+  /**
+   * Drops the headline's fixed min-h-[99px] floor (only relevant with
+   * swapLabelCta) so the caption/desc sit immediately below the headline's
+   * own wrapped height instead of always starting at a fixed Y position.
+   * Requested for the Services page's Programs grid, where headline
+   * lengths are short enough that the fixed floor just leaves dead space;
+   * the homepage's FourProblems cards don't pass this, so they keep the
+   * original aligned-CTA behavior.
+   */
+  compactHeadline?: boolean;
+  /** CTA pill label. Defaults to "Explore this challenge" (homepage copy). */
+  ctaLabel?: string;
 }
 
 const ChallengeCard = React.forwardRef<HTMLDivElement, ChallengeCardProps>(
@@ -61,6 +73,8 @@ const ChallengeCard = React.forwardRef<HTMLDivElement, ChallengeCardProps>(
       swapLabelCta,
       desc,
       leftAlignText,
+      compactHeadline,
+      ctaLabel = 'Explore this challenge',
       ...props
     },
     ref
@@ -103,7 +117,7 @@ const ChallengeCard = React.forwardRef<HTMLDivElement, ChallengeCardProps>(
                     // Fixed floor so the CTA below always starts at the same
                     // Y position regardless of how many lines the headline
                     // wraps to (matches the 3-line reference card).
-                    swapLabelCta && 'min-h-[99px]'
+                    swapLabelCta && !compactHeadline && 'min-h-[99px]'
                   )}
                 >
                   {headline}
@@ -130,7 +144,7 @@ const ChallengeCard = React.forwardRef<HTMLDivElement, ChallengeCardProps>(
                            group-hover:border-[hsl(var(--theme-color)/0.5)] group-hover:bg-[hsl(var(--theme-color)/0.2)]"
                 style={{ color: 'hsl(var(--theme-color))' }}
               >
-                <span className="text-sm font-semibold tracking-wide">Explore this challenge</span>
+                <span className="text-sm font-semibold tracking-wide">{ctaLabel}</span>
                 <IconArrowRight className="h-4 w-4 shrink-0 transition-transform duration-300 group-hover:translate-x-1" />
               </div>
             </div>
@@ -176,7 +190,7 @@ const ChallengeCard = React.forwardRef<HTMLDivElement, ChallengeCardProps>(
                          transition-all duration-300
                          group-hover:border-[hsl(var(--theme-color)/0.5)] group-hover:bg-[hsl(var(--theme-color)/0.4)]"
             >
-              <span className="text-sm font-semibold tracking-wide">Explore this challenge</span>
+              <span className="text-sm font-semibold tracking-wide">{ctaLabel}</span>
               <IconArrowRight className="h-4 w-4 shrink-0 transition-transform duration-300 group-hover:translate-x-1" />
             </div>
           </div>
