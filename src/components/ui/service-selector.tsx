@@ -103,33 +103,34 @@ function ServiceBlock({
             </button>
 
             <div className="flex flex-1 flex-col border-t border-line bg-wash-blue/40 p-5 sm:p-8">
-              <p className="text-navy">{service.description}</p>
+              <div className="flex flex-1 flex-col justify-start">
+                <p className="text-navy">{service.description}</p>
 
-              <div className="mt-6 flex flex-wrap justify-center gap-2">
-                {service.pills.map((pill, i) => (
-                  <button
-                    key={pill.title}
-                    type="button"
-                    onClick={() => setOpenPill(openPill === i ? null : i)}
-                    aria-expanded={openPill === i}
-                    className={cn(
-                      'cursor-pointer border px-4 py-2 text-sm font-bold transition-colors',
-                      openPill === i ? 'border-navy bg-navy text-orange' : 'border-line bg-white text-navy hover:border-green hover:text-green'
-                    )}
-                  >
-                    {pill.title}
-                  </button>
-                ))}
+                <div className="mt-6 flex flex-wrap justify-center gap-2">
+                  {service.pills.map((pill, i) => (
+                    <button
+                      key={pill.title}
+                      type="button"
+                      onClick={() => setOpenPill(openPill === i ? null : i)}
+                      aria-expanded={openPill === i}
+                      className={cn(
+                        'cursor-pointer border px-4 py-2 text-sm font-bold transition-colors',
+                        openPill === i ? 'border-navy bg-navy text-orange' : 'border-line bg-white text-navy hover:border-green hover:text-green'
+                      )}
+                    >
+                      {pill.title}
+                    </button>
+                  ))}
+                </div>
               </div>
 
-              {/* Pushed to the bottom of the column so it lines up with the
-                  foot of the (taller) image column, rather than trailing
-                  right after the pills with dead space below it. */}
-              <div className="mt-auto pt-6">
+              {/* Stays pinned to the bottom of the column so it lines up
+                  with the foot of the (taller) image column. */}
+              <div className="pt-6">
                 <p className="font-serif text-xl text-navy">{service.closing}</p>
                 <a
                   href={`${base}services/${service.slug}`}
-                  className="mt-4 inline-flex items-center gap-2 text-sm font-bold text-green"
+                  className="mt-4 inline-flex items-center gap-2 text-sm font-bold text-orange"
                 >
                   {service.ctaText}
                   <IconArrowRight size={16} stroke={2} />
@@ -138,7 +139,7 @@ function ServiceBlock({
             </div>
           </div>
 
-          <div className="relative hidden min-h-[525px] overflow-hidden lg:block">
+          <div className="relative hidden min-h-[492px] overflow-hidden lg:block">
             {/* object-top here has to match the collapsed strip's crop
                 (also object-top, same column width) -- same anchor means
                 growing this container's height doesn't re-crop the image,
@@ -153,14 +154,14 @@ function ServiceBlock({
                 still visible both around the card and through it. */}
             <div
               className={cn(
-                'absolute inset-x-6 top-1/2 -translate-y-1/2 border border-white/20 bg-navy/50 p-6 text-white backdrop-blur-md transition-opacity duration-300 sm:inset-x-8 sm:p-8',
+                'absolute inset-x-6 top-1/2 -translate-y-1/2 border border-white/20 bg-navy/25 p-6 text-white backdrop-blur-md transition-opacity duration-300 sm:inset-x-8 sm:p-8',
                 activePill ? 'opacity-100' : 'pointer-events-none opacity-0'
               )}
             >
               {activePill && (
                 <>
-                  <p className="text-xs font-bold uppercase tracking-wide text-orange">{activePill.title}</p>
-                  <p className="mt-2 text-sm text-white/85">{activePill.description}</p>
+                  <p className="text-[14px] font-bold uppercase tracking-wide text-orange">{activePill.title}</p>
+                  <p className="mt-2 text-[16px] text-white/85">{activePill.description}</p>
                 </>
               )}
             </div>
