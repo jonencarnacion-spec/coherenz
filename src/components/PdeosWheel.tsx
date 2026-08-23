@@ -17,12 +17,14 @@ const DEFAULT_HEADLINE = 'The Product Delivery Economics Framework';
 export default function PdeosWheel({
   ctaHref = `${base}approach`,
   ctaLabel = 'See the full framework →',
+  showCta = true,
   eyebrow = 'Coherenz PDE-OS™',
   headline = DEFAULT_HEADLINE,
   body,
 }: {
   ctaHref?: string;
   ctaLabel?: string;
+  showCta?: boolean;
   eyebrow?: string;
   headline?: string;
   body?: React.ReactNode;
@@ -47,11 +49,13 @@ export default function PdeosWheel({
               </>
             )}
           </p>
-          <p className="mt-3">
-            <a href={ctaHref} className="font-bold text-orange">
-              {ctaLabel}
-            </a>
-          </p>
+          {showCta && (
+            <p className="mt-3">
+              <a href={ctaHref} className="font-bold text-orange">
+                {ctaLabel}
+              </a>
+            </p>
+          )}
         </div>
       </div>
 

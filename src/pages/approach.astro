@@ -109,14 +109,14 @@ const questions = [
        rather than a full section, so the WHAT/HOW/DID framework right
        after it reads as the direct answer to "these decisions are often
        made separately" rather than a new, unrelated topic. -->
-  <section id="bridge" class="relative overflow-hidden bg-navy py-14 sm:py-20">
+  <section id="bridge" class="relative overflow-hidden bg-navy py-[70px] sm:py-[100px]">
     <video id="bridge-video" class="absolute inset-0 h-full w-full object-cover" autoplay muted loop playsinline>
       <source src={`${base}video/approach-bridge-bg.mp4`} type="video/mp4" />
     </video>
     <div class="absolute inset-0 bg-navy/70" />
     <div class="relative mx-auto max-w-2xl px-6 text-center sm:px-8">
       <div class="mx-auto mb-8 h-px w-16 bg-orange" aria-hidden="true" />
-      <p class="font-serif text-2xl text-white sm:text-3xl">
+      <p class="font-serif text-[28px] text-white sm:text-[34px]">
         The challenge is that these decisions are often made separately.
       </p>
       <p class="mt-4 text-white/70">
@@ -181,7 +181,7 @@ const questions = [
         })}
       </div>
 
-      <p class="mt-[60px] text-center font-serif text-2xl text-navy">Coherenz connects all three.</p>
+      <p class="mt-[60px] text-center font-serif text-[30px] text-navy">Coherenz connects all three.</p>
     </div>
   </section>
 
@@ -190,8 +190,7 @@ const questions = [
     eyebrow="Product Delivery Economics™"
     headline="From connected decisions to continuous learning."
     body="PDE-OS™ is how we connect investment, delivery, and outcomes throughout the product delivery lifecycle."
-    ctaHref="#phases"
-    ctaLabel="See details on all 7 phases below ↓"
+    showCta={false}
   />
 
   <section id="phases" class="bg-white py-16 sm:py-24">
