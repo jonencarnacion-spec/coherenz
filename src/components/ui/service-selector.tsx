@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { cn } from '@/lib/utils';
 import { base } from '../../lib/base';
 import { IconCompass, IconCalculator, IconShieldCheck, IconHierarchy3, IconChevronDown, IconArrowRight } from '@tabler/icons-react';
@@ -52,11 +52,19 @@ function ServiceBlock({
   const Icon = icons[service.iconName];
   const a = accentClasses[accent];
   const activePill = openPill !== null ? service.pills[openPill] : null;
+  const blockRef = useRef<HTMLDivElement>(null);
 
   const imageSrc = `${base}img/services/${service.slug}.jpg`;
 
+  // Centers the expanded panel in the viewport so the whole open card --
+  // description, pills and image -- is visible without the visitor having
+  // to scroll down after clicking, rather than just revealing its top edge.
+  useEffect(() => {
+    if (isOpen) blockRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }, [isOpen]);
+
   return (
-    <div className="border border-line">
+    <div ref={blockRef} className="border border-line">
       {/* The image always lives in the right half of the same grid row, in
           both states -- collapsed shows just its top edge at strip height,
           open grows that same column to full height. Same column position
