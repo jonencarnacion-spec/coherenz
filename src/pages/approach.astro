@@ -437,4 +437,12 @@ const questions = [
 
   initQuestionsAll();
   document.addEventListener('astro:page-load', initQuestionsAll);
+
+  // ScrollTrigger computes each trigger's pixel boundary from the page's
+  // layout at the moment it's created -- but images and the React islands
+  // above this section (ResourceBento, the PDE-OS wheel) finish loading
+  // and shift page height well after that, leaving the cached boundary
+  // stale so the reveal never fires. A refresh once everything has
+  // settled recalculates it against the final layout.
+  window.addEventListener('load', () => ScrollTrigger.refresh());
 </script>

@@ -84,8 +84,10 @@ const programIcons = [IconSearch, IconShieldCheck, IconHierarchy3, IconPresentat
     </div>
   </section>
 
-  <section class="bg-navy py-16 text-white sm:py-24">
-    <div class="mx-auto max-w-[1536px] px-6 sm:px-8 lg:px-10 xl:px-14">
+  <section class="relative overflow-hidden bg-navy py-16 text-white sm:py-24">
+    <img src={`${base}img/coherenz-view-bg.jpg`} alt="" class="absolute inset-0 h-full w-full object-cover" />
+    <div class="absolute inset-0 bg-gradient-to-r from-navy/90 to-navy/30" />
+    <div class="relative mx-auto max-w-[1536px] px-6 sm:px-8 lg:px-10 xl:px-14">
       <p class="text-sm font-bold uppercase tracking-[0.375em] text-orange">The Coherenz View</p>
       <h2 class="mt-3 max-w-2xl font-serif text-4xl text-white sm:text-5xl">Product Delivery Is a System.</h2>
       <p class="mt-4 max-w-2xl text-white/70">
@@ -105,7 +107,7 @@ const programIcons = [IconSearch, IconShieldCheck, IconHierarchy3, IconPresentat
                   →
                 </div>
               )}
-              <div class="flex flex-1 flex-col gap-3 border border-white/15 bg-white/5 p-5">
+              <div class="flex flex-1 flex-col gap-3 border border-white/50 bg-navy/50 p-5">
                 <span class="flex h-10 w-10 items-center justify-center border border-orange/40 text-orange">
                   <Icon size={20} stroke={1.8} />
                 </span>
@@ -121,7 +123,7 @@ const programIcons = [IconSearch, IconShieldCheck, IconHierarchy3, IconPresentat
     </div>
   </section>
 
-  <section class="bg-white py-16 sm:py-24">
+  <section id="engage" class="bg-white py-16 sm:py-24">
     <div class="mx-auto max-w-[1536px] px-6 sm:px-8 lg:px-10 xl:px-14">
       <p class="text-sm font-bold uppercase tracking-[0.375em] text-orange">From Diagnosis to Action</p>
       <h2 class="mt-3 max-w-2xl font-serif text-4xl text-navy sm:text-5xl">
@@ -133,13 +135,29 @@ const programIcons = [IconSearch, IconShieldCheck, IconHierarchy3, IconPresentat
         measure whether it creates improvement.
       </p>
 
-      <div class="mt-[50px] grid grid-cols-1 gap-4 sm:grid-cols-3">
-        {engageStages.map((stage) => (
-          <div class="border border-line bg-wash-blue p-6 text-center">
-            <p class="text-xs font-bold uppercase tracking-wide text-blue">{stage.number}</p>
-            <p class="mt-1 text-lg font-bold uppercase tracking-wide text-navy">{stage.name}</p>
-            <p class="mt-2 text-sm text-foreground/70">{stage.description}</p>
-          </div>
+      <!-- Same staircase layout + connector-line/reveal animation as the
+           Approach page's Three Economic Questions (data-q-*), adapted for
+           cards with no image -- the card's own box stands in for the
+           "image" the original staggering math anchors to. -->
+      <div class="mt-[100px] flex flex-col gap-5 lg:flex-row lg:items-start lg:gap-0">
+        {engageStages.map((stage, i) => (
+          <Fragment>
+            {i > 0 && (
+              <div class="hidden lg:flex lg:w-10 lg:shrink-0 lg:flex-col lg:items-center" aria-hidden="true">
+                <div class="h-16 w-0.5 bg-gray-300" data-e-connector={i - 1} />
+              </div>
+            )}
+            <div class="lg:min-w-0 lg:flex-1" data-e-card={i}>
+              <div class="mb-[30px] hidden h-0.5 w-full bg-gray-300 lg:block" aria-hidden="true" />
+              <div data-e-reveal>
+                <div class="border border-line bg-wash-blue p-6 text-center" data-e-box>
+                  <p class="text-xs font-bold uppercase tracking-wide text-blue">{stage.number}</p>
+                  <p class="mt-1 text-lg font-bold uppercase tracking-wide text-navy">{stage.name}</p>
+                  <p class="mt-2 text-sm text-foreground/70">{stage.description}</p>
+                </div>
+              </div>
+            </div>
+          </Fragment>
         ))}
       </div>
     </div>
@@ -189,6 +207,10 @@ const programIcons = [IconSearch, IconShieldCheck, IconHierarchy3, IconPresentat
 </Layout>
 
 <script>
+  import gsap from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+  gsap.registerPlugin(ScrollTrigger);
+
   // Same off-screen pause pattern as the Approach page's hero video -- a
   // looping autoplay video keeps decoding/buffering frames indefinitely
   // even while scrolled far out of view.
@@ -209,4 +231,136 @@ const programIcons = [IconSearch, IconShieldCheck, IconHierarchy3, IconPresentat
 
   initServicesHeroVideoPause();
   document.addEventListener('astro:page-load', initServicesHeroVideoPause);
+
+  // Ported from the Approach page's Three Economic Questions stair-step
+  // (alignQuestionCards/initQuestionsAnimation) -- same offset-by-previous-
+  // midpoint math and connector-line draw-in, adapted for cards that have
+  // no image: each card's own box (data-e-box) stands in for what used to
+  // be the image, since that's the element the original staggering
+  // measured against.
+  function alignEngageCards() {
+    const cards = Array.from(document.querySelectorAll<HTMLElement>('[data-e-card]'));
+    const boxes = Array.from(document.querySelectorAll<HTMLElement>('[data-e-box]'));
+    const connectors = Array.from(document.querySelectorAll<HTMLElement>('[data-e-connector]'));
+    if (cards.length !== 3 || boxes.length !== 3) return;
+    const [card0, card1, card2] = cards;
+    const [box0, box1, box2] = boxes;
+    const [connector0, connector1] = connectors;
+    const [line0, line1, line2] = cards.map((c) => c.querySelector<HTMLElement>('div'));
+
+    if (!window.matchMedia('(min-width: 1024px)').matches) {
+      [card0, card1, card2].forEach((c) => (c.style.marginTop = ''));
+      [connector0, connector1].forEach((c) => {
+        if (c) {
+          c.style.height = '';
+          c.style.marginTop = '';
+        }
+      });
+      [line0, line1, line2].forEach((l) => {
+        if (l) {
+          l.style.width = '';
+          l.style.marginLeft = '';
+        }
+      });
+      return;
+    }
+
+    const rowTop = card0.getBoundingClientRect().top;
+    const box0Rect = box0.getBoundingClientRect();
+    const mid0 = box0Rect.top + box0Rect.height / 2;
+
+    const offset1 = box1.getBoundingClientRect().top - card1.getBoundingClientRect().top;
+    card1.style.marginTop = `${mid0 - offset1 - rowTop}px`;
+
+    const box1Rect = box1.getBoundingClientRect();
+    const mid1 = box1Rect.top + box1Rect.height / 2;
+
+    const offset2 = box2.getBoundingClientRect().top - card2.getBoundingClientRect().top;
+    card2.style.marginTop = `${mid1 - offset2 - rowTop}px`;
+
+    if (connector0 && line1) {
+      const line1Top = line1.getBoundingClientRect().top;
+      connector0.style.height = `${line1Top - connector0.getBoundingClientRect().top}px`;
+    }
+    if (connector1 && line1 && line2) {
+      const line2Top = line2.getBoundingClientRect().top;
+      const line1Top = line1.getBoundingClientRect().top;
+      connector1.style.marginTop = `${line1Top - rowTop}px`;
+      connector1.style.height = `${line2Top - line1Top}px`;
+    }
+
+    if (line0 && connector0) {
+      const connectorLeft = connector0.getBoundingClientRect().left;
+      const lineLeft = line0.getBoundingClientRect().left;
+      line0.style.width = `${connectorLeft - lineLeft}px`;
+    }
+    if (line1 && connector0 && connector1) {
+      const targetLeft = connector0.getBoundingClientRect().right;
+      const targetRight = connector1.getBoundingClientRect().left;
+      const defaultLeft = card1.getBoundingClientRect().left;
+      line1.style.marginLeft = `${targetLeft - defaultLeft}px`;
+      line1.style.width = `${targetRight - targetLeft}px`;
+    }
+    if (line2 && connector1) {
+      const targetLeft = connector1.getBoundingClientRect().right;
+      const targetRight = box2.getBoundingClientRect().right;
+      const defaultLeft = card2.getBoundingClientRect().left;
+      line2.style.marginLeft = `${targetLeft - defaultLeft}px`;
+      line2.style.width = `${targetRight - targetLeft}px`;
+    }
+  }
+
+  function initEngageAnimation() {
+    const section = document.getElementById('engage');
+    if (!section) return;
+
+    ScrollTrigger.getAll().forEach((st) => {
+      if (st.trigger === section) st.kill();
+    });
+
+    const cards = section.querySelectorAll<HTMLElement>('[data-e-reveal]');
+    const tl = gsap.timeline({
+      scrollTrigger: { trigger: section, start: 'top 75%', once: true },
+      defaults: { ease: 'power3.out' },
+    });
+
+    if (window.matchMedia('(min-width: 1024px)').matches) {
+      const line0 = document.querySelector<HTMLElement>('[data-e-card="0"]')?.querySelector<HTMLElement>('div');
+      const line1 = document.querySelector<HTMLElement>('[data-e-card="1"]')?.querySelector<HTMLElement>('div');
+      const line2 = document.querySelector<HTMLElement>('[data-e-card="2"]')?.querySelector<HTMLElement>('div');
+      const connector0 = document.querySelector<HTMLElement>('[data-e-connector="0"]');
+      const connector1 = document.querySelector<HTMLElement>('[data-e-connector="1"]');
+
+      [line0, connector0, line1, connector1, line2].forEach((el, i) => {
+        if (!el) return;
+        const isVertical = el === connector0 || el === connector1;
+        const prop = isVertical ? 'height' : 'width';
+        const target = parseFloat(el.style[prop] || '0');
+        gsap.set(el, { [prop]: 0 });
+        tl.to(el, { [prop]: target, duration: 1.0 }, i === 0 ? 0 : '-=0.3');
+      });
+    }
+
+    if (cards.length) {
+      gsap.set(cards, { opacity: 0 });
+      tl.to(cards, { opacity: 1, duration: 1.2, stagger: 1 }, '-=0.8');
+    }
+  }
+
+  function initEngageAll() {
+    alignEngageCards();
+    initEngageAnimation();
+  }
+
+  window.addEventListener('resize', alignEngageCards);
+  initEngageAll();
+  document.addEventListener('astro:page-load', initEngageAll);
+
+  // ScrollTrigger computes this section's trigger boundary from the page's
+  // layout at creation time -- but the ServiceSelector island and its
+  // images above this section finish loading and shift page height after
+  // that, leaving the cached boundary stale so the reveal never fires. A
+  // refresh once everything has settled recalculates it against the final
+  // layout (same fix as the Approach page's identical animation).
+  window.addEventListener('load', () => ScrollTrigger.refresh());
 </script>
