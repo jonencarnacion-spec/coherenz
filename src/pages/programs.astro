@@ -21,10 +21,22 @@ import FinalCta from '../components/FinalCta.astro';
 import InsightsTeaser from '../components/InsightsTeaser.astro';
 import { base } from '../lib/base';
 import { programs, programMatches, programWorksSteps } from '../data/programsContent';
-import { IconSearch, IconShieldCheck, IconHierarchy3, IconPresentation, IconCircleCheckFilled, IconArrowRight } from '@tabler/icons-react';
+import {
+  IconSearch,
+  IconShieldCheck,
+  IconHierarchy3,
+  IconPresentation,
+  IconCircleCheckFilled,
+  IconArrowRight,
+  IconEye,
+  IconFocus2,
+  IconRocket,
+  IconRoute,
+} from '@tabler/icons-react';
 
 const programIcons = [IconSearch, IconShieldCheck, IconHierarchy3, IconPresentation];
 const programImages = ['diagnostic.jpg', 'stabilization.jpg', 'operating-model.jpg', 'executive-workshop.jpg'];
+const programWorksIcons = [IconEye, IconFocus2, IconRocket, IconRoute];
 
 // Same four brand hues already established for these exact four programs
 // on the Services page's teaser cards (FourProblems/ChallengeCard usage) --
@@ -165,7 +177,7 @@ function programHref(slug: string) {
           return (
             <a
               href={programHref(match.programSlug)}
-              class="group flex items-center justify-between gap-4 border border-line bg-wash-blue p-6 transition-colors hover:border-blue"
+              class="group flex items-center justify-between gap-4 border border-orange bg-wash-blue p-6 transition-colors hover:border-orange"
             >
               <div>
                 <p class="text-navy">{match.need}</p>
@@ -179,18 +191,32 @@ function programHref(slug: string) {
     </div>
   </section>
 
-  <section class="bg-navy py-16 text-white sm:py-24">
-    <div class="mx-auto max-w-[1536px] px-6 sm:px-8 lg:px-10 xl:px-14">
+  <section class="relative flex min-h-[774px] flex-col justify-center overflow-hidden bg-navy py-16 text-white sm:py-24">
+    <img src={`${base}img/coherenz-view-bg.jpg`} alt="" class="absolute inset-0 h-full w-full object-cover" />
+    <div class="absolute inset-0 bg-gradient-to-b from-navy to-navy/30" />
+    <div class="relative mx-auto max-w-[1536px] px-6 sm:px-8 lg:px-10 xl:px-14">
       <h2 class="max-w-2xl font-serif text-4xl text-white sm:text-5xl">Focused by design. Practical in execution.</h2>
 
-      <div class="mt-[50px] grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        {programWorksSteps.map((step) => (
-          <div class="border border-white/15 bg-white/5 p-5">
-            <p class="text-xs font-bold uppercase tracking-wide text-orange">{step.number}</p>
-            <p class="mt-1 text-lg font-bold text-white">{step.name}</p>
-            <p class="mt-2 text-sm text-white/70">{step.description}</p>
-          </div>
-        ))}
+      <div class="mt-[50px] flex flex-col gap-3 lg:flex-row lg:items-stretch lg:gap-0">
+        {programWorksSteps.map((step, i) => {
+          const StepIcon = programWorksIcons[i];
+          return (
+            <Fragment>
+              {i > 0 && (
+                <div class="hidden shrink-0 items-center justify-center px-4 text-white/30 lg:flex" aria-hidden="true">
+                  →
+                </div>
+              )}
+              <div class="flex flex-1 flex-col gap-3 border border-white/15 bg-white/5 p-5">
+                <span class="flex h-10 w-10 items-center justify-center rounded-full border border-orange/40 text-orange">
+                  <StepIcon size={20} stroke={1.8} />
+                </span>
+                <p class="text-xs font-bold uppercase tracking-wide text-orange">{step.number} — {step.name}</p>
+                <p class="text-sm text-white/70">{step.description}</p>
+              </div>
+            </Fragment>
+          );
+        })}
       </div>
     </div>
   </section>
