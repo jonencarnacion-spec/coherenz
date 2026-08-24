@@ -1,0 +1,226 @@
+---
+// Programs page, built from "Coherenz Programs Page - Content Flow.docx"
+// (assets/programs page/) -- every section, headline, and body copy below
+// follows that doc's structure and wording directly; nothing here is
+// drafted content. See src/data/programsContent.ts for the source data.
+//
+// Per the doc's own "Recommended Relationship Between the Website Pages"
+// note: Approach owns how Coherenz thinks, Services owns what challenges
+// Coherenz solves, and this page owns focused ways to engage -- so this
+// page doesn't re-explain the PDE-OS methodology or re-run the four
+// service questions, it stays scoped to the four programs themselves.
+//
+// Each program CTA links to a dedicated detail page (`/programs/[slug]`)
+// that doesn't exist yet -- same forward-linking pattern already used for
+// `/services/[slug]` elsewhere in this rebuild. Building those detail
+// pages is separate follow-up work.
+import Layout from '../layouts/Layout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import FinalCta from '../components/FinalCta.astro';
+import { base } from '../lib/base';
+import { programs, programMatches, programWorksSteps } from '../data/programsContent';
+import { IconSearch, IconShieldCheck, IconHierarchy3, IconPresentation, IconCircleCheckFilled, IconArrowRight } from '@tabler/icons-react';
+
+const programIcons = [IconSearch, IconShieldCheck, IconHierarchy3, IconPresentation];
+
+// Same four brand hues already established for these exact four programs
+// on the Services page's teaser cards (FourProblems/ChallengeCard usage) --
+// reused here rather than introducing new colors, per DESIGN.md's locked
+// 6-color palette.
+const programAccents = [
+  { border: 'border-t-orange', text: 'text-orange', iconBg: 'bg-orange/10' },
+  { border: 'border-t-blue', text: 'text-blue', iconBg: 'bg-blue/10' },
+  { border: 'border-t-green', text: 'text-green', iconBg: 'bg-green/10' },
+  { border: 'border-t-navy', text: 'text-navy', iconBg: 'bg-navy/10' },
+];
+
+function programHref(slug: string) {
+  return `${base}programs/${slug}`;
+}
+---
+
+<Layout
+  title="Programs — Coherenz"
+  description="Focused programs for the challenges that can't wait. Coherenz Programs provide a clear starting point to diagnose a problem, create clarity, and move toward action."
+>
+  <Nav />
+
+  <section id="programs-hero" class="relative flex min-h-[70vh] items-end overflow-hidden bg-navy">
+    <video id="programs-hero-video" class="absolute inset-0 h-full w-full object-cover" autoplay muted loop playsinline>
+      <source src={`${base}video/programs-hero.mp4`} type="video/mp4" />
+    </video>
+    <div class="absolute inset-0 bg-gradient-to-t from-navy via-navy/70 to-navy/20" />
+    <div class="relative mx-auto w-full max-w-[1536px] px-6 py-20 sm:px-8 lg:px-10 xl:px-14">
+      <p class="text-sm font-bold uppercase tracking-[0.375em] text-orange">Coherenz Programs</p>
+      <h1 class="mt-3 max-w-2xl font-serif text-4xl text-white sm:text-5xl">
+        Focused programs for the challenges that can't wait.
+      </h1>
+      <p class="mt-4 max-w-xl text-white/75">
+        When you know something needs to change—but don't need another open-ended consulting engagement—Coherenz
+        Programs provide a focused way to diagnose the problem, create clarity, and move toward action.
+      </p>
+      <p class="mt-2 max-w-xl text-white/75">
+        Each program is structured around a specific challenge, with a clear objective and practical outcome.
+      </p>
+      <a href="#programs" class="mt-7 inline-block rounded-full bg-primary px-6 py-3 text-sm font-bold text-primary-foreground">
+        Explore the Programs ↓
+      </a>
+    </div>
+  </section>
+
+  <section class="bg-white py-16 sm:py-24">
+    <div class="mx-auto max-w-[1536px] px-6 sm:px-8 lg:px-10 xl:px-14">
+      <p class="text-sm font-bold uppercase tracking-[0.375em] text-orange">A Clear Place to Start</p>
+      <h2 class="mt-3 max-w-2xl font-serif text-4xl text-navy sm:text-5xl">
+        Not every challenge needs a long transformation program.
+      </h2>
+      <p class="mt-4 max-w-2xl text-foreground/70">
+        Some situations require a focused intervention: a clearer picture of where delivery capacity is being
+        lost, a way to stabilize an organization under pressure, or a decision about how the product organization
+        should operate as it grows.
+      </p>
+      <p class="mt-3 max-w-2xl text-foreground/70">
+        Coherenz Programs are designed to create meaningful progress around a specific challenge—without starting
+        with a large, undefined engagement.
+      </p>
+    </div>
+  </section>
+
+  <section id="programs" class="bg-cream py-16 sm:py-24">
+    <div class="mx-auto max-w-[1536px] px-6 sm:px-8 lg:px-10 xl:px-14">
+      <p class="text-sm font-bold uppercase tracking-[0.375em] text-orange">The Four Programs</p>
+      <h2 class="mt-3 max-w-2xl font-serif text-4xl text-navy sm:text-5xl">
+        Focused engagements. Clear outcomes. Practical momentum.
+      </h2>
+
+      <div class="mt-[50px] grid grid-cols-1 gap-6 lg:grid-cols-2">
+        {programs.map((program, i) => {
+          const Icon = programIcons[i];
+          const a = programAccents[i];
+          return (
+            <div class={`border border-line border-t-4 bg-white p-8 ${a.border}`}>
+              <div class="flex items-center justify-between">
+                <p class={`text-xs font-bold uppercase tracking-wide ${a.text}`}>
+                  {program.number} — {program.category}
+                </p>
+                <span class={`flex h-11 w-11 shrink-0 items-center justify-center rounded-full ${a.iconBg} ${a.text}`}>
+                  <Icon size={22} stroke={1.8} />
+                </span>
+              </div>
+              <h3 class="mt-4 font-serif text-2xl text-navy">{program.name}</h3>
+              <p class="mt-2 text-lg font-semibold text-navy">{program.promise}</p>
+              <p class="mt-3 text-sm text-foreground/70">{program.description}</p>
+
+              <div class={`mt-4 border-l-2 pl-4 ${a.border.replace('border-t-', 'border-l-')}`}>
+                <p class="text-xs font-bold uppercase tracking-wide text-foreground/50">Best for organizations asking</p>
+                <p class="mt-1 text-sm italic text-foreground/70">"{program.bestForQuestion}"</p>
+              </div>
+
+              <p class="mt-4 text-xs font-bold uppercase tracking-wide text-foreground/50">You will gain</p>
+              <ul class="mt-2 space-y-2">
+                {program.gains.map((gain) => (
+                  <li class="flex items-start gap-2 text-sm text-foreground/70">
+                    <IconCircleCheckFilled size={16} class={`mt-0.5 shrink-0 ${a.text}`} />
+                    {gain}
+                  </li>
+                ))}
+              </ul>
+
+              <a href={programHref(program.slug)} class={`mt-5 inline-flex items-center gap-2 text-sm font-bold ${a.text}`}>
+                {program.ctaText}
+                <IconArrowRight size={16} stroke={2} />
+              </a>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-white py-16 sm:py-24">
+    <div class="mx-auto max-w-[1536px] px-6 sm:px-8 lg:px-10 xl:px-14">
+      <p class="text-sm font-bold uppercase tracking-[0.375em] text-orange">Find Your Starting Point</p>
+      <h2 class="mt-3 max-w-2xl font-serif text-4xl text-navy sm:text-5xl">What does your organization need right now?</h2>
+
+      <div class="mt-[50px] grid grid-cols-1 gap-4 sm:grid-cols-2">
+        {programMatches.map((match) => {
+          const program = programs.find((p) => p.slug === match.programSlug)!;
+          return (
+            <a
+              href={programHref(match.programSlug)}
+              class="group flex items-center justify-between gap-4 border border-line bg-wash-blue p-6 transition-colors hover:border-blue"
+            >
+              <div>
+                <p class="text-navy">{match.need}</p>
+                <p class="mt-2 text-sm font-bold text-blue">{program.name}</p>
+              </div>
+              <IconArrowRight size={20} stroke={2} class="shrink-0 text-blue transition-transform group-hover:translate-x-1" />
+            </a>
+          );
+        })}
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-navy py-16 text-white sm:py-24">
+    <div class="mx-auto max-w-[1536px] px-6 sm:px-8 lg:px-10 xl:px-14">
+      <h2 class="max-w-2xl font-serif text-4xl text-white sm:text-5xl">Focused by design. Practical in execution.</h2>
+
+      <div class="mt-[50px] grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        {programWorksSteps.map((step) => (
+          <div class="border border-white/15 bg-white/5 p-5">
+            <p class="text-xs font-bold uppercase tracking-wide text-orange">{step.number}</p>
+            <p class="mt-1 text-lg font-bold text-white">{step.name}</p>
+            <p class="mt-2 text-sm text-white/70">{step.description}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <div class="relative overflow-hidden bg-navy">
+    <img
+      src={`${base}img/monogram.svg`}
+      alt=""
+      class="pointer-events-none absolute -right-6 -top-20 w-96 opacity-[0.22] sm:-right-4 sm:w-[30rem]"
+    />
+    <FinalCta
+      showPortrait={false}
+      showMonogram={false}
+      transparent
+      eyebrow="Not Sure Where to Start?"
+      body="You don't need to know exactly what engagement you need. If you can describe what's happening in your product or delivery organization, we can help identify the right place to begin."
+      ctaText="Talk to Coherenz →"
+      ctaHref={`${base}contact`}
+      secondaryCtaText="Explore Our Services →"
+      secondaryCtaHref={`${base}services`}
+    >
+      <Fragment slot="headline">Start with the problem—not the program.</Fragment>
+    </FinalCta>
+    <Footer transparent />
+  </div>
+</Layout>
+
+<script>
+  // Same off-screen pause pattern as the other hero videos on this site --
+  // a looping autoplay video keeps decoding/buffering frames indefinitely
+  // even while scrolled far out of view.
+  function initProgramsHeroVideoPause() {
+    const section = document.getElementById('programs-hero');
+    const video = document.getElementById('programs-hero-video') as HTMLVideoElement | null;
+    if (!section || !video) return;
+
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) video.play().catch(() => {});
+        else video.pause();
+      },
+      { threshold: 0 }
+    );
+    io.observe(section);
+  }
+
+  initProgramsHeroVideoPause();
+  document.addEventListener('astro:page-load', initProgramsHeroVideoPause);
+</script>
