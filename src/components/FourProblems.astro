@@ -60,6 +60,9 @@ const cardItems = problems.map((p) => ({
   // gets a fixed min-height (card-21.tsx) so the CTA lands at the same
   // Y position across all cards regardless of headline length.
   swapLabelCta: true,
+  // Same 2-column, no-fixed-headline-floor layout as the Services page's
+  // "Start With the Problem. Choose the Right Engagement." Programs grid.
+  compactHeadline: true,
 }));
 ---
 
@@ -81,9 +84,9 @@ const cardItems = problems.map((p) => ({
   </div>
 
   <div class="mx-auto mt-[50px] max-w-[1536px] px-6 sm:px-8 lg:px-10 xl:px-14">
-    <div class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+    <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
       {cardItems.map((item) => (
-        <div class="h-[480px]">
+        <div class="h-[384px]">
           <ChallengeCard {...item} />
         </div>
       ))}

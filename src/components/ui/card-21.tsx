@@ -95,7 +95,7 @@ const ChallengeCard = React.forwardRef<HTMLDivElement, ChallengeCardProps>(
             aria-label={`Explore: ${headline}`}
           >
             {framedImage ? (
-              <div className="h-[45%] w-full bg-white p-3">
+              <div className="h-[54%] w-full bg-white p-3">
                 <div
                   className="h-full w-full bg-cover bg-center transition-transform duration-500 ease-in-out group-hover:scale-110"
                   style={{ backgroundImage: `url(${imageUrl})` }}
@@ -103,12 +103,12 @@ const ChallengeCard = React.forwardRef<HTMLDivElement, ChallengeCardProps>(
               </div>
             ) : (
               <div
-                className="h-[45%] w-full bg-cover bg-center transition-transform duration-500 ease-in-out group-hover:scale-110"
+                className="h-[54%] w-full bg-cover bg-center transition-transform duration-500 ease-in-out group-hover:scale-110"
                 style={{ backgroundImage: `url(${imageUrl})` }}
               />
             )}
 
-            <div className="flex h-[55%] w-full flex-col justify-between bg-white p-5 text-navy">
+            <div className="flex h-[46%] w-full flex-col justify-between bg-white p-5 text-navy">
               <div>
                 <h3
                   className={cn(
