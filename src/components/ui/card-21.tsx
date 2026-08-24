@@ -95,7 +95,7 @@ const ChallengeCard = React.forwardRef<HTMLDivElement, ChallengeCardProps>(
             aria-label={`Explore: ${headline}`}
           >
             {framedImage ? (
-              <div className="h-[54%] w-full bg-white p-3">
+              <div className="h-[48%] w-full bg-white p-3">
                 <div
                   className="h-full w-full bg-cover bg-center transition-transform duration-500 ease-in-out group-hover:scale-110"
                   style={{ backgroundImage: `url(${imageUrl})` }}
@@ -103,12 +103,12 @@ const ChallengeCard = React.forwardRef<HTMLDivElement, ChallengeCardProps>(
               </div>
             ) : (
               <div
-                className="h-[54%] w-full bg-cover bg-center transition-transform duration-500 ease-in-out group-hover:scale-110"
+                className="h-[48%] w-full bg-cover bg-center transition-transform duration-500 ease-in-out group-hover:scale-110"
                 style={{ backgroundImage: `url(${imageUrl})` }}
               />
             )}
 
-            <div className="flex h-[46%] w-full flex-col justify-between bg-white p-5 text-navy">
+            <div className="flex h-[52%] w-full flex-col justify-between bg-white p-5 text-navy">
               <div>
                 <h3
                   className={cn(
@@ -137,14 +137,8 @@ const ChallengeCard = React.forwardRef<HTMLDivElement, ChallengeCardProps>(
                 )}
               </div>
 
-              <div
-                className="flex items-center justify-between rounded-lg border border-[hsl(var(--theme-color)/0.3)]
-                           bg-[hsl(var(--theme-color)/0.1)] px-4 py-3
-                           transition-all duration-300
-                           group-hover:border-[hsl(var(--theme-color)/0.5)] group-hover:bg-[hsl(var(--theme-color)/0.2)]"
-                style={{ color: 'hsl(var(--theme-color))' }}
-              >
-                <span className="text-sm font-semibold tracking-wide">{ctaLabel}</span>
+              <div className="mt-auto inline-flex items-center gap-2 pt-5 text-sm font-bold" style={{ color: 'hsl(var(--theme-color))' }}>
+                {ctaLabel}
                 <IconArrowRight className="h-4 w-4 shrink-0 transition-transform duration-300 group-hover:translate-x-1" />
               </div>
             </div>
