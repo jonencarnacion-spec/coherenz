@@ -138,6 +138,11 @@ function programHref(slug: string) {
 
             <div class="relative hidden overflow-hidden border border-line border-t-4 border-t-orange lg:block" data-program-image>
               <img src={`${base}img/programs/${programImages[i]}`} alt="" class="h-full w-full object-cover" />
+              {/* Corner-bracket frame lifted from ElegantCarousel (homepage
+                  Perspectives section) -- same size/position/opacity, tinted
+                  with this program's own accent instead of a per-slide color. */}
+              <div class={`pointer-events-none absolute left-5 top-5 h-10 w-10 border-l-2 border-t-2 opacity-80 ${a.text.replace('text-', 'border-')}`} />
+              <div class={`pointer-events-none absolute bottom-5 right-5 h-10 w-10 border-b-2 border-r-2 opacity-80 ${a.text.replace('text-', 'border-')}`} />
               <div class="absolute inset-x-8 top-1/2 -translate-y-1/2 border border-white/20 bg-navy/25 p-6 text-white backdrop-blur-md">
                 <p class="text-[14px] font-bold uppercase tracking-wide text-orange">Best for organizations asking</p>
                 <p class="mt-2 text-[16px] italic text-white/85">"{program.bestForQuestion}"</p>
