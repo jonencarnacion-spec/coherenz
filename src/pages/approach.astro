@@ -425,8 +425,11 @@ const questions = [
     }
 
     if (cards.length) {
-      gsap.set(cards, { opacity: 0 });
-      tl.to(cards, { opacity: 1, duration: 1.2, stagger: 1 }, '-=0.8');
+      // Fly-in from below (translateY + fade) instead of a plain opacity
+      // fade, matching the same treatment on the Services page's engage
+      // cards.
+      gsap.set(cards, { opacity: 0, y: 40 });
+      tl.to(cards, { opacity: 1, y: 0, duration: 1.2, stagger: 1 }, '-=0.8');
     }
   }
 

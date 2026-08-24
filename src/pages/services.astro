@@ -345,32 +345,47 @@ const programCardItems = programs.map((program, i) => ({
       if (st.trigger === section) st.kill();
     });
 
-    const cards = section.querySelectorAll<HTMLElement>('[data-e-reveal]');
+    const cards = Array.from(section.querySelectorAll<HTMLElement>('[data-e-reveal]'));
     const tl = gsap.timeline({
       scrollTrigger: { trigger: section, start: 'top 75%', once: true },
       defaults: { ease: 'power3.out' },
     });
 
+    // Fly-in from below (translateY + fade) instead of a plain opacity
+    // fade, so each card feels like it's arriving into place rather than
+    // just materializing.
+    if (cards.length) gsap.set(cards, { opacity: 0, y: 40 });
+
     if (window.matchMedia('(min-width: 1024px)').matches) {
-      const line0 = document.querySelector<HTMLElement>('[data-e-card="0"]')?.querySelector<HTMLElement>('div');
-      const line1 = document.querySelector<HTMLElement>('[data-e-card="1"]')?.querySelector<HTMLElement>('div');
-      const line2 = document.querySelector<HTMLElement>('[data-e-card="2"]')?.querySelector<HTMLElement>('div');
-      const connector0 = document.querySelector<HTMLElement>('[data-e-connector="0"]');
-      const connector1 = document.querySelector<HTMLElement>('[data-e-connector="1"]');
+      const lines = [0, 1, 2].map((i) => document.querySelector<HTMLElement>(`[data-e-card="${i}"]`)?.querySelector<HTMLElement>('div'));
+      const connectors = [0, 1].map((i) => document.querySelector<HTMLElement>(`[data-e-connector="${i}"]`));
 
-      [line0, connector0, line1, connector1, line2].forEach((el, i) => {
-        if (!el) return;
-        const isVertical = el === connector0 || el === connector1;
-        const prop = isVertical ? 'height' : 'width';
-        const target = parseFloat(el.style[prop] || '0');
-        gsap.set(el, { [prop]: 0 });
-        tl.to(el, { [prop]: target, duration: 1.0 }, i === 0 ? 0 : '-=0.3');
+      // Each card fades in together with its own entrance line -- not
+      // staggered after a separate block of line-drawing like the
+      // Approach page's version -- so the line and the card's own
+      // gradient/content appear as one motion. The connector bridging to
+      // the next card draws in the gap between each pair, overlapping the
+      // tail of the current step so the whole thing still reads as one
+      // continuous wave left to right. Each line/card step takes 1s.
+      let pos = 0;
+      lines.forEach((line, i) => {
+        if (line) {
+          const target = parseFloat(line.style.width || '0');
+          gsap.set(line, { width: 0 });
+          tl.to(line, { width: target, duration: 1.0 }, pos);
+        }
+        if (cards[i]) tl.to(cards[i], { opacity: 1, y: 0, duration: 1.0 }, pos);
+
+        const connector = connectors[i];
+        if (connector) {
+          const target = parseFloat(connector.style.height || '0');
+          gsap.set(connector, { height: 0 });
+          tl.to(connector, { height: target, duration: 0.8 }, pos + 0.6);
+        }
+        pos += 1.2;
       });
-    }
-
-    if (cards.length) {
-      gsap.set(cards, { opacity: 0 });
-      tl.to(cards, { opacity: 1, duration: 1.2, stagger: 1 }, '-=0.8');
+    } else if (cards.length) {
+      tl.to(cards, { opacity: 1, y: 0, duration: 1.2, stagger: 0.3 }, 0);
     }
   }
 
