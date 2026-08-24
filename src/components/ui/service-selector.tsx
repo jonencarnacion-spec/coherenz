@@ -87,7 +87,7 @@ function ServiceBlock({
             </span>
             <IconChevronDown size={20} stroke={2} className="shrink-0 text-navy/40" />
           </span>
-          <span className="relative hidden overflow-hidden lg:block">
+          <span className="relative hidden overflow-hidden border border-line lg:block">
             <img src={imageSrc} alt="" className="absolute inset-0 h-full w-full object-cover object-top" />
           </span>
         </button>
@@ -147,7 +147,7 @@ function ServiceBlock({
             </div>
           </div>
 
-          <div className="relative hidden min-h-[492px] overflow-hidden lg:block">
+          <div className="relative hidden min-h-[492px] overflow-hidden border border-line lg:block">
             {/* object-top here has to match the collapsed strip's crop
                 (also object-top, same column width) -- same anchor means
                 growing this container's height doesn't re-crop the image,
@@ -155,6 +155,11 @@ function ServiceBlock({
                 already showing, like the two strip states are the top and
                 bottom half of one puzzle piece. */}
             <img src={imageSrc} alt="" className="absolute inset-0 h-full w-full object-cover object-top" />
+            {/* Corner-bracket frame lifted from ElegantCarousel (homepage
+                Perspectives section) -- same size/position/opacity, tinted
+                with this strip's own accent instead of a per-slide color. */}
+            <div className={`pointer-events-none absolute left-5 top-5 h-10 w-10 border-l-2 border-t-2 opacity-80 ${a.text.replace('text-', 'border-')}`} />
+            <div className={`pointer-events-none absolute bottom-5 right-5 h-10 w-10 border-b-2 border-r-2 opacity-80 ${a.text.replace('text-', 'border-')}`} />
             {/* Selecting a pill surfaces its explanation here instead of
                 inline in the text column -- the image area is otherwise
                 just ambient art with nothing to say. A floating glass card
