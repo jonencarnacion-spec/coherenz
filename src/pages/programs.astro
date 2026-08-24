@@ -18,6 +18,7 @@ import Layout from '../layouts/Layout.astro';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 import FinalCta from '../components/FinalCta.astro';
+import InsightsTeaser from '../components/InsightsTeaser.astro';
 import { base } from '../lib/base';
 import { programs, programMatches, programWorksSteps } from '../data/programsContent';
 import { IconSearch, IconShieldCheck, IconHierarchy3, IconPresentation, IconCircleCheckFilled, IconArrowRight } from '@tabler/icons-react';
@@ -99,7 +100,7 @@ function programHref(slug: string) {
           const Icon = programIcons[i];
           const a = programAccents[i];
           return (
-            <div class={`border border-line border-t-4 bg-white p-8 ${a.border}`}>
+            <div class={`flex h-full flex-col border border-line border-t-4 bg-white p-8 ${a.border}`}>
               <div class="flex items-center justify-between">
                 <p class={`text-xs font-bold uppercase tracking-wide ${a.text}`}>
                   {program.number} — {program.category}
@@ -127,7 +128,7 @@ function programHref(slug: string) {
                 ))}
               </ul>
 
-              <a href={programHref(program.slug)} class={`mt-5 inline-flex items-center gap-2 text-sm font-bold ${a.text}`}>
+              <a href={programHref(program.slug)} class={`mt-auto inline-flex items-center gap-2 pt-5 text-sm font-bold ${a.text}`}>
                 {program.ctaText}
                 <IconArrowRight size={16} stroke={2} />
               </a>
@@ -179,6 +180,7 @@ function programHref(slug: string) {
     </div>
   </section>
 
+  <InsightsTeaser />
   <div class="relative overflow-hidden bg-navy">
     <img
       src={`${base}img/monogram.svg`}
