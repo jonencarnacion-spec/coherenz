@@ -1,0 +1,295 @@
+---
+// Per-program detail page -- the forward-linked destination each program
+// card's CTA on /programs already points to (`/programs/${slug}`), built
+// as one dynamic template rather than four hand-written pages since all
+// four programs share the same data shape. Static output (GitHub Pages),
+// so every slug is pre-rendered via getStaticPaths.
+//
+// Structure and section-specific copy (hero, AI-Assisted section,
+// "what we focus on" dimensions, per-program "how it works" steps) follow
+// "Program Detail Pages.docx" (assets/programs page/) directly -- see
+// src/data/programDetailContent.ts for the source data and its own notes
+// on what's verbatim from that doc vs. first-pass page-chrome copy
+// (back-link, cross-sell framing, Final CTA) drafted here the same way
+// services/[slug].astro already draws its own for the Services pillar.
+import Layout from '../../layouts/Layout.astro';
+import Nav from '../../components/Nav.astro';
+import Footer from '../../components/Footer.astro';
+import FinalCta from '../../components/FinalCta.astro';
+import { base } from '../../lib/base';
+import { programs, type ProgramDefinition } from '../../data/programsContent';
+import { programDetails, programAccentKeys, type ProgramDetailContent, type ProgramAccentKey } from '../../data/programDetailContent';
+import {
+  IconSearch,
+  IconShieldCheck,
+  IconHierarchy3,
+  IconPresentation,
+  IconCircleCheckFilled,
+  IconArrowLeft,
+  IconArrowRight,
+  IconTarget,
+  IconRoute,
+  IconGauge,
+  IconAffiliate,
+  IconFocus2,
+  IconGavel,
+  IconUserCheck,
+  IconUsersGroup,
+  IconSitemap,
+  IconRefresh,
+  IconScale,
+  IconFlagCheck,
+  IconTopologyStar3,
+  IconStack2,
+  IconBulb,
+  IconChartDots,
+  IconMessages,
+  IconGitCompare,
+} from '@tabler/icons-react';
+
+const programIcons = [IconSearch, IconShieldCheck, IconHierarchy3, IconPresentation];
+const programImages = ['diagnostic.jpg', 'stabilization.jpg', 'operating-model.jpg', 'executive-workshop.jpg'];
+
+export function getStaticPaths() {
+  // getStaticPaths is hoisted to module scope separately from the rest of
+  // this frontmatter, so it can't see `programImages` declared above --
+  // inlined here rather than referenced.
+  const images = ['diagnostic.jpg', 'stabilization.jpg', 'operating-model.jpg', 'executive-workshop.jpg'];
+  return programs.map((program, i) => ({
+    params: { slug: program.slug },
+    props: {
+      program,
+      detail: programDetails.find((d) => d.slug === program.slug)!,
+      accentKey: programAccentKeys[i % programAccentKeys.length],
+      image: images[i % images.length],
+      index: i,
+    },
+  }));
+}
+
+interface Props {
+  program: ProgramDefinition;
+  detail: ProgramDetailContent;
+  accentKey: ProgramAccentKey;
+  image: string;
+  index: number;
+}
+
+const { program, detail, accentKey, image, index } = Astro.props;
+const HeroIcon = programIcons[index % programIcons.length];
+const otherPrograms = programs.filter((p) => p.slug !== program.slug);
+
+const accentClasses: Record<ProgramAccentKey, { text: string; borderT: string; bg: string; border: string; solidBg: string }> = {
+  orange: { text: 'text-orange', borderT: 'border-t-orange', bg: 'bg-orange/10', border: 'border-orange/30', solidBg: 'bg-orange' },
+  blue: { text: 'text-blue', borderT: 'border-t-blue', bg: 'bg-blue/10', border: 'border-blue/30', solidBg: 'bg-blue' },
+  green: { text: 'text-green', borderT: 'border-t-green', bg: 'bg-green/10', border: 'border-green/30', solidBg: 'bg-green' },
+  navy: { text: 'text-navy', borderT: 'border-t-navy', bg: 'bg-navy/10', border: 'border-navy/30', solidBg: 'bg-navy' },
+};
+const a = accentClasses[accentKey];
+
+const dimensionIcons: Record<string, any> = {
+  value: IconTarget,
+  flow: IconRoute,
+  capacity: IconGauge,
+  quality: IconShieldCheck,
+  coordination: IconAffiliate,
+  focus: IconFocus2,
+  decisions: IconGavel,
+  accountability: IconUserCheck,
+  teams: IconUsersGroup,
+  governance: IconSitemap,
+  rhythms: IconRefresh,
+  'trade-offs': IconScale,
+  outcomes: IconFlagCheck,
+};
+
+const capabilityIcons = {
+  topology: IconTopologyStar3,
+  stack: IconStack2,
+  affiliate: IconAffiliate,
+  bulb: IconBulb,
+  'chart-dots': IconChartDots,
+  messages: IconMessages,
+  refresh: IconRefresh,
+  'git-compare': IconGitCompare,
+  search: IconSearch,
+  sitemap: IconSitemap,
+  scale: IconScale,
+} as const;
+---
+
+<Layout title={`${program.name} — Coherenz`} description={program.description}>
+  <Nav />
+
+  <section class="relative flex min-h-[65vh] items-end overflow-hidden bg-navy">
+    <img src={`${base}img/programs/${image}`} alt="" class="absolute inset-0 h-full w-full object-cover" />
+    <div class="absolute inset-0 bg-gradient-to-t from-navy via-navy/85 to-navy/45" />
+    <div class="relative mx-auto w-full max-w-[1536px] px-6 py-20 sm:px-8 lg:px-10 xl:px-14">
+      <a href={`${base}programs`} class="inline-flex items-center gap-2 text-sm font-bold text-white/80 hover:text-white">
+        <IconArrowLeft size={16} stroke={2} />
+        All Programs
+      </a>
+      <div class="mt-5 flex items-center gap-3">
+        <span class={`flex h-11 w-11 shrink-0 items-center justify-center rounded-full ${a.bg} ${a.text}`}>
+          <HeroIcon size={22} stroke={1.8} />
+        </span>
+        <p class="text-sm font-bold uppercase tracking-[0.375em] text-orange">
+          {program.number} — {detail.heroEyebrow}
+        </p>
+      </div>
+      <h1 class="mt-4 max-w-2xl font-serif text-4xl text-white sm:text-5xl">{detail.heroH1}</h1>
+      {detail.heroSupporting.map((p) => (
+        <p class="mt-4 max-w-xl text-white/80">{p}</p>
+      ))}
+      {detail.aiSupportingLine && <p class="mt-3 max-w-xl text-sm italic text-white/60">{detail.aiSupportingLine}</p>}
+      <a href={`${base}contact`} class="mt-7 inline-block rounded-full bg-primary px-6 py-3 text-sm font-bold text-primary-foreground">
+        {detail.primaryCtaText} →
+      </a>
+    </div>
+  </section>
+
+  <section class="bg-cream py-16 sm:py-24">
+    <div class="mx-auto max-w-[1536px] px-6 text-center sm:px-8 lg:px-10 xl:px-14">
+      <p class="text-sm font-bold uppercase tracking-[0.375em] text-orange">Does This Sound Familiar?</p>
+      <p class="mx-auto mt-5 max-w-3xl font-serif text-3xl italic text-navy sm:text-4xl">"{program.bestForQuestion}"</p>
+    </div>
+  </section>
+
+  <section class="bg-white py-16 sm:py-24">
+    <div class="mx-auto max-w-[1536px] px-6 sm:px-8 lg:px-10 xl:px-14">
+      <p class="text-sm font-bold uppercase tracking-[0.375em] text-orange">{detail.focus.eyebrow}</p>
+      <h2 class="mt-3 max-w-2xl font-serif text-4xl text-navy sm:text-5xl">{detail.focus.headline}</h2>
+      {detail.focus.intro && <p class="mt-4 max-w-2xl text-foreground/70">{detail.focus.intro}</p>}
+
+      <div class="mt-[50px] grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-5">
+        {detail.focus.dimensions.map((dim) => {
+          const DimIcon = dimensionIcons[dim.label.toLowerCase()] ?? IconTarget;
+          return (
+            <div class={`border border-line border-t-4 bg-white p-6 ${a.borderT}`}>
+              <span class={`flex h-11 w-11 items-center justify-center rounded-full ${a.bg} ${a.text}`}>
+                <DimIcon size={20} stroke={1.8} />
+              </span>
+              <p class="mt-4 text-sm font-bold uppercase tracking-wide text-navy">{dim.label}</p>
+              <p class="mt-2 text-sm text-foreground/70">{dim.description}</p>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  </section>
+
+  {detail.aiSection && detail.aiSection.variant === 'full' && (
+    <section class="relative overflow-hidden bg-navy py-16 sm:py-24">
+      <img
+        src={`${base}img/monogram.svg`}
+        alt=""
+        class="pointer-events-none absolute -right-10 -top-16 w-72 opacity-[0.22] sm:-right-6 sm:-top-20 sm:w-96"
+      />
+      <div class="relative mx-auto max-w-[1536px] px-6 sm:px-8 lg:px-10 xl:px-14">
+        <p class="text-sm font-bold uppercase tracking-[0.375em] text-orange">{detail.aiSection.eyebrow}</p>
+        <h2 class="mt-3 max-w-2xl font-serif text-4xl text-white sm:text-5xl">{detail.aiSection.headline}</h2>
+        <p class="mt-4 max-w-2xl text-white/70">{detail.aiSection.description}</p>
+
+        <div class="mt-[50px] grid grid-cols-1 gap-4 sm:grid-cols-2">
+          {detail.aiSection.capabilities.map((cap) => {
+            const CapIcon = capabilityIcons[cap.icon];
+            return (
+              <div class="flex gap-4 border border-white/15 bg-white/5 p-6">
+                <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-orange/40 text-orange">
+                  <CapIcon size={20} stroke={1.8} />
+                </span>
+                <div>
+                  <p class="text-sm font-bold uppercase tracking-wide text-white">{cap.title}</p>
+                  <p class="mt-2 text-sm text-white/70">{cap.description}</p>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        <p class="mt-10 max-w-2xl font-serif text-xl text-white/90">{detail.aiSection.closingStatement}</p>
+      </div>
+    </section>
+  )}
+
+  {detail.howItWorks && (
+    <section class="bg-cream py-16 sm:py-24">
+      <div class="mx-auto max-w-[1536px] px-6 sm:px-8 lg:px-10 xl:px-14">
+        <p class="text-sm font-bold uppercase tracking-[0.375em] text-orange">{detail.howItWorks.heading}</p>
+        <h2 class="mt-3 max-w-2xl font-serif text-4xl text-navy sm:text-5xl">{detail.howItWorks.subheadline}</h2>
+
+        <div class="mt-[50px] flex flex-col gap-4 lg:flex-row">
+          {detail.howItWorks.steps.map((step) => (
+            <div class={`flex-1 border border-line border-t-4 bg-white p-6 ${a.borderT}`}>
+              <p class={`text-xs font-bold uppercase tracking-wide ${a.text}`}>{step.number}</p>
+              <p class="mt-2 font-serif text-xl text-navy">{step.name}</p>
+              {step.description && <p class="mt-3 text-sm text-foreground/70">{step.description}</p>}
+            </div>
+          ))}
+        </div>
+
+        {detail.aiSection && detail.aiSection.variant === 'callout' && (
+          <div class={`mt-10 max-w-3xl border-l-4 bg-white p-6 sm:p-8 ${a.borderT.replace('border-t-', 'border-l-')}`}>
+            <p class="text-xs font-bold uppercase tracking-wide text-orange">{detail.aiSection.eyebrow}</p>
+            <p class="mt-3 text-navy">{detail.aiSection.description}</p>
+            <p class="mt-4 font-serif text-lg text-navy">{detail.aiSection.closingStatement}</p>
+          </div>
+        )}
+      </div>
+    </section>
+  )}
+
+  <section class="bg-white py-16 sm:py-24">
+    <div class="mx-auto max-w-[1536px] px-6 sm:px-8 lg:px-10 xl:px-14">
+      <p class="text-sm font-bold uppercase tracking-[0.375em] text-orange">What You Leave With</p>
+      <h2 class="mt-3 max-w-2xl font-serif text-4xl text-navy sm:text-5xl">{program.promise}</h2>
+
+      <div class="mt-[50px] grid grid-cols-1 gap-4 sm:grid-cols-2">
+        {program.gains.map((gain) => (
+          <div class="flex items-start gap-3 border border-line bg-white p-5">
+            <IconCircleCheckFilled size={20} class={`mt-0.5 shrink-0 ${a.text}`} />
+            <p class="text-navy">{gain}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-navy py-16 sm:py-24">
+    <div class="mx-auto max-w-[1536px] px-6 sm:px-8 lg:px-10 xl:px-14">
+      <p class="text-sm font-bold uppercase tracking-[0.375em] text-orange">Not the Right Fit?</p>
+      <h2 class="mt-3 max-w-2xl font-serif text-4xl text-white sm:text-5xl">Explore the Other Programs</h2>
+
+      <div class="mt-[50px] grid grid-cols-1 gap-6 sm:grid-cols-3">
+        {otherPrograms.map((other) => (
+          <a
+            href={`${base}programs/${other.slug}`}
+            class="group block border border-white/15 bg-white/5 p-6 transition-colors hover:border-orange"
+          >
+            <p class="text-xs font-bold uppercase tracking-wide text-orange">
+              {other.number} — {other.category}
+            </p>
+            <p class="mt-3 text-lg font-semibold text-white">{other.name}</p>
+            <p class="mt-2 text-sm text-white/70">{other.promise}</p>
+            <span class="mt-4 inline-flex items-center gap-2 text-sm font-bold text-orange">
+              {other.ctaText}
+              <IconArrowRight size={16} stroke={2} class="transition-transform group-hover:translate-x-1" />
+            </span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <FinalCta
+    showPortrait={false}
+    eyebrow={detail.finalCta.eyebrow}
+    body={program.description}
+    ctaText="Talk to Coherenz →"
+    secondaryCtaText="Explore All Programs →"
+    secondaryCtaHref={`${base}programs`}
+  >
+    <Fragment slot="headline">{detail.finalCta.headline}</Fragment>
+  </FinalCta>
+  <Footer />
+</Layout>
