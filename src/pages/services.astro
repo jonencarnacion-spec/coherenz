@@ -27,28 +27,35 @@ const dimensionIcons = [IconTarget, IconRoute, IconBackpack, IconClipboardCheck,
 // Same ChallengeCard (card-21) used by the homepage's FourProblems section,
 // per Jon's call to make the Programs grid consistent with it -- same
 // split-layout/framed-image/swap-label-cta/left-align-text variant flags.
-// No dedicated program photography exists yet, so these reuse the closest
-// matching approved service images (product-delivery-economics.jpg for
-// the Assessment, delivery-stabilization.jpg for the 6-Week program,
-// product-operating-model.jpg for the Operating Model program) rather than
-// generating new art; the Executive Workshop has no 1:1 service match, so
-// it borrows the Portfolio Strategy image given the shared investment/
-// leadership framing. Theme colors reuse the exact four HSL values
-// FourProblems.astro already established for the brand hues (see that
-// file's comment for the hex -> HSL mapping), so no new colors introduced.
+// Uses the dedicated program photography (assets/programs page/images/,
+// also used for the Programs page's own per-program image panels) rather
+// than the earlier placeholder reuse of service images. Theme colors reuse
+// the exact four HSL values FourProblems.astro already established for the
+// brand hues (see that file's comment for the hex -> HSL mapping), so no
+// new colors introduced.
 const programImages = [
-  'services/product-delivery-economics.jpg',
-  'services/delivery-stabilization.jpg',
-  'services/product-operating-model.jpg',
-  'services/product-portfolio-strategy.jpg',
+  'programs/diagnostic.jpg',
+  'programs/stabilization.jpg',
+  'programs/operating-model.jpg',
+  'programs/executive-workshop.jpg',
 ];
 const programThemeColors = ['36 80% 55%', '212 44% 32%', '47 100% 35%', '165 55% 20%'];
+// Slugs match the section ids programs.astro assigns each program (its
+// own data's `slug` field, from programsContent.ts) -- same order as this
+// page's `programs` (servicesContent.ts), so these anchor straight to the
+// matching program section instead of just the top of the Programs page.
+const programSlugs = [
+  'product-delivery-economics-assessment',
+  '6-week-delivery-stabilization',
+  'product-operating-model-design',
+  'executive-product-economics-workshop',
+];
 const programCardItems = programs.map((program, i) => ({
   imageUrl: `${base}img/${programImages[i]}`,
   headline: program.name,
   label: program.tagline,
   desc: program.description,
-  href: `${base}programs`,
+  href: `${base}programs#${programSlugs[i]}`,
   themeColor: programThemeColors[i],
   leftAlignText: true,
   splitLayout: true,
