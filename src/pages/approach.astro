@@ -152,13 +152,18 @@ const questions = [
                 <div class="hidden lg:flex lg:w-10 lg:shrink-0 lg:flex-col lg:items-center" aria-hidden="true">
                   <div
                     class="h-16 w-0.5 bg-gray-300"
+                    style="height: 0"
                     data-q-connector={i === 1 ? 'what-how' : i === 2 ? 'how-did' : undefined}
                   />
                 </div>
               )}
               <div class="lg:min-w-0 lg:flex-1" data-q-card={i === 0 ? 'what' : i === 1 ? 'how' : i === 2 ? 'did' : undefined}>
-                <div class="mb-[30px] hidden h-0.5 w-full bg-gray-300 lg:block" aria-hidden="true" />
-                <div data-q-reveal>
+                {/* Baked-in zero width/opacity (rather than only via gsap.set at
+                    script-run time) so these lines/cards paint already hidden on
+                    first render -- otherwise they flash fully visible for a beat
+                    before the reveal script executes and hides them. */}
+                <div class="mb-[30px] hidden h-0.5 w-full bg-gray-300 lg:block" style="width: 0" aria-hidden="true" />
+                <div data-q-reveal style="opacity: 0">
                   <div class="aspect-[16/10] w-full overflow-hidden border border-line">
                     <img src={`${base}img/what-how-did/${image}`} alt="" class="h-full w-full object-cover" />
                   </div>

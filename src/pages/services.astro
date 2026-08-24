@@ -176,12 +176,16 @@ const programCardItems = programs.map((program, i) => ({
           <Fragment>
             {i > 0 && (
               <div class="hidden lg:flex lg:w-10 lg:shrink-0 lg:flex-col lg:items-center" aria-hidden="true">
-                <div class="h-16 w-0.5 bg-gray-300" data-e-connector={i - 1} />
+                <div class="h-16 w-0.5 bg-gray-300" style="height: 0" data-e-connector={i - 1} />
               </div>
             )}
             <div class="lg:min-w-0 lg:flex-1" data-e-card={i}>
-              <div class="mb-[30px] hidden h-0.5 w-full bg-gray-300 lg:block" aria-hidden="true" />
-              <div data-e-reveal>
+              {/* Baked-in zero width/opacity (rather than only via gsap.set at
+                  script-run time) so these lines/cards paint already hidden on
+                  first render -- otherwise they flash fully visible for a beat
+                  before the reveal script executes and hides them. */}
+              <div class="mb-[30px] hidden h-0.5 w-full bg-gray-300 lg:block" style="width: 0" aria-hidden="true" />
+              <div data-e-reveal style="opacity: 0">
                 <div class="relative aspect-[16/10] w-full overflow-hidden border border-white text-center" data-e-box>
                   <img src={`${base}img/engage/${stage.name.toLowerCase()}.jpg`} alt="" class="absolute inset-0 h-full w-full object-cover" />
                   <div class="absolute inset-0 bg-gradient-to-t from-navy/90 via-navy/40 to-transparent" />

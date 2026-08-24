@@ -103,7 +103,11 @@ function programHref(slug: string) {
 
   <section id="programs" class="bg-navy py-16 sm:py-24">
     <div class="mx-auto max-w-[1536px] px-6 sm:px-8 lg:px-10 xl:px-14">
-      <div id="programs-intro-reveal">
+      {/* Baked-in zero opacity (rather than only via gsap.set at script-run
+          time) so this paints already hidden on first render -- otherwise
+          it flashes fully visible for a beat before the reveal script
+          executes and hides it. */}
+      <div id="programs-intro-reveal" style="opacity: 0">
         <p class="text-sm font-bold uppercase tracking-[0.375em] text-orange">The Four Programs</p>
         <h2 class="mt-3 max-w-2xl font-serif text-4xl text-white sm:text-5xl">
           Focused engagements. Clear outcomes. Practical momentum.
@@ -119,7 +123,7 @@ function programHref(slug: string) {
       <section id={program.slug} class="flex min-h-screen flex-col justify-center bg-navy py-16" data-program-section>
         <div class="mx-auto w-full max-w-[1536px] px-6 sm:px-8 lg:px-10 xl:px-14">
           <div class="grid grid-cols-1 lg:grid-cols-2">
-            <div class="flex h-full flex-col border border-line border-t-4 border-t-orange bg-white p-8 sm:p-12" data-program-card>
+            <div class="flex h-full flex-col border border-line border-t-4 border-t-orange bg-white p-8 sm:p-12" data-program-card style="opacity: 0">
               <div class="flex items-center justify-between">
                 <p class={`text-xs font-bold uppercase tracking-wide ${a.text}`}>
                   {program.number} — {program.category}
@@ -148,7 +152,7 @@ function programHref(slug: string) {
               </a>
             </div>
 
-            <div class="relative hidden overflow-hidden border border-line border-t-4 border-t-orange lg:block" data-program-image>
+            <div class="relative hidden overflow-hidden border border-line border-t-4 border-t-orange lg:block" data-program-image style="opacity: 0">
               <img src={`${base}img/programs/${programImages[i]}`} alt="" class="h-full w-full object-cover" />
               {/* Corner-bracket frame lifted from ElegantCarousel (homepage
                   Perspectives section) -- same size/position/opacity, tinted
