@@ -1,0 +1,117 @@
+<!--
+  TRIAL SECTION -- not part of the site's design system, added for
+  side-by-side comparison only per explicit instruction ("copy as-is,
+  bypass the design system"). This is a near-verbatim port of the
+  imported claude.ai/design canvas file "Theory of Constraints 7
+  Nodes.dc.html" (project 64635214-340e-4582-bbe2-eacf8f31c27e) -- every
+  inline style, color, font, and SVG icon below is copied unchanged from
+  that file's markup rather than translated into Tailwind/DESIGN.md
+  tokens the way GapDiagram.tsx (the "real" implementation) was.
+
+  Two things could not be copied literally without breaking the rest of
+  the site, so they're the only intentional deviations:
+  - The source styled `body` directly (background + font-family) since
+    it was authored as a standalone canvas preview. Scoped to this
+    section's own wrapper div instead of the real page's <body>.
+  - The source's outer card used `position:absolute;left:-13px;top:10px`
+    (an artifact of the design tool's own preview canvas). Changed to
+    `position:relative` with no offset so it sits in normal page flow.
+  Everything inside the card -- the 1600px fixed canvas width, the exact
+  hex colors, and Montserrat font -- is unchanged. The five node icons are
+  the one deliberate exception: swapped from the source design's own
+  bespoke SVGs to the site's previous Tabler icon set for these stages
+  (radar/coin/hammer/bolt/trending-up), per explicit request, so this
+  trial keeps the design's layout/color system but our own icon language.
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet" />
+
+<section style="background:#e9ebec; padding: 60px 24px; font-family: Montserrat, Helvetica, Arial, sans-serif; overflow-x: auto;">
+  <div style="width: 1600px; height: 820px; background: linear-gradient(160deg,#fbfbfb,#f1f2f3); border-radius: 14px; box-shadow: 0 18px 50px rgba(15,32,48,.18); padding: 48px 40px 36px; box-sizing: border-box; display: flex; flex-direction: column; align-items: center; position: relative; margin: 0 auto;">
+    <h1 style="margin:0;font-size:52px;font-weight:800;letter-spacing:.01em;color:#2b3a45;text-align:center">Where does Value go?</h1>
+    <p style="margin:18px 0 0;max-width:1180px;text-align:center;font-size:22px;line-height:1.45;font-weight:400;color:#5b6b76;text-wrap:pretty">Value can leak at every handoff between opportunity and outcome. The problem isn't simply slow delivery — it's value lost along the way. Coherenz helps identify where the leakage occurs and focus intervention where it matters most.</p>
+    <div style="display:flex;gap:0;margin:24px 0 0">
+      <div style="width:73px;height:7px;background:#12405f"></div>
+      <div style="width:73px;height:7px;background:#1c6390"></div>
+      <div style="width:73px;height:7px;background:#2aa87f"></div>
+      <div style="width:73px;height:7px;background:#e8c04a"></div>
+      <div style="width:73px;height:7px;background:#e0453a"></div>
+    </div>
+
+    <div style="position:relative;width:100%;margin-top:46px;flex:1">
+      <div style="position:absolute;top:114px;left:0;right:14px;height:0;border-top:3px dashed #b9c2c8"></div>
+      <div style="position:absolute;top:108.5px;right:0;width:0;height:0;border-top:7px solid transparent;border-bottom:7px solid transparent;border-left:14px solid #b9c2c8"></div>
+      <div style="position:absolute;top:101px;left:0;right:0;display:grid;grid-template-columns:repeat(5,1fr);pointer-events:none">
+        <div style="display:flex;justify-content:flex-end;align-items:center;height:26px"><div style="width:26px;height:26px;border-radius:50%;background:#f6f7f7;border:3px solid #12405f;margin-right:-13px;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:800;color:#12405f">!</div></div>
+        <div style="display:flex;justify-content:flex-end;align-items:center;height:26px"><div style="width:26px;height:26px;border-radius:50%;background:#f6f7f7;border:3px solid #1c6390;margin-right:-13px;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:800;color:#1c6390">!</div></div>
+        <div style="display:flex;justify-content:flex-end;align-items:center;height:26px"><div style="width:26px;height:26px;border-radius:50%;background:#f6f7f7;border:3px solid #2aa87f;margin-right:-13px;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:800;color:#2aa87f">!</div></div>
+        <div style="display:flex;justify-content:flex-end;align-items:center;height:26px"><div style="width:26px;height:26px;border-radius:50%;background:#f6f7f7;border:3px solid #e8c04a;margin-right:-13px;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:800;color:#e8c04a">!</div></div>
+        <div style="display:flex;justify-content:flex-end;align-items:center;height:26px"></div>
+      </div>
+
+      <div style="position:relative;display:grid;grid-template-columns:repeat(5,1fr);gap:0">
+
+        <div style="display: flex; flex-direction: column; align-items: center; padding: 0 12px; box-sizing: border-box; position: relative">
+          <div style="font-size:40px;font-weight:800;color:#12405f">01</div>
+          <div style="width:114px;height:114px;border-radius:50%;background:#f6f7f7;display:flex;align-items:center;justify-content:center;margin-top:8px">
+            <div style="width:96px;height:96px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:#12405f;box-shadow:0 6px 16px rgba(15,32,48,.16)">
+              <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12h-8a1 1 0 1 0 -1 1v8a9 9 0 0 0 9 -9"></path><path d="M16 9a5 5 0 1 0 -7 7"></path><path d="M20.486 9a9 9 0 1 0 -11.482 11.495"></path></svg>
+            </div>
+          </div>
+          <div style="margin-top:14px;font-size:19px;font-weight:700;color:#12405f">OPPORTUNITY</div>
+          <p style="margin: 14px 0 0; font-size: 13.5px; line-height: 1.55; color: #7a878f; text-align: center; font-weight: 400; text-wrap: pretty; width: 177px; height: 40px">Define direction, goals and value intent</p>
+          <div style="margin-top:22px;display:flex;align-items:center"><div style="width:11px;height:11px;border-radius:50%;border:2.5px solid #12405f"></div><div style="width:44px;height:2.5px;background:#12405f"></div><div style="width:11px;height:11px;border-radius:50%;border:2.5px solid #12405f"></div></div>
+        </div>
+
+        <div style="display:flex;flex-direction:column;align-items:center;padding:0 12px;box-sizing:border-box">
+          <div style="font-size:40px;font-weight:800;color:#1c6390">02</div>
+          <div style="width:114px;height:114px;border-radius:50%;background:#f6f7f7;display:flex;align-items:center;justify-content:center;margin-top:8px">
+            <div style="width:96px;height:96px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:#1c6390;box-shadow:0 6px 16px rgba(15,32,48,.16)">
+              <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0"></path><path d="M14.8 9a2 2 0 0 0 -1.8 -1h-2a2 2 0 1 0 0 4h2a2 2 0 1 1 0 4h-2a2 2 0 0 1 -1.8 -1"></path><path d="M12 7v10"></path></svg>
+            </div>
+          </div>
+          <div style="margin-top:14px;font-size:19px;font-weight:700;color:#1c6390">INVESTMENT</div>
+          <p style="margin: 14px 0 0; font-size: 13.5px; line-height: 1.55; color: #7a878f; text-align: center; font-weight: 400; text-wrap: pretty; width: 181px; height: 47px">Allocate resources to the right opportunities</p>
+          <div style="margin-top:22px;display:flex;align-items:center"><div style="width:11px;height:11px;border-radius:50%;border:2.5px solid #1c6390"></div><div style="width:44px;height:2.5px;background:#1c6390"></div><div style="width:11px;height:11px;border-radius:50%;border:2.5px solid #1c6390"></div></div>
+        </div>
+
+        <div style="display:flex;flex-direction:column;align-items:center;padding:0 12px;box-sizing:border-box">
+          <div style="font-size:40px;font-weight:800;color:#2aa87f">03</div>
+          <div style="width:114px;height:114px;border-radius:50%;background:#f6f7f7;display:flex;align-items:center;justify-content:center;margin-top:8px">
+            <div style="width:96px;height:96px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:#1a8fa0;box-shadow:0 6px 16px rgba(15,32,48,.16)">
+              <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M11.414 10l-7.383 7.418a2.091 2.091 0 0 0 0 2.967a2.11 2.11 0 0 0 2.976 0l7.407 -7.385"></path><path d="M18.121 15.293l2.586 -2.586a1 1 0 0 0 0 -1.414l-7.586 -7.586a1 1 0 0 0 -1.414 0l-2.586 2.586a1 1 0 0 0 0 1.414l7.586 7.586a1 1 0 0 0 1.414 0"></path></svg>
+            </div>
+          </div>
+          <div style="margin-top:14px;font-size:19px;font-weight:700;color:#2aa87f">PRODUCT</div>
+          <p style="margin: 14px 0 0; font-size: 13.5px; line-height: 1.55; color: #7a878f; text-align: center; font-weight: 400; text-wrap: pretty; width: 140px; height: 45px">Build the right thing for the right people</p>
+          <div style="margin-top:22px;display:flex;align-items:center"><div style="width:11px;height:11px;border-radius:50%;border:2.5px solid #2aa87f"></div><div style="width:44px;height:2.5px;background:#2aa87f"></div><div style="width:11px;height:11px;border-radius:50%;border:2.5px solid #2aa87f"></div></div>
+        </div>
+
+        <div style="display:flex;flex-direction:column;align-items:center;padding:0 12px;box-sizing:border-box">
+          <div style="font-size:40px;font-weight:800;color:#e8c04a">04</div>
+          <div style="width:114px;height:114px;border-radius:50%;background:#f6f7f7;display:flex;align-items:center;justify-content:center;margin-top:8px">
+            <div style="width:96px;height:96px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:#e8c04a;box-shadow:0 6px 16px rgba(15,32,48,.16)">
+              <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M13 3l0 7l6 0l-8 11l0 -7l-6 0l8 -11"></path></svg>
+            </div>
+          </div>
+          <div style="margin-top:14px;font-size:19px;font-weight:700;color:#e8c04a">DELIVERY</div>
+          <p style="margin: 14px 0 0; font-size: 13.5px; line-height: 1.55; color: #7a878f; text-align: center; font-weight: 400; text-wrap: pretty; width: 157px; height: 47px">Execute efficiently with quality and flow.</p>
+          <div style="margin-top:22px;display:flex;align-items:center"><div style="width:11px;height:11px;border-radius:50%;border:2.5px solid #e8c04a"></div><div style="width:44px;height:2.5px;background:#e8c04a"></div><div style="width:11px;height:11px;border-radius:50%;border:2.5px solid #e8c04a"></div></div>
+        </div>
+
+        <div style="display: flex; flex-direction: column; align-items: center; padding: 0 12px; box-sizing: border-box; position: relative">
+          <div style="font-size:40px;font-weight:800;color:#e0453a">05</div>
+          <div style="width:114px;height:114px;border-radius:50%;background:#f6f7f7;display:flex;align-items:center;justify-content:center;margin-top:8px">
+            <div style="width:96px;height:96px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:#e0453a;box-shadow:0 6px 16px rgba(15,32,48,.16)">
+              <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6 -6l4 4l8 -8"></path><path d="M14 7l7 0l0 7"></path></svg>
+            </div>
+          </div>
+          <div style="margin-top:14px;font-size:19px;font-weight:700;color:#e0453a">OUTCOME</div>
+          <p style="margin: 14px 0 0; font-size: 13.5px; line-height: 1.55; color: #7a878f; text-align: center; font-weight: 400; text-wrap: pretty; width: 141px; height: 50px">Realize value and measurable impact</p>
+          <div style="margin-top:22px;display:flex;align-items:center"><div style="width:11px;height:11px;border-radius:50%;border:2.5px solid #e0453a"></div><div style="width:44px;height:2.5px;background:#e0453a"></div><div style="width:11px;height:11px;border-radius:50%;border:2.5px solid #e0453a"></div></div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>

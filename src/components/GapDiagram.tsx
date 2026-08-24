@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useRef, useState } from 'react';
+import { Fragment } from 'react';
 import { base } from '../lib/base';
 import { gapStages, gapLeaks } from '../data/gapDiagram';
 import {
@@ -20,63 +20,27 @@ const promises = [
   { icon: IconTargetArrow, title: 'Drive Outcomes', desc: 'Turn delivery into measurable value.' },
 ];
 
-// DESIGN.md §4 concept-category picks. Opportunity/Delivery reuse the exact
-// mappings DESIGN.md's own PDE-OS table gives Discover/Deliver, since those
-// stages are conceptually the same idea (finding opportunity, executing).
+// Same Tabler set used before the "Theory of Constraints 7 Nodes" design
+// import (radar/coin/hammer/bolt/trending-up) -- swapped back in over the
+// design's own bespoke node SVGs per explicit request, matching the trial
+// section (TrialTocNodes.astro) this was ported from. The design's flat
+// solid-color circle + halo + number/title/dot-connector treatment stays.
 const stageIcons = [IconRadar, IconCoin, IconHammer, IconBolt, IconTrendingUp];
 
-// Glossy 3D-sphere recipes, one per stage, each built from a DESIGN.md
-// palette hue (blue/orange/yellow/green) plus the red already used for this
-// diagram's own gap indicators (§ the "!" badges below) as the 5th hue —
-// light highlight tint -> brand mid tone -> deep shaded edge, matching the
-// photographed glossy orb in the "What We Help Solve" card art.
-const sphereGradients = [
-  'radial-gradient(circle at 28% 24%, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0) 14%), radial-gradient(circle at 32% 30%, #bfe6ff 0%, #4fa6e8 42%, #1b5fa6 76%, #0b2e52 100%)',
-  'radial-gradient(circle at 28% 24%, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0) 14%), radial-gradient(circle at 32% 30%, #ffe2b0 0%, #f0a83a 42%, #b06a12 76%, #5c3405 100%)',
-  'radial-gradient(circle at 28% 24%, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0) 14%), radial-gradient(circle at 32% 30%, #fff2c2 0%, #f0c040 42%, #b8860f 76%, #4a3505 100%)',
-  'radial-gradient(circle at 28% 24%, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0) 14%), radial-gradient(circle at 32% 30%, #a8e6cf 0%, #1f9370 42%, #174e40 76%, #062017 100%)',
-  'radial-gradient(circle at 28% 24%, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0) 14%), radial-gradient(circle at 32% 30%, #ffcdc4 0%, #e2574a 42%, #a3352a 76%, #4a120c 100%)',
-];
-const sphereShadow =
-  'inset -14px -14px 26px rgba(0,10,30,0.45), inset 8px 8px 16px rgba(255,255,255,0.5), 0 14px 28px rgba(10,30,55,0.35)';
+// Per-stage hue, also ported from the imported design -- flat solid fill
+// instead of the previous gradient/glossy sphere. Drives the icon circle,
+// the "01"-"05" number, the stage title, and the small dot-line-dot cap
+// below each node's description. Product is the one stage where the
+// source design itself uses two different hues for the same node (a teal
+// `#1a8fa0` circle fill against a green `#2aa87f` everywhere else for that
+// stage) -- kept exactly as given rather than "corrected" to one color.
+const stageFamilyColors = ['#12405f', '#1c6390', '#2aa87f', '#e8c04a', '#e0453a'];
+const stageCircleColors = ['#12405f', '#1c6390', '#1a8fa0', '#e8c04a', '#e0453a'];
+const sphereShadow = '0 6px 16px rgba(15,32,48,0.16)';
 
 export default function GapDiagram() {
-  // One-shot bounce sequence, triggered the first time the row scrolls
-  // into view: each sphere's animation-delay is staggered by its index
-  // (1s = the bounce's own duration) so they bounce one after another
-  // instead of all at once.
-  const opportunityRef = useRef<HTMLDivElement>(null);
-  const [bounce, setBounce] = useState(false);
-
-  useEffect(() => {
-    const el = opportunityRef.current;
-    if (!el) return;
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setBounce(true);
-          observer.disconnect();
-        }
-      },
-      { threshold: 0.5 }
-    );
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
-
   return (
     <section id="problem" className="relative bg-wash-blue pt-10 sm:pt-14 pb-8 sm:pb-10">
-      <style>{`
-        @keyframes sphere-bounce {
-          0% { transform: translateY(0); }
-          30% { transform: translateY(-20px); }
-          50% { transform: translateY(0); }
-          65% { transform: translateY(-10px); }
-          80% { transform: translateY(0); }
-          90% { transform: translateY(-4px); }
-          100% { transform: translateY(0); }
-        }
-      `}</style>
       <div className="relative z-10 mx-auto max-w-[1536px] px-6 sm:px-8 lg:px-10 xl:px-14">
         <div className="mx-auto max-w-2xl text-center">
           <p className="text-sm font-bold uppercase tracking-[0.375em] text-orange">The Master Value Flow</p>
@@ -89,7 +53,29 @@ export default function GapDiagram() {
         </div>
 
         <div className="mt-8 px-6 py-6 sm:mt-10 sm:px-10 sm:py-8">
-        <div className="flex flex-col min-[960px]:flex-row min-[960px]:items-start">
+        <div className="relative flex flex-col min-[960px]:flex-row min-[960px]:items-start">
+          {/* Dashed connector line, ported from the imported design's trial
+              copy (TrialTocNodes.astro) -- there it ran above the nodes;
+              here it's repositioned to cross through the exact vertical
+              center of the node circles instead. */}
+          <div
+            className="pointer-events-none absolute hidden border-t-[3px] border-dashed border-[#b9c2c8] min-[960px]:block"
+            style={{ top: '104px', left: '-40px', right: '-26px' }}
+            aria-hidden="true"
+          />
+          <div
+            className="pointer-events-none absolute hidden min-[960px]:block"
+            style={{
+              top: '98.5px',
+              right: '-40px',
+              width: 0,
+              height: 0,
+              borderTop: '7px solid transparent',
+              borderBottom: '7px solid transparent',
+              borderLeft: '14px solid #b9c2c8',
+            }}
+            aria-hidden="true"
+          />
           {gapStages.map((stage, i) => {
             const StageIcon = stageIcons[i];
             return (
@@ -97,26 +83,29 @@ export default function GapDiagram() {
               <div
                 className="flex items-center gap-[18px] py-3.5 text-left min-[960px]:flex-[1.9_1_0] min-[960px]:min-w-0 min-[960px]:flex-col min-[960px]:items-center min-[960px]:gap-0 min-[960px]:px-2.5 min-[960px]:py-0 min-[960px]:text-center"
               >
-                <div className="relative h-[76px] w-[76px] shrink-0 min-[960px]:mx-auto min-[960px]:mb-3 min-[960px]:h-[130px] min-[960px]:w-[130px]">
-                  <div className="absolute left-1/2 top-1/2 h-[91px] w-[91px] -translate-x-1/2 -translate-y-1/2 rounded-full border-[1.5px] border-[#BFC7D1] min-[960px]:h-[156px] min-[960px]:w-[156px]" />
+                <p
+                  className="hidden text-[36px] font-extrabold leading-none min-[960px]:mb-[20px] min-[960px]:block"
+                  style={{ color: stageFamilyColors[i] }}
+                >
+                  {String(i + 1).padStart(2, '0')}
+                </p>
+                <div className="relative h-[76px] w-[76px] shrink-0 min-[960px]:mx-auto min-[960px]:mb-3 min-[960px]:h-[96px] min-[960px]:w-[96px]">
+                  <div className="absolute left-1/2 top-1/2 h-[91px] w-[91px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#f6f7f7] min-[960px]:h-[114px] min-[960px]:w-[114px]" />
                   <div
-                    ref={i === 0 ? opportunityRef : undefined}
-                    className={
-                      'relative flex h-[76px] w-[76px] items-center justify-center rounded-full min-[960px]:h-[130px] min-[960px]:w-[130px]' +
-                      (bounce ? ' [animation:sphere-bounce_1s_ease-out]' : '')
-                    }
+                    className="relative flex h-[76px] w-[76px] items-center justify-center rounded-full min-[960px]:h-[96px] min-[960px]:w-[96px]"
                     style={{
                       color: '#ffffff',
-                      background: sphereGradients[i],
+                      background: stageCircleColors[i],
                       boxShadow: sphereShadow,
-                      animationDelay: bounce ? `${i}s` : undefined,
                     }}
                   >
-                    <StageIcon className="h-[30px] w-[30px] min-[960px]:h-[52px] min-[960px]:w-[52px]" strokeWidth={1.6} />
+                    <StageIcon className="h-[30px] w-[30px] min-[960px]:h-[44px] min-[960px]:w-[44px]" strokeWidth={1.6} />
                   </div>
                 </div>
                 <div>
-                  <p className="text-base font-extrabold uppercase tracking-wide text-navy">{stage.name}</p>
+                  <p className="text-base font-extrabold uppercase tracking-wide" style={{ color: stageFamilyColors[i] }}>
+                    {stage.name}
+                  </p>
                   <p className="mt-2.5 text-[13px] leading-[1.55] text-[#5A6478]">{stage.desc}</p>
                 </div>
               </div>
@@ -124,19 +113,19 @@ export default function GapDiagram() {
               {i < gapLeaks.length && (
                 <div
                   key={`leak-${stage.name}`}
-                  className="flex items-start gap-[18px] py-3.5 pl-[37px] text-left min-[960px]:flex-1 min-[960px]:min-w-0 min-[960px]:flex-col min-[960px]:items-center min-[960px]:gap-0 min-[960px]:px-1.5 min-[960px]:py-0 min-[960px]:pl-1.5 min-[960px]:text-center"
+                  className="relative flex items-start gap-[18px] py-3.5 pl-[37px] text-left min-[960px]:flex-1 min-[960px]:min-w-0 min-[960px]:flex-col min-[960px]:items-center min-[960px]:gap-0 min-[960px]:px-1.5 min-[960px]:py-0 min-[960px]:pl-1.5 min-[960px]:pt-[128px] min-[960px]:text-center"
                 >
-                  <div className="hidden h-[130px] items-center justify-center gap-1 text-navy min-[960px]:flex">
-                    <span className="h-[5px] w-[5px] shrink-0 rounded-full bg-[#C7CCD8]" />
-                    <span className="h-[5px] w-[5px] shrink-0 rounded-full bg-[#C7CCD8]" />
-                    <span className="h-[5px] w-[5px] shrink-0 rounded-full bg-[#C7CCD8]" />
-                    <svg viewBox="0 0 24 10" className="h-[14px] w-[34px] shrink-0">
-                      <line x1="0" y1="5" x2="20" y2="5" stroke="currentColor" strokeWidth="1.6" />
-                      <path d="M16 1l4 4-4 4" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                  </div>
+                  {/* Small node, ported from the imported design's trial
+                      copy (TrialTocNodes.astro) -- rides the dashed line
+                      at this stage's own color, alongside (not replacing)
+                      the existing red gap badge below. */}
+                  <div
+                    className="pointer-events-none absolute left-1/2 hidden h-[26px] w-[26px] -translate-x-1/2 items-center justify-center rounded-full bg-[#f6f7f7] min-[960px]:flex"
+                    style={{ top: '91px', border: `3px solid ${stageFamilyColors[i]}` }}
+                    aria-hidden="true"
+                  />
 
-                  <div className="flex items-center gap-[7px] min-[960px]:mx-auto min-[960px]:mt-6 min-[960px]:flex-col">
+                  <div className="flex items-center gap-[7px] min-[960px]:mx-auto min-[960px]:mt-[64px] min-[960px]:flex-col">
                     <span className="h-[5px] w-[5px] shrink-0 rounded-full bg-orange/90" />
                     <span className="h-[5px] w-[5px] shrink-0 rounded-full bg-orange/90" />
                     <span className="h-[5px] w-[5px] shrink-0 rounded-full bg-orange/90" />
