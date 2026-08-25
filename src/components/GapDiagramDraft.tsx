@@ -38,7 +38,7 @@ function glowStyle(hex: string) {
   const [r, g, b] = hexToRgb(hex);
   return {
     background: `radial-gradient(circle at 35% 30%, #ffffff 0%, rgba(${r},${g},${b},0.95) 15%, rgba(${r},${g},${b},0.9) 40%, ${hex} 100%)`,
-    boxShadow: `0 0 8.25px 2.25px rgba(${r},${g},${b},0.75), 0 0 19.5px 6.75px rgba(${r},${g},${b},0.49), 0 0 38.25px 13.5px rgba(${r},${g},${b},0.26)`,
+    boxShadow: `0 0 9.49px 2.59px rgba(${r},${g},${b},0.75), 0 0 22.43px 7.76px rgba(${r},${g},${b},0.49), 0 0 43.99px 15.53px rgba(${r},${g},${b},0.26)`,
   };
 }
 
