@@ -4,6 +4,7 @@ import Nav from '../components/Nav.astro';
 import Hero from '../components/Hero.astro';
 import HeroDuplicate from '../components/HeroDuplicate.astro';
 import GapDiagram from '../components/GapDiagram.tsx';
+import GapDiagramDraft from '../components/GapDiagramDraft.tsx';
 import FourProblems from '../components/FourProblems.astro';
 import ThreeLenses from '../components/ThreeLenses.astro';
 import DiagnosticTeaser from '../components/DiagnosticTeaser.astro';
@@ -45,6 +46,7 @@ import Footer from '../components/Footer.astro';
         <p class="text-base font-bold text-white">HOW WE HELP</p>
       </div>
     </div>
+    <GapDiagramDraft client:visible />
     <GapDiagram client:visible={{ rootMargin: '600px' }} />
     <FourProblems />
     <DiagnosticTeaser />
