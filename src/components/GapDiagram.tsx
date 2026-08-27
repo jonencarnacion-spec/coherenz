@@ -66,10 +66,7 @@ function glowStyle(hex: string) {
 
 export default function GapDiagram() {
   return (
-    // bg-[#16213A] rather than bg-navy (#1A2744) -- matches the Hero's
-    // actual visible background, which is its orbital canvas's baseFill
-    // (#16213A, a ~15%-darkened navy), not the --color-navy token underneath it.
-    <section id="problem" className="relative bg-[#16213A] pt-10 sm:pt-14 pb-8 sm:pb-10">
+    <section id="problem" className="relative bg-navy pt-10 sm:pt-14 pb-8 sm:pb-10">
       <div className="relative z-10 mx-auto max-w-[1536px] px-6 sm:px-8 lg:px-10 xl:px-14">
         <div className="mx-auto max-w-2xl text-center">
           <p className="text-sm font-bold uppercase tracking-[0.375em] text-orange">The Master Value Flow</p>
