@@ -4,7 +4,6 @@ import Nav from '../components/Nav.astro';
 import Hero from '../components/Hero.astro';
 import HeroDuplicate from '../components/HeroDuplicate.astro';
 import GapDiagram from '../components/GapDiagram.tsx';
-import GapDiagramDraft from '../components/GapDiagramDraft.tsx';
 import FourProblems from '../components/FourProblems.astro';
 import ThreeLenses from '../components/ThreeLenses.astro';
 import DiagnosticTeaser from '../components/DiagnosticTeaser.astro';
@@ -33,21 +32,22 @@ import Footer from '../components/Footer.astro';
     <Hero />
     <HeroDuplicate />
   </div>
+  <GapDiagram client:visible={{ rootMargin: '600px' }} />
   <div class="relative isolate">
     <!--
-      This band's own sticky range spans GapDiagram, FourProblems, AND
-      DiagnosticTeaser (not just its immediate section) — it's the first
-      child of THIS wrapper, so it stays pinned for the combined height of
-      all three, releasing only once the wrapper itself has scrolled past,
-      right as ThreeLenses' own "HOW WE OPERATE" band begins.
+      This band's own sticky range spans FourProblems AND DiagnosticTeaser
+      (not just its immediate section) — it's the first child of THIS
+      wrapper, so it stays pinned for the combined height of both,
+      releasing only once the wrapper itself has scrolled past, right as
+      ThreeLenses' own "HOW WE OPERATE" band begins. Moved to start right
+      above FourProblems (rather than above GapDiagram) so it no longer
+      overlaps the diagram's own node row while pinned.
     -->
     <div class="sticky top-0 z-40 flex h-12 items-center bg-blue/50">
       <div class="mx-auto w-full max-w-[1536px] px-6 sm:px-8 lg:px-10 xl:px-14">
         <p class="text-base font-bold text-white">HOW WE HELP</p>
       </div>
     </div>
-    <GapDiagramDraft client:visible />
-    <GapDiagram client:visible={{ rootMargin: '600px' }} />
     <FourProblems />
     <DiagnosticTeaser />
   </div>
