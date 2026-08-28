@@ -3,6 +3,7 @@ import { IconArrowRight, IconLink, IconBolt } from '@tabler/icons-react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import { pastel, rgba, glowStyle } from '@/lib/glow';
 
 interface TimelineItem {
   id: number;
@@ -146,7 +147,7 @@ export default function RadialOrbitalTimeline({ timelineData, centerContent }: R
 
   return (
     <div
-      className="relative flex h-[560px] w-full items-center justify-center overflow-hidden bg-wash-green"
+      className="relative flex h-[560px] w-full items-center justify-center overflow-hidden bg-navy"
       ref={containerRef}
       onClick={handleContainerClick}
     >
@@ -169,10 +170,10 @@ export default function RadialOrbitalTimeline({ timelineData, centerContent }: R
             className={`absolute z-10 flex h-[207px] w-[207px] items-center justify-center rounded-full bg-gradient-to-br from-orange via-yellow to-green ${isVisible ? 'animate-pulse' : ''}`}
           >
             <div
-              className={`absolute h-[259px] w-[259px] rounded-full border border-navy/25 opacity-70 ${isVisible ? 'animate-ping' : ''}`}
+              className={`absolute h-[259px] w-[259px] rounded-full border border-white/25 opacity-70 ${isVisible ? 'animate-ping' : ''}`}
             ></div>
             <div
-              className={`absolute h-[311px] w-[311px] rounded-full border border-navy/15 opacity-50 ${isVisible ? 'animate-ping' : ''}`}
+              className={`absolute h-[311px] w-[311px] rounded-full border border-white/15 opacity-50 ${isVisible ? 'animate-ping' : ''}`}
               style={{ animationDelay: '0.5s' }}
             ></div>
           </div>
@@ -184,7 +185,7 @@ export default function RadialOrbitalTimeline({ timelineData, centerContent }: R
             {centerContent}
           </div>
 
-          <div className="absolute h-[463px] w-[463px] rounded-full border-2 border-dotted border-navy/25"></div>
+          <div className="absolute h-[463px] w-[463px] rounded-full border-2 border-dotted border-white/25"></div>
 
           {timelineData.map((item, index) => {
             const position = calculateNodePosition(index, timelineData.length);
@@ -220,21 +221,28 @@ export default function RadialOrbitalTimeline({ timelineData, centerContent }: R
                 }}
               >
                 <div
-                  className={`flex items-center justify-center rounded-full border-2 text-white transition-all duration-300 ${
-                    isExpanded
-                      ? 'h-10 w-10 scale-[1.98] border-white shadow-lg shadow-white/30'
-                      : isRelated
-                        ? 'h-14 w-14 animate-pulse border-white'
-                        : 'h-14 w-14 border-white/30'
+                  className={`flex items-center justify-center rounded-full border-[6px] transition-all duration-300 ${
+                    isExpanded ? 'h-10 w-10 scale-[1.98]' : isRelated ? 'h-14 w-14 animate-pulse' : 'h-14 w-14'
                   }`}
-                  style={{ backgroundColor: item.color }}
+                  style={{
+                    borderColor: isExpanded ? item.color : rgba(item.color, 0.5),
+                    // Same glow treatment as GapDiagram's nodes: white-hot
+                    // core blending into a pastel fill, a tight rim-glow
+                    // hugging the border, and a soft ambient halo -- ported
+                    // to the wheel for visual consistency between the two
+                    // diagrams (was a flat solid-color fill before).
+                    background: `radial-gradient(circle at 35% 30%, #ffffff 0%, ${pastel(item.color)} 65%, ${pastel(item.color)} 100%)`,
+                    boxShadow: `0 0 6px 2px ${rgba(item.color, 0.9)}, ${glowStyle(item.color).boxShadow}`,
+                  }}
                 >
-                  <span className="text-base font-extrabold">{item.id}</span>
+                  <span className="text-base font-extrabold" style={{ color: item.color }}>
+                    {item.id}
+                  </span>
                 </div>
 
                 <div
                   className={`absolute left-1/2 top-[59px] -translate-x-1/2 whitespace-nowrap text-xs font-bold uppercase tracking-wider transition-all duration-300 ${
-                    isExpanded ? 'scale-125 text-navy' : 'text-navy/80'
+                    isExpanded ? 'scale-125 text-white' : 'text-white/80'
                   }`}
                 >
                   {item.title}

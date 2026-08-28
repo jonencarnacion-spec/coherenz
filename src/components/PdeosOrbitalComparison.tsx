@@ -10,6 +10,21 @@ import { IconSearch, IconCheck, IconClipboardList, IconRocket, IconFlag, IconCha
 // uniform on purpose rather than invented.
 const stageIcons = [IconSearch, IconCheck, IconClipboardList, IconRocket, IconFlag, IconChartBar, IconBulb];
 
+// Node-glow-only color overrides for Deliver/Release/Measure/Learn -- their
+// real pdeosStages colors (dark green/blue/navy, Learn's #1A2744 literally
+// equals this section's bg-navy) are correct for phases-wheel.tsx's solid
+// fills on a white section, but nearly invisible as a glow against navy.
+// Discover/Validate/Plan are bright enough already and keep their real
+// color. Scoped to this comparison build only -- pdeosStages itself (and
+// PhasesWheel, which also reads it) stays untouched. Off the locked
+// DESIGN.md palette on purpose, same go-ahead already used for GapDiagram.
+const glowColors: Record<string, string> = {
+  Deliver: '#34d399',
+  Release: '#38bdf8',
+  Measure: '#22d3ee',
+  Learn: '#a78bfa',
+};
+
 // Longer, card-only restatement of each stage's short wheel tagline (sub) —
 // the wheel's `sub` is a 2-4 word label, too terse for this card's body copy,
 // so this expands it to a full sentence without changing its meaning.
@@ -35,8 +50,9 @@ const timelineData = pdeosStages.map((stage, i) => {
     relatedIds: [((i - 1 + total) % total) + 1, ((i + 1) % total) + 1].filter((id) => id !== i + 1),
     status: 'completed' as const,
     energy: 70,
-    // Same per-stage color as the wheel above, so the two use one palette.
-    color: stage.color,
+    // Same per-stage color as the wheel above, so the two use one palette --
+    // except where glowColors overrides it for legibility (see comment above).
+    color: glowColors[stage.name] ?? stage.color,
   };
 });
 

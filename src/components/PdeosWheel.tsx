@@ -30,17 +30,17 @@ export default function PdeosWheel({
   body?: React.ReactNode;
 }) {
   return (
-    <section id="pdeos-wheel-section" className="flex flex-col justify-center bg-wash-green py-8 sm:py-10 lg:min-h-screen">
-      <div className="mx-auto max-w-[1536px] px-6 sm:px-8 lg:px-10 xl:px-14">
+    <section id="pdeos-wheel-section" className="relative flex flex-col bg-navy py-8 sm:py-10 lg:min-h-[88vh]">
+      <div className="relative z-10 mx-auto flex w-full max-w-[1536px] flex-1 flex-col px-6 sm:px-8 lg:px-10 xl:px-14">
         <div className="mx-auto max-w-4xl text-center">
           <p className="text-sm font-bold uppercase tracking-[0.375em] text-orange">{eyebrow}</p>
           {/* whitespace-nowrap only fits the original, shorter default headline
               -- an overridden headline (e.g. the longer Approach-page copy)
               needs to wrap normally on narrower screens instead of overflowing. */}
-          <h2 className={cn('mt-3 font-serif text-4xl text-navy sm:text-5xl', headline === DEFAULT_HEADLINE && 'whitespace-nowrap')}>
+          <h2 className={cn('mt-3 font-serif text-4xl text-white sm:text-5xl', headline === DEFAULT_HEADLINE && 'whitespace-nowrap')}>
             {headline}
           </h2>
-          <p className="mt-3 text-foreground/70">
+          <p className="mt-3 text-white/70">
             {body ?? (
               <>
                 One continuous cycle for turning delivery into measurable value.
@@ -57,12 +57,16 @@ export default function PdeosWheel({
             </p>
           )}
         </div>
-      </div>
 
-      <PdeosOrbitalComparison />
+        {/* Same top/center/bottom distribution as GapDiagram: headline
+            block sits at its natural top position, this wrapper grows to
+            absorb all leftover vertical space and centers the (fixed-height)
+            wheel within it, and the banner below sits flush at the bottom. */}
+        <div className="flex flex-1 items-center justify-center">
+          <PdeosOrbitalComparison />
+        </div>
 
-      <div className="mx-auto max-w-[1536px] px-6 sm:px-8 lg:px-10 xl:px-14">
-        <div className="relative mt-4 flex flex-col gap-8 overflow-hidden bg-navy px-8 py-5 text-white sm:flex-row sm:items-center">
+        <div className="relative mt-8 flex flex-col gap-8 overflow-hidden bg-blue px-8 py-5 text-white sm:flex-row sm:items-center">
           <img
             src={`${base}img/monogram.svg`}
             alt=""
