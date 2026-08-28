@@ -1,0 +1,305 @@
+---
+// Extracted from approach.astro's #questions section so it can also be
+// used on the homepage in place of ThreeLenses.astro (the pyramid graphic),
+// which read as visually disconnected from the site's other diagrams.
+// Content/copy is identical to the approach page's version -- this is the
+// same real economic framework, not page-specific copy, so it isn't
+// prop-driven like PdeosWheel's headline overrides.
+import { base } from '../lib/base';
+import { IconCircleCheckFilled } from '@tabler/icons-react';
+
+const questions = [
+  {
+    letters: 'WHAT',
+    shortQuestion: 'Is it worth doing?',
+    sub: 'Value Economics',
+    image: 'what.jpg',
+    question: 'What is the economic value of what we could do?',
+    points: [
+      'Identify and quantify potential value',
+      'Compare options through economic impact',
+      'Prioritize where value is highest',
+    ],
+    variant: 'blue',
+  },
+  {
+    letters: 'HOW',
+    shortQuestion: 'Can we deliver it efficiently?',
+    sub: 'Delivery Economics',
+    image: 'how.jpg',
+    question: 'How do we deliver the right things economically?',
+    points: [
+      'Optimize flow, throughput, and capacity',
+      'Reduce WIP, dependencies, and coordination drag',
+      'Align investment to delivery capability',
+    ],
+    variant: 'navy',
+  },
+  {
+    letters: 'DID',
+    shortQuestion: 'Did it create the value we expected?',
+    sub: 'Outcome Economics',
+    image: 'did.jpg',
+    question: 'What economic outcomes did we achieve?',
+    points: [
+      'Measure business and customer outcomes',
+      'Link delivery to adoption, revenue, and risk reduction',
+      'Learn and reinvest in what works',
+    ],
+    variant: 'green',
+  },
+];
+---
+
+<section id="questions" class="bg-white pt-[100px] pb-16 sm:pb-24">
+  <div class="mx-auto max-w-[1536px] px-6 sm:px-8 lg:px-10 xl:px-14">
+    <p class="text-sm font-bold uppercase tracking-[0.375em] text-orange">The Three Economic Questions</p>
+    <h2 class="mt-3 max-w-2xl font-serif text-4xl text-navy sm:text-5xl">
+      Coherenz connects the investment, the delivery, and the return.
+    </h2>
+    <p class="mt-4 max-w-2xl text-lg font-semibold text-navy">
+      Most teams answer these separately, if at all. Coherenz ties them into a single economic thread — from decision to delivery to result.
+    </p>
+
+    <!-- First-draft stair-step layout (reference: staggered cards linked by
+         right-angle connector lines). Cards keep their existing content;
+         only the arrangement changes -- each card offset lower than the
+         last on lg+, joined by a small connector column between them.
+         Collapses to a plain stacked list below lg since the staircase
+         only reads as intentional with room to breathe horizontally. -->
+    <div class="mt-[100px] flex flex-col gap-5 lg:flex-row lg:items-start lg:gap-0">
+      {questions.map(({ letters, shortQuestion, sub, image, question, points, variant }, i) => {
+        const accent = variant === 'navy' ? 'text-orange' : variant === 'green' ? 'text-green' : 'text-blue';
+        return (
+          <Fragment>
+            {i > 0 && (
+              <div class="hidden lg:flex lg:w-10 lg:shrink-0 lg:flex-col lg:items-center" aria-hidden="true">
+                <div
+                  class="h-16 w-0.5 bg-gray-300"
+                  style="height: 0"
+                  data-q-connector={i === 1 ? 'what-how' : i === 2 ? 'how-did' : undefined}
+                />
+              </div>
+            )}
+            <div class="lg:min-w-0 lg:flex-1" data-q-card={i === 0 ? 'what' : i === 1 ? 'how' : i === 2 ? 'did' : undefined}>
+              {/* Baked-in zero width/opacity (rather than only via gsap.set at
+                  script-run time) so these lines/cards paint already hidden on
+                  first render -- otherwise they flash fully visible for a beat
+                  before the reveal script executes and hides them. */}
+              <div class="mb-[30px] hidden h-0.5 w-full bg-gray-300 lg:block" style="width: 0" aria-hidden="true" />
+              <div data-q-reveal style="opacity: 0">
+                <div class="aspect-[16/10] w-full overflow-hidden border border-line">
+                  <img src={`${base}img/what-how-did/${image}`} alt="" class="h-full w-full object-cover" />
+                </div>
+                <p class="mt-6 text-3xl font-extrabold uppercase tracking-wide text-navy">{letters}</p>
+                <p class="mt-2 text-xl font-semibold text-navy">{shortQuestion}</p>
+                <p class={`mt-3 text-sm font-bold uppercase tracking-wide ${accent}`}>{sub}</p>
+                <p class="mt-3 text-sm text-foreground/70">{question}</p>
+                <ul class="mt-4 space-y-2">
+                  {points.map((point) => (
+                    <li class="flex items-start gap-2 text-sm text-foreground/70">
+                      <IconCircleCheckFilled size={16} class={`mt-0.5 shrink-0 ${accent}`} />
+                      {point}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </Fragment>
+        );
+      })}
+    </div>
+
+    <p class="mt-[60px] text-center font-serif text-[30px] text-navy">Coherenz connects all three.</p>
+  </div>
+</section>
+
+<script>
+  import gsap from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+  gsap.registerPlugin(ScrollTrigger);
+
+  // Each card's IMAGE top edge should sit at the vertical midpoint of the
+  // image before it (HOW's image at WHAT's image midpoint, DID's image at
+  // HOW's image midpoint) -- a stair-step relationship that depends on
+  // rendered (content-driven) heights, so it can't be a static Tailwind
+  // margin. The offset is applied as margin-top on the whole card (image +
+  // text), so the text block rides up/down along with its image instead of
+  // detaching from it. Only applies at the `lg` breakpoint where the three
+  // cards sit in a row; below that they stack and need no extra offset.
+  // DID's offset is computed after HOW's is applied, since HOW's own
+  // position (relative to the row's shared top edge, WHAT's) has to be
+  // final before DID's image can be measured against it.
+  function alignQuestionCards() {
+    const whatCard = document.querySelector<HTMLElement>('[data-q-card="what"]');
+    const howCard = document.querySelector<HTMLElement>('[data-q-card="how"]');
+    const didCard = document.querySelector<HTMLElement>('[data-q-card="did"]');
+    const whatImage = whatCard?.querySelector<HTMLElement>('img')?.parentElement;
+    const howImage = howCard?.querySelector<HTMLElement>('img')?.parentElement;
+    const didImage = didCard?.querySelector<HTMLElement>('img')?.parentElement;
+    const whatHowConnector = document.querySelector<HTMLElement>('[data-q-connector="what-how"]');
+    const howDidConnector = document.querySelector<HTMLElement>('[data-q-connector="how-did"]');
+    if (!whatCard || !howCard || !didCard || !whatImage || !howImage || !didImage) return;
+
+    const whatLine = whatCard.querySelector<HTMLElement>('div');
+    const howLine = howCard.querySelector<HTMLElement>('div');
+    const didLine = didCard.querySelector<HTMLElement>('div');
+
+    if (!window.matchMedia('(min-width: 1024px)').matches) {
+      howCard.style.marginTop = '';
+      didCard.style.marginTop = '';
+      if (whatHowConnector) whatHowConnector.style.height = '';
+      if (howDidConnector) {
+        howDidConnector.style.height = '';
+        howDidConnector.style.marginTop = '';
+      }
+      if (whatLine) whatLine.style.width = '';
+      if (howLine) {
+        howLine.style.width = '';
+        howLine.style.marginLeft = '';
+      }
+      if (didLine) {
+        didLine.style.width = '';
+        didLine.style.marginLeft = '';
+      }
+      return;
+    }
+
+    // Every card now carries its own connector line + gap above its image,
+    // so a card's image top sits a fixed distance below the card's own top
+    // (independent of that card's margin-top, which only translates the
+    // whole card as a block) -- that per-card offset has to be subtracted
+    // back out, or the stair-step compounds it on every card after WHAT.
+    const rowTop = whatCard.getBoundingClientRect().top;
+    const whatImageRect = whatImage.getBoundingClientRect();
+    const whatMid = whatImageRect.top + whatImageRect.height / 2;
+
+    const howOffset = howImage.getBoundingClientRect().top - howCard.getBoundingClientRect().top;
+    howCard.style.marginTop = `${whatMid - howOffset - rowTop}px`;
+
+    const howImageRect = howImage.getBoundingClientRect();
+    const howMid = howImageRect.top + howImageRect.height / 2;
+
+    const didOffset = didImage.getBoundingClientRect().top - didCard.getBoundingClientRect().top;
+    didCard.style.marginTop = `${howMid - didOffset - rowTop}px`;
+
+    // Each connector's vertical line should span exactly from the top of
+    // the card before it's own horizontal line down to the top of the next
+    // card's -- both content-driven positions, so both the line's own top
+    // (as margin-top, since it starts flush with the row top by default)
+    // and its height have to be measured rather than fixed.
+    if (whatHowConnector && howLine) {
+      const howLineTop = howLine.getBoundingClientRect().top;
+      whatHowConnector.style.height = `${howLineTop - whatHowConnector.getBoundingClientRect().top}px`;
+    }
+    if (howDidConnector) {
+      const didLineTop = didCard.querySelector<HTMLElement>('div')!.getBoundingClientRect().top;
+      const howLineTop = howLine!.getBoundingClientRect().top;
+      howDidConnector.style.marginTop = `${howLineTop - rowTop}px`;
+      howDidConnector.style.height = `${didLineTop - howLineTop}px`;
+    }
+
+    // The horizontal lines default to w-full of their own card, but the
+    // connector's vertical line sits centered in its own gap column --
+    // flush against neither neighboring card edge -- so the two don't meet
+    // without stretching the horizontal line the rest of the way to it.
+    // WHAT only needs its right edge extended (there's no connector before
+    // it); HOW sits between two connectors, so both edges move: its right
+    // edge stretches to reach how-did the same way, and its left edge has
+    // to shift outward (negative margin) to reach what-how's bottom, since
+    // normal flow can't start a block left of its own card's edge.
+    if (whatLine && whatHowConnector) {
+      const connectorLeft = whatHowConnector.getBoundingClientRect().left;
+      const lineLeft = whatLine.getBoundingClientRect().left;
+      whatLine.style.width = `${connectorLeft - lineLeft}px`;
+    }
+    if (howLine && whatHowConnector && howDidConnector) {
+      const targetLeft = whatHowConnector.getBoundingClientRect().right;
+      const targetRight = howDidConnector.getBoundingClientRect().left;
+      const defaultLeft = howCard.getBoundingClientRect().left;
+      howLine.style.marginLeft = `${targetLeft - defaultLeft}px`;
+      howLine.style.width = `${targetRight - targetLeft}px`;
+    }
+    if (didLine && howDidConnector) {
+      const targetLeft = howDidConnector.getBoundingClientRect().right;
+      const targetRight = didImage.getBoundingClientRect().right;
+      const defaultLeft = didCard.getBoundingClientRect().left;
+      didLine.style.marginLeft = `${targetLeft - defaultLeft}px`;
+      didLine.style.width = `${targetRight - targetLeft}px`;
+    }
+  }
+
+  window.addEventListener('resize', alignQuestionCards);
+
+  // Ported from mioticonsulting.dgrees.studio's "home__data" section (the
+  // reference the user asked to match): a GSAP/ScrollTrigger timeline that,
+  // once per page load, plays as the section scrolls into view -- the
+  // stair-step connector lines "draw" themselves in and each card fades in,
+  // staggered into one wave from WHAT down to DID. Must run AFTER
+  // alignQuestionCards() has set the real pixel widths/heights/margins for
+  // the lines and connectors: those values are captured here as the
+  // animation's end state, then the elements are collapsed to 0 and
+  // tweened back up -- so this never fights the layout math, and a lg:''
+  // width leftover from a resize can't leave a line stuck at zero width.
+  function initQuestionsAnimation() {
+    const section = document.getElementById('questions');
+    if (!section) return;
+
+    ScrollTrigger.getAll().forEach((st) => {
+      if (st.trigger === section) st.kill();
+    });
+
+    const cards = section.querySelectorAll<HTMLElement>('[data-q-reveal]');
+    const tl = gsap.timeline({
+      scrollTrigger: { trigger: section, start: 'top 75%', once: true },
+      defaults: { ease: 'power3.out' },
+    });
+
+    if (window.matchMedia('(min-width: 1024px)').matches) {
+      const whatLine = document.querySelector<HTMLElement>('[data-q-card="what"]')?.querySelector('div');
+      const howLine = document.querySelector<HTMLElement>('[data-q-card="how"]')?.querySelector('div');
+      const didLine = document.querySelector<HTMLElement>('[data-q-card="did"]')?.querySelector('div');
+      const whatHowConnector = document.querySelector<HTMLElement>('[data-q-connector="what-how"]');
+      const howDidConnector = document.querySelector<HTMLElement>('[data-q-connector="how-did"]');
+
+      // Order matches the visual path: WHAT's line right, drop down, HOW's
+      // line right, drop down, DID's line right -- each element's already-
+      // computed width/height (from alignQuestionCards) becomes the tween's
+      // end value; margin-left/margin-top (also already set) stay fixed, so
+      // width/height growth reads as the line drawing outward from its
+      // fixed anchor point instead of scaling from the middle.
+      [whatLine, whatHowConnector, howLine, howDidConnector, didLine].forEach((el, i) => {
+        if (!el) return;
+        const isVertical = el === whatHowConnector || el === howDidConnector;
+        const prop = isVertical ? 'height' : 'width';
+        const target = parseFloat(el.style[prop] || '0');
+        gsap.set(el, { [prop]: 0 });
+        tl.to(el, { [prop]: target, duration: 1.0 }, i === 0 ? 0 : '-=0.3');
+      });
+    }
+
+    if (cards.length) {
+      // Fly-in from below (translateY + fade) instead of a plain opacity
+      // fade, matching the same treatment on the Services page's engage
+      // cards.
+      gsap.set(cards, { opacity: 0, y: 40 });
+      tl.to(cards, { opacity: 1, y: 0, duration: 1.2, stagger: 1 }, '-=0.8');
+    }
+  }
+
+  function initQuestionsAll() {
+    alignQuestionCards();
+    initQuestionsAnimation();
+  }
+
+  initQuestionsAll();
+  document.addEventListener('astro:page-load', initQuestionsAll);
+
+  // ScrollTrigger computes each trigger's pixel boundary from the page's
+  // layout at the moment it's created -- but images and any React islands
+  // above this section finish loading and shift page height well after
+  // that, leaving the cached boundary stale so the reveal never fires. A
+  // refresh once everything has settled recalculates it against the final
+  // layout.
+  window.addEventListener('load', () => ScrollTrigger.refresh());
+</script>
