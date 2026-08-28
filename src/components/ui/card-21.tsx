@@ -57,6 +57,8 @@ interface ChallengeCardProps extends React.HTMLAttributes<HTMLDivElement> {
   compactHeadline?: boolean;
   /** CTA pill label. Defaults to "Explore this challenge" (homepage copy). */
   ctaLabel?: string;
+  /** Rounds the card's outer corners. Off by default to match the rest of the site's square-edged cards. */
+  rounded?: boolean;
 }
 
 const ChallengeCard = React.forwardRef<HTMLDivElement, ChallengeCardProps>(
@@ -75,6 +77,7 @@ const ChallengeCard = React.forwardRef<HTMLDivElement, ChallengeCardProps>(
       leftAlignText,
       compactHeadline,
       ctaLabel = 'Explore this challenge',
+      rounded,
       ...props
     },
     ref
@@ -89,25 +92,17 @@ const ChallengeCard = React.forwardRef<HTMLDivElement, ChallengeCardProps>(
         >
           <a
             href={href}
-            className="relative flex h-full w-full flex-col overflow-hidden shadow-lg
-                       transition-all duration-500 ease-in-out
-                       group-hover:scale-105 group-hover:shadow-[0_0_60px_-15px_hsl(var(--theme-color)/0.6)]"
+            className={cn(
+              'relative flex h-full w-full flex-col overflow-hidden shadow-lg',
+              'transition-all duration-500 ease-in-out',
+              'group-hover:scale-105 group-hover:shadow-[0_0_60px_-15px_hsl(var(--theme-color)/0.6)]',
+              rounded && 'rounded-[12px]'
+            )}
             aria-label={`Explore: ${headline}`}
           >
-            {framedImage ? (
-              <div className="h-[48%] w-full bg-white p-3">
-                <div
-                  className="h-full w-full bg-cover bg-center transition-transform duration-500 ease-in-out group-hover:scale-110"
-                  style={{ backgroundImage: `url(${imageUrl})` }}
-                />
-              </div>
-            ) : (
-              <div
-                className="h-[48%] w-full bg-cover bg-center transition-transform duration-500 ease-in-out group-hover:scale-110"
-                style={{ backgroundImage: `url(${imageUrl})` }}
-              />
-            )}
-
+            {/* Content precedes the image (Deloitte "img-position-bottom"
+                reference), instead of the image-on-top order this card
+                started with. */}
             <div className="flex h-[52%] w-full flex-col justify-between bg-white p-5 text-navy">
               <div>
                 <h3
@@ -142,6 +137,20 @@ const ChallengeCard = React.forwardRef<HTMLDivElement, ChallengeCardProps>(
                 <IconArrowRight className="h-4 w-4 shrink-0 transition-transform duration-300 group-hover:translate-x-1" />
               </div>
             </div>
+
+            {framedImage ? (
+              <div className="h-[48%] w-full bg-white p-3">
+                <div
+                  className="h-full w-full bg-cover bg-center transition-transform duration-500 ease-in-out group-hover:scale-110"
+                  style={{ backgroundImage: `url(${imageUrl})` }}
+                />
+              </div>
+            ) : (
+              <div
+                className="h-[48%] w-full bg-cover bg-center transition-transform duration-500 ease-in-out group-hover:scale-110"
+                style={{ backgroundImage: `url(${imageUrl})` }}
+              />
+            )}
           </a>
         </div>
       );

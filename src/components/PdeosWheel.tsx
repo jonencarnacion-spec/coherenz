@@ -66,7 +66,7 @@ export default function PdeosWheel({
           <PdeosOrbitalComparison />
         </div>
 
-        <div className="relative mt-8 flex flex-col gap-8 overflow-hidden bg-blue px-8 py-5 text-white sm:flex-row sm:items-center">
+        <div className="relative mt-[100px] flex flex-col gap-8 overflow-hidden bg-blue px-8 py-5 text-white sm:flex-row sm:items-center">
           <img
             src={`${base}img/monogram.svg`}
             alt=""

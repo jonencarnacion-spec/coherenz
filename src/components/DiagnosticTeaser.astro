@@ -1,9 +1,10 @@
 ---
 // Homepage teaser. The real click-to-reveal diagnostic funnel lives on the
 // /diagnostic page and is the only one of the three that becomes a React
-// island, per MIGRATION.md — this elastic-gallery is a second, separate
-// island (hover/click interactivity for the accordion effect).
-import { ElasticGallery } from './ui/elastic-gallery';
+// island, per MIGRATION.md — this dual-slider is a second, separate island
+// (text-crossfade + peeking image carousel, ported from deloitte.com's
+// "Our work" component, replacing the earlier elastic-gallery accordion).
+import { DualSlider } from './ui/dual-slider';
 import { base } from '../lib/base';
 import { IconSearch, IconEye, IconTarget, IconTrendingUp, IconTargetArrow } from '@tabler/icons-react';
 
@@ -20,6 +21,8 @@ const dimensions = [
     title: 'Value',
     q: 'Are we building the right things?',
     subtitle: 'Are we focused on opportunities that create the most customer, business, and strategic value?',
+    detail:
+      'Teams often optimize for output over outcome — shipping plenty of work that never translates into measurable business impact. The Value lens forces every investment decision back to a single question: what return does this actually create?',
     src: `${base}img/photography/diagnostic-value.jpg`,
     alt: 'Reviewing quarterly progress and revenue metrics',
   },
@@ -28,6 +31,8 @@ const dimensions = [
     title: 'Flow',
     q: 'How efficiently does work move?',
     subtitle: 'How smoothly does work move from idea to outcome? Where are the bottlenecks and delays?',
+    detail:
+      'Most delivery systems lose more value to waiting than to the work itself. Mapping where handoffs stall, queues build, and dependencies block progress turns invisible drag into a constraint that can actually be fixed.',
     src: `${base}img/photography/diagnostic-flow.jpg`,
     alt: 'Reviewing the product operating model',
   },
@@ -36,6 +41,8 @@ const dimensions = [
     title: 'Capacity',
     q: 'Where is our delivery capacity actually going?',
     subtitle: 'How is our capacity allocated today? How much is spent on non-value-adding or low-value work?',
+    detail:
+      "Capacity is a fixed, perishable resource — once a sprint or a quarter passes, unused capacity is gone for good. Understanding exactly where it's going, not just how much exists, is what turns a headcount conversation into an investment conversation.",
     src: `${base}img/photography/diagnostic-capacity.jpg`,
     alt: 'Product delivery economics assessment',
   },
@@ -44,6 +51,8 @@ const dimensions = [
     title: 'Quality',
     q: 'How much capacity is consumed by defects and rework?',
     subtitle: 'How much effort is lost to defects, rework, and technical debt instead of creating new value?',
+    detail:
+      "Defects and rework don't just cost the time to fix them — they quietly consume capacity that should be creating new value. The Quality lens quantifies how much of the roadmap is really just repayment for shortcuts taken earlier.",
     src: `${base}img/photography/diagnostic-quality.jpg`,
     alt: 'Delivery stabilization work in progress',
   },
@@ -53,6 +62,8 @@ const dimensions = [
     q: 'How much effort is lost to dependencies and organizational friction?',
     subtitle:
       'How much time, capacity, and cognitive load is consumed by handoffs, waiting, unclear priorities, and organizational complexity?',
+    detail:
+      'As organizations scale, the cost of aligning people often grows faster than the cost of doing the work itself. The Coordination lens surfaces how much capacity disappears into handoffs, approvals, and misaligned priorities before a single unit of value is delivered.',
     src: `${base}img/photography/diagnostic-coordination.jpg`,
     alt: 'Executive workshop session',
   },
@@ -72,10 +83,10 @@ const dimensions = [
     </p>
 
     <div class="mt-[50px]">
-      <ElasticGallery items={dimensions} client:visible />
+      <DualSlider items={dimensions} client:visible />
     </div>
 
-    <div class="relative mt-6 flex flex-col gap-8 overflow-hidden bg-blue px-8 py-5 text-white sm:flex-row sm:items-center">
+    <div class="relative mt-[100px] flex flex-col gap-8 overflow-hidden bg-cream px-8 py-5 text-navy sm:flex-row sm:items-center">
       <img
         src={`${base}img/monogram.svg`}
         alt=""
@@ -95,7 +106,7 @@ const dimensions = [
           <div>
             <Icon size={30} strokeWidth={1.8} className="text-orange" />
             <strong class="mt-2 block text-sm uppercase tracking-wide">{title}</strong>
-            <span class="mt-1 block text-xs text-white/70">{desc}</span>
+            <span class="mt-1 block text-xs text-navy/70">{desc}</span>
           </div>
         ))}
       </div>

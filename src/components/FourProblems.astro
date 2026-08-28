@@ -67,6 +67,9 @@ const cardItems = problems.map((p) => ({
   // Same 2-column, no-fixed-headline-floor layout as the Services page's
   // "Start With the Problem. Choose the Right Engagement." Programs grid.
   compactHeadline: true,
+  // Rounded corners, scoped to this section only (not the Services page's
+  // Programs grid, which shares this same card component).
+  rounded: true,
 }));
 ---
 
@@ -83,14 +86,14 @@ const cardItems = problems.map((p) => ({
       how we help leaders close the gap.
     </p>
     <p class="mt-2">
-      <a href={`${base}diagnostic`} class="font-bold text-orange">Take the diagnostic →</a>
+      <a href={`${base}services`} class="font-bold text-orange">Take the diagnostic →</a>
     </p>
   </div>
 
   <div class="mx-auto mt-[50px] max-w-[1536px] px-6 sm:px-8 lg:px-10 xl:px-14">
-    <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+    <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
       {cardItems.map((item) => (
-        <div class="h-[288px]">
+        <div class="h-[432px]">
           <ChallengeCard {...item} />
         </div>
       ))}
