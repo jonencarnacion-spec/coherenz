@@ -2,6 +2,8 @@ export interface PromiseSlide {
   number: string;
   title: string;
   description: string;
+  /** Optional longer paragraph rendered below the description, expanding on the topic. */
+  detail?: string;
   ctaLabel: string;
   ctaHref: string;
   accent: string;

@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { IconArrowLeft, IconArrowRight } from '@tabler/icons-react';
 import { base } from '../../lib/base';
-import { promiseSlides } from '../../data/promiseCarousel';
+import { promiseSlides, type PromiseSlide } from '../../data/promiseCarousel';
 import './elegant-carousel.css';
 
 // Adapted from a pasted 21st.dev "elegant-carousel" component. Source used
@@ -9,7 +9,16 @@ import './elegant-carousel.css';
 // with real Coherenz copy + Jon's own photos (promiseCarousel.ts) and a
 // reskinned stylesheet (elegant-carousel.css). Icons swapped from
 // lucide-react to @tabler/icons-react per DESIGN.md §4.
-export default function ElegantCarousel() {
+// `slides` defaults to the homepage's promiseSlides so Perspectives.astro's
+// existing usage needs no changes; the approach page's "Core Idea" section
+// passes its own coreIdeaSlides to reuse this same carousel treatment.
+interface ElegantCarouselProps {
+  slides?: PromiseSlide[];
+  /** Overrides the progress-bar strip's background (defaults to the CSS wash-green, matching Perspectives.astro's usage). */
+  progressBarBg?: string;
+}
+
+export default function ElegantCarousel({ slides = promiseSlides, progressBarBg }: ElegantCarouselProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [progress, setProgress] = useState(0);
@@ -39,12 +48,12 @@ export default function ElegantCarousel() {
   );
 
   const goNext = useCallback(() => {
-    goToSlide((currentIndex + 1) % promiseSlides.length);
-  }, [currentIndex, goToSlide]);
+    goToSlide((currentIndex + 1) % slides.length);
+  }, [currentIndex, goToSlide, slides.length]);
 
   const goPrev = useCallback(() => {
-    goToSlide((currentIndex - 1 + promiseSlides.length) % promiseSlides.length);
-  }, [currentIndex, goToSlide]);
+    goToSlide((currentIndex - 1 + slides.length) % slides.length);
+  }, [currentIndex, goToSlide, slides.length]);
 
   useEffect(() => {
     if (isPaused) return;
@@ -77,7 +86,7 @@ export default function ElegantCarousel() {
     }
   };
 
-  const slide = promiseSlides[currentIndex];
+  const slide = slides[currentIndex];
 
   return (
     <div
@@ -99,13 +108,17 @@ export default function ElegantCarousel() {
             <div className={`carousel-collection-num ${isTransitioning ? 'transitioning' : ''}`}>
               <span className="carousel-num-line" />
               <span className="carousel-num-text">
-                {String(currentIndex + 1).padStart(2, '0')} / {String(promiseSlides.length).padStart(2, '0')}
+                {String(currentIndex + 1).padStart(2, '0')} / {String(slides.length).padStart(2, '0')}
               </span>
             </div>
 
             <h3 className={`carousel-title ${isTransitioning ? 'transitioning' : ''}`}>{slide.title}</h3>
 
             <p className={`carousel-description ${isTransitioning ? 'transitioning' : ''}`}>{slide.description}</p>
+
+            {slide.detail && (
+              <p className={`carousel-detail ${isTransitioning ? 'transitioning' : ''}`}>{slide.detail}</p>
+            )}
 
             <a
               href={`${base}${slide.ctaHref}`}
@@ -139,8 +152,8 @@ export default function ElegantCarousel() {
         </div>
       </div>
 
-      <div className="carousel-progress-bar">
-        {promiseSlides.map((s, index) => (
+      <div className="carousel-progress-bar" style={progressBarBg ? { background: progressBarBg } : undefined}>
+        {slides.map((s, index) => (
           <button
             key={s.number}
             onClick={() => goToSlide(index)}

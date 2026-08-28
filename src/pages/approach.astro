@@ -9,7 +9,8 @@ import Footer from '../components/Footer.astro';
 import FinalCta from '../components/FinalCta.astro';
 import PdeosWheel from '../components/PdeosWheel.tsx';
 import ThreeQuestions from '../components/ThreeQuestions.astro';
-import ResourceBento from '../components/ui/resource-bento.tsx';
+import ElegantCarousel from '../components/ui/elegant-carousel.tsx';
+import { coreIdeaSlides } from '../data/coreIdeaCarousel';
 import PhasesWheel from '../components/ui/phases-wheel.tsx';
 import { base } from '../lib/base';
 ---
@@ -29,9 +30,9 @@ import { base } from '../lib/base';
       loop
       playsinline
     >
-      <source src={`${base}video/services-hero.mp4`} type="video/mp4" />
+      <source src={`${base}video/approach-hero-intro.mp4`} type="video/mp4" />
     </video>
-    <div class="absolute inset-0 bg-gradient-to-t from-navy via-navy/70 to-navy/20" />
+    <div class="pointer-events-none absolute inset-0 bg-gradient-to-t from-navy via-navy/70 to-navy/20" />
     <div class="relative mx-auto w-full max-w-[1536px] px-6 py-20 sm:px-8 lg:px-10 xl:px-14">
       <p class="text-sm font-bold uppercase tracking-[0.375em] text-orange">The Coherenz Approach</p>
       <h1 class="mt-3 max-w-2xl font-serif text-4xl text-white sm:text-5xl">
@@ -44,14 +45,14 @@ import { base } from '../lib/base';
     </div>
   </section>
 
-  <section id="core-idea" class="bg-white pt-16 pb-[100px] sm:pt-24">
+  <section id="core-idea" class="bg-wash-blue pt-16 pb-[100px] sm:pt-24">
     <div class="mx-auto max-w-[1536px] px-6 sm:px-8 lg:px-10 xl:px-14">
       <p class="text-sm font-bold uppercase tracking-[0.375em] text-orange">The Core Idea</p>
       <h2 class="mt-3 max-w-2xl font-serif text-4xl text-navy sm:text-5xl">
         Every organization operates with finite resources.
       </h2>
       <div class="mt-[100px]">
-        <ResourceBento client:visible />
+        <ElegantCarousel client:visible slides={coreIdeaSlides} progressBarBg="#EAEEF1" />
       </div>
       <p class="mx-auto mt-10 max-w-2xl text-center text-[20px] font-semibold text-navy">
         Every decision competes for a share of them.
@@ -68,10 +69,6 @@ import { base } from '../lib/base';
        after it reads as the direct answer to "these decisions are often
        made separately" rather than a new, unrelated topic. -->
   <section id="bridge" class="relative overflow-hidden bg-navy py-[70px] sm:py-[100px]">
-    <video id="bridge-video" class="absolute inset-0 h-full w-full object-cover" autoplay muted loop playsinline>
-      <source src={`${base}video/approach-bridge-bg.mp4`} type="video/mp4" />
-    </video>
-    <div class="absolute inset-0 bg-navy/70" />
     <div class="relative mx-auto max-w-2xl px-6 text-center sm:px-8">
       <div class="mx-auto mb-8 h-px w-16 bg-orange" aria-hidden="true" />
       <p class="font-serif text-[28px] text-white sm:text-[34px]">
@@ -135,8 +132,7 @@ import { base } from '../lib/base';
 <script>
   // Same off-screen pause pattern as HeroDuplicate's video -- a looping
   // autoplay video keeps decoding/buffering frames indefinitely even while
-  // scrolled far out of view. Shared by both background videos on this page
-  // (the hero and the narrative-bridge section).
+  // scrolled far out of view.
   function pauseVideoWhenOffscreen(sectionId: string, videoId: string) {
     const section = document.getElementById(sectionId);
     const video = document.getElementById(videoId) as HTMLVideoElement | null;
@@ -154,7 +150,6 @@ import { base } from '../lib/base';
 
   function initApproachVideoPause() {
     pauseVideoWhenOffscreen('approach-hero', 'approach-hero-video');
-    pauseVideoWhenOffscreen('bridge', 'bridge-video');
   }
 
   initApproachVideoPause();

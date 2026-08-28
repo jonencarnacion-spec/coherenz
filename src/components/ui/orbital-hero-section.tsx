@@ -703,8 +703,17 @@ export function OrbitalHeroSection({
       // fill in a ~15%-darkened Coherenz navy (#1A2744 → #16213A) — keeps
       // the brand's navy tone rather than going to black by default, but is
       // driven by the baseFill prop so a section can opt into true black.
-      ctx!.fillStyle = C.baseFill;
-      ctx!.fillRect(0, 0, width, height);
+      // A "transparent" baseFill (for layering this as an orbit-lines-only
+      // overlay on top of another background) needs clearRect instead --
+      // fillRect with a fully transparent color is a source-over no-op, so
+      // it would never actually erase the previous frame and the "lighter"
+      // blending below would smear/accumulate into a wash of light over time.
+      if (C.baseFill === "transparent") {
+        ctx!.clearRect(0, 0, width, height);
+      } else {
+        ctx!.fillStyle = C.baseFill;
+        ctx!.fillRect(0, 0, width, height);
+      }
       ctx!.globalCompositeOperation = "lighter";
 
       /* stars ------------------------------------------------------------- */

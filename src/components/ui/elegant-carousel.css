@@ -120,6 +120,20 @@
   opacity: 0;
 }
 
+.carousel-detail {
+  font-size: 0.875rem;
+  line-height: 1.6;
+  color: #1a2744b3; /* navy/70 */
+  margin-top: -0.75rem;
+  margin-bottom: 1.5rem;
+  opacity: 1;
+  transition: opacity 500ms ease;
+}
+
+.carousel-detail.transitioning {
+  opacity: 0;
+}
+
 .carousel-cta {
   display: inline-block;
   font-weight: 700;

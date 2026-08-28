@@ -1,0 +1,6 @@
+/* React Bits "Threads" component -- unmodified from the source CSS. */
+.threads-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
