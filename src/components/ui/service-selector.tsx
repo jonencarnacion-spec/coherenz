@@ -54,7 +54,8 @@ function ServiceBlock({
   const activePill = openPill !== null ? service.pills[openPill] : null;
   const blockRef = useRef<HTMLDivElement>(null);
 
-  const imageSrc = `${base}img/services/${service.slug}.jpg`;
+  // Same photography as the homepage's FourProblems section, per request.
+  const imageSrc = `${base}img/problems/${service.slug}.jpg`;
 
   // Centers the expanded panel in the viewport so the whole open card --
   // description, pills and image -- is visible without the visitor having

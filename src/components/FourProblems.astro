@@ -43,12 +43,12 @@ const problems = [
   },
 ];
 
-// Same per-service photography used in the Services page's "Which Problem
-// Looks Most Like Yours" (ServiceSelector) -- was the abstract 3D-render
-// photography (img/photography/solve-*.jpg) before, swapped so this
-// homepage teaser and the services page read as the same challenge set.
+// Own photography set for this section, scoped to img/problems/ so it
+// doesn't affect the Services page's "Which Problem Looks Most Like Yours"
+// (ServiceSelector) or individual service pages, which both share the
+// img/services/*.jpg files under these same filenames.
 const cardItems = problems.map((p) => ({
-  imageUrl: `${base}img/services/${p.img}`,
+  imageUrl: `${base}img/problems/${p.img}`,
   headline: p.pain ?? p.label,
   label: p.pain ? p.label : p.q,
   desc: p.pain ? p.desc : undefined,
