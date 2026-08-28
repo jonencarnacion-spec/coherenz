@@ -25,6 +25,6 @@ export function glowStyle(hex: string) {
   const [r, g, b] = hexToRgb(hex);
   return {
     background: `radial-gradient(circle at 35% 30%, #ffffff 0%, rgba(${r},${g},${b},0.95) 15%, rgba(${r},${g},${b},0.9) 40%, ${hex} 100%)`,
-    boxShadow: `0 0 10.91px 2.98px rgba(${r},${g},${b},0.75), 0 0 25.79px 8.92px rgba(${r},${g},${b},0.49), 0 0 50.59px 17.86px rgba(${r},${g},${b},0.26)`,
+    boxShadow: `0 0 10.36px 2.83px rgba(${r},${g},${b},0.75), 0 0 24.50px 8.47px rgba(${r},${g},${b},0.49), 0 0 48.06px 16.97px rgba(${r},${g},${b},0.26)`,
   };
 }

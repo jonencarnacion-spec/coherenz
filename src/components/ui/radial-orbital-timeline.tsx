@@ -222,7 +222,11 @@ export default function RadialOrbitalTimeline({ timelineData, centerContent }: R
               >
                 <div
                   className={`flex items-center justify-center rounded-full border-[6px] transition-all duration-300 ${
-                    isExpanded ? 'h-10 w-10 scale-[1.98]' : isRelated ? 'h-14 w-14 animate-pulse' : 'h-14 w-14'
+                    isExpanded
+                      ? 'h-10 w-10 scale-[1.98]'
+                      : isRelated
+                        ? 'h-[48px] w-[48px] animate-pulse'
+                        : 'h-[48px] w-[48px]'
                   }`}
                   style={{
                     borderColor: isExpanded ? item.color : rgba(item.color, 0.5),

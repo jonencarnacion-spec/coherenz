@@ -12,7 +12,7 @@ const problems = [
   {
     q: 'Are you investing in the right things?',
     label: 'Product & Portfolio Strategy',
-    img: 'solve-strategy.jpg',
+    img: 'product-portfolio-strategy.jpg',
     pain: "We're investing in the wrong things.",
     desc: 'Align strategy and invest in what creates the most value.',
     themeColor: '36 80% 55%',
@@ -20,7 +20,7 @@ const problems = [
   {
     q: 'Are you getting enough value from your delivery capacity?',
     label: 'Product Delivery Economics™',
-    img: 'solve-delivery-economics.jpg',
+    img: 'product-delivery-economics.jpg',
     pain: "We're not getting enough value from capacity.",
     desc: 'Improve flow and reduce waste to turn capacity into measurable value.',
     themeColor: '212 44% 32%',
@@ -28,7 +28,7 @@ const problems = [
   {
     q: 'Is your delivery system struggling to keep up?',
     label: 'Delivery Stabilization',
-    img: 'solve-delivery-stabilization.jpg',
+    img: 'delivery-stabilization.jpg',
     pain: 'Delivery is struggling to keep up.',
     desc: 'Unblock constraints and stabilize flow to restore predictable delivery.',
     themeColor: '47 100% 35%',
@@ -36,15 +36,19 @@ const problems = [
   {
     q: 'Is your organization ready to scale?',
     label: 'Product Operating Model',
-    img: 'solve-operating-model.jpg',
+    img: 'product-operating-model.jpg',
     pain: "We've outgrown our operating model.",
     desc: 'Design the operating model and governance to scale product impact.',
     themeColor: '165 55% 20%',
   },
 ];
 
+// Same per-service photography used in the Services page's "Which Problem
+// Looks Most Like Yours" (ServiceSelector) -- was the abstract 3D-render
+// photography (img/photography/solve-*.jpg) before, swapped so this
+// homepage teaser and the services page read as the same challenge set.
 const cardItems = problems.map((p) => ({
-  imageUrl: `${base}img/photography/${p.img}`,
+  imageUrl: `${base}img/services/${p.img}`,
   headline: p.pain ?? p.label,
   label: p.pain ? p.label : p.q,
   desc: p.pain ? p.desc : undefined,
@@ -86,7 +90,7 @@ const cardItems = problems.map((p) => ({
   <div class="mx-auto mt-[50px] max-w-[1536px] px-6 sm:px-8 lg:px-10 xl:px-14">
     <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
       {cardItems.map((item) => (
-        <div class="h-[384px]">
+        <div class="h-[288px]">
           <ChallengeCard {...item} />
         </div>
       ))}
