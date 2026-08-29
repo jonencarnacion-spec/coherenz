@@ -1,36 +1,47 @@
 ---
-// Insights ("Coherenz Thinking") index page. Structure and the four theme
-// categories are ported from "Site Context.docx" §6 (Insights) -- "This
-// should be a significant part of the website—not just a blog... Organize
-// it into four themes" -- theme names and their sub-topic lists are the
-// doc's own wording, not invented. Content (featured piece + 3-card grid)
-// reuses the same real, Jon-supplied copy/photos already live in
-// InsightsTeaser.astro, via the shared src/data/insightsContent.ts.
+// Insights page, rebuilt per "insights page flow.docx" (assets/insights
+// page/) -- a developer-handoff spec for editorial page structure and
+// copy. Section order, headlines, and card copy below follow that doc
+// directly: INSIGHTS HERO → FEATURED INSIGHT → INSIGHT COLLECTION INTRO →
+// VALUE & INVESTMENT → CAPACITY & FLOW → COHERENZ PERSPECTIVE →
+// SYSTEM DESIGN → FROM INSIGHT TO ACTION → FOOTER. Per the doc's Design
+// Principles (§13: "Question-led, not category-led" / avoid "excessive
+// category tags"), the old flat card grid + 4-theme filter-info section
+// from the previous structural pass are gone -- the three named editorial
+// sections now carry that organizing role instead.
 //
-// Scope note: this is a structural first pass, not final. Per the doc,
-// this page is meant to eventually organize "Reports | Frameworks |
-// Articles | Case Studies" and grow well past today's four pieces -- each
-// full article should go through the deep-research → fact-checker →
-// technical-writer pipeline (see project memory) rather than being drafted
-// freehand, so none of that long-form writing happens here. The hero also
-// intentionally has no background video yet (every other interior page's
-// video took several rounds of picking before landing on-brand) -- flagging
-// that rather than guessing one in, per CLAUDE.md's "flag off-brand or
-// placeholder content" rule.
+// The three sections' 9 cards keep real photography where it already
+// exists (the same three images the homepage teaser uses); the other six
+// topics have no photography yet, so they render a themed placeholder
+// panel rather than borrowing unrelated site imagery or fabricating a
+// stock photo -- swap in real photos when Jon supplies them. Long-form
+// article content itself is still out of scope here -- each full article
+// should go through the deep-research → fact-checker → technical-writer
+// pipeline (see project memory) rather than being drafted freehand, and
+// none of these cards link anywhere real yet since no article pages exist.
 import Layout from '../layouts/Layout.astro';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
-import FinalCta from '../components/FinalCta.astro';
+import InsightGridCard from '../components/InsightGridCard.astro';
 import { base } from '../lib/base';
-import { topInsight, insights, insightThemes } from '../data/insightsContent';
-import { IconReportMoney, IconActivity, IconCompass, IconRefresh } from '@tabler/icons-react';
+import {
+  topInsight,
+  insightsHero,
+  insightCollectionIntro,
+  insightSections,
+  perspectiveBreak,
+  fromInsightToAction,
+} from '../data/insightsContent';
+import { IconReportMoney, IconActivity, IconRefresh, IconArrowUpRight } from '@tabler/icons-react';
 
-const themeIcons = [IconReportMoney, IconActivity, IconCompass, IconRefresh];
+// One representative icon per editorial section, used for that section's
+// image-less placeholder cards.
+const sectionIcons = [IconReportMoney, IconActivity, IconRefresh];
 ---
 
 <Layout
   title="Insights — Coherenz"
-  description="Coherenz Thinking: perspectives on product economics, delivery economics, product leadership, and transformation—for leaders making investment, prioritization, and delivery decisions."
+  description="Better questions about how product organizations create value. Perspectives on product strategy, delivery economics, capacity, flow, and the decisions that shape business outcomes."
 >
   <Nav />
 
@@ -40,86 +51,116 @@ const themeIcons = [IconReportMoney, IconActivity, IconCompass, IconRefresh];
     </video>
     <div class="pointer-events-none absolute inset-0 bg-gradient-to-t from-navy via-navy/70 to-navy/20" />
     <div class="relative mx-auto w-full max-w-[1536px] px-6 py-20 sm:px-8 lg:px-10 xl:px-14">
-      <p class="text-sm font-bold uppercase tracking-[0.375em] text-orange">Coherenz Thinking</p>
-      <h1 class="mt-3 max-w-2xl font-serif text-4xl text-white sm:text-5xl">Perspectives worth your time.</h1>
-      <p class="mt-4 max-w-2xl text-white/75">
-        Practical thinking on the economics of product delivery—for leaders making investment, prioritization, and
-        delivery decisions.
-      </p>
+      <p class="text-sm font-bold uppercase tracking-[0.375em] text-orange">{insightsHero.eyebrow}</p>
+      <h1 class="mt-3 max-w-2xl font-serif text-4xl text-white sm:text-5xl">{insightsHero.headline}</h1>
+      <p class="mt-4 max-w-2xl text-white/75">{insightsHero.supporting}</p>
     </div>
   </section>
 
-  <section id="insights-themes" class="bg-white py-16 sm:py-24">
+  <section id="featured-insight" class="bg-wash-green py-16 sm:py-24">
     <div class="mx-auto max-w-[1536px] px-6 sm:px-8 lg:px-10 xl:px-14">
-      <p class="text-sm font-bold uppercase tracking-[0.375em] text-orange">Explore by Theme</p>
-      <h2 class="mt-3 max-w-2xl font-serif text-4xl text-navy sm:text-5xl">Four lenses on delivery economics.</h2>
-
-      <div class="mt-[60px] grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-        {insightThemes.map(({ name, topics }, i) => {
-          const Icon = themeIcons[i];
-          return (
-            <div class="border border-line p-6">
-              <Icon size={26} strokeWidth={1.8} class="text-orange" />
-              <h3 class="mt-4 text-lg font-bold text-navy">{name}</h3>
-              <ul class="mt-3 space-y-1.5">
-                {topics.map((topic) => (
-                  <li class="text-sm text-foreground/70">{topic}</li>
-                ))}
-              </ul>
-            </div>
-          );
-        })}
-      </div>
-    </div>
-  </section>
-
-  <section id="insights-list" class="bg-wash-green py-16 sm:py-24">
-    <div class="mx-auto max-w-[1536px] px-6 sm:px-8 lg:px-10 xl:px-14">
-      <p class="text-sm font-bold uppercase tracking-[0.375em] text-orange">Latest Thinking</p>
-      <h2 class="mt-3 max-w-2xl font-serif text-4xl text-navy sm:text-5xl">Start here.</h2>
-
-      <div class="mt-[60px] grid grid-cols-1 border border-line md:grid-cols-2 md:h-[563px]">
+      <div class="group grid cursor-pointer grid-cols-1 border border-line md:grid-cols-2 md:h-[563px]">
         <div class="flex flex-col justify-start overflow-y-auto bg-white p-6 sm:p-8">
           <p class="text-xs font-bold uppercase tracking-wide text-orange">{topInsight.tag}</p>
           <h3 class="mt-2 font-serif text-3xl text-navy sm:text-4xl">{topInsight.title}</h3>
           <p class="mt-2 font-medium text-navy/80">{topInsight.subhead}</p>
           <p class="mt-2 text-sm text-foreground/70">{topInsight.body}</p>
+          <p class="mt-4 inline-flex items-center gap-2 font-bold text-orange">
+            <IconArrowUpRight
+              size={20}
+              stroke={2}
+              class="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+            />
+            Read the Insight
+          </p>
         </div>
-        <div class="min-h-[240px] md:h-full">
+        <div class="min-h-[240px] overflow-hidden md:h-full">
           <img
             src={`${base}img/photography/${topInsight.image}`}
             alt={topInsight.imageAlt}
-            class="h-full w-full object-cover"
+            class="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
           />
         </div>
       </div>
-
-      <div class="mt-[60px] grid grid-cols-1 gap-4 sm:grid-cols-3">
-        {insights.map(({ tag, title, description, image, imageAlt }) => (
-          <div class="flex h-full flex-col border border-line bg-white">
-            <img src={`${base}img/photography/${image}`} alt={imageAlt} class="h-40 w-full object-cover" />
-            <div class="flex flex-1 flex-col p-5">
-              <p class="text-xs font-bold uppercase tracking-wide text-yellow">{tag}</p>
-              <h5 class="mt-2 text-[15px] font-semibold leading-snug text-navy">{title}</h5>
-              <p class="mt-2 text-xs text-foreground/70">{description}</p>
-            </div>
-          </div>
-        ))}
-      </div>
-
-      <p class="mt-[60px] text-center text-sm text-navy/60">More perspectives are on the way.</p>
     </div>
   </section>
 
-  <div class="relative overflow-hidden bg-navy">
+  <section id="insight-collection-intro" class="bg-white pt-16 sm:pt-24">
+    <div class="mx-auto max-w-[1536px] px-6 sm:px-8 lg:px-10 xl:px-14">
+      <p class="text-sm font-bold uppercase tracking-[0.375em] text-orange">Coherenz Thinking</p>
+      <h2 class="mt-3 max-w-2xl font-serif text-4xl text-navy sm:text-5xl">{insightCollectionIntro.headline}</h2>
+      <p class="mt-4 max-w-2xl text-foreground/70">{insightCollectionIntro.supporting}</p>
+    </div>
+  </section>
+
+  {insightSections.slice(0, 2).map(({ name, items }, i) => (
+    <section class="bg-white py-16 sm:py-20">
+      <div class="mx-auto max-w-[1536px] px-6 sm:px-8 lg:px-10 xl:px-14">
+        <h3 class="font-serif text-2xl text-navy sm:text-3xl">{name}</h3>
+        <div class="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {items.map((item) => (
+            <InsightGridCard {...item} Icon={sectionIcons[i]} />
+          ))}
+        </div>
+      </div>
+    </section>
+  ))}
+
+  <section id="perspective-break" class="relative overflow-hidden bg-navy py-20 sm:py-32">
     <img
       src={`${base}img/monogram.svg`}
       alt=""
-      class="pointer-events-none absolute -right-6 -top-20 w-96 opacity-[0.22] sm:-right-4 sm:w-[30rem]"
+      class="pointer-events-none absolute -right-10 -top-16 w-72 opacity-[0.18] sm:-right-6 sm:-top-20 sm:w-96"
     />
-    <FinalCta showPortrait={false} showMonogram={false} transparent />
-    <Footer transparent />
-  </div>
+    <div class="relative mx-auto max-w-3xl px-6 text-center sm:px-8">
+      <div class="mx-auto mb-8 h-px w-16 bg-orange" aria-hidden="true" />
+      <p class="font-serif text-[28px] text-white sm:text-[36px]">{perspectiveBreak.statement}</p>
+      <p class="mt-5 text-white/70">{perspectiveBreak.body}</p>
+    </div>
+  </section>
+
+  {insightSections.slice(2).map(({ name, items }, i) => (
+    <section class="bg-white py-16 sm:py-24">
+      <div class="mx-auto max-w-[1536px] px-6 sm:px-8 lg:px-10 xl:px-14">
+        <h3 class="font-serif text-2xl text-navy sm:text-3xl">{name}</h3>
+        <div class="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {items.map((item) => (
+            <InsightGridCard {...item} Icon={sectionIcons[i + 2]} />
+          ))}
+        </div>
+      </div>
+    </section>
+  ))}
+
+  <section id="insight-to-action" class="bg-wash-blue py-16 sm:py-24">
+    <div class="mx-auto max-w-[1536px] px-6 sm:px-8 lg:px-10 xl:px-14">
+      <p class="text-sm font-bold uppercase tracking-[0.375em] text-orange">{fromInsightToAction.eyebrow}</p>
+      <h2 class="mt-3 max-w-2xl font-serif text-4xl text-navy sm:text-5xl">{fromInsightToAction.headline}</h2>
+      <p class="mt-4 max-w-2xl text-foreground/70">{fromInsightToAction.supporting}</p>
+
+      <div class="mt-[60px] grid grid-cols-1 gap-6 sm:grid-cols-3">
+        {fromInsightToAction.programs.map(({ slug, name, description, ctaLabel }) => (
+          <a
+            href={`${base}programs/${slug}`}
+            class="group flex flex-col border-t-4 border-t-orange bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
+          >
+            <h4 class="text-lg font-bold text-navy">{name}</h4>
+            <p class="mt-2 flex-1 text-sm text-foreground/70">{description}</p>
+            <span class="mt-4 inline-flex items-center gap-1.5 text-sm font-bold text-orange">
+              {ctaLabel}
+              <IconArrowUpRight
+                size={16}
+                stroke={2.25}
+                class="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+              />
+            </span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <Footer />
 </Layout>
 
 <script>

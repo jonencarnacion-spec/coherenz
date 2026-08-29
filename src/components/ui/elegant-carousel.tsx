@@ -16,9 +16,11 @@ interface ElegantCarouselProps {
   slides?: PromiseSlide[];
   /** Overrides the progress-bar strip's background (defaults to the CSS wash-green, matching Perspectives.astro's usage). */
   progressBarBg?: string;
+  /** Overrides the main panel's background (defaults to the CSS cream). */
+  wrapperBg?: string;
 }
 
-export default function ElegantCarousel({ slides = promiseSlides, progressBarBg }: ElegantCarouselProps) {
+export default function ElegantCarousel({ slides = promiseSlides, progressBarBg, wrapperBg }: ElegantCarouselProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [progress, setProgress] = useState(0);
@@ -91,6 +93,7 @@ export default function ElegantCarousel({ slides = promiseSlides, progressBarBg 
   return (
     <div
       className="carousel-wrapper"
+      style={wrapperBg ? { background: wrapperBg } : undefined}
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
       onTouchStart={handleTouchStart}
@@ -164,7 +167,7 @@ export default function ElegantCarousel({ slides = promiseSlides, progressBarBg 
               <div
                 className="carousel-progress-fill"
                 style={{
-                  width: index === currentIndex ? `${progress}%` : index < currentIndex ? '100%' : '0%',
+                  transform: `scaleX(${index === currentIndex ? progress / 100 : index < currentIndex ? 1 : 0})`,
                   backgroundColor: index === currentIndex ? s.accent : undefined,
                 }}
               />
