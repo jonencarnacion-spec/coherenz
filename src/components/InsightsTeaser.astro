@@ -5,42 +5,10 @@
 // that would be a fantastic little Coherenz graphic") -- that's not finalized
 // copy or a ready asset, so it's intentionally left out here rather than
 // fabricated; flag to Jon if he wants it built out separately.
+// Data lives in src/data/insightsContent.ts, shared with the /insights page.
 import { base } from '../lib/base';
 import { IconArrowUpRight } from '@tabler/icons-react';
-
-const topInsight = {
-  tag: 'Coherenz Perspective',
-  title: "Busy Doesn't Mean Valuable.",
-  subhead:
-    'The delivery capacity paradox: why maximizing utilization can actually reduce the value your organization creates.',
-  body: "A team can be fully occupied and still be investing its most expensive resource—delivery capacity—in the wrong places.",
-  image: 'insight-top.jpg',
-  imageAlt: 'Motion-blurred figure moving quickly across a crosswalk, evoking constant busyness',
-};
-
-const insights = [
-  {
-    tag: 'Product Economics',
-    title: 'More Delivery Doesn’t Mean More Value.',
-    description: 'Why increasing output can make a product organization less effective—and what to optimize instead.',
-    image: 'insight-2.jpg',
-    imageAlt: 'Layered street posters and flyers papering a wall, evoking accumulated output',
-  },
-  {
-    tag: 'Portfolio Strategy',
-    title: 'The Cost of Doing Nothing Is Often Hidden.',
-    description: 'Why prioritization should account for the economic cost of delay—not just the value of what gets built.',
-    image: 'insight-3.jpg',
-    imageAlt: 'Silhouetted figure on a wet beach at sunset with a crowd in the distance',
-  },
-  {
-    tag: 'Delivery Stabilization',
-    title: 'Your Delivery Problem May Not Be a Capacity Problem.',
-    description: 'Why adding people rarely fixes the underlying economics of a constrained delivery system.',
-    image: 'insight-4.jpg',
-    imageAlt: 'A Rubik’s cube mid-toss above an open hand',
-  },
-];
+import { topInsight, insights } from '../data/insightsContent';
 ---
 
 <section id="insights" class="bg-wash-green py-10 sm:py-16">
