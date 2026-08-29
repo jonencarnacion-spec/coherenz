@@ -1,10 +1,11 @@
 ---
 // Shared card for the /insights page's three editorial sections (Value &
-// Investment / Capacity & Flow / System Design). Per "insights page
-// flow.docx" §6/13: typography-driven, no tag/category chips, optional
-// hover polish reinforcing clickability -- these aren't real links yet
-// (no individual article pages exist), same reasoning as the rest of this
-// page's cards.
+// Investment / Capacity & Flow / System Design) and for RelatedInsights on
+// the article template. Per "insights page flow.docx" §6/13:
+// typography-driven, no tag/category chips, optional hover polish
+// reinforcing clickability. Renders as a real link when `slug` resolves to
+// a built /insights/[slug] page; falls back to a non-interactive card for
+// the topics that don't have an article yet.
 import { base } from '../lib/base';
 
 interface Props {
@@ -12,13 +13,19 @@ interface Props {
   description: string;
   image?: string;
   imageAlt?: string;
+  slug?: string;
   Icon: (props: { size?: number; strokeWidth?: number; class?: string }) => any;
 }
 
-const { title, description, image, imageAlt, Icon } = Astro.props;
+const { title, description, image, imageAlt, slug, Icon } = Astro.props;
+const Tag = slug ? 'a' : 'div';
+const linkProps = slug ? { href: `${base}insights/${slug}` } : {};
 ---
 
-<div class="group flex h-full cursor-pointer flex-col overflow-hidden border border-line bg-white transition-all duration-300 hover:-translate-y-1 hover:border-orange/40 hover:shadow-[0_16px_40px_-20px_rgba(26,39,68,0.35)]">
+<Tag
+  {...linkProps}
+  class="group flex h-full cursor-pointer flex-col overflow-hidden border border-line bg-white transition-all duration-300 hover:-translate-y-1 hover:border-orange/40 hover:shadow-[0_16px_40px_-20px_rgba(26,39,68,0.35)]"
+>
   {image ? (
     <img
       src={`${base}img/photography/${image}`}
@@ -36,4 +43,4 @@ const { title, description, image, imageAlt, Icon } = Astro.props;
     </h5>
     <p class="mt-2 text-xs text-foreground/70">{description}</p>
   </div>
-</div>
+</Tag>

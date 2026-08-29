@@ -1,0 +1,112 @@
+---
+// The article itself — the main content of the page. Renders the real,
+// fact-checked prose (src/data/insightArticles.ts `lede` + `body[]`,
+// transcribed from src/data/insights-articles/*.md) as actual paragraphs
+// under actual headings, the way a real article reads. The signature-visual
+// diagram, charts, a stat callout, and a pull quote are punctuation inside
+// that flow, not a replacement for it — matching long-form editorial
+// practice (McKinsey, HBR): a wide page shell, a narrower reading measure
+// for prose, and exhibits set off as their own boxed, numbered, sourced
+// moment. Every number in a chart/stat block is one already verified for
+// this article's Word-doc draft (src/data/insights-articles/*.md) and
+// listed in its `sources` array — nothing new is introduced here, only
+// visualized differently.
+import { IconArrowDown } from '@tabler/icons-react';
+import type { InsightBodyBlock } from '../../data/insightArticles';
+
+interface Props {
+  lede: string;
+  body: InsightBodyBlock[];
+}
+const { lede, body } = Astro.props;
+
+let exhibitCount = 0;
+const exhibitNumbers = body.map((block) => (block.type === 'visual' || block.type === 'chart' ? ++exhibitCount : null));
+---
+
+<article class="bg-white py-14 sm:py-20">
+  <div class="mx-auto max-w-[1536px] px-6 sm:px-8 lg:px-10 xl:px-14">
+    <div class="mx-auto max-w-[720px]">
+      <p class="font-serif text-2xl leading-snug text-navy sm:text-3xl">{lede}</p>
+
+      {body.map((block, idx) => {
+        if (block.type === 'heading') {
+          return <h2 class="mt-12 font-serif text-2xl text-navy sm:text-3xl">{block.text}</h2>;
+        }
+        if (block.type === 'paragraph') {
+          return <p class="mt-5 text-[17px] leading-[1.75] text-foreground/80 sm:text-lg">{block.text}</p>;
+        }
+        if (block.type === 'pullquote') {
+          return (
+            <div class="my-10 text-center">
+              <div class="mx-auto mb-5 h-px w-12 bg-orange" aria-hidden="true" />
+              <p class="font-serif text-2xl italic leading-snug text-navy sm:text-3xl">{block.text}</p>
+            </div>
+          );
+        }
+        if (block.type === 'visual') {
+          return (
+            <div class="my-10 border border-line bg-cream p-8 sm:p-10">
+              <p class="text-xs font-bold uppercase tracking-wide text-orange">Exhibit {exhibitNumbers[idx]}</p>
+              <div class="mx-auto mt-5 flex max-w-[440px] flex-col items-center">
+                {block.steps.map((step, i) => (
+                  <>
+                    <div class="w-full border border-line bg-white px-5 py-3.5 text-center">
+                      <p class="text-sm font-medium text-navy sm:text-base">{step}</p>
+                    </div>
+                    {i < block.steps.length - 1 && (
+                      <span class="my-1.5 text-orange" aria-hidden="true">
+                        <IconArrowDown size={18} stroke={2.25} />
+                      </span>
+                    )}
+                  </>
+                ))}
+              </div>
+              <p class="mt-6 text-center text-sm text-foreground/60">{block.caption}</p>
+            </div>
+          );
+        }
+        if (block.type === 'chart') {
+          const max = Math.max(...block.bars.map((b) => b.value));
+          return (
+            <div class="my-10 border border-line bg-cream p-8 sm:p-10">
+              <p class="text-xs font-bold uppercase tracking-wide text-orange">Exhibit {exhibitNumbers[idx]}</p>
+              <p class="mt-2 font-serif text-lg text-navy">{block.title}</p>
+              <div class="mt-6 space-y-4">
+                {block.bars.map((bar) => (
+                  <div>
+                    <div class="flex items-baseline justify-between text-sm">
+                      <span class="font-medium text-navy">{bar.label}</span>
+                      <span class="font-bold text-navy">
+                        {bar.value}
+                        {block.unit}
+                      </span>
+                    </div>
+                    <div class="mt-1.5 h-2.5 w-full bg-white">
+                      <div
+                        class={`h-full ${bar.highlight ? 'bg-orange' : 'bg-blue'}`}
+                        style={`width:${Math.max(4, (bar.value / max) * 100)}%`}
+                      />
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <p class="mt-6 text-sm text-foreground/60">{block.caption}</p>
+              <p class="mt-2 text-xs text-foreground/40">Source: {block.source}</p>
+            </div>
+          );
+        }
+        if (block.type === 'stat') {
+          return (
+            <div class="my-10 border border-line bg-navy p-8 text-center sm:p-10">
+              <p class="font-serif text-5xl text-orange sm:text-6xl">{block.value}</p>
+              <p class="mx-auto mt-3 max-w-sm text-white/85">{block.label}</p>
+              <p class="mt-4 text-xs text-white/40">Source: {block.source}</p>
+            </div>
+          );
+        }
+        return null;
+      })}
+    </div>
+  </div>
+</article>

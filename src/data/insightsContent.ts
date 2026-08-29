@@ -15,6 +15,7 @@ export interface InsightSummary {
   description: string;
   image?: string;
   imageAlt?: string;
+  slug?: string;
 }
 
 export const topInsight = {
@@ -25,6 +26,7 @@ export const topInsight = {
   body: "A team can be fully occupied and still be investing its most expensive resource—delivery capacity—in the wrong places.",
   image: 'insight-top.jpg',
   imageAlt: 'Motion-blurred figure moving quickly across a crosswalk, evoking constant busyness',
+  slug: 'busy-doesnt-mean-valuable',
 };
 
 export const insights: InsightSummary[] = [
@@ -34,6 +36,7 @@ export const insights: InsightSummary[] = [
     description: 'Why increasing output can make a product organization less effective—and what to optimize instead.',
     image: 'insight-2.jpg',
     imageAlt: 'Layered street posters and flyers papering a wall, evoking accumulated output',
+    slug: 'more-delivery-doesnt-mean-more-value',
   },
   {
     tag: 'Portfolio Strategy',
@@ -41,6 +44,7 @@ export const insights: InsightSummary[] = [
     description: 'Why prioritization should account for the economic cost of delay—not just the value of what gets built.',
     image: 'insight-3.jpg',
     imageAlt: 'Silhouetted figure on a wet beach at sunset with a crowd in the distance',
+    slug: 'the-cost-of-doing-nothing-is-often-hidden',
   },
   {
     tag: 'Delivery Stabilization',
@@ -100,6 +104,7 @@ export interface InsightGridItem {
   description: string;
   image?: string;
   imageAlt?: string;
+  slug?: string;
 }
 
 export interface InsightEditorialSection {
@@ -120,16 +125,19 @@ export const insightSections: InsightEditorialSection[] = [
         description: 'Why increasing output can make a product organization less effective—and what to optimize instead.',
         image: 'insight-2.jpg',
         imageAlt: 'Layered street posters and flyers papering a wall, evoking accumulated output',
+        slug: 'more-delivery-doesnt-mean-more-value',
       },
       {
         title: 'The Cost of Doing Nothing Is Often Hidden.',
         description: 'Why prioritization should account for the economic cost of delay—not just the value of what gets built.',
         image: 'insight-3.jpg',
         imageAlt: 'Silhouetted figure on a wet beach at sunset with a crowd in the distance',
+        slug: 'the-cost-of-doing-nothing-is-often-hidden',
       },
       {
         title: 'Not Every Feature Deserves to Be Built.',
         description: 'Why product investment decisions need more economic rigor before delivery capacity is committed.',
+        slug: 'not-every-feature-deserves-to-be-built',
       },
     ],
   },

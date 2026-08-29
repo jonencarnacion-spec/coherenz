@@ -1,0 +1,94 @@
+---
+// Insight Article page. Rebuilt after Jon's review of the first pass: the
+// full "insights article page flow.docx" template fragmented the actual
+// written articles into a Hook / Executive Takeaway / Conventional Belief /
+// Paradox sequence that all restated the same idea before the real
+// argument appeared -- it read as templated, not as a real article, and
+// buried the actual prose. This version makes the real article
+// (ArticleBody, from src/data/insightArticles.ts `lede`/`body[]`) the main
+// content, with the signature-visual diagram and one pull quote as
+// punctuation inside it rather than separate sections replacing it. The
+// doc's after-the-argument guidance -- Ask Yourself, The Coherenz
+// Perspective, What Changes, the CTA, Related Insights -- stays, per Jon's
+// call to keep the bottom sections that guide readers on what to do next.
+//
+// Every section uses the site's standard container (max-w-[1536px] + the
+// px-6/sm:px-8/lg:px-10/xl:px-14 gutter escalation every other page uses)
+// rather than a page-wide narrow column; only the actual prose inside
+// ArticleBody keeps a narrower reading measure, the same way McKinsey/HBR
+// keep body copy narrow while the page shell and exhibits use full width.
+//
+// Static output (GitHub Pages), so every slug is pre-rendered via
+// getStaticPaths, following the same dynamic-route pattern already used
+// for /programs/[slug] and /services/[slug].
+import Layout from '../../layouts/Layout.astro';
+import Nav from '../../components/Nav.astro';
+import Footer from '../../components/Footer.astro';
+import FinalCta from '../../components/FinalCta.astro';
+import InsightHeader from '../../components/insight/InsightHeader.astro';
+import ArticleBody from '../../components/insight/ArticleBody.astro';
+import DiagnosticQuestions from '../../components/insight/DiagnosticQuestions.astro';
+import CoherenzPerspective from '../../components/insight/CoherenzPerspective.astro';
+import ActionAndClosing from '../../components/insight/ActionAndClosing.astro';
+import RelatedInsights from '../../components/insight/RelatedInsights.astro';
+import { base } from '../../lib/base';
+import { insightArticles, getInsightArticle } from '../../data/insightArticles';
+
+export function getStaticPaths() {
+  return insightArticles.map((article) => ({
+    params: { slug: article.slug },
+    props: { article },
+  }));
+}
+
+interface Props {
+  article: (typeof insightArticles)[number];
+}
+
+const { article } = Astro.props;
+const related = article.relatedSlugs.map((s) => getInsightArticle(s)).filter(Boolean) as typeof insightArticles;
+---
+
+<Layout title={`${article.title} — Coherenz Insights`} description={article.subhead}>
+  <Nav />
+
+  <InsightHeader
+    eyebrow={article.eyebrow}
+    title={article.title}
+    subhead={article.subhead}
+    readTime={article.readTime}
+    heroImage={article.heroImage}
+    heroImageAlt={article.heroImageAlt}
+  />
+  <ArticleBody lede={article.lede} body={article.body} />
+  <DiagnosticQuestions {...article.diagnostic} />
+  <CoherenzPerspective {...article.perspective} />
+  <ActionAndClosing {...article.action} closing={article.closing} />
+
+  <FinalCta
+    showPortrait={false}
+    eyebrow="From Insight to Action"
+    body={article.cta.description}
+    ctaText={`${article.cta.ctaLabel} →`}
+    ctaHref={`${base}programs/${article.cta.programSlug}`}
+    secondaryCtaText="Explore All Insights →"
+    secondaryCtaHref={`${base}insights`}
+  >
+    <Fragment slot="headline">{article.cta.headline}</Fragment>
+  </FinalCta>
+
+  {related.length > 0 && <RelatedInsights articles={related} />}
+
+  <div class="bg-white py-10">
+    <div class="mx-auto max-w-[1536px] px-6 sm:px-8 lg:px-10 xl:px-14">
+      <p class="text-xs font-bold uppercase tracking-wide text-foreground/40">Sources</p>
+      <ol class="mt-3 max-w-3xl space-y-1.5 text-xs text-foreground/50">
+        {article.sources.map((s) => (
+          <li>{s}</li>
+        ))}
+      </ol>
+    </div>
+  </div>
+
+  <Footer />
+</Layout>

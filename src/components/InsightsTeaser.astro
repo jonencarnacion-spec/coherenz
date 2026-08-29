@@ -25,7 +25,7 @@ import { topInsight, insights } from '../data/insightsContent';
         <h3 class="mt-2 font-serif text-3xl text-navy sm:text-4xl">{topInsight.title}</h3>
         <p class="mt-2 font-medium text-navy/80">{topInsight.subhead}</p>
         <p class="mt-2 text-sm text-foreground/70">{topInsight.body}</p>
-        <a href={`${base}insights`} class="mt-4 inline-flex items-center gap-2 font-bold text-orange">
+        <a href={`${base}insights/${topInsight.slug}`} class="mt-4 inline-flex items-center gap-2 font-bold text-orange">
           <IconArrowUpRight size={20} stroke={2} />
           Read the perspective
         </a>
@@ -40,14 +40,14 @@ import { topInsight, insights } from '../data/insightsContent';
     </div>
 
     <div class="mt-[100px] grid grid-cols-1 gap-4 sm:grid-cols-3">
-      {insights.map(({ tag, title, description, image, imageAlt }) => (
+      {insights.map(({ tag, title, description, image, imageAlt, slug }) => (
         <div class="flex h-full flex-col border border-line bg-white">
           <img src={`${base}img/photography/${image}`} alt={imageAlt} class="h-40 w-full object-cover" />
           <div class="flex flex-1 flex-col p-5">
             <p class="text-xs font-bold uppercase tracking-wide text-yellow">{tag}</p>
             <h5 class="mt-2 text-[15px] font-semibold leading-snug text-navy">{title}</h5>
             <p class="mt-2 text-xs text-foreground/70">{description}</p>
-            <a href={`${base}insights`} class="mt-auto inline-flex items-center gap-1.5 pt-2 text-xs font-bold text-orange">
+            <a href={slug ? `${base}insights/${slug}` : `${base}insights`} class="mt-auto inline-flex items-center gap-1.5 pt-2 text-xs font-bold text-orange">
               <IconArrowUpRight size={14} stroke={2.25} />
               Read the perspective
             </a>

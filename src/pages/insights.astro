@@ -59,7 +59,7 @@ const sectionIcons = [IconReportMoney, IconActivity, IconRefresh];
 
   <section id="featured-insight" class="bg-wash-green py-16 sm:py-24">
     <div class="mx-auto max-w-[1536px] px-6 sm:px-8 lg:px-10 xl:px-14">
-      <div class="group grid cursor-pointer grid-cols-1 border border-line md:grid-cols-2 md:h-[563px]">
+      <a href={`${base}insights/${topInsight.slug}`} class="group grid cursor-pointer grid-cols-1 border border-line md:grid-cols-2 md:h-[563px]">
         <div class="flex flex-col justify-start overflow-y-auto bg-white p-6 sm:p-8">
           <p class="text-xs font-bold uppercase tracking-wide text-orange">{topInsight.tag}</p>
           <h3 class="mt-2 font-serif text-3xl text-navy sm:text-4xl">{topInsight.title}</h3>
@@ -81,7 +81,7 @@ const sectionIcons = [IconReportMoney, IconActivity, IconRefresh];
             class="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
           />
         </div>
-      </div>
+      </a>
     </div>
   </section>
 
