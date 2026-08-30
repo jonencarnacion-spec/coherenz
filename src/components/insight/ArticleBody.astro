@@ -128,15 +128,15 @@ const exhibitNumbers = body.map((block) => (block.type === 'visual' || block.typ
     opacity: 0;
     transform: scale(0.95);
     transition:
-      opacity 1500ms cubic-bezier(0.23, 1, 0.32, 1),
-      transform 1500ms cubic-bezier(0.23, 1, 0.32, 1);
+      opacity 1000ms cubic-bezier(0.23, 1, 0.32, 1),
+      transform 1000ms cubic-bezier(0.23, 1, 0.32, 1);
   }
   .visual-box:nth-of-type(1) { transition-delay: 0ms; }
-  .visual-box:nth-of-type(2) { transition-delay: 1500ms; }
-  .visual-box:nth-of-type(3) { transition-delay: 3000ms; }
-  .visual-box:nth-of-type(4) { transition-delay: 4500ms; }
-  .visual-box:nth-of-type(5) { transition-delay: 6000ms; }
-  .visual-box:nth-of-type(6) { transition-delay: 7500ms; }
+  .visual-box:nth-of-type(2) { transition-delay: 1000ms; }
+  .visual-box:nth-of-type(3) { transition-delay: 2000ms; }
+  .visual-box:nth-of-type(4) { transition-delay: 3000ms; }
+  .visual-box:nth-of-type(5) { transition-delay: 4000ms; }
+  .visual-box:nth-of-type(6) { transition-delay: 5000ms; }
 
   .visual-box.is-visible {
     opacity: 1;
@@ -153,20 +153,20 @@ const exhibitNumbers = body.map((block) => (block.type === 'visual' || block.typ
 
   /* Each connecting arrow shares its delay with the box that FOLLOWS it
      (arrow 1 sits between box 1 and box 2, so it lands with box 2's
-     1500ms delay, and so on) -- the connector arrives together with the
+     1000ms delay, and so on) -- the connector arrives together with the
      step it's pointing to, not with the step it's leaving. */
   .visual-arrow {
     opacity: 0;
     transform: scale(0.95);
     transition:
-      opacity 1500ms cubic-bezier(0.23, 1, 0.32, 1),
-      transform 1500ms cubic-bezier(0.23, 1, 0.32, 1);
+      opacity 1000ms cubic-bezier(0.23, 1, 0.32, 1),
+      transform 1000ms cubic-bezier(0.23, 1, 0.32, 1);
   }
-  .visual-arrow:nth-of-type(1) { transition-delay: 1500ms; }
-  .visual-arrow:nth-of-type(2) { transition-delay: 3000ms; }
-  .visual-arrow:nth-of-type(3) { transition-delay: 4500ms; }
-  .visual-arrow:nth-of-type(4) { transition-delay: 6000ms; }
-  .visual-arrow:nth-of-type(5) { transition-delay: 7500ms; }
+  .visual-arrow:nth-of-type(1) { transition-delay: 1000ms; }
+  .visual-arrow:nth-of-type(2) { transition-delay: 2000ms; }
+  .visual-arrow:nth-of-type(3) { transition-delay: 3000ms; }
+  .visual-arrow:nth-of-type(4) { transition-delay: 4000ms; }
+  .visual-arrow:nth-of-type(5) { transition-delay: 5000ms; }
 
   .visual-arrow.is-visible {
     opacity: 1;
