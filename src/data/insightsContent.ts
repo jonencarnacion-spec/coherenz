@@ -52,6 +52,7 @@ export const insights: InsightSummary[] = [
     description: 'Why adding people rarely fixes the underlying economics of a constrained delivery system.',
     image: 'insight-4.jpg',
     imageAlt: 'A Rubik’s cube mid-toss above an open hand',
+    slug: 'your-delivery-problem-may-not-be-a-capacity-problem',
   },
 ];
 
@@ -149,15 +150,18 @@ export const insightSections: InsightEditorialSection[] = [
         description: 'Why adding people rarely fixes the underlying economics of a constrained delivery system.',
         image: 'insight-4.jpg',
         imageAlt: 'A Rubik’s cube mid-toss above an open hand',
+        slug: 'your-delivery-problem-may-not-be-a-capacity-problem',
       },
       {
         title: "Everything Can't Be a Priority.",
         description:
           'Why too many priorities create the illusion of progress while slowing down everything that matters.',
+        slug: 'everything-cant-be-a-priority',
       },
       {
         title: "The Most Expensive Work Is Work You Don't Finish.",
         description: "Why work in progress is quietly consuming your organization's capacity, attention, and economic value.",
+        slug: 'the-most-expensive-work-is-work-you-dont-finish',
       },
     ],
   },
@@ -167,15 +171,18 @@ export const insightSections: InsightEditorialSection[] = [
       {
         title: 'Speed Is a System Property.',
         description: 'Why asking teams to work faster rarely fixes slow delivery.',
+        slug: 'speed-is-a-system-property',
       },
       {
         title: 'Efficiency Can Make You Less Effective.',
         description: 'Why optimizing individual teams can damage the performance of the product system as a whole.',
+        slug: 'efficiency-can-make-you-less-effective',
       },
       {
         title: 'Complexity Has an Operating Cost.',
         description:
           'Why scaling a product organization without redesigning how decisions and work flow eventually makes delivery slower and more expensive.',
+        slug: 'complexity-has-an-operating-cost',
       },
     ],
   },
