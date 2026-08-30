@@ -23,7 +23,7 @@ export const topInsight = {
   title: "Busy Doesn't Mean Valuable.",
   subhead:
     'The delivery capacity paradox: why maximizing utilization can actually reduce the value your organization creates.',
-  body: "A team can be fully occupied and still be investing its most expensive resource—delivery capacity—in the wrong places.",
+  body: "A team can be fully occupied and still be investing its most expensive resource—delivery capacity—in the wrong places. Most leadership teams treat \"everyone is busy\" as evidence the organization is running well. It usually means the opposite: full utilization and full value creation are not the same thing, and confusing them is one of the most expensive mistakes a delivery organization can make.",
   image: 'insight-top.jpg',
   imageAlt: 'Motion-blurred figure moving quickly across a crosswalk, evoking constant busyness',
   slug: 'busy-doesnt-mean-valuable',

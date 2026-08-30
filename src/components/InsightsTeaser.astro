@@ -7,8 +7,9 @@
 // fabricated; flag to Jon if he wants it built out separately.
 // Data lives in src/data/insightsContent.ts, shared with the /insights page.
 import { base } from '../lib/base';
-import { IconArrowUpRight } from '@tabler/icons-react';
+import { IconArrowUpRight, IconBulb } from '@tabler/icons-react';
 import { topInsight, insights } from '../data/insightsContent';
+import InsightGridCard from './InsightGridCard.astro';
 ---
 
 <section id="insights" class="bg-wash-green py-10 sm:py-16">
@@ -40,19 +41,8 @@ import { topInsight, insights } from '../data/insightsContent';
     </div>
 
     <div class="mt-[100px] grid grid-cols-1 gap-4 sm:grid-cols-3">
-      {insights.map(({ tag, title, description, image, imageAlt, slug }) => (
-        <div class="flex h-full flex-col border border-line bg-white">
-          <img src={`${base}img/photography/${image}`} alt={imageAlt} class="h-40 w-full object-cover" />
-          <div class="flex flex-1 flex-col p-5">
-            <p class="text-xs font-bold uppercase tracking-wide text-yellow">{tag}</p>
-            <h5 class="mt-2 text-[15px] font-semibold leading-snug text-navy">{title}</h5>
-            <p class="mt-2 text-xs text-foreground/70">{description}</p>
-            <a href={slug ? `${base}insights/${slug}` : `${base}insights`} class="mt-auto inline-flex items-center gap-1.5 pt-2 text-xs font-bold text-orange">
-              <IconArrowUpRight size={14} stroke={2.25} />
-              Read the perspective
-            </a>
-          </div>
-        </div>
+      {insights.map(({ title, description, image, imageAlt, slug }) => (
+        <InsightGridCard title={title} description={description} image={image} imageAlt={imageAlt} slug={slug} Icon={IconBulb} />
       ))}
     </div>
   </div>
