@@ -138,6 +138,8 @@ export const insightSections: InsightEditorialSection[] = [
       {
         title: 'Not Every Feature Deserves to Be Built.',
         description: 'Why product investment decisions need more economic rigor before delivery capacity is committed.',
+        image: 'insight-7.jpg',
+        imageAlt: 'Abstract turquoise architectural fragments glitching apart against black, evoking overbuilt, disconnected structure',
         slug: 'not-every-feature-deserves-to-be-built',
       },
     ],
@@ -156,11 +158,15 @@ export const insightSections: InsightEditorialSection[] = [
         title: "Everything Can't Be a Priority.",
         description:
           'Why too many priorities create the illusion of progress while slowing down everything that matters.',
+        image: 'insight-5.jpg',
+        imageAlt: 'A diagonal fire-escape ladder cutting across a bold geometric mural, competing shapes and colors crowding the same wall',
         slug: 'everything-cant-be-a-priority',
       },
       {
         title: "The Most Expensive Work Is Work You Don't Finish.",
         description: "Why work in progress is quietly consuming your organization's capacity, attention, and economic value.",
+        image: 'insight-6.jpg',
+        imageAlt: "Long-exposure light trails streaming across a person's profile, the face left unresolved mid-motion",
         slug: 'the-most-expensive-work-is-work-you-dont-finish',
       },
     ],
@@ -171,17 +177,23 @@ export const insightSections: InsightEditorialSection[] = [
       {
         title: 'Speed Is a System Property.',
         description: 'Why asking teams to work faster rarely fixes slow delivery.',
+        image: 'insight-8.jpg',
+        imageAlt: 'Rainbow light trails curving in a long-exposure sweep, evoking motion flowing through a system',
         slug: 'speed-is-a-system-property',
       },
       {
         title: 'Efficiency Can Make You Less Effective.',
         description: 'Why optimizing individual teams can damage the performance of the product system as a whole.',
+        image: 'insight-9.jpg',
+        imageAlt: 'A silhouetted figure in sharp profile against a blurred, glowing crowd, individually distinct but lost in the larger scene',
         slug: 'efficiency-can-make-you-less-effective',
       },
       {
         title: 'Complexity Has an Operating Cost.',
         description:
           'Why scaling a product organization without redesigning how decisions and work flow eventually makes delivery slower and more expensive.',
+        image: 'insight-10.jpg',
+        imageAlt: 'An extreme close-up of crisscrossing bicycle spokes radiating outward, a simple wheel rendered as tangled complexity',
         slug: 'complexity-has-an-operating-cost',
       },
     ],

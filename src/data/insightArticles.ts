@@ -549,6 +549,8 @@ export const insightArticles: InsightArticle[] = [
     readTime: '5–7 min read · August 2026',
     publishedDate: 'August 2026',
     tag: 'Delivery Stabilization',
+    heroImage: 'insight-7.jpg',
+    heroImageAlt: 'Abstract turquoise architectural fragments glitching apart against black, evoking overbuilt, disconnected structure',
 
     lede:
       "The most consequential decision in product delivery isn't how well something gets built. It's whether it should have been built at all—and that decision usually gets made with far less scrutiny than the build itself receives.",
@@ -807,6 +809,8 @@ export const insightArticles: InsightArticle[] = [
     readTime: '6–8 min read · August 2026',
     publishedDate: 'August 2026',
     tag: 'Product Leadership',
+    heroImage: 'insight-5.jpg',
+    heroImageAlt: 'A diagonal fire-escape ladder cutting across a bold geometric mural, competing shapes and colors crowding the same wall',
 
     lede: "A priority list with thirty items on it isn't a strategy — it's an admission that no one was willing to choose.",
 
@@ -913,6 +917,8 @@ export const insightArticles: InsightArticle[] = [
     readTime: '6–9 min read · August 2026',
     publishedDate: 'August 2026',
     tag: 'Delivery Economics',
+    heroImage: 'insight-6.jpg',
+    heroImageAlt: "Long-exposure light trails streaming across a person's profile, the face left unresolved mid-motion",
 
     lede: "Work that's 80% finished delivers 0% of its value — and it keeps costing you the entire time it sits there.",
 
@@ -1035,6 +1041,8 @@ export const insightArticles: InsightArticle[] = [
     readTime: '6–9 min read · August 2026',
     publishedDate: 'August 2026',
     tag: 'Delivery Economics',
+    heroImage: 'insight-8.jpg',
+    heroImageAlt: 'Rainbow light trails curving in a long-exposure sweep, evoking motion flowing through a system',
     lede: "When delivery is slow, the instinctive fix is to ask individual teams to move faster — but speed is almost never a property of the people doing the work. It's a property of the system they're working inside.",
     summary: [
       "**Throughput is set by the system's constraint**, not by average effort — pushing non-constraint teams to work harder just builds a bigger queue somewhere else (Goldratt's Theory of Constraints).",
@@ -1111,6 +1119,8 @@ export const insightArticles: InsightArticle[] = [
     readTime: '6–9 min read · August 2026',
     publishedDate: 'August 2026',
     tag: 'Product Leadership',
+    heroImage: 'insight-9.jpg',
+    heroImageAlt: 'A silhouetted figure in sharp profile against a blurred, glowing crowd, individually distinct but lost in the larger scene',
     lede: "Every team in your organization can hit its efficiency targets, and the product can still ship late — because the thing being measured and the thing being delivered aren't the same object.",
     summary: [
       '**Resource efficiency and flow efficiency are different metrics that often move in opposite directions** — maximizing one can actively damage the other (Modig & Åhlström).',
@@ -1186,6 +1196,8 @@ export const insightArticles: InsightArticle[] = [
     readTime: '6–9 min read · August 2026',
     publishedDate: 'August 2026',
     tag: 'Transformation',
+    heroImage: 'insight-10.jpg',
+    heroImageAlt: 'An extreme close-up of crisscrossing bicycle spokes radiating outward, a simple wheel rendered as tangled complexity',
     lede: "Every layer, committee, and approval step an organization adds to gain control quietly adds to a bill that never appears on the P&L — until decisions start taking weeks instead of days.",
     summary: [
       '**External business complexity has grown roughly sixfold** over the past six decades — but internal organizational "complicatedness" has grown **more than 35 times over**, far outpacing the environment it was meant to manage (BCG).',
