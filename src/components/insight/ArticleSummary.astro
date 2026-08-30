@@ -1,0 +1,113 @@
+---
+// "In Brief" -- a short, scannable summary of the article's argument,
+// placed right after the hero so a time-poor reader gets the point before
+// committing to the full piece. Distinct from the doc's earlier rejected
+// Hook/Executive Takeaway/Paradox sequence (three sections that all
+// restated "busy isn't value" before the real argument appeared) -- this is
+// one box, one purpose, and it doesn't replace or fragment ArticleBody.
+// Yellow top-edge follows DESIGN.md's card-identity rule (Insight = yellow).
+//
+// Byline row above it (avatar, author, date, read time) follows the
+// hairline-framed pattern common on editorial sites (McKinsey, HBR) --
+// reusing the founder portrait already on the site (FinalCta.astro) rather
+// than a new asset, since Coherenz is a single-author byline for now.
+import { base } from '../../lib/base';
+import { splitEmphasis } from '../../lib/emphasis';
+
+interface Props {
+  points: string[];
+  publishedDate: string;
+  readTime: string;
+}
+const { points, publishedDate, readTime } = Astro.props;
+const [readLabel] = readTime.split('·').map((s) => s.trim());
+---
+
+<section id="article-start" class="scroll-mt-20 bg-white pb-10 pt-14 sm:pb-14 sm:pt-20">
+  <div class="mx-auto max-w-[1536px] px-6 sm:px-8 lg:px-10 xl:px-14">
+    <div class="mx-auto max-w-[720px]">
+      <div class="flex flex-wrap items-center justify-between gap-x-6 gap-y-3 border-y border-line py-[23px]">
+        <div class="flex items-center gap-3">
+          <img
+            src={`${base}img/photography/founder-cta-portrait.png`}
+            alt=""
+            class="h-[54px] w-[54px] shrink-0 rounded-full object-cover"
+          />
+          <span class="text-sm font-bold text-navy">Jon Encarnacion</span>
+        </div>
+        <span class="text-sm text-foreground/60">{publishedDate}</span>
+        <span class="text-sm text-foreground/60">{readLabel}</span>
+      </div>
+
+      <div class="brief-card mt-8 border border-line border-t-[3px] border-t-yellow bg-cream/50 p-7 sm:p-9">
+        <p class="text-xs font-bold uppercase tracking-[0.375em] text-orange">In Brief</p>
+        <ul class="mt-5 space-y-3.5">
+          {points.map((point) => (
+            <li class="brief-item flex gap-3.5">
+              <span class="mt-[9px] h-1.5 w-1.5 shrink-0 rounded-full bg-orange" aria-hidden="true" />
+              <span class="text-[15px] leading-[1.7] text-foreground/80 sm:text-base">
+                {splitEmphasis(point).map((seg) =>
+                  seg.bold ? <strong class="font-semibold text-foreground">{seg.text}</strong> : seg.text
+                )}
+              </span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* Fly-in, one sentence at a time: each bullet slides in from the left
+     and the next one only starts once the previous has landed (delay ==
+     duration, so they read sequentially rather than overlapping like the
+     hero's stagger). Triggered on scroll into view via IntersectionObserver
+     since this card is below the fold on load. */
+  .brief-item {
+    opacity: 0;
+    transform: translateX(-28px);
+    transition:
+      opacity 1500ms cubic-bezier(0.23, 1, 0.32, 1),
+      transform 1500ms cubic-bezier(0.23, 1, 0.32, 1);
+  }
+  .brief-item:nth-child(1) { transition-delay: 0ms; }
+  .brief-item:nth-child(2) { transition-delay: 1500ms; }
+  .brief-item:nth-child(3) { transition-delay: 3000ms; }
+  .brief-item:nth-child(4) { transition-delay: 4500ms; }
+
+  .brief-item.is-visible {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .brief-item {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  function initBriefReveal() {
+    const card = document.querySelector('.brief-card');
+    if (!card) return;
+    const items = card.querySelectorAll('.brief-item');
+    if (!items.length) return;
+
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return;
+        items.forEach((el) => el.classList.add('is-visible'));
+        io.disconnect();
+      },
+      { threshold: 0.2 }
+    );
+    io.observe(card);
+  }
+
+  initBriefReveal();
+  document.addEventListener('astro:page-load', initBriefReveal);
+</script>

@@ -56,6 +56,7 @@ export interface InsightArticle {
   heroImageAlt?: string;
 
   lede: string;
+  summary: string[];
   body: InsightBodyBlock[];
 
   diagnostic: {
@@ -107,23 +108,30 @@ export const insightArticles: InsightArticle[] = [
 
     lede: 'A team can be fully occupied and still be investing its most expensive resource—delivery capacity—in the wrong places.',
 
+    summary: [
+      '**Full utilization and full value creation are not the same thing**—queueing theory shows wait times climb non-linearly as utilization approaches 100%.',
+      'Pushing every team to maximum busyness doesn\'t speed up the system; **it can slow it down**, since throughput is governed by the constraint, not by local effort (Goldratt).',
+      '**Most work spends the majority of its life waiting**, not being worked on—flow efficiency runs roughly 15–70% even for strong teams.',
+      'Siemens Health Services **cut cycle time by ~42%**, with quality and throughput improving at the same time, by managing flow instead of utilization.',
+    ],
+
     body: [
       {
         type: 'paragraph',
-        text: 'Most leadership teams treat "everyone is busy" as evidence the organization is running well. It usually means the opposite. Full utilization and full value creation are not the same thing, and confusing them is one of the most expensive mistakes a delivery organization can make.',
+        text: 'Most leadership teams treat "everyone is busy" as evidence the organization is running well. It usually means the opposite. **Full utilization and full value creation are not the same thing**, and confusing them is one of the most expensive mistakes a delivery organization can make.',
       },
       { type: 'heading', text: 'The Math Behind the Paradox' },
       {
         type: 'paragraph',
-        text: "The relationship between how busy a system is and how fast work moves through it is not a straight line—it is a curve, and it bends sharply. This isn't opinion; it's queueing theory, and it governs any system where work arrives, waits, and gets processed—a call center, a hospital, a product delivery pipeline.",
+        text: "The relationship between how busy a system is and how fast work moves through it is not a straight line—it is a curve, and it bends sharply. This isn't opinion; it's **queueing theory**, and it governs any system where work arrives, waits, and gets processed—a call center, a hospital, a product delivery pipeline.",
       },
       {
         type: 'paragraph',
-        text: 'The foundational result is Little\'s Law: the average number of items in a system equals the rate at which work arrives, multiplied by the average time each item spends in that system. It is a simple relationship, but it has a sharp implication. As a system\'s utilization climbs toward 100%, wait time does not increase proportionally—it increases non-linearly, accelerating fastest right when the system looks most "efficient" on paper. Practitioners commonly point to a rough danger zone starting around 70–80% utilization, where the risk of runaway delay increases sharply. There is no exact universal number—it depends on how variable the work is—but the direction is consistent: the closer a system runs to full capacity, the more violently a small disruption inflates wait times.',
+        text: 'The foundational result is **Little\'s Law**: the average number of items in a system equals the rate at which work arrives, multiplied by the average time each item spends in that system. It is a simple relationship, but it has a sharp implication. As a system\'s utilization climbs toward 100%, wait time does not increase proportionally—it increases non-linearly, accelerating fastest right when the system looks most "efficient" on paper. Practitioners commonly point to a rough danger zone starting around **70–80% utilization**, where the risk of runaway delay increases sharply. There is no exact universal number—it depends on how variable the work is—but the direction is consistent: the closer a system runs to full capacity, the more violently a small disruption inflates wait times.',
       },
       {
         type: 'paragraph',
-        text: "Donald Reinertsen made this the central argument of The Principles of Product Development Flow: running a product development process near full utilization is not a sign of discipline—it is, in his words, economically damaging. High utilization inflates queues and the cost of delay attached to everything sitting in them. He goes further, arguing that organizations that chase utilization as a goal in itself create their own instability—a self-inflicted wound, not an external constraint. His illustration of why this matters is simple: the same fixed delay costs far more when it hits a long queue of waiting work than when it hits a short one. A team with a deep backlog isn't protected by that backlog—it's more exposed to every disruption that touches it.",
+        text: "Donald Reinertsen made this the central argument of The Principles of Product Development Flow: running a product development process near full utilization is not a sign of discipline—it is, in his words, **economically damaging**. High utilization inflates queues and the cost of delay attached to everything sitting in them. He goes further, arguing that organizations that chase utilization as a goal in itself create their own instability—a **self-inflicted wound**, not an external constraint. His illustration of why this matters is simple: the same fixed delay costs far more when it hits a long queue of waiting work than when it hits a short one. A team with a deep backlog isn't protected by that backlog—it's more exposed to every disruption that touches it.",
       },
       {
         type: 'visual',
@@ -133,7 +141,7 @@ export const insightArticles: InsightArticle[] = [
       { type: 'heading', text: 'Busy Is a Local Measure. Value Is a System Measure.' },
       {
         type: 'paragraph',
-        text: "This is also the core insight of Eliyahu Goldratt's Theory of Constraints: a system's throughput is governed by its constraint, not by how hard any individual part of it is working. Goldratt's phrase for this is blunt—local optimum is not global optimum. Pushing every team, every station, every resource to maximum utilization doesn't make the system faster. It can make it slower, because effort gets absorbed everywhere except at the point that actually determines how fast value moves through the organization.",
+        text: "This is also the core insight of Eliyahu Goldratt's Theory of Constraints: a system's throughput is governed by its constraint, not by how hard any individual part of it is working. Goldratt's phrase for this is blunt—**local optimum is not global optimum**. Pushing every team, every station, every resource to maximum utilization doesn't make the system faster. It can make it slower, because effort gets absorbed everywhere except at the point that actually determines how fast value moves through the organization.",
       },
       {
         type: 'pullquote',
@@ -141,11 +149,11 @@ export const insightArticles: InsightArticle[] = [
       },
       {
         type: 'paragraph',
-        text: 'DORA\'s research on software delivery performance backs this up from the flow side: work-in-process limits—paired with visible tracking and real feedback loops—are consistently associated with better delivery performance. Not because teams work harder, but because limiting how much is "in flight" at once forces the organization to finish things instead of starting them.',
+        text: 'DORA\'s research on software delivery performance backs this up from the flow side: **work-in-process limits**—paired with visible tracking and real feedback loops—are consistently associated with better delivery performance. Not because teams work harder, but because limiting how much is "in flight" at once forces the organization to finish things instead of starting them.',
       },
       {
         type: 'paragraph',
-        text: 'And most organizations are further from finishing than they realize. In Kanban and flow-metrics literature, "flow efficiency"—the share of a work item\'s total elapsed time that is spent actually being worked on, versus waiting—is widely cited at roughly 15–40% for typical teams. High-performing teams reach 40–60%. Even exceptional teams rarely exceed 60–70%. In other words: for most delivery organizations, the majority of the time a piece of work takes from start to finish, no one is touching it. It is waiting—for a decision, a handoff, a reviewer, a dependency. That is not a people problem. It is a systems problem, and it exists whether or not everyone is fully booked.',
+        text: 'And most organizations are further from finishing than they realize. In Kanban and flow-metrics literature, "flow efficiency"—the share of a work item\'s total elapsed time that is spent actually being worked on, versus waiting—is widely cited at roughly 15–40% for typical teams. High-performing teams reach 40–60%. Even exceptional teams rarely exceed 60–70%. In other words: for most delivery organizations, **the majority of the time a piece of work takes from start to finish, no one is touching it**. It is waiting—for a decision, a handoff, a reviewer, a dependency. That is not a people problem. It is a systems problem, and it exists whether or not everyone is fully booked.',
       },
       {
         type: 'chart',
@@ -162,16 +170,16 @@ export const insightArticles: InsightArticle[] = [
       { type: 'heading', text: 'The Same Trap, Wearing a Different Name' },
       {
         type: 'paragraph',
-        text: 'Product leadership runs into the identical trap under different vocabulary. Marty Cagan draws a hard line between "feature teams," which are handed output targets—ship this, ship that—and empowered product teams, which are held to outcome targets: the business results those features are supposed to produce. Feature teams can be extraordinarily busy. Empowered teams are judged by whether the busyness converted into anything the business actually needed.',
+        text: 'Product leadership runs into the identical trap under different vocabulary. Marty Cagan draws a hard line between "feature teams," which are handed **output targets**—ship this, ship that—and empowered product teams, which are held to **outcome targets**: the business results those features are supposed to produce. Feature teams can be extraordinarily busy. Empowered teams are judged by whether the busyness converted into anything the business actually needed.',
       },
       {
         type: 'paragraph',
-        text: 'John Cutler gave this failure mode a name that stuck: the feature factory—an organization that measures and rewards shipped output while staying disconnected from whether any of it moved a real business or user outcome. A feature factory is not lazy. It is often the opposite: relentlessly busy, consistently shipping, and quietly investing its scarcest resource in work that was never going to matter.',
+        text: 'John Cutler gave this failure mode a name that stuck: the **feature factory**—an organization that measures and rewards shipped output while staying disconnected from whether any of it moved a real business or user outcome. A feature factory is not lazy. It is often the opposite: relentlessly busy, consistently shipping, and quietly investing its scarcest resource in work that was never going to matter.',
       },
       { type: 'heading', text: 'Proof That Fixing It Works' },
       {
         type: 'paragraph',
-        text: 'This isn\'t theoretical. Siemens Health Services documented what happened when they stopped managing to utilization and started managing to flow. After adopting flow metrics—work-in-process limits, cycle time, throughput—their 85th-percentile story cycle time dropped from 71 days before the change to 43 days in their first release under the new approach, then to 40 days in the release after that: a roughly 42% reduction. Quality moved in the same direction, not the opposite one—first-pass yield rose from 75% to 86% to 95% across those same releases. Throughput increased too: the second release completed 33% more stories than the one before it. The first release also finished on schedule and more than 10% under budget.',
+        text: 'This isn\'t theoretical. Siemens Health Services documented what happened when they stopped managing to utilization and started managing to flow. After adopting flow metrics—work-in-process limits, cycle time, throughput—their 85th-percentile story cycle time dropped from 71 days before the change to 43 days in their first release under the new approach, then to 40 days in the release after that: **a roughly 42% reduction**. Quality moved in the same direction, not the opposite one—first-pass yield rose from 75% to 86% to 95% across those same releases. Throughput increased too: the second release completed 33% more stories than the one before it. The first release also finished on schedule and more than 10% under budget.',
       },
       {
         type: 'chart',
@@ -187,12 +195,12 @@ export const insightArticles: InsightArticle[] = [
       },
       {
         type: 'paragraph',
-        text: 'None of that came from asking people to be busier. It came from managing the system differently—limiting work in progress, watching where it queued, and protecting the constraint instead of maximizing everywhere at once.',
+        text: 'None of that came from asking people to be busier. It came from **managing the system differently**—limiting work in progress, watching where it queued, and protecting the constraint instead of maximizing everywhere at once.',
       },
       { type: 'heading', text: 'The Real Question' },
       {
         type: 'paragraph',
-        text: 'The question worth asking in a leadership review is not "how full is our capacity?" It is "where is our capacity actually going, and is that where the value is?" Those are different questions with different answers, and the gap between them is where most delivery economics get lost—not in a single bad decision, but in the ordinary, well-intentioned pursuit of keeping everyone busy.',
+        text: 'The question worth asking in a leadership review is not "how full is our capacity?" It is **"where is our capacity actually going, and is that where the value is?"** Those are different questions with different answers, and the gap between them is where most delivery economics get lost—not in a single bad decision, but in the ordinary, well-intentioned pursuit of keeping everyone busy.',
       },
     ],
 
@@ -265,15 +273,22 @@ export const insightArticles: InsightArticle[] = [
 
     lede: 'Shipping more is not the same as creating more value.',
 
+    summary: [
+      '**80% of shipped features are rarely or never used**, but every one of them still had to be built, tested, documented, and maintained (Pendo).',
+      'That upkeep has a name—technical debt—and it now **accounts for 21–40% of total IT spending** (Deloitte).',
+      'Velocity and story-point throughput measure what shipped, not whether it mattered—the **"feature factory" trap**.',
+      'The fix isn\'t shipping less across the board; it\'s **validating usage and pricing in maintenance cost** before capacity gets committed.',
+    ],
+
     body: [
       {
         type: 'paragraph',
-        text: 'Past a certain point, it can be the opposite—each additional feature adds a small amount of potential upside and a compounding amount of guaranteed cost, and most organizations never do the math to notice which side of that trade they are actually on.',
+        text: 'Past a certain point, it can be the opposite—each additional feature adds **a small amount of potential upside and a compounding amount of guaranteed cost**, and most organizations never do the math to notice which side of that trade they are actually on.',
       },
       { type: 'heading', text: 'What Actually Happens to the Features You Ship' },
       {
         type: 'paragraph',
-        text: "Start with what happens to a feature after it ships. Pendo's 2019 Feature Adoption Report—based on aggregated usage data from 615 customer subscriptions active for at least a year—found that 80% of features in the average software product are rarely or never used. That is not a claim about any one bad product. It is a pattern across hundreds of real, shipped products with real usage data attached to them.",
+        text: "Start with what happens to a feature after it ships. Pendo's 2019 Feature Adoption Report—based on aggregated usage data from 615 customer subscriptions active for at least a year—found that **80% of features in the average software product are rarely or never used**. That is not a claim about any one bad product. It is a pattern across hundreds of real, shipped products with real usage data attached to them.",
       },
       {
         type: 'chart',
@@ -292,11 +307,11 @@ export const insightArticles: InsightArticle[] = [
       },
       {
         type: 'paragraph',
-        text: "Every one of those unused features still had to be scoped, built, tested, documented, and shipped. And it doesn't stop there. Once it exists, it still has to be maintained—kept compatible with everything shipped after it, patched when it breaks, considered every time someone touches the surrounding code.",
+        text: "Every one of those unused features still had to be scoped, built, tested, documented, and shipped. And it doesn't stop there. Once it exists, **it still has to be maintained**—kept compatible with everything shipped after it, patched when it breaks, considered every time someone touches the surrounding code.",
       },
       {
         type: 'paragraph',
-        text: 'That rent has a name: technical debt. Sonar\'s research, based on analysis of over 200 real-world projects totaling roughly 11 million lines of code, puts the ongoing cost at around $306,000 per year for every million lines of code—compounding to roughly $1.5 million, or 27,500 developer hours, over five years. Deloitte\'s 2026 Global Technology Leadership Study puts the aggregate effect at the organizational level: technical debt now accounts for 21% to 40% of total IT spending. Put those two together and the picture is blunt—a meaningful share of what looks like "building the product" is actually the product\'s own accumulated weight, paying for decisions—including features—that were made and shipped but never earned their keep.',
+        text: 'That rent has a name: **technical debt**. Sonar\'s research, based on analysis of over 200 real-world projects totaling roughly 11 million lines of code, puts the ongoing cost at around $306,000 per year for every million lines of code—compounding to roughly $1.5 million, or 27,500 developer hours, over five years. Deloitte\'s 2026 Global Technology Leadership Study puts the aggregate effect at the organizational level: **technical debt now accounts for 21% to 40% of total IT spending**. Put those two together and the picture is blunt—a meaningful share of what looks like "building the product" is actually the product\'s own accumulated weight, paying for decisions—including features—that were made and shipped but never earned their keep.',
       },
       {
         type: 'stat',
@@ -312,33 +327,33 @@ export const insightArticles: InsightArticle[] = [
       { type: 'heading', text: 'Why This Trap Is Easy to Fall Into' },
       {
         type: 'paragraph',
-        text: 'None of this happens because teams are careless. It happens because the metrics most delivery organizations track make it invisible.',
+        text: 'None of this happens because teams are careless. It happens because **the metrics most delivery organizations track make it invisible**.',
       },
       {
         type: 'paragraph',
-        text: 'Velocity and story-point throughput measure how much a team shipped. They say nothing about whether any of it mattered. A team can hit every sprint target, ship consistently, and still be pouring capacity into work that adds cost without adding value—because the measurement stops at "delivered," and delivered is not the same question as "worth delivering."',
+        text: 'Velocity and story-point throughput measure how much a team shipped. They say nothing about whether any of it mattered. A team can hit every sprint target, ship consistently, and still be pouring capacity into **work that adds cost without adding value**—because the measurement stops at "delivered," and delivered is not the same question as "worth delivering."',
       },
       {
         type: 'paragraph',
-        text: 'This is the exact failure mode Marty Cagan draws a line around: feature teams are handed output targets—ship this, ship that—while empowered product teams are held to outcome targets, the actual business results those features are supposed to produce. John Cutler\'s term for the organization that optimizes for the first and never checks the second is the feature factory: consistently shipping, and consistently disconnected from whether any of it worked.',
+        text: 'This is the exact failure mode Marty Cagan draws a line around: feature teams are handed output targets—ship this, ship that—while empowered product teams are held to outcome targets, the actual business results those features are supposed to produce. John Cutler\'s term for the organization that optimizes for the first and never checks the second is the **feature factory**: consistently shipping, and consistently disconnected from whether any of it worked.',
       },
       { type: 'heading', text: 'What to Optimize Instead' },
       {
         type: 'paragraph',
-        text: 'The fix is not "ship less" as a blanket policy—shipping less for its own sake is just as blind as shipping more for its own sake. The fix is asking a harder question before capacity is committed, not after: what does this feature need to do, for whom, to be worth the cost of building and carrying it indefinitely? That question has to be answered before the work starts, because Pendo\'s data suggests it is very often not being answered at all—four out of five shipped features, on average, never find out.',
+        text: 'The fix is not "ship less" as a blanket policy—shipping less for its own sake is just as blind as shipping more for its own sake. The fix is asking a harder question before capacity is committed, not after: **what does this feature need to do, for whom, to be worth the cost of building and carrying it indefinitely?** That question has to be answered before the work starts, because Pendo\'s data suggests it is very often not being answered at all—four out of five shipped features, on average, never find out.',
       },
       {
         type: 'paragraph',
-        text: 'In practice, that means treating "what we build" with the same rigor delivery teams already apply to "how we build it." A feature that will sit at low usage isn\'t neutral—it\'s a liability with a delivery-capacity price tag attached, competing every year for the same maintenance budget as the 20% of the product that customers actually rely on.',
+        text: 'In practice, that means treating "what we build" with the same rigor delivery teams already apply to "how we build it." A feature that will sit at low usage isn\'t neutral—it\'s **a liability with a delivery-capacity price tag attached**, competing every year for the same maintenance budget as the 20% of the product that customers actually rely on.',
       },
       { type: 'heading', text: 'The Real Measure' },
       {
         type: 'paragraph',
-        text: "Output is easy to count and easy to celebrate: a burndown chart, a release note, a roadmap slide with more rows checked off than last quarter. Value is harder to see and slower to show up, which is exactly why it gets deprioritized in favor of the metric that's already on the dashboard.",
+        text: "Output is easy to count and easy to celebrate: a burndown chart, a release note, a roadmap slide with more rows checked off than last quarter. **Value is harder to see and slower to show up**, which is exactly why it gets deprioritized in favor of the metric that's already on the dashboard.",
       },
       {
         type: 'paragraph',
-        text: 'But the two are not proxies for each other. An organization can be shipping more than it ever has and still be creating less value than it did a year ago—not because anyone stopped working hard, but because "more" and "worth it" were never the same question, and only one of them was being measured.',
+        text: 'But the two are not proxies for each other. An organization can be shipping more than it ever has and still be creating less value than it did a year ago—not because anyone stopped working hard, but because **"more" and "worth it" were never the same question**, and only one of them was being measured.',
       },
     ],
 
@@ -409,19 +424,26 @@ export const insightArticles: InsightArticle[] = [
     lede:
       'Most prioritization conversations ask one question: what is this worth if we build it? They rarely ask the other half of the same question: what is it costing us, every week, that we haven\'t built it yet.',
 
+    summary: [
+      '**Cost of Delay puts a dollar figure on waiting**, so sequencing decisions can be argued in the same economic terms as everything else (Reinertsen).',
+      'CD3 and WSJF **turn urgency into a number**—Cost of Delay divided by duration—instead of an opinion.',
+      '**An imprecise estimate still beats no estimate**; the gap between backlog items is usually large enough that a rough number is enough to sequence correctly.',
+      'At Maersk, one feature sat 38 weeks in queue at a $200,000-per-week Cost of Delay—**roughly $8M in lost revenue** nobody had actually decided to spend.',
+    ],
+
     body: [
       {
         type: 'paragraph',
-        text: "That second cost is just as real as the first. It's just harder to see, because it never shows up as a line item—it shows up as revenue, market position, and opportunity that quietly never happened.",
+        text: "That second cost is just as real as the first. It's just harder to see, because **it never shows up as a line item**—it shows up as revenue, market position, and opportunity that quietly never happened.",
       },
       { type: 'heading', text: 'Cost of Delay: Putting a Number on Waiting' },
       {
         type: 'paragraph',
-        text: 'Donald Reinertsen calls this quantity Cost of Delay—the economic value of finishing something sooner rather than later, expressed in the same units as everything else that matters to the business: dollars per unit of time. He has described it as close to a master key for product economics, because once delay has a dollar figure attached to it, every other tradeoff—queue size, batch size, sequencing, staffing—can be evaluated in the same terms instead of argued about in the abstract.',
+        text: 'Donald Reinertsen calls this quantity **Cost of Delay**—the economic value of finishing something sooner rather than later, expressed in the same units as everything else that matters to the business: dollars per unit of time. He has described it as close to a master key for product economics, because once delay has a dollar figure attached to it, every other tradeoff—queue size, batch size, sequencing, staffing—can be evaluated in the same terms instead of argued about in the abstract.',
       },
       {
         type: 'paragraph',
-        text: 'That number gets turned into a sequencing decision through CD3: Cost of Delay divided by Duration. It answers a specific, practical question—given two initiatives, which one is more economically urgent to do first? The idea has since become the core mechanism behind Weighted Shortest Job First (WSJF), the prioritization formula used in the Scaled Agile Framework, where Cost of Delay (business value, time criticality, and risk reduction combined) is divided by job size to decide what gets sequenced next. Whatever the specific formula, the underlying move is the same: turn urgency into a number instead of an opinion, so it can compete on equal footing with every other number in the backlog.',
+        text: 'That number gets turned into a sequencing decision through CD3: Cost of Delay divided by Duration. It answers a specific, practical question—given two initiatives, which one is more economically urgent to do first? The idea has since become the core mechanism behind Weighted Shortest Job First (WSJF), the prioritization formula used in the Scaled Agile Framework, where Cost of Delay (business value, time criticality, and risk reduction combined) is divided by job size to decide what gets sequenced next. Whatever the specific formula, the underlying move is the same: **turn urgency into a number instead of an opinion**, so it can compete on equal footing with every other number in the backlog.',
       },
       {
         type: 'visual',
@@ -431,12 +453,12 @@ export const insightArticles: InsightArticle[] = [
       { type: 'heading', text: '"We Don\'t Have the Data" Isn\'t a Good Reason to Skip This' },
       {
         type: 'paragraph',
-        text: "The most common objection to Cost of Delay is that it's hard to estimate precisely. Reinertsen's answer to that is direct: an imprecise economic estimate still beats no economic estimate. He points out that the typical gap between the best and worst items in a backlog, once you actually estimate their economic value, tends to run somewhere on the order of 50 to 1—meaning even a rough estimate is usually more than accurate enough to tell you which end of the backlog something belongs on. Waiting for a perfect number before you're willing to use one is not caution. It's a way of letting every item default to equal priority, which is itself a very expensive decision that nobody chose on purpose.",
+        text: "The most common objection to Cost of Delay is that it's hard to estimate precisely. Reinertsen's answer to that is direct: **an imprecise economic estimate still beats no economic estimate**. He points out that the typical gap between the best and worst items in a backlog, once you actually estimate their economic value, tends to run somewhere on the order of 50 to 1—meaning even a rough estimate is usually more than accurate enough to tell you which end of the backlog something belongs on. Waiting for a perfect number before you're willing to use one is not caution. It's a way of letting every item default to equal priority, which is itself a very expensive decision that nobody chose on purpose.",
       },
       { type: 'heading', text: "What This Looks Like When It's Real" },
       {
         type: 'paragraph',
-        text: "This isn't just a framework on a whiteboard. Joshua Arnold and Özlem Yüce, who developed much of the practical Cost of Delay methodology now known as Black Swan Farming, documented its application at Maersk Line, one of the world's largest shipping companies, across a large enterprise product portfolio. One example from that work: a single feature had a Cost of Delay exceeding $200,000 per week. It sat in queue for 38 weeks. That queue time alone—work that wasn't being actively opposed or deprioritized, just waiting its turn behind other work—corresponded to nearly $8 million in lost revenue.",
+        text: "This isn't just a framework on a whiteboard. Joshua Arnold and Özlem Yüce, who developed much of the practical Cost of Delay methodology now known as Black Swan Farming, documented its application at Maersk Line, one of the world's largest shipping companies, across a large enterprise product portfolio. One example from that work: **a single feature had a Cost of Delay exceeding $200,000 per week**. It sat in queue for 38 weeks. That queue time alone—work that wasn't being actively opposed or deprioritized, just waiting its turn behind other work—corresponded to nearly $8 million in lost revenue.",
       },
       {
         type: 'stat',
@@ -450,21 +472,21 @@ export const insightArticles: InsightArticle[] = [
       },
       {
         type: 'paragraph',
-        text: "That is the core problem with cost of delay left unmeasured: it doesn't announce itself. It accumulates silently in exactly the items nobody is currently discussing, because attention naturally goes to what's active, not to what's waiting.",
+        text: "That is the core problem with cost of delay left unmeasured: **it doesn't announce itself**. It accumulates silently in exactly the items nobody is currently discussing, because attention naturally goes to what's active, not to what's waiting.",
       },
       { type: 'heading', text: "Why the Brain Doesn't Catch This on Its Own" },
       {
         type: 'paragraph',
-        text: "There's a reason this particular blind spot is so persistent, and it isn't a discipline problem. Research on decision-making under delay has found that people are reasonably good at recognizing the opportunity cost of a large, distant decision—but systematically pay less attention to the same kind of cost when it's attached to something smaller or nearer-term. A backlog is made of exactly that: dozens of individually small, individually reasonable-looking delays, none of which trigger the mental alarm that a single big, obvious cost would. The $8 million at Maersk didn't arrive as one decision. It arrived as 38 individually unremarkable weeks.",
+        text: "There's a reason this particular blind spot is so persistent, and it isn't a discipline problem. Research on decision-making under delay has found that people are reasonably good at recognizing the opportunity cost of a large, distant decision—but systematically pay less attention to the same kind of cost when it's attached to something smaller or nearer-term. A backlog is made of exactly that: dozens of individually small, individually reasonable-looking delays, none of which trigger the mental alarm that a single big, obvious cost would. The $8 million at Maersk didn't arrive as one decision. **It arrived as 38 individually unremarkable weeks.**",
       },
       { type: 'heading', text: 'Make the Invisible Cost Visible' },
       {
         type: 'paragraph',
-        text: "None of this requires abandoning the frameworks an organization already uses. It requires adding one question to whatever process already exists: what does a week of delay on this actually cost, even roughly? Not a perfect number—a defensible one. Reinertsen's own point stands: the gap between your best guess and no estimate at all is far larger than the gap between your best guess and a perfect one.",
+        text: "None of this requires abandoning the frameworks an organization already uses. It requires adding one question to whatever process already exists: **what does a week of delay on this actually cost, even roughly?** Not a perfect number—a defensible one. Reinertsen's own point stands: the gap between your best guess and no estimate at all is far larger than the gap between your best guess and a perfect one.",
       },
       {
         type: 'paragraph',
-        text: "The value of what you build is only half the prioritization equation. The other half is what it costs you, every week, to not have built it yet—and that half doesn't stop accruing just because nobody put it on a slide.",
+        text: "The value of what you build is only half the prioritization equation. **The other half is what it costs you, every week, to not have built it yet**—and that half doesn't stop accruing just because nobody put it on a slide.",
       },
     ],
 
@@ -531,15 +553,22 @@ export const insightArticles: InsightArticle[] = [
     lede:
       "The most consequential decision in product delivery isn't how well something gets built. It's whether it should have been built at all—and that decision usually gets made with far less scrutiny than the build itself receives.",
 
+    summary: [
+      'At Microsoft, Bing, and Airbnb, **66–92% of tested product ideas failed** to move the metric they were built to improve (Kohavi et al.).',
+      'These are among the most data-driven product organizations in the industry—the pattern isn\'t a sign of weak instincts, **it\'s the base rate**.',
+      '"It seemed like a good idea" isn\'t a business case; **intuition alone was never a reliable filter** for which ideas will work.',
+      'The fix: **fund a portfolio of small, validated bets** before committing full delivery capacity to any one of them.',
+    ],
+
     body: [
       { type: 'heading', text: 'What Happens When You Actually Check' },
       {
         type: 'paragraph',
-        text: "Most organizations assume their product ideas are good ideas, more or less by default. The evidence says that assumption is wrong more often than it's right.",
+        text: "Most organizations assume their product ideas are good ideas, more or less by default. The evidence says **that assumption is wrong more often than it's right**.",
       },
       {
         type: 'paragraph',
-        text: 'Ronny Kohavi, who built and ran large-scale controlled-experimentation platforms at Microsoft, Bing, and later Airbnb, has published some of the most extensively reviewed data available on this question—what actually happens when a shipped idea is tested against a real, randomized control group instead of just being assumed to work. The pattern holds with remarkable consistency across very different companies: at Microsoft, roughly two-thirds of tested ideas failed to improve the metric they were built to improve. At Bing, the failure rate ran higher still, around 85%. At Airbnb, roughly 92%. Booking.com, running more concurrent experiments than almost any company in the world, has reported a similar result—the large majority of ideas its own product teams believed would help did not, when actually measured.',
+        text: 'Ronny Kohavi, who built and ran large-scale controlled-experimentation platforms at Microsoft, Bing, and later Airbnb, has published some of the most extensively reviewed data available on this question—what actually happens when a shipped idea is tested against a real, randomized control group instead of just being assumed to work. The pattern holds with remarkable consistency across very different companies: at Microsoft, roughly two-thirds of tested ideas failed to improve the metric they were built to improve. At Bing, the failure rate ran higher still, around 85%. At Airbnb, roughly 92%. Booking.com, running more concurrent experiments than almost any company in the world, has reported a similar result—**the large majority of ideas its own product teams believed would help did not, when actually measured**.',
       },
       {
         type: 'chart',
@@ -560,7 +589,7 @@ export const insightArticles: InsightArticle[] = [
       },
       {
         type: 'paragraph',
-        text: 'These are not companies with weak product instincts. They are among the most sophisticated, data-driven product organizations in the industry, and their own numbers say the same thing: most ideas that look good enough to build turn out not to earn their cost once someone checks.',
+        text: 'These are not companies with weak product instincts. They are among the most sophisticated, data-driven product organizations in the industry, and their own numbers say the same thing: **most ideas that look good enough to build turn out not to earn their cost once someone checks**.',
       },
       {
         type: 'pullquote',
@@ -569,29 +598,29 @@ export const insightArticles: InsightArticle[] = [
       { type: 'heading', text: '"It Seemed Like a Good Idea" Isn\'t a Business Case' },
       {
         type: 'paragraph',
-        text: "If even the best product organizations in the world are wrong most of the time about which ideas will work, the honest conclusion isn't that those organizations are bad at their jobs. It's that intuition alone was never going to be a reliable filter—and every organization that skips validation and commits delivery capacity straight from \"this seems like a good idea\" is making the same bet those companies' own data shows usually doesn't pay off.",
+        text: "If even the best product organizations in the world are wrong most of the time about which ideas will work, the honest conclusion isn't that those organizations are bad at their jobs. It's that **intuition alone was never going to be a reliable filter**—and every organization that skips validation and commits delivery capacity straight from \"this seems like a good idea\" is making the same bet those companies' own data shows usually doesn't pay off.",
       },
       {
         type: 'paragraph',
-        text: 'Melissa Perri calls the organizational pattern that results from skipping this step the build trap: equating more shipped output with more success, and losing track of whether any particular thing that got shipped actually created value. Her proposed fix reframes the whole problem as a capital allocation question—fund product work the way a venture investor funds a portfolio, putting a small amount of capacity against many unproven ideas, and only committing serious capacity once an idea has evidence behind it.',
+        text: 'Melissa Perri calls the organizational pattern that results from skipping this step **the build trap**: equating more shipped output with more success, and losing track of whether any particular thing that got shipped actually created value. Her proposed fix reframes the whole problem as a capital allocation question—**fund product work the way a venture investor funds a portfolio**, putting a small amount of capacity against many unproven ideas, and only committing serious capacity once an idea has evidence behind it.',
       },
       {
         type: 'paragraph',
-        text: "That's also the core discipline behind Eric Ries's build-measure-learn loop: treat what you ship as a test of an assumption, not a finished commitment, until the data says otherwise. The goal isn't to move slower. It's to spend the smallest amount of capacity necessary to find out whether an idea is one of the roughly one-in-three that works—before spending the much larger amount of capacity it takes to fully build, harden, and maintain it.",
+        text: "That's also the core discipline behind Eric Ries's **build-measure-learn** loop: treat what you ship as a test of an assumption, not a finished commitment, until the data says otherwise. The goal isn't to move slower. It's to spend the smallest amount of capacity necessary to find out whether an idea is one of the roughly one-in-three that works—before spending the much larger amount of capacity it takes to fully build, harden, and maintain it.",
       },
       { type: 'heading', text: 'The Economics of Checking First' },
       {
         type: 'paragraph',
-        text: 'This connects directly to the same economic logic that should govern any prioritization decision: capacity is finite, and every dollar of it committed to an unvalidated feature is a dollar not available for the smaller share of ideas that would have actually earned their investment.',
+        text: 'This connects directly to the same economic logic that should govern any prioritization decision: capacity is finite, and **every dollar of it committed to an unvalidated feature is a dollar not available** for the smaller share of ideas that would have actually earned their investment.',
       },
       {
         type: 'paragraph',
-        text: "The fix costs far less than the mistake. A validation step—a small experiment, a narrow release, a real test against real usage—costs a fraction of what building, shipping, and then indefinitely maintaining the wrong thing costs. The organizations with the best data on this question aren't the ones that guess less often. They're the ones that built the discipline to find out before they commit.",
+        text: "**The fix costs far less than the mistake.** A validation step—a small experiment, a narrow release, a real test against real usage—costs a fraction of what building, shipping, and then indefinitely maintaining the wrong thing costs. The organizations with the best data on this question aren't the ones that guess less often. They're the ones that built the discipline to find out before they commit.",
       },
       { type: 'heading', text: 'The Real Question, Asked Earlier' },
       {
         type: 'paragraph',
-        text: "Not every feature deserves to be built—not because most product ideas are bad ones, but because most ideas, even from strong teams, don't turn out to be worth what they'd cost until someone actually checks.",
+        text: "Not every feature deserves to be built—not because most product ideas are bad ones, but because **most ideas, even from strong teams, don't turn out to be worth what they'd cost until someone actually checks**.",
       },
     ],
 

@@ -10,7 +10,7 @@
 // article that doesn't have a curated photo yet -- surfaced to Jon rather
 // than filled with an unrelated stock image.
 import { base } from '../../lib/base';
-import { IconArrowLeft } from '@tabler/icons-react';
+import { IconArrowLeft, IconChevronDown } from '@tabler/icons-react';
 
 interface Props {
   eyebrow: string;
@@ -23,7 +23,7 @@ interface Props {
 const { eyebrow, title, subhead, readTime, heroImage, heroImageAlt } = Astro.props;
 ---
 
-<header class="relative flex min-h-[58vh] items-end overflow-hidden bg-navy sm:min-h-[64vh]">
+<header class="relative flex min-h-screen items-end overflow-hidden bg-navy">
   {
     heroImage ? (
       <>
@@ -39,42 +39,104 @@ const { eyebrow, title, subhead, readTime, heroImage, heroImageAlt } = Astro.pro
     )
   }
 
-  <div class="relative mx-auto w-full max-w-[1536px] px-6 pb-14 pt-28 sm:px-8 sm:pb-20 lg:px-10 xl:px-14">
-    <a href={`${base}insights`} class="hero-reveal inline-flex items-center gap-2 text-sm font-bold text-white/60 hover:text-orange">
+  <div class="hero-text-fade relative mx-auto w-full max-w-[1536px] px-6 pb-14 pt-28 text-center sm:px-8 sm:pb-20 lg:px-10 xl:px-14">
+    <a href={`${base}insights`} class="hero-float-in inline-flex items-center gap-2 text-sm font-bold text-white/60 transition-colors hover:text-orange">
       <IconArrowLeft size={16} stroke={2} />
       All Insights
     </a>
-    <p class="hero-reveal mt-6 text-sm font-bold uppercase tracking-[0.375em] text-orange">{eyebrow}</p>
-    <h1 class="hero-reveal mt-5 max-w-2xl font-serif text-4xl leading-[1.1] text-white sm:text-6xl">{title}</h1>
-    <p class="hero-reveal mt-5 max-w-2xl text-lg text-white/80 sm:text-xl">{subhead}</p>
-    <p class="hero-reveal mt-8 text-xs font-semibold uppercase tracking-wide text-white/50">{readTime}</p>
+    <p class="hero-float-in mt-6 text-sm font-bold uppercase tracking-[0.375em] text-orange">{eyebrow}</p>
+    <h1 class="hero-float-in mx-auto mt-5 max-w-2xl font-serif text-4xl leading-[1.1] text-white sm:text-6xl">{title}</h1>
+    <p class="hero-float-in mx-auto mt-5 max-w-2xl text-lg text-white/80 sm:text-xl">{subhead}</p>
+    <p class="hero-float-in mt-8 text-xs font-semibold uppercase tracking-wide text-white/50">{readTime}</p>
+
+    <a
+      href="#article-start"
+      class="hero-float-in hero-scroll-cue mt-14 inline-flex text-white/70 transition-colors hover:text-white"
+      aria-label="Scroll to the article"
+    >
+      <IconChevronDown size={56} stroke={1.75} />
+    </a>
   </div>
 </header>
 
 <style>
-  .hero-reveal {
+  .hero-float-in {
     opacity: 0;
-    transform: translateY(14px);
-    animation: hero-reveal 800ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    transform: translateY(28px);
+    animation: hero-float-in 1500ms cubic-bezier(0.23, 1, 0.32, 1) forwards;
   }
-  .hero-reveal:nth-child(1) { animation-delay: 0ms; }
-  .hero-reveal:nth-child(2) { animation-delay: 90ms; }
-  .hero-reveal:nth-child(3) { animation-delay: 160ms; }
-  .hero-reveal:nth-child(4) { animation-delay: 240ms; }
-  .hero-reveal:nth-child(5) { animation-delay: 320ms; }
+  .hero-float-in:nth-child(1) { animation-delay: 0ms; }
+  .hero-float-in:nth-child(2) { animation-delay: 90ms; }
+  .hero-float-in:nth-child(3) { animation-delay: 160ms; }
+  .hero-float-in:nth-child(4) { animation-delay: 240ms; }
+  .hero-float-in:nth-child(5) { animation-delay: 320ms; }
+  .hero-float-in:nth-child(6) { animation-delay: 500ms; }
 
-  @keyframes hero-reveal {
+  @keyframes hero-float-in {
     to {
       opacity: 1;
       transform: translateY(0);
     }
   }
 
+  .hero-scroll-cue {
+    animation:
+      hero-float-in 1500ms cubic-bezier(0.23, 1, 0.32, 1) forwards,
+      hero-scroll-bounce 2000ms ease-in-out 2000ms infinite;
+  }
+
+  @keyframes hero-scroll-bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(6px); }
+  }
+
   @media (prefers-reduced-motion: reduce) {
-    .hero-reveal {
+    .hero-float-in {
       opacity: 1;
       transform: none;
       animation: none;
     }
+    .hero-scroll-cue {
+      animation: none;
+    }
   }
 </style>
+
+<script>
+  // Smooth-scroll the chevron cue without a sitewide `scroll-behavior:
+  // smooth` change -- scoped to this one interaction.
+  document.querySelectorAll<HTMLAnchorElement>('.hero-scroll-cue').forEach((cue) => {
+    cue.addEventListener('click', (e) => {
+      const target = document.querySelector(cue.getAttribute('href') ?? '');
+      if (!target) return;
+      e.preventDefault();
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+
+  // Fade the hero text out as the reader scrolls past it, so the cut into
+  // the white article body underneath doesn't feel abrupt. Driven directly
+  // by scroll position rather than autoplaying, so it's left on even under
+  // reduced-motion -- opacity only, and entirely under the reader's control.
+  const heroText = document.querySelector<HTMLElement>('.hero-text-fade');
+  if (heroText) {
+    const fadeDistance = Math.min(window.innerHeight * 0.6, 500);
+    let ticking = false;
+    const applyFade = () => {
+      const progress = Math.min(window.scrollY / fadeDistance, 1);
+      heroText.style.opacity = String(1 - progress);
+      ticking = false;
+    };
+    window.addEventListener(
+      'scroll',
+      () => {
+        if (!ticking) {
+          requestAnimationFrame(applyFade);
+          ticking = true;
+        }
+      },
+      { passive: true }
+    );
+    applyFade();
+  }
+</script>

@@ -13,6 +13,7 @@
 // visualized differently.
 import { IconArrowDown } from '@tabler/icons-react';
 import type { InsightBodyBlock } from '../../data/insightArticles';
+import { splitEmphasis } from '../../lib/emphasis';
 
 interface Props {
   lede: string;
@@ -24,7 +25,7 @@ let exhibitCount = 0;
 const exhibitNumbers = body.map((block) => (block.type === 'visual' || block.type === 'chart' ? ++exhibitCount : null));
 ---
 
-<article class="bg-white py-14 sm:py-20">
+<article class="bg-white pb-14 sm:pb-20">
   <div class="mx-auto max-w-[1536px] px-6 sm:px-8 lg:px-10 xl:px-14">
     <div class="mx-auto max-w-[720px]">
       <p class="font-serif text-2xl leading-snug text-navy sm:text-3xl">{lede}</p>
@@ -34,7 +35,13 @@ const exhibitNumbers = body.map((block) => (block.type === 'visual' || block.typ
           return <h2 class="mt-12 font-serif text-2xl text-navy sm:text-3xl">{block.text}</h2>;
         }
         if (block.type === 'paragraph') {
-          return <p class="mt-5 text-[17px] leading-[1.75] text-foreground/80 sm:text-lg">{block.text}</p>;
+          return (
+            <p class="mt-5 text-[17px] leading-[1.75] text-foreground/80 sm:text-lg">
+              {splitEmphasis(block.text).map((seg) =>
+                seg.bold ? <strong class="font-semibold text-foreground">{seg.text}</strong> : seg.text
+              )}
+            </p>
+          );
         }
         if (block.type === 'pullquote') {
           return (
@@ -46,16 +53,16 @@ const exhibitNumbers = body.map((block) => (block.type === 'visual' || block.typ
         }
         if (block.type === 'visual') {
           return (
-            <div class="my-10 border border-line bg-cream p-8 sm:p-10">
+            <div class="visual-exhibit my-10 border border-line bg-cream p-8 sm:p-10">
               <p class="text-xs font-bold uppercase tracking-wide text-orange">Exhibit {exhibitNumbers[idx]}</p>
               <div class="mx-auto mt-5 flex max-w-[440px] flex-col items-center">
                 {block.steps.map((step, i) => (
                   <>
-                    <div class="w-full border border-line bg-white px-5 py-3.5 text-center">
+                    <div class="visual-box w-full border border-line bg-white px-5 py-3.5 text-center">
                       <p class="text-sm font-medium text-navy sm:text-base">{step}</p>
                     </div>
                     {i < block.steps.length - 1 && (
-                      <span class="my-1.5 text-orange" aria-hidden="true">
+                      <span class="visual-arrow my-1.5 text-orange" aria-hidden="true">
                         <IconArrowDown size={18} stroke={2.25} />
                       </span>
                     )}
@@ -69,11 +76,11 @@ const exhibitNumbers = body.map((block) => (block.type === 'visual' || block.typ
         if (block.type === 'chart') {
           const max = Math.max(...block.bars.map((b) => b.value));
           return (
-            <div class="my-10 border border-line bg-cream p-8 sm:p-10">
+            <div class="chart-exhibit my-10 border border-line bg-cream p-8 sm:p-10">
               <p class="text-xs font-bold uppercase tracking-wide text-orange">Exhibit {exhibitNumbers[idx]}</p>
               <p class="mt-2 font-serif text-lg text-navy">{block.title}</p>
               <div class="mt-6 space-y-4">
-                {block.bars.map((bar) => (
+                {block.bars.map((bar, i) => (
                   <div>
                     <div class="flex items-baseline justify-between text-sm">
                       <span class="font-medium text-navy">{bar.label}</span>
@@ -84,8 +91,8 @@ const exhibitNumbers = body.map((block) => (block.type === 'visual' || block.typ
                     </div>
                     <div class="mt-1.5 h-2.5 w-full bg-white">
                       <div
-                        class={`h-full ${bar.highlight ? 'bg-orange' : 'bg-blue'}`}
-                        style={`width:${Math.max(4, (bar.value / max) * 100)}%`}
+                        class={`chart-bar-fill h-full ${bar.highlight ? 'bg-orange' : 'bg-blue'}`}
+                        style={`width:${Math.max(4, (bar.value / max) * 100)}%; transition-delay:${i * 150}ms`}
                       />
                     </div>
                   </div>
@@ -110,3 +117,122 @@ const exhibitNumbers = body.map((block) => (block.type === 'visual' || block.typ
     </div>
   </div>
 </article>
+
+<style>
+  /* Appear, one box at a time: each step in a signature-visual diagram
+     fades/scales in only once the previous one has landed (delay == duration),
+     so the reader follows the causal chain step by step rather than seeing
+     it all at once. :nth-of-type is safe here because the arrow icons
+     between boxes are <span>s, not <div>s, so it counts boxes only. */
+  .visual-box {
+    opacity: 0;
+    transform: scale(0.95);
+    transition:
+      opacity 1500ms cubic-bezier(0.23, 1, 0.32, 1),
+      transform 1500ms cubic-bezier(0.23, 1, 0.32, 1);
+  }
+  .visual-box:nth-of-type(1) { transition-delay: 0ms; }
+  .visual-box:nth-of-type(2) { transition-delay: 1500ms; }
+  .visual-box:nth-of-type(3) { transition-delay: 3000ms; }
+  .visual-box:nth-of-type(4) { transition-delay: 4500ms; }
+  .visual-box:nth-of-type(5) { transition-delay: 6000ms; }
+  .visual-box:nth-of-type(6) { transition-delay: 7500ms; }
+
+  .visual-box.is-visible {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .visual-box {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+  }
+
+  /* Each connecting arrow shares its delay with the box that FOLLOWS it
+     (arrow 1 sits between box 1 and box 2, so it lands with box 2's
+     1500ms delay, and so on) -- the connector arrives together with the
+     step it's pointing to, not with the step it's leaving. */
+  .visual-arrow {
+    opacity: 0;
+    transform: scale(0.95);
+    transition:
+      opacity 1500ms cubic-bezier(0.23, 1, 0.32, 1),
+      transform 1500ms cubic-bezier(0.23, 1, 0.32, 1);
+  }
+  .visual-arrow:nth-of-type(1) { transition-delay: 1500ms; }
+  .visual-arrow:nth-of-type(2) { transition-delay: 3000ms; }
+  .visual-arrow:nth-of-type(3) { transition-delay: 4500ms; }
+  .visual-arrow:nth-of-type(4) { transition-delay: 6000ms; }
+  .visual-arrow:nth-of-type(5) { transition-delay: 7500ms; }
+
+  .visual-arrow.is-visible {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .visual-arrow {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+  }
+
+  /* Chart bars fill left-to-right, like the color pouring in to its limit.
+     transform: scaleX() rather than animating width -- width stays static
+     at the bar's real final length (still what determines the bar's
+     proportion relative to the chart's max), so the fill is GPU-composited
+     instead of relaying out every frame. Each bar's stagger is inline
+     (transition-delay set per-index in the .map() above) since bars are
+     siblings-of-siblings, not directly nth-of-type-able the way the visual
+     diagram's boxes are. */
+  .chart-bar-fill {
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 1200ms cubic-bezier(0.23, 1, 0.32, 1);
+  }
+
+  .chart-bar-fill.is-visible {
+    transform: scaleX(1);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .chart-bar-fill {
+      transform: none;
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  // Each exhibit on the page reveals independently, triggered when that
+  // specific exhibit scrolls into view -- not a single shared timer, since
+  // an article can carry more than one diagram or chart.
+  function initSequentialReveal(exhibitSelector: string, itemSelector: string) {
+    document.querySelectorAll<HTMLElement>(exhibitSelector).forEach((exhibit) => {
+      const items = exhibit.querySelectorAll(itemSelector);
+      if (!items.length) return;
+
+      const io = new IntersectionObserver(
+        ([entry]) => {
+          if (!entry.isIntersecting) return;
+          items.forEach((el) => el.classList.add('is-visible'));
+          io.disconnect();
+        },
+        { threshold: 0.2 }
+      );
+      io.observe(exhibit);
+    });
+  }
+
+  function initReveals() {
+    initSequentialReveal('.visual-exhibit', '.visual-box, .visual-arrow');
+    initSequentialReveal('.chart-exhibit', '.chart-bar-fill');
+  }
+
+  initReveals();
+  document.addEventListener('astro:page-load', initReveals);
+</script>
