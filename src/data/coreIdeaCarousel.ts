@@ -43,7 +43,7 @@ export const coreIdeaSlides: PromiseSlide[] = [
     ctaHref: 'services',
     accent: '#174E40',
     image: 'core-idea-capacity.jpg',
-    imageAlt: 'Abstract overlapping curved panels of color, evoking finite allocated space',
+    imageAlt: 'A monochrome spiral of interlocking looped mesh patterns converging toward a dense center, evoking finite capacity pulled in many directions at once',
   },
   {
     number: '04',

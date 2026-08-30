@@ -37,16 +37,27 @@ const accentClasses: Record<StripAccent, { border: string; bg: string; text: str
 };
 
 
+// Float-in-from-bottom, same character used across the site: 28px travel,
+// 1500ms, strong ease-out. Sequential — one shared trigger on the list,
+// each block staggered by index * duration.
+const REVEAL_DURATION = 1500;
+
 function ServiceBlock({
   service,
   accent,
   isOpen,
   onToggle,
+  revealed,
+  index,
+  reducedMotion,
 }: {
   service: ServiceDefinition;
   accent: StripAccent;
   isOpen: boolean;
   onToggle: () => void;
+  revealed: boolean;
+  index: number;
+  reducedMotion: boolean;
 }) {
   const [openPill, setOpenPill] = useState<number | null>(null);
   const Icon = icons[service.iconName];
@@ -65,7 +76,17 @@ function ServiceBlock({
   }, [isOpen]);
 
   return (
-    <div ref={blockRef} className="border border-line">
+    <div
+      ref={blockRef}
+      className="border border-line"
+      style={{
+        opacity: revealed ? 1 : 0,
+        transform: revealed ? 'translateY(0)' : 'translateY(28px)',
+        transition: reducedMotion
+          ? 'none'
+          : `opacity ${REVEAL_DURATION}ms cubic-bezier(0.23, 1, 0.32, 1) ${index * REVEAL_DURATION}ms, transform ${REVEAL_DURATION}ms cubic-bezier(0.23, 1, 0.32, 1) ${index * REVEAL_DURATION}ms`,
+      }}
+    >
       {/* The image always lives in the right half of the same grid row, in
           both states -- collapsed shows just its top edge at strip height,
           open grows that same column to full height. Same column position
@@ -188,9 +209,32 @@ function ServiceBlock({
 
 export default function ServiceSelector() {
   const [openService, setOpenService] = useState<number | null>(null);
+  const [revealed, setRevealed] = useState(false);
+  const reducedMotionRef = useRef(false);
+  const listRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    reducedMotionRef.current = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reducedMotionRef.current) {
+      setRevealed(true);
+      return;
+    }
+    const el = listRef.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return;
+        setRevealed(true);
+        io.disconnect();
+      },
+      { threshold: 0.2 }
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
 
   return (
-    <div className="mt-[50px] flex flex-col gap-4">
+    <div ref={listRef} className="mt-[50px] flex flex-col gap-4">
       {services.map((service, i) => (
         <ServiceBlock
           key={service.slug}
@@ -198,6 +242,9 @@ export default function ServiceSelector() {
           accent={stripAccents[i % stripAccents.length]}
           isOpen={openService === i}
           onToggle={() => setOpenService(openService === i ? null : i)}
+          revealed={revealed}
+          index={i}
+          reducedMotion={reducedMotionRef.current}
         />
       ))}
     </div>
