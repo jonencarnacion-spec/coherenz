@@ -1,9 +1,9 @@
 ---
 // §16 RELATED INSIGHTS — reuses the same InsightGridCard component as the
 // main /insights page (doc: "creates continuity between the article and
-// the Insights index"). Always renders the icon-fallback treatment (no
-// photo) since related cards can point at any of the other three articles
-// regardless of which one has photography today.
+// the Insights index"). All 10 articles now carry a heroImage, so related
+// cards show that same photo as their thumbnail; IconBulb stays as the
+// fallback InsightGridCard already uses for any article without one.
 import InsightGridCard from '../InsightGridCard.astro';
 import { IconBulb } from '@tabler/icons-react';
 import type { InsightArticle } from '../../data/insightArticles';
@@ -19,7 +19,14 @@ const { articles } = Astro.props;
     <p class="text-sm font-bold uppercase tracking-[0.375em] text-orange">Continue Exploring</p>
     <div class="mt-8 grid max-w-3xl grid-cols-1 gap-6 sm:grid-cols-2">
       {articles.map((a) => (
-        <InsightGridCard title={a.title} description={a.subhead} slug={a.slug} Icon={IconBulb} />
+        <InsightGridCard
+          title={a.title}
+          description={a.subhead}
+          slug={a.slug}
+          image={a.heroImage}
+          imageAlt={a.heroImageAlt}
+          Icon={IconBulb}
+        />
       ))}
     </div>
   </div>

@@ -35,7 +35,7 @@ export const insights: InsightSummary[] = [
     title: 'More Delivery Doesn’t Mean More Value.',
     description: 'Why increasing output can make a product organization less effective—and what to optimize instead.',
     image: 'insight-2.jpg',
-    imageAlt: 'Layered street posters and flyers papering a wall, evoking accumulated output',
+    imageAlt: 'A dense tangle of overlapping colorful light trails against black, evoking excess signal and noise rather than clarity',
     slug: 'more-delivery-doesnt-mean-more-value',
   },
   {
@@ -51,7 +51,7 @@ export const insights: InsightSummary[] = [
     title: 'Your Delivery Problem May Not Be a Capacity Problem.',
     description: 'Why adding people rarely fixes the underlying economics of a constrained delivery system.',
     image: 'insight-4.jpg',
-    imageAlt: 'A Rubik’s cube mid-toss above an open hand',
+    imageAlt: 'A red-tinted double-exposure portrait of a person’s face, blurred and fractured as if pulled in two directions at once',
     slug: 'your-delivery-problem-may-not-be-a-capacity-problem',
   },
 ];
@@ -125,7 +125,7 @@ export const insightSections: InsightEditorialSection[] = [
         title: 'More Delivery Doesn’t Mean More Value.',
         description: 'Why increasing output can make a product organization less effective—and what to optimize instead.',
         image: 'insight-2.jpg',
-        imageAlt: 'Layered street posters and flyers papering a wall, evoking accumulated output',
+        imageAlt: 'A dense tangle of overlapping colorful light trails against black, evoking excess signal and noise rather than clarity',
         slug: 'more-delivery-doesnt-mean-more-value',
       },
       {
@@ -151,7 +151,7 @@ export const insightSections: InsightEditorialSection[] = [
         title: 'Your Delivery Problem May Not Be a Capacity Problem.',
         description: 'Why adding people rarely fixes the underlying economics of a constrained delivery system.',
         image: 'insight-4.jpg',
-        imageAlt: 'A Rubik’s cube mid-toss above an open hand',
+        imageAlt: 'A red-tinted double-exposure portrait of a person’s face, blurred and fractured as if pulled in two directions at once',
         slug: 'your-delivery-problem-may-not-be-a-capacity-problem',
       },
       {

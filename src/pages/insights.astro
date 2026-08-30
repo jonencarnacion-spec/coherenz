@@ -23,6 +23,7 @@ import Layout from '../layouts/Layout.astro';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 import InsightGridCard from '../components/InsightGridCard.astro';
+import { ChallengeCard } from '../components/ui/card-21.tsx';
 import { base } from '../lib/base';
 import {
   topInsight,
@@ -32,7 +33,33 @@ import {
   perspectiveBreak,
   fromInsightToAction,
 } from '../data/insightsContent';
+import { programs as servicePrograms } from '../data/servicesContent';
 import { IconReportMoney, IconActivity, IconRefresh, IconArrowUpRight } from '@tabler/icons-react';
+
+// Same ChallengeCard (card-21) + program photography/theme colors used by
+// services.astro's "Ways to Work Together" grid, per Jon's call to make
+// this section consistent with it. fromInsightToAction only surfaces the
+// first three of servicesContent's four programs (no Executive Workshop
+// here), so this reuses that same data/image/color pairing sliced to
+// three -- not a second, separately maintained copy of the program copy.
+// Links stay on the dedicated /programs/[slug] route (more precise than
+// services.astro's /programs#anchor pattern) rather than copying that too.
+const actionProgramImages = ['programs/diagnostic.jpg', 'programs/stabilization.jpg', 'programs/operating-model.jpg'];
+const actionProgramThemeColors = ['36 80% 55%', '212 44% 32%', '47 100% 35%'];
+const actionProgramCardItems = fromInsightToAction.programs.map(({ slug, ctaLabel }, i) => ({
+  imageUrl: `${base}img/${actionProgramImages[i]}`,
+  headline: servicePrograms[i].name,
+  label: servicePrograms[i].tagline,
+  desc: servicePrograms[i].description,
+  href: `${base}programs/${slug}`,
+  themeColor: actionProgramThemeColors[i],
+  leftAlignText: true,
+  splitLayout: true,
+  framedImage: true,
+  swapLabelCta: true,
+  compactHeadline: true,
+  ctaLabel,
+}));
 
 // One representative icon per editorial section, used for that section's
 // image-less placeholder cards.
@@ -50,7 +77,7 @@ const sectionIcons = [IconReportMoney, IconActivity, IconRefresh];
       <source src={`${base}video/insights-hero-2.mp4`} type="video/mp4" />
     </video>
     <div class="pointer-events-none absolute inset-0 bg-gradient-to-t from-navy via-navy/70 to-navy/20" />
-    <div class="float-up relative mx-auto w-full max-w-[1536px] px-6 py-20 sm:px-8 lg:px-10 xl:px-14">
+    <div class="hero-float-left relative mx-auto w-full max-w-[1536px] px-6 py-20 sm:px-8 lg:px-10 xl:px-14">
       <p class="text-sm font-bold uppercase tracking-[0.375em] text-orange">{insightsHero.eyebrow}</p>
       <h1 class="mt-3 max-w-2xl font-serif text-4xl text-white sm:text-5xl">{insightsHero.headline}</h1>
       <p class="mt-4 max-w-2xl text-white/75">{insightsHero.supporting}</p>
@@ -139,22 +166,10 @@ const sectionIcons = [IconReportMoney, IconActivity, IconRefresh];
       <p class="mt-4 max-w-2xl text-foreground/70">{fromInsightToAction.supporting}</p>
 
       <div class="mt-[60px] grid grid-cols-1 gap-6 sm:grid-cols-3">
-        {fromInsightToAction.programs.map(({ slug, name, description, ctaLabel }) => (
-          <a
-            href={`${base}programs/${slug}`}
-            class="group flex flex-col border-t-4 border-t-orange bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
-          >
-            <h4 class="text-lg font-bold text-navy">{name}</h4>
-            <p class="mt-2 flex-1 text-sm text-foreground/70">{description}</p>
-            <span class="mt-4 inline-flex items-center gap-1.5 text-sm font-bold text-orange">
-              {ctaLabel}
-              <IconArrowUpRight
-                size={16}
-                stroke={2.25}
-                class="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-              />
-            </span>
-          </a>
+        {actionProgramCardItems.map((item) => (
+          <div class="h-[384px]">
+            <ChallengeCard {...item} />
+          </div>
         ))}
       </div>
     </div>
@@ -213,11 +228,36 @@ const sectionIcons = [IconReportMoney, IconActivity, IconRefresh];
       transition: none;
     }
   }
+
+  /* Hero content floats in from the left instead of up from the bottom --
+     same 1500ms strong ease-out, just horizontal, per Jon's call for this
+     one element only. Kept as its own class rather than a modifier on
+     .float-up so the other five float-up elements on this page are untouched. */
+  .hero-float-left {
+    opacity: 0;
+    transform: translateX(-28px);
+    transition:
+      opacity 1500ms cubic-bezier(0.23, 1, 0.32, 1),
+      transform 1500ms cubic-bezier(0.23, 1, 0.32, 1);
+  }
+
+  .hero-float-left.is-visible {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-float-left {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+  }
 </style>
 
 <script>
   function initFloatReveal() {
-    document.querySelectorAll<HTMLElement>('.float-up').forEach((el) => {
+    document.querySelectorAll<HTMLElement>('.float-up, .hero-float-left').forEach((el) => {
       const io = new IntersectionObserver(
         ([entry]) => {
           if (!entry.isIntersecting) return;

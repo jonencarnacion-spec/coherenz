@@ -124,7 +124,7 @@ const capabilityIcons = {
   <section class="relative flex min-h-[65vh] items-end overflow-hidden bg-navy">
     <img src={`${base}img/programs/${image}`} alt="" class="absolute inset-0 h-full w-full object-cover" />
     <div class="absolute inset-0 bg-gradient-to-t from-navy via-navy/85 to-navy/45" />
-    <div class="relative mx-auto w-full max-w-[1536px] px-6 py-20 sm:px-8 lg:px-10 xl:px-14">
+    <div class="hero-float-left relative mx-auto w-full max-w-[1536px] px-6 py-20 sm:px-8 lg:px-10 xl:px-14">
       <a href={`${base}programs`} class="inline-flex items-center gap-2 text-sm font-bold text-white/80 hover:text-white">
         <IconArrowLeft size={16} stroke={2} />
         All Programs
@@ -293,3 +293,48 @@ const capabilityIcons = {
   </FinalCta>
   <Footer />
 </Layout>
+
+<style>
+  /* Float-in from the left, same character as insights.astro's hero:
+     28px travel, 1500ms, strong ease-out. Fires immediately since this
+     hero is always in the first viewport on load. */
+  .hero-float-left {
+    opacity: 0;
+    transform: translateX(-28px);
+    transition:
+      opacity 1500ms cubic-bezier(0.23, 1, 0.32, 1),
+      transform 1500ms cubic-bezier(0.23, 1, 0.32, 1);
+  }
+
+  .hero-float-left.is-visible {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-float-left {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  function initHeroFloatLeft() {
+    document.querySelectorAll<HTMLElement>('.hero-float-left').forEach((el) => {
+      const io = new IntersectionObserver(
+        ([entry]) => {
+          if (!entry.isIntersecting) return;
+          el.classList.add('is-visible');
+          io.disconnect();
+        },
+        { threshold: 0.2 }
+      );
+      io.observe(el);
+    });
+  }
+
+  initHeroFloatLeft();
+  document.addEventListener('astro:page-load', initHeroFloatLeft);
+</script>

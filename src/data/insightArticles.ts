@@ -269,7 +269,7 @@ export const insightArticles: InsightArticle[] = [
     publishedDate: 'August 2026',
     tag: 'Product Economics',
     heroImage: 'insight-2.jpg',
-    heroImageAlt: 'Layered street posters and flyers papering a wall, evoking accumulated output',
+    heroImageAlt: 'A dense tangle of overlapping colorful light trails against black, evoking excess signal and noise rather than clarity',
 
     lede: 'Shipping more is not the same as creating more value.',
 
@@ -687,7 +687,7 @@ export const insightArticles: InsightArticle[] = [
     publishedDate: 'August 2026',
     tag: 'Delivery Economics',
     heroImage: 'insight-4.jpg',
-    heroImageAlt: "A Rubik's cube mid-toss above an open hand",
+    heroImageAlt: "A red-tinted double-exposure portrait of a person's face, blurred and fractured as if pulled in two directions at once",
 
     lede: 'When delivery slips, the reflex is to hire — but the arithmetic of coordination usually says that will make things worse, not better.',
 
