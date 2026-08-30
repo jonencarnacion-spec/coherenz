@@ -105,12 +105,14 @@ const programCardItems = programs.map((program, i) => ({
 
   <section id="diagnose" class="bg-white py-16 sm:py-24">
     <div class="mx-auto max-w-[1536px] px-6 sm:px-8 lg:px-10 xl:px-14">
-      <p class="text-sm font-bold uppercase tracking-[0.375em] text-orange">Where Is the Problem?</p>
-      <h2 class="mt-3 max-w-2xl font-serif text-4xl text-navy sm:text-5xl">Which Problem Looks Most Like Yours?</h2>
-      <p class="mt-4 max-w-xl text-foreground/70">
-        Start with the question you're trying to answer. Select a challenge below to explore where Coherenz can
-        help.
-      </p>
+      <div class="hero-float-left">
+        <p class="text-sm font-bold uppercase tracking-[0.375em] text-orange">Where Is the Problem?</p>
+        <h2 class="mt-3 max-w-2xl font-serif text-4xl text-navy sm:text-5xl">Which Problem Looks Most Like Yours?</h2>
+        <p class="mt-4 max-w-xl text-foreground/70">
+          Start with the question you're trying to answer. Select a challenge below to explore where Coherenz can
+          help.
+        </p>
+      </div>
 
       <ServiceSelector client:visible />
     </div>
@@ -120,16 +122,18 @@ const programCardItems = programs.map((program, i) => ({
     <img src={`${base}img/coherenz-view-bg.jpg`} alt="" class="absolute inset-0 h-full w-full object-cover" />
     <div class="absolute inset-0 bg-gradient-to-r from-navy/90 to-navy/30" />
     <div class="relative mx-auto max-w-[1536px] px-6 sm:px-8 lg:px-10 xl:px-14">
-      <p class="text-sm font-bold uppercase tracking-[0.375em] text-orange">The Coherenz View</p>
-      <h2 class="mt-3 max-w-2xl font-serif text-4xl text-white sm:text-5xl">Product Delivery Is a System.</h2>
-      <p class="mt-4 max-w-2xl text-white/70">
-        A portfolio problem can become a delivery problem. A delivery problem can become a capacity problem. A
-        capacity problem can expose quality or coordination issues. And an operating model can either amplify or
-        resolve all of them. Coherenz looks across the system to identify where value is being lost and where
-        intervention can have the greatest impact.
-      </p>
+      <div class="hero-float-left">
+        <p class="text-sm font-bold uppercase tracking-[0.375em] text-orange">The Coherenz View</p>
+        <h2 class="mt-3 max-w-2xl font-serif text-4xl text-white sm:text-5xl">Product Delivery Is a System.</h2>
+        <p class="mt-4 max-w-2xl text-white/70">
+          A portfolio problem can become a delivery problem. A delivery problem can become a capacity problem. A
+          capacity problem can expose quality or coordination issues. And an operating model can either amplify or
+          resolve all of them. Coherenz looks across the system to identify where value is being lost and where
+          intervention can have the greatest impact.
+        </p>
+      </div>
 
-      <div class="mt-[50px] flex flex-col gap-3 lg:flex-row lg:items-stretch lg:gap-0">
+      <div class="dim-grid mt-[50px] flex flex-col gap-3 lg:flex-row lg:items-stretch lg:gap-0">
         {systemDimensions.map((dim, i) => {
           const Icon = dimensionIcons[i];
           return (
@@ -139,7 +143,10 @@ const programCardItems = programs.map((program, i) => ({
                   →
                 </div>
               )}
-              <div class="flex flex-1 flex-col gap-3 border border-white/50 bg-navy/50 p-5">
+              <div
+                class="dim-card flex flex-1 flex-col gap-3 border border-white/50 bg-navy/50 p-5"
+                style={`transition-delay: ${i * 1500}ms`}
+              >
                 <span class="flex h-10 w-10 items-center justify-center rounded-full border border-orange/40 text-orange">
                   <Icon size={20} stroke={1.8} />
                 </span>
@@ -157,15 +164,17 @@ const programCardItems = programs.map((program, i) => ({
 
   <section id="engage" class="bg-white py-16 sm:py-24">
     <div class="mx-auto max-w-[1536px] px-6 sm:px-8 lg:px-10 xl:px-14">
-      <p class="text-sm font-bold uppercase tracking-[0.375em] text-orange">From Diagnosis to Action</p>
-      <h2 class="mt-3 max-w-2xl font-serif text-4xl text-navy sm:text-5xl">
-        Find the Problem. Quantify It. Change What Matters.
-      </h2>
-      <p class="mt-4 max-w-2xl text-foreground/70">
-        Coherenz engagements move from evidence to action. The objective isn't to produce another assessment
-        that sits on a shelf—it's to identify the constraints that matter, prioritize the intervention, and
-        measure whether it creates improvement.
-      </p>
+      <div class="hero-float-left">
+        <p class="text-sm font-bold uppercase tracking-[0.375em] text-orange">From Diagnosis to Action</p>
+        <h2 class="mt-3 max-w-2xl font-serif text-4xl text-navy sm:text-5xl">
+          Find the Problem. Quantify It. Change What Matters.
+        </h2>
+        <p class="mt-4 max-w-2xl text-foreground/70">
+          Coherenz engagements move from evidence to action. The objective isn't to produce another assessment
+          that sits on a shelf—it's to identify the constraints that matter, prioritize the intervention, and
+          measure whether it creates improvement.
+        </p>
+      </div>
 
       <!-- Same staircase layout + connector-line/reveal animation as the
            Approach page's Three Economic Questions (data-q-*), adapted for
@@ -205,13 +214,15 @@ const programCardItems = programs.map((program, i) => ({
 
   <section class="bg-cream py-16 sm:py-24">
     <div class="mx-auto max-w-[1536px] px-6 sm:px-8 lg:px-10 xl:px-14">
-      <p class="text-sm font-bold uppercase tracking-[0.375em] text-orange">Ways to Work Together</p>
-      <h2 class="mt-3 max-w-2xl font-serif text-4xl text-navy sm:text-5xl">
-        Start With the Problem. Choose the Right Engagement.
-      </h2>
-      <p class="mt-4 max-w-2xl text-foreground/70">
-        Services describe where Coherenz can help. Programs provide focused ways to engage that expertise.
-      </p>
+      <div class="hero-float-left">
+        <p class="text-sm font-bold uppercase tracking-[0.375em] text-orange">Ways to Work Together</p>
+        <h2 class="mt-3 max-w-2xl font-serif text-4xl text-navy sm:text-5xl">
+          Start With the Problem. Choose the Right Engagement.
+        </h2>
+        <p class="mt-4 max-w-2xl text-foreground/70">
+          Services describe where Coherenz can help. Programs provide focused ways to engage that expertise.
+        </p>
+      </div>
 
       <div class="mt-[50px] grid grid-cols-1 gap-6 sm:grid-cols-2">
         {programCardItems.map((item) => (
@@ -320,13 +331,17 @@ const programCardItems = programs.map((program, i) => ({
 
     if (connector0 && line1) {
       const line1Top = line1.getBoundingClientRect().top;
-      connector0.style.height = `${line1Top - connector0.getBoundingClientRect().top}px`;
+      // +2px so the vertical line's bottom edge overlaps into the next
+      // horizontal line's own thickness instead of just touching it --
+      // otherwise the corner join reads as a hairline gap (same fix
+      // ThreeQuestions.astro's identical staircase connector already has).
+      connector0.style.height = `${line1Top - connector0.getBoundingClientRect().top + 2}px`;
     }
     if (connector1 && line1 && line2) {
       const line2Top = line2.getBoundingClientRect().top;
       const line1Top = line1.getBoundingClientRect().top;
       connector1.style.marginTop = `${line1Top - rowTop}px`;
-      connector1.style.height = `${line2Top - line1Top}px`;
+      connector1.style.height = `${line2Top - line1Top + 2}px`;
     }
 
     if (line0 && connector0) {
@@ -463,4 +478,57 @@ const programCardItems = programs.map((program, i) => ({
 
   initHeroFloatLeft();
   document.addEventListener('astro:page-load', initHeroFloatLeft);
+</script>
+
+<style>
+  /* Float-in from the left, one card at a time -- same character and
+     sequencing as DiagnosticQuestions.astro's "Ask Yourself" cards on the
+     Insight article page: 28px travel, 1500ms, strong ease-out, delay ==
+     duration per card so each only starts once the previous has landed.
+     transition-delay is set inline per-card (i * 1500ms in the .map()
+     above) rather than via :nth-of-type, since the "→" separators between
+     cards are <div>s here too -- nth-of-type would count them alongside
+     the cards instead of isolating just the cards. */
+  .dim-card {
+    opacity: 0;
+    transform: translateX(-28px);
+    transition:
+      opacity 1500ms cubic-bezier(0.23, 1, 0.32, 1),
+      transform 1500ms cubic-bezier(0.23, 1, 0.32, 1);
+  }
+
+  .dim-card.is-visible {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .dim-card {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  function initDimCardsReveal() {
+    const grid = document.querySelector('.dim-grid');
+    if (!grid) return;
+    const cards = grid.querySelectorAll('.dim-card');
+    if (!cards.length) return;
+
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return;
+        cards.forEach((el) => el.classList.add('is-visible'));
+        io.disconnect();
+      },
+      { threshold: 0.2 }
+    );
+    io.observe(grid);
+  }
+
+  initDimCardsReveal();
+  document.addEventListener('astro:page-load', initDimCardsReveal);
 </script>

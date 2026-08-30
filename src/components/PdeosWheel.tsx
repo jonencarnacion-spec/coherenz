@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from 'react';
 import { cn } from '../lib/utils';
 import { base } from '../lib/base';
 import PdeosOrbitalComparison from './PdeosOrbitalComparison';
@@ -29,10 +30,50 @@ export default function PdeosWheel({
   headline?: string;
   body?: React.ReactNode;
 }) {
+  // Float-in from the bottom, same character used across the site
+  // (CoherenzPerspective.astro, ActionAndClosing.astro, insights.astro,
+  // HeroDuplicate.astro, GapDiagram.tsx's own heading): 28px travel,
+  // 1500ms, strong ease-out, IntersectionObserver-triggered since this
+  // section sits below the fold. React state + inline style rather than
+  // the `.float-up` CSS class, since this is a React island.
+  const [headingVisible, setHeadingVisible] = useState(false);
+  const headingRef = useRef<HTMLDivElement>(null);
+  const reducedMotionRef = useRef(false);
+
+  useEffect(() => {
+    reducedMotionRef.current = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reducedMotionRef.current) {
+      setHeadingVisible(true);
+      return;
+    }
+    const el = headingRef.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return;
+        setHeadingVisible(true);
+        io.disconnect();
+      },
+      { threshold: 0.2 }
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
   return (
     <section id="pdeos-wheel-section" className="relative flex flex-col bg-navy py-8 sm:py-10 lg:min-h-[88vh]">
       <div className="relative z-10 mx-auto flex w-full max-w-[1536px] flex-1 flex-col px-6 sm:px-8 lg:px-10 xl:px-14">
-        <div className="mx-auto max-w-4xl text-center">
+        <div
+          ref={headingRef}
+          className="mx-auto max-w-4xl text-center"
+          style={{
+            opacity: headingVisible ? 1 : 0,
+            transform: headingVisible ? 'translateY(0)' : 'translateY(28px)',
+            transition: reducedMotionRef.current
+              ? 'none'
+              : 'opacity 1500ms cubic-bezier(0.23, 1, 0.32, 1), transform 1500ms cubic-bezier(0.23, 1, 0.32, 1)',
+          }}
+        >
           <p className="text-sm font-bold uppercase tracking-[0.375em] text-orange">{eyebrow}</p>
           {/* whitespace-nowrap only fits the original, shorter default headline
               -- an overridden headline (e.g. the longer Approach-page copy)

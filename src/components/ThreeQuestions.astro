@@ -53,13 +53,15 @@ const questions = [
 
 <section id="questions" class="bg-wash-blue pt-[100px] pb-16 sm:pb-24">
   <div class="mx-auto max-w-[1536px] px-6 sm:px-8 lg:px-10 xl:px-14">
-    <p class="text-sm font-bold uppercase tracking-[0.375em] text-orange">The Three Economic Questions</p>
-    <h2 class="mt-3 max-w-2xl font-serif text-4xl text-navy sm:text-5xl">
-      Coherenz connects the investment, the delivery, and the return.
-    </h2>
-    <p class="mt-4 max-w-2xl text-lg font-semibold text-navy">
-      Most teams answer these separately, if at all. Coherenz ties them into a single economic thread — from decision to delivery to result.
-    </p>
+    <div class="hero-float-left">
+      <p class="text-sm font-bold uppercase tracking-[0.375em] text-orange">The Three Economic Questions</p>
+      <h2 class="mt-3 max-w-2xl font-serif text-4xl text-navy sm:text-5xl">
+        Coherenz connects the investment, the delivery, and the return.
+      </h2>
+      <p class="mt-4 max-w-2xl text-lg font-semibold text-navy">
+        Most teams answer these separately, if at all. Coherenz ties them into a single economic thread — from decision to delivery to result.
+      </p>
+    </div>
 
     <!-- First-draft stair-step layout (reference: staggered cards linked by
          right-angle connector lines). Cards keep their existing content;
@@ -305,4 +307,49 @@ const questions = [
   // refresh once everything has settled recalculates it against the final
   // layout.
   window.addEventListener('load', () => ScrollTrigger.refresh());
+</script>
+
+<style>
+  /* Float-in from the left, same character as insights.astro's hero and
+     the other page heroes: 28px travel, 1500ms, strong ease-out.
+     IntersectionObserver-triggered since this section sits below the fold. */
+  .hero-float-left {
+    opacity: 0;
+    transform: translateX(-28px);
+    transition:
+      opacity 1500ms cubic-bezier(0.23, 1, 0.32, 1),
+      transform 1500ms cubic-bezier(0.23, 1, 0.32, 1);
+  }
+
+  .hero-float-left.is-visible {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-float-left {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  function initHeroFloatLeft() {
+    document.querySelectorAll<HTMLElement>('.hero-float-left').forEach((el) => {
+      const io = new IntersectionObserver(
+        ([entry]) => {
+          if (!entry.isIntersecting) return;
+          el.classList.add('is-visible');
+          io.disconnect();
+        },
+        { threshold: 0.2 }
+      );
+      io.observe(el);
+    });
+  }
+
+  initHeroFloatLeft();
+  document.addEventListener('astro:page-load', initHeroFloatLeft);
 </script>

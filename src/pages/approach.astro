@@ -47,10 +47,12 @@ import { base } from '../lib/base';
 
   <section id="core-idea" class="bg-wash-blue pt-16 pb-[100px] sm:pt-24">
     <div class="mx-auto max-w-[1536px] px-6 sm:px-8 lg:px-10 xl:px-14">
-      <p class="text-sm font-bold uppercase tracking-[0.375em] text-orange">The Core Idea</p>
-      <h2 class="mt-3 max-w-2xl font-serif text-4xl text-navy sm:text-5xl">
-        Every organization operates with finite resources.
-      </h2>
+      <div class="hero-float-left">
+        <p class="text-sm font-bold uppercase tracking-[0.375em] text-orange">The Core Idea</p>
+        <h2 class="mt-3 max-w-2xl font-serif text-4xl text-navy sm:text-5xl">
+          Every organization operates with finite resources.
+        </h2>
+      </div>
       <div class="mt-[100px]">
         <ElegantCarousel client:visible slides={coreIdeaSlides} progressBarBg="#EAEEF1" />
       </div>
@@ -69,7 +71,12 @@ import { base } from '../lib/base';
        after it reads as the direct answer to "these decisions are often
        made separately" rather than a new, unrelated topic. -->
   <section id="bridge" class="relative overflow-hidden bg-navy py-[70px] sm:py-[100px]">
-    <div class="relative mx-auto max-w-2xl px-6 text-center sm:px-8">
+    <img
+      src={`${base}img/monogram.svg`}
+      alt=""
+      class="pointer-events-none absolute -right-10 -top-10 w-64 opacity-20"
+    />
+    <div class="float-up relative mx-auto max-w-2xl px-6 text-center sm:px-8">
       <div class="mx-auto mb-8 h-px w-16 bg-orange" aria-hidden="true" />
       <p class="font-serif text-[28px] text-white sm:text-[34px]">
         The challenge is that these decisions are often made separately.
@@ -94,12 +101,14 @@ import { base } from '../lib/base';
 
   <section id="phases" class="bg-white py-16 sm:py-24">
     <div class="mx-auto max-w-[1536px] px-6 sm:px-8 lg:px-10 xl:px-14">
-      <p class="text-sm font-bold uppercase tracking-[0.375em] text-orange">The Operating Model</p>
-      <h2 class="mt-3 max-w-2xl font-serif text-4xl text-navy sm:text-5xl">PDE-OS in Practice</h2>
-      <p class="mt-4 max-w-2xl text-foreground/70">
-        PDE-OS is a loop, not a line — Learn feeds straight back into Discover. Expand any phase below
-        to see its purpose, the question it answers, and what it hands off.
-      </p>
+      <div class="hero-float-left">
+        <p class="text-sm font-bold uppercase tracking-[0.375em] text-orange">The Operating Model</p>
+        <h2 class="mt-3 max-w-2xl font-serif text-4xl text-navy sm:text-5xl">PDE-OS in Practice</h2>
+        <p class="mt-4 max-w-2xl text-foreground/70">
+          PDE-OS is a loop, not a line — Learn feeds straight back into Discover. Expand any phase below
+          to see its purpose, the question it answers, and what it hands off.
+        </p>
+      </div>
       <div class="mt-10">
         <PhasesWheel client:visible />
       </div>
@@ -199,4 +208,50 @@ import { base } from '../lib/base';
 
   initHeroFloatLeft();
   document.addEventListener('astro:page-load', initHeroFloatLeft);
+</script>
+
+<style>
+  /* Float-in from the bottom, same character used across the site
+     (CoherenzPerspective.astro, ActionAndClosing.astro, insights.astro,
+     HeroDuplicate.astro): 28px travel, 1500ms, strong ease-out.
+     IntersectionObserver-triggered since this section sits below the fold. */
+  .float-up {
+    opacity: 0;
+    transform: translateY(28px);
+    transition:
+      opacity 1500ms cubic-bezier(0.23, 1, 0.32, 1),
+      transform 1500ms cubic-bezier(0.23, 1, 0.32, 1);
+  }
+
+  .float-up.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .float-up {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  function initFloatUpReveal() {
+    document.querySelectorAll<HTMLElement>('.float-up').forEach((el) => {
+      const io = new IntersectionObserver(
+        ([entry]) => {
+          if (!entry.isIntersecting) return;
+          el.classList.add('is-visible');
+          io.disconnect();
+        },
+        { threshold: 0.2 }
+      );
+      io.observe(el);
+    });
+  }
+
+  initFloatUpReveal();
+  document.addEventListener('astro:page-load', initFloatUpReveal);
 </script>

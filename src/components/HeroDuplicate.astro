@@ -26,7 +26,7 @@ import { base } from '../lib/base';
   <div class="absolute inset-0 bg-gradient-to-b from-navy/20 via-navy/60 to-navy/95" />
 
   <div class="relative mx-auto w-full max-w-[1180px] px-6 py-32">
-    <div class="mx-auto max-w-[1100px] text-center">
+    <div class="float-up mx-auto max-w-[1100px] text-center">
       <h2 class="mt-4 font-serif text-[52px] leading-[1.25] text-white">
         Making product delivery make economic sense.
       </h2>
@@ -90,4 +90,51 @@ import { base } from '../lib/base';
 
   initHeroDuplicateVideoPause();
   document.addEventListener('astro:page-load', initHeroDuplicateVideoPause);
+</script>
+
+<style>
+  /* Float-in from the bottom, same character used across the site
+     (CoherenzPerspective.astro, ActionAndClosing.astro, insights.astro):
+     28px travel, 1500ms, strong ease-out. IntersectionObserver-triggered
+     since this section sits below the first hero, not in the initial
+     viewport on load. */
+  .float-up {
+    opacity: 0;
+    transform: translateY(28px);
+    transition:
+      opacity 1500ms cubic-bezier(0.23, 1, 0.32, 1),
+      transform 1500ms cubic-bezier(0.23, 1, 0.32, 1);
+  }
+
+  .float-up.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .float-up {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  function initFloatUpReveal() {
+    document.querySelectorAll<HTMLElement>('.float-up').forEach((el) => {
+      const io = new IntersectionObserver(
+        ([entry]) => {
+          if (!entry.isIntersecting) return;
+          el.classList.add('is-visible');
+          io.disconnect();
+        },
+        { threshold: 0.2 }
+      );
+      io.observe(el);
+    });
+  }
+
+  initFloatUpReveal();
+  document.addEventListener('astro:page-load', initFloatUpReveal);
 </script>

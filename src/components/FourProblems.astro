@@ -71,7 +71,7 @@ const cardItems = problems.map((p) => ({
 ---
 
 <section id="services" class="bg-wash-blue pt-12 pb-10 sm:pt-14 sm:pb-12">
-  <div class="mx-auto max-w-[1536px] px-6 sm:px-8 lg:px-10 xl:px-14">
+  <div class="hero-float-left mx-auto max-w-[1536px] px-6 sm:px-8 lg:px-10 xl:px-14">
     <p class="text-sm font-bold uppercase tracking-[0.375em] text-orange">Which problem looks most like yours?</p>
     <h2 class="mt-2 font-serif text-4xl text-navy sm:text-5xl">
       Every organization hits a different ceiling.
@@ -97,3 +97,48 @@ const cardItems = problems.map((p) => ({
     </div>
   </div>
 </section>
+
+<style>
+  /* Float-in from the left, same character as insights.astro's hero and
+     the other page heroes: 28px travel, 1500ms, strong ease-out.
+     IntersectionObserver-triggered since this section sits below the fold. */
+  .hero-float-left {
+    opacity: 0;
+    transform: translateX(-28px);
+    transition:
+      opacity 1500ms cubic-bezier(0.23, 1, 0.32, 1),
+      transform 1500ms cubic-bezier(0.23, 1, 0.32, 1);
+  }
+
+  .hero-float-left.is-visible {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-float-left {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  function initHeroFloatLeft() {
+    document.querySelectorAll<HTMLElement>('.hero-float-left').forEach((el) => {
+      const io = new IntersectionObserver(
+        ([entry]) => {
+          if (!entry.isIntersecting) return;
+          el.classList.add('is-visible');
+          io.disconnect();
+        },
+        { threshold: 0.2 }
+      );
+      io.observe(el);
+    });
+  }
+
+  initHeroFloatLeft();
+  document.addEventListener('astro:page-load', initHeroFloatLeft);
+</script>

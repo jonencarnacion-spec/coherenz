@@ -76,6 +76,66 @@ export default function GapDiagram() {
   const [activeGap, setActiveGap] = useState<number | null>(null);
   const rowRef = useRef<HTMLDivElement>(null);
 
+  // Float-in from the bottom, same character used across the site
+  // (CoherenzPerspective.astro, ActionAndClosing.astro, insights.astro,
+  // HeroDuplicate.astro): 28px travel, 1500ms, strong ease-out,
+  // IntersectionObserver-triggered since this section is below the fold.
+  // Implemented via React state + inline style rather than a `.float-up`
+  // CSS class, since this is a React island -- Astro's scoped <style>
+  // blocks used for that class elsewhere don't reach into .tsx files.
+  const [headingVisible, setHeadingVisible] = useState(false);
+  const headingRef = useRef<HTMLDivElement>(null);
+  const reducedMotionRef = useRef(false);
+
+  useEffect(() => {
+    reducedMotionRef.current = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reducedMotionRef.current) {
+      setHeadingVisible(true);
+      return;
+    }
+    const el = headingRef.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return;
+        setHeadingVisible(true);
+        io.disconnect();
+      },
+      { threshold: 0.2 }
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
+  // The 5 stage nodes (OPPORTUNITY -> OUTCOME) pop in one at a time --
+  // grow past full size then settle, like the stat-callout emphasis
+  // elsewhere on the site (ArticleBody.astro's .stat-value): scale(0.6) ->
+  // overshoot -> scale(1) via the ease-out-back curve. All five flip
+  // "visible" together on one IntersectionObserver hit; each node's own
+  // transitionDelay (i * NODE_POP_DURATION) is what makes them appear to
+  // go one at a time rather than simultaneously.
+  const NODE_POP_DURATION = 700;
+  const [nodesVisible, setNodesVisible] = useState(false);
+
+  useEffect(() => {
+    if (reducedMotionRef.current) {
+      setNodesVisible(true);
+      return;
+    }
+    const el = rowRef.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return;
+        setNodesVisible(true);
+        io.disconnect();
+      },
+      { threshold: 0.2 }
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
   // Container-background click-to-close (the PDE-OS wheel's approach)
   // doesn't work here -- the wheel has a sparse canvas with lots of exposed
   // background; this row is fully tiled edge-to-edge by stage/gap columns,
@@ -95,7 +155,17 @@ export default function GapDiagram() {
   return (
     <section id="problem" className="relative flex flex-col bg-navy pt-10 sm:pt-14 pb-8 sm:pb-10 lg:min-h-[88vh]">
       <div className="relative z-10 mx-auto flex w-full max-w-[1536px] flex-1 flex-col px-6 sm:px-8 lg:px-10 xl:px-14">
-        <div className="mx-auto max-w-2xl text-center">
+        <div
+          ref={headingRef}
+          className="mx-auto max-w-2xl text-center"
+          style={{
+            opacity: headingVisible ? 1 : 0,
+            transform: headingVisible ? 'translateY(0)' : 'translateY(28px)',
+            transition: reducedMotionRef.current
+              ? 'none'
+              : 'opacity 1500ms cubic-bezier(0.23, 1, 0.32, 1), transform 1500ms cubic-bezier(0.23, 1, 0.32, 1)',
+          }}
+        >
           <p className="text-sm font-bold uppercase tracking-[0.375em] text-orange">The Master Value Flow</p>
           <h2 className="mt-3 font-serif text-4xl text-white sm:text-5xl">Where does value go?</h2>
           <p className="mt-2 text-white/70">
@@ -156,6 +226,12 @@ export default function GapDiagram() {
                       // halo below) -- a crisp rim-glow right at the edge,
                       // distinct from the soft glow around the whole shape.
                       boxShadow: `0 0 6px 2px ${rgba(stageCircleColors[i], 0.9)}, ${glowStyle(stageCircleColors[i]).boxShadow}`,
+                      opacity: nodesVisible ? 1 : 0,
+                      transform: nodesVisible ? 'scale(1)' : 'scale(0.6)',
+                      transitionProperty: 'opacity, transform',
+                      transitionDuration: `${NODE_POP_DURATION}ms`,
+                      transitionTimingFunction: 'cubic-bezier(0.34, 1.56, 0.64, 1)',
+                      transitionDelay: reducedMotionRef.current ? '0ms' : `${i * NODE_POP_DURATION}ms`,
                     }}
                   >
                     <StageIcon className="h-[15px] w-[15px] min-[960px]:h-[22px] min-[960px]:w-[22px]" strokeWidth={1.6} />

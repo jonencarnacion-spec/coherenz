@@ -84,7 +84,7 @@ function programHref(slug: string) {
   </section>
 
   <section class="flex min-h-screen flex-col justify-center bg-navy py-16">
-    <div class="mx-auto max-w-[1536px] px-6 text-center sm:px-8 lg:px-10 xl:px-14">
+    <div class="float-up mx-auto max-w-[1536px] px-6 text-center sm:px-8 lg:px-10 xl:px-14">
       <p class="text-sm font-bold uppercase tracking-[0.375em] text-orange">A Clear Place to Start</p>
       <h2 class="mx-auto mt-3 max-w-2xl font-serif text-4xl text-white sm:text-5xl">
         Not every challenge needs a long transformation program.
@@ -172,8 +172,10 @@ function programHref(slug: string) {
 
   <section class="bg-navy py-16 sm:py-24">
     <div class="mx-auto max-w-[1536px] px-6 sm:px-8 lg:px-10 xl:px-14">
-      <p class="text-sm font-bold uppercase tracking-[0.375em] text-orange">Find Your Starting Point</p>
-      <h2 class="mt-3 max-w-2xl font-serif text-4xl text-white sm:text-5xl">What does your organization need right now?</h2>
+      <div class="hero-float-left">
+        <p class="text-sm font-bold uppercase tracking-[0.375em] text-orange">Find Your Starting Point</p>
+        <h2 class="mt-3 max-w-2xl font-serif text-4xl text-white sm:text-5xl">What does your organization need right now?</h2>
+      </div>
 
       <div class="mt-[50px] grid grid-cols-1 gap-4 sm:grid-cols-2">
         {programMatches.map((match) => {
@@ -199,9 +201,9 @@ function programHref(slug: string) {
     <img src={`${base}img/coherenz-view-bg.jpg`} alt="" class="absolute inset-0 h-full w-full object-cover" />
     <div class="absolute inset-0 bg-gradient-to-b from-navy to-navy/30" />
     <div class="relative mx-auto max-w-[1536px] px-6 sm:px-8 lg:px-10 xl:px-14">
-      <h2 class="max-w-2xl font-serif text-4xl text-white sm:text-5xl">Focused by design. Practical in execution.</h2>
+      <h2 class="hero-float-left max-w-2xl font-serif text-4xl text-white sm:text-5xl">Focused by design. Practical in execution.</h2>
 
-      <div class="mt-[50px] flex flex-col gap-3 lg:flex-row lg:items-stretch lg:gap-0">
+      <div class="works-grid mt-[50px] flex flex-col gap-3 lg:flex-row lg:items-stretch lg:gap-0">
         {programWorksSteps.map((step, i) => {
           const StepIcon = programWorksIcons[i];
           return (
@@ -211,7 +213,10 @@ function programHref(slug: string) {
                   →
                 </div>
               )}
-              <div class="flex flex-1 flex-col gap-3 border border-white/15 bg-white/5 p-5">
+              <div
+                class="works-card flex flex-1 flex-col gap-3 border border-white/15 bg-white/5 p-5"
+                style={`transition-delay: ${i * 1500}ms`}
+              >
                 <span class="flex h-10 w-10 items-center justify-center rounded-full border border-orange/40 text-orange">
                   <StepIcon size={20} stroke={1.8} />
                 </span>
@@ -373,4 +378,104 @@ function programHref(slug: string) {
 
   initHeroFloatLeft();
   document.addEventListener('astro:page-load', initHeroFloatLeft);
+</script>
+
+<style>
+  /* Float-in from the bottom, same character used across the site
+     (CoherenzPerspective.astro, ActionAndClosing.astro, insights.astro,
+     HeroDuplicate.astro, approach.astro's #bridge): 28px travel, 1500ms,
+     strong ease-out. IntersectionObserver-triggered since this section
+     sits below the fold. */
+  .float-up {
+    opacity: 0;
+    transform: translateY(28px);
+    transition:
+      opacity 1500ms cubic-bezier(0.23, 1, 0.32, 1),
+      transform 1500ms cubic-bezier(0.23, 1, 0.32, 1);
+  }
+
+  .float-up.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .float-up {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  function initFloatUpReveal() {
+    document.querySelectorAll<HTMLElement>('.float-up').forEach((el) => {
+      const io = new IntersectionObserver(
+        ([entry]) => {
+          if (!entry.isIntersecting) return;
+          el.classList.add('is-visible');
+          io.disconnect();
+        },
+        { threshold: 0.2 }
+      );
+      io.observe(el);
+    });
+  }
+
+  initFloatUpReveal();
+  document.addEventListener('astro:page-load', initFloatUpReveal);
+</script>
+
+<style>
+  /* Float-in from the left, one card at a time -- same character and
+     sequencing as DiagnosticQuestions.astro's "Ask Yourself" cards on the
+     Insight article page: 28px travel, 1500ms, strong ease-out, delay ==
+     duration per card so each only starts once the previous has landed.
+     transition-delay is set inline per-card (i * 1500ms in the .map()
+     above) rather than via :nth-of-type, since the "→" separators between
+     cards are <div>s here too -- nth-of-type would count them alongside
+     the cards instead of isolating just the cards. */
+  .works-card {
+    opacity: 0;
+    transform: translateX(-28px);
+    transition:
+      opacity 1500ms cubic-bezier(0.23, 1, 0.32, 1),
+      transform 1500ms cubic-bezier(0.23, 1, 0.32, 1);
+  }
+
+  .works-card.is-visible {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .works-card {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  function initWorksCardsReveal() {
+    const grid = document.querySelector('.works-grid');
+    if (!grid) return;
+    const cards = grid.querySelectorAll('.works-card');
+    if (!cards.length) return;
+
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return;
+        cards.forEach((el) => el.classList.add('is-visible'));
+        io.disconnect();
+      },
+      { threshold: 0.2 }
+    );
+    io.observe(grid);
+  }
+
+  initWorksCardsReveal();
+  document.addEventListener('astro:page-load', initWorksCardsReveal);
 </script>
