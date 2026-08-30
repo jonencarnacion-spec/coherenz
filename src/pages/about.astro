@@ -1,0 +1,710 @@
+---
+// About page, built from "about page flow.docx" (assets/about page/) --
+// every section, headline, and body copy below follows that doc's
+// structure and wording directly; nothing here is drafted content.
+// See src/data/aboutContent.ts for the source data specific to this page.
+//
+// The doc's "Optional CTA" on the Experience section ("View Jon's Full
+// Profile →") is intentionally omitted -- no destination page or external
+// profile URL exists yet, and per this project's no-fabrication rule this
+// isn't invented. Flag to Jon if he wants a LinkedIn link or dedicated
+// profile page built for it.
+//
+// The 5-lens diagnostic visual reuses servicesContent.ts's systemDimensions
+// + the exact dim-grid/dim-card pattern already live on the Services page
+// and the Insight article template (DiagnosticQuestions.astro) -- same
+// framework, so intentionally the same component logic, not a new one.
+import Layout from '../layouts/Layout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import FinalCta from '../components/FinalCta.astro';
+import { base } from '../lib/base';
+import { systemDimensions } from '../data/servicesContent';
+import { coherenzShifts, experienceAreas, howWeWork, promisePoints, beliefChain } from '../data/aboutContent';
+import {
+  IconTarget,
+  IconRoute,
+  IconBackpack,
+  IconClipboardCheck,
+  IconAffiliate,
+  IconFlag,
+  IconNetwork,
+  IconBolt,
+  IconDeviceLaptop,
+  IconHierarchy3,
+  IconScale,
+  IconTools,
+  IconSparkles,
+  IconCircleCheckFilled,
+  IconArrowRight,
+} from '@tabler/icons-react';
+
+const dimensionIcons = [IconTarget, IconRoute, IconBackpack, IconClipboardCheck, IconAffiliate];
+const experienceIcons = [IconFlag, IconNetwork, IconBolt, IconDeviceLaptop, IconHierarchy3];
+const workIcons = [IconAffiliate, IconScale, IconTools, IconSparkles];
+---
+
+<Layout
+  title="About — Coherenz"
+  description="Coherenz was founded to help leaders restore the connection between effort and value. Learn the belief, the founder, and the practitioner experience behind Product Delivery Economics™."
+>
+  <Nav />
+
+  <section id="about-hero" class="relative flex min-h-screen items-end overflow-hidden bg-navy">
+    <video id="about-hero-video" class="absolute inset-0 h-full w-full object-cover" autoplay muted loop playsinline>
+      <source src={`${base}video/about-hero.mp4`} type="video/mp4" />
+    </video>
+    <div class="pointer-events-none absolute inset-0 bg-gradient-to-t from-navy via-navy/80 to-navy/30" />
+    <div class="hero-float-left relative mx-auto w-full max-w-[1536px] px-6 py-20 sm:px-8 lg:px-10 xl:px-14">
+      <p class="text-sm font-bold uppercase tracking-[0.375em] text-orange">About Coherenz</p>
+      <h1 class="mt-3 max-w-3xl font-serif text-4xl text-white sm:text-5xl">
+        Product organizations don't usually struggle because people aren't working hard.
+      </h1>
+      <p class="mt-4 max-w-2xl text-white/85">They struggle when growth and complexity quietly disconnect effort from value.</p>
+      <p class="mt-3 max-w-2xl text-[14px] text-white/70">
+        As organizations scale, more teams, initiatives, processes, and dependencies are introduced to solve bigger
+        problems. But complexity can also create friction—slowing decisions, fragmenting accountability, consuming
+        capacity, and making it increasingly difficult to see whether effort is actually producing meaningful
+        outcomes.
+      </p>
+      <p class="mt-4 text-lg font-bold text-orange">Coherenz was founded to help leaders restore that connection.</p>
+    </div>
+  </section>
+
+  <section id="belief" class="relative overflow-hidden bg-navy py-16 text-white sm:py-24">
+    <img src={`${base}img/coherenz-view-bg.jpg`} alt="" class="absolute inset-0 h-full w-full object-cover" />
+    <div class="absolute inset-0 bg-gradient-to-r from-navy/90 to-navy/30" />
+    <div class="relative mx-auto max-w-[1536px] px-6 sm:px-8 lg:px-10 xl:px-14">
+      <div class="hero-float-left">
+        <p class="text-sm font-bold uppercase tracking-[0.375em] text-orange">The Coherenz Belief</p>
+        <h2 class="mt-3 max-w-2xl font-serif text-4xl text-white sm:text-5xl">
+          Complexity is inevitable. Disconnection doesn't have to be.
+        </h2>
+        <p class="mt-4 max-w-2xl text-white/70">
+          Coherenz believes that product organizations should be understood as connected systems—not as isolated
+          teams, projects, backlogs, or delivery metrics.
+        </p>
+        <p class="mt-3 max-w-2xl text-white/70">Every important decision affects something else.</p>
+      </div>
+
+      <p class="float-up mt-6 max-w-2xl font-serif text-lg italic text-white/60">{beliefChain.join(' → ')}</p>
+
+      <div class="float-up mt-[50px] max-w-2xl">
+        <p class="text-white/70">
+          When these relationships are invisible, organizations can become extremely busy without becoming
+          meaningfully more effective.
+        </p>
+        <p class="mt-3 text-lg font-bold text-orange">
+          Our work is about making those relationships visible—and helping leaders make better decisions because of
+          them.
+        </p>
+      </div>
+
+      <p class="mt-[70px] text-center text-xs font-bold uppercase tracking-[0.375em] text-white/50">
+        The Five Lenses of the Coherenz Diagnostic
+      </p>
+      <div class="dim-grid mt-6 flex flex-col gap-3 lg:flex-row lg:items-stretch lg:gap-0">
+        {systemDimensions.map((dim, i) => {
+          const Icon = dimensionIcons[i];
+          return (
+            <Fragment>
+              {i > 0 && (
+                <div class="hidden shrink-0 items-center justify-center px-4 text-white/30 lg:flex" aria-hidden="true">
+                  →
+                </div>
+              )}
+              <div
+                class="dim-card flex flex-1 flex-col gap-3 border border-white/50 bg-navy/50 p-5"
+                style={`transition-delay: ${i * 1500}ms`}
+              >
+                <span class="flex h-10 w-10 items-center justify-center rounded-full border border-orange/40 text-orange">
+                  <Icon size={20} stroke={1.8} />
+                </span>
+                <p class="text-xs font-bold uppercase tracking-wide text-orange">
+                  {dim.number} — {dim.name}
+                </p>
+                <p class="text-sm text-white/70">{dim.question}</p>
+              </div>
+            </Fragment>
+          );
+        })}
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-white py-16 sm:py-24">
+    <div class="mx-auto max-w-[1536px] px-6 sm:px-8 lg:px-10 xl:px-14">
+      <div class="hero-float-left">
+        <p class="text-sm font-bold uppercase tracking-[0.375em] text-orange">The Shift</p>
+        <h2 class="mt-3 max-w-2xl font-serif text-4xl text-navy sm:text-5xl">
+          A different way of looking at product delivery.
+        </h2>
+      </div>
+
+      <div class="shift-grid mt-[50px] grid grid-cols-1 gap-6 lg:grid-cols-3">
+        {coherenzShifts.map((shift, i) => (
+          <div class="shift-card border border-line border-t-4 border-t-orange bg-cream p-8" style={`transition-delay: ${i * 1500}ms`}>
+            <p class="font-serif text-6xl text-orange/25">{shift.number}</p>
+            <div class="mt-3 flex flex-wrap items-center gap-2 text-sm font-bold uppercase tracking-wide text-navy/60">
+              <span>{shift.from}</span>
+              <IconArrowRight size={14} stroke={2} class="text-orange" />
+              <span>{shift.to}</span>
+            </div>
+            <p class="mt-4 text-foreground/70">{shift.description}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-cream py-16 sm:py-24">
+    <div class="mx-auto max-w-[1536px] px-6 sm:px-8 lg:px-10 xl:px-14">
+      <div class="grid grid-cols-1 items-center gap-[60px] lg:grid-cols-2 lg:gap-[100px]">
+        <div class="hero-float-left flex justify-center lg:justify-start">
+          <img
+            src={`${base}img/photography/about-founder-portrait.png`}
+            alt="Jon Encarnacion, Founder & Principal, Coherenz, standing with arms crossed"
+            class="w-full max-w-[420px]"
+          />
+        </div>
+
+        <div class="float-up">
+          <p class="text-sm font-bold uppercase tracking-[0.375em] text-orange">Meet the Founder</p>
+          <h2 class="mt-3 font-serif text-4xl text-navy sm:text-5xl">
+            Built by a product and delivery leader who has worked inside the complexity.
+          </h2>
+
+          <p class="mt-4 text-foreground/70">
+            Coherenz was founded by Jon Encarnacion, a product and delivery leader whose perspective has been shaped
+            by working inside the kinds of complex organizations that Coherenz now helps leaders understand and
+            improve.
+          </p>
+          <p class="mt-3 text-foreground/70">
+            Over his career, Jon has worked across enterprise technology, telecommunications, energy, platforms,
+            SaaS, and large-scale product and delivery environments. He has led teams and programs where the
+            challenge was rarely a lack of intelligent people, commitment, or activity.
+          </p>
+
+          <p class="mt-5 font-semibold text-navy">The harder question was often:</p>
+          <p class="mt-1 font-serif text-2xl text-navy">
+            "With all this effort, are we actually creating the value we intended?"
+          </p>
+
+          <p class="mt-5 text-foreground/70">
+            As organizations grow, delivery challenges often become harder to see clearly. Teams become specialized.
+            Dependencies multiply. Priorities compete. More work enters the system than the organization can
+            effectively absorb. Leaders may have extensive reporting and metrics while still struggling to
+            understand where value is being delayed, diluted, or lost.
+          </p>
+          <p class="mt-3 text-foreground/70">That experience shaped the thinking behind Coherenz.</p>
+          <p class="mt-3 text-foreground/70">
+            Jon's work sits at the intersection of product strategy, delivery systems, organizational design, and
+            economics. Rather than treating delivery as simply an execution function, he believes leaders need to
+            understand how decisions about investment, priorities, capacity, flow, quality, and coordination
+            interact to produce—or constrain—business outcomes.
+          </p>
+          <p class="mt-3 text-foreground/70">
+            Coherenz is an extension of that belief: that better visibility into the system leads to better
+            decisions, and better decisions create stronger outcomes.
+          </p>
+
+          <blockquote class="mt-6 border-l-4 border-orange pl-5 font-serif text-xl italic text-navy">
+            "I've spent much of my career working with organizations trying to move faster. Over time, I've learned
+            that the better question is often not simply how do we move faster—but where is our effort actually
+            creating value, and where is complexity quietly getting in the way?"
+          </blockquote>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-wash-blue py-16 sm:py-24">
+    <div class="mx-auto max-w-[1536px] px-6 sm:px-8 lg:px-10 xl:px-14">
+      <div class="hero-float-left">
+        <p class="text-sm font-bold uppercase tracking-[0.375em] text-orange">The Experience</p>
+        <h2 class="mt-3 max-w-2xl font-serif text-4xl text-navy sm:text-5xl">
+          Experience informs the perspective. Practice keeps it grounded.
+        </h2>
+        <p class="mt-4 max-w-2xl text-foreground/70">
+          The ideas behind Coherenz were not developed in isolation. They have been shaped through years of working
+          with product, technology, and business leaders across complex delivery environments.
+        </p>
+        <p class="mt-3 max-w-2xl text-foreground/70">
+          Rather than presenting a traditional employment timeline, this highlights the environments and challenges
+          that have informed the Coherenz perspective.
+        </p>
+      </div>
+
+      <div class="exp-grid mt-[50px] grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-5">
+        {experienceAreas.map((area, i) => {
+          const Icon = experienceIcons[i];
+          return (
+            <div class="exp-card flex flex-col gap-3 border border-line bg-white p-5" style={`transition-delay: ${i * 600}ms`}>
+              <span class="flex h-10 w-10 items-center justify-center rounded-full border border-blue/30 bg-blue/10 text-blue">
+                <Icon size={20} stroke={1.8} />
+              </span>
+              <p class="text-sm font-bold uppercase tracking-wide text-navy">{area.name}</p>
+              <p class="text-sm text-foreground/70">{area.description}</p>
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Doc's "Optional CTA" for this section -- left as plain text, not a
+          link, since no destination (LinkedIn URL or dedicated profile
+          page) exists yet. Swap for an <a> once Jon provides one. */}
+      <p class="float-up mt-[50px] text-center text-sm font-bold text-orange">View Jon's Full Profile →</p>
+    </div>
+  </section>
+
+  <section class="bg-navy py-16 sm:py-24">
+    <div class="mx-auto max-w-[1536px] px-6 sm:px-8 lg:px-10 xl:px-14">
+      <div class="hero-float-left">
+        <p class="text-sm font-bold uppercase tracking-[0.375em] text-orange">How We Work</p>
+        <h2 class="mt-3 max-w-2xl font-serif text-4xl text-white sm:text-5xl">
+          Practitioner experience. Structured thinking. Better decisions.
+        </h2>
+        <p class="mt-4 max-w-2xl text-white/70">
+          Coherenz combines real-world practitioner experience with structured frameworks and modern methods to help
+          leaders move from ambiguity to action. Our approach brings together:
+        </p>
+      </div>
+
+      <div class="work-grid mt-[50px] flex flex-col gap-3 lg:flex-row lg:items-stretch lg:gap-0">
+        {howWeWork.map((item, i) => {
+          const Icon = workIcons[i];
+          return (
+            <Fragment>
+              {i > 0 && (
+                <div class="hidden shrink-0 items-center justify-center px-4 text-white/30 lg:flex" aria-hidden="true">
+                  →
+                </div>
+              )}
+              <div
+                class="work-card flex flex-1 flex-col gap-3 border border-white/15 bg-white/5 p-5"
+                style={`transition-delay: ${i * 1500}ms`}
+              >
+                <span class="flex h-10 w-10 items-center justify-center rounded-full border border-orange/40 text-orange">
+                  <Icon size={20} stroke={1.8} />
+                </span>
+                <p class="text-xs font-bold uppercase tracking-wide text-orange">
+                  {item.number} — {item.name}
+                </p>
+                <p class="text-sm text-white/70">{item.description}</p>
+              </div>
+            </Fragment>
+          );
+        })}
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-cream py-16 sm:py-24">
+    <div class="mx-auto max-w-[1536px] px-6 sm:px-8 lg:px-10 xl:px-14">
+      <div class="hero-float-left mx-auto max-w-2xl text-center">
+        <p class="text-sm font-bold uppercase tracking-[0.375em] text-orange">The Coherenz Promise</p>
+        <h2 class="mt-3 font-serif text-4xl text-navy sm:text-5xl">More clarity. Better decisions. Stronger outcomes.</h2>
+        <p class="mt-4 text-foreground/70">
+          The goal of Coherenz is not to add more process, meetings, reports, or frameworks to an already complex
+          organization.
+        </p>
+        <p class="mt-3 font-semibold text-navy">The goal is to help leaders see more clearly:</p>
+      </div>
+
+      <div class="promise-grid mx-auto mt-[50px] flex max-w-2xl flex-col gap-3">
+        {promisePoints.map((point, i) => (
+          <div class="promise-item flex items-start gap-3 border border-line bg-white p-4" style={`transition-delay: ${i * 500}ms`}>
+            <IconCircleCheckFilled size={18} class="mt-0.5 shrink-0 text-green" />
+            <p class="text-navy">{point}</p>
+          </div>
+        ))}
+      </div>
+
+      <p class="float-up mx-auto mt-[50px] max-w-2xl text-center text-foreground/70">
+        Because when leaders can see the system more clearly, they can make better choices about where to invest,
+        what to prioritize, and how to organize for the outcomes that matter.
+      </p>
+    </div>
+  </section>
+
+  <div class="relative overflow-hidden bg-navy">
+    <img
+      src={`${base}img/monogram.svg`}
+      alt=""
+      class="pointer-events-none absolute -right-6 -top-20 w-96 opacity-[0.22] sm:-right-4 sm:w-[30rem]"
+    />
+    <FinalCta
+      showPortrait={false}
+      showMonogram={false}
+      transparent
+      eyebrow="Ready to Look Differently?"
+      body="Start with the questions that reveal where complexity, capacity, and value may be misaligned."
+      ctaText="Explore the Coherenz Diagnostic →"
+      ctaHref={`${base}programs/product-delivery-economics-assessment`}
+      secondaryCtaText="Start a Conversation →"
+      secondaryCtaHref={`${base}contact`}
+    >
+      <Fragment slot="headline">Ready to look at your delivery system differently?</Fragment>
+    </FinalCta>
+    <Footer transparent />
+  </div>
+</Layout>
+
+<script>
+  // Same off-screen pause pattern as the other hero videos on this site --
+  // a looping autoplay video keeps decoding/buffering frames indefinitely
+  // even while scrolled far out of view.
+  function initAboutHeroVideoPause() {
+    const section = document.getElementById('about-hero');
+    const video = document.getElementById('about-hero-video') as HTMLVideoElement | null;
+    if (!section || !video) return;
+
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) video.play().catch(() => {});
+        else video.pause();
+      },
+      { threshold: 0 }
+    );
+    io.observe(section);
+  }
+
+  initAboutHeroVideoPause();
+  document.addEventListener('astro:page-load', initAboutHeroVideoPause);
+</script>
+
+<style>
+  /* Float-in from the left, same character as every other page hero:
+     28px travel, 1500ms, strong ease-out. Fires immediately since this
+     hero is always in the first viewport on load. */
+  .hero-float-left {
+    opacity: 0;
+    transform: translateX(-28px);
+    transition:
+      opacity 1500ms cubic-bezier(0.23, 1, 0.32, 1),
+      transform 1500ms cubic-bezier(0.23, 1, 0.32, 1);
+  }
+
+  .hero-float-left.is-visible {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-float-left {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  function initHeroFloatLeft() {
+    document.querySelectorAll<HTMLElement>('.hero-float-left').forEach((el) => {
+      const io = new IntersectionObserver(
+        ([entry]) => {
+          if (!entry.isIntersecting) return;
+          el.classList.add('is-visible');
+          io.disconnect();
+        },
+        { threshold: 0.2 }
+      );
+      io.observe(el);
+    });
+  }
+
+  initHeroFloatLeft();
+  document.addEventListener('astro:page-load', initHeroFloatLeft);
+</script>
+
+<style>
+  /* Float-in from the bottom, same character used across the site
+     (CoherenzPerspective.astro, ActionAndClosing.astro, approach.astro's
+     #bridge): 28px travel, 1500ms, strong ease-out. */
+  .float-up {
+    opacity: 0;
+    transform: translateY(28px);
+    transition:
+      opacity 1500ms cubic-bezier(0.23, 1, 0.32, 1),
+      transform 1500ms cubic-bezier(0.23, 1, 0.32, 1);
+  }
+
+  .float-up.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .float-up {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  function initFloatUpReveal() {
+    document.querySelectorAll<HTMLElement>('.float-up').forEach((el) => {
+      const io = new IntersectionObserver(
+        ([entry]) => {
+          if (!entry.isIntersecting) return;
+          el.classList.add('is-visible');
+          io.disconnect();
+        },
+        { threshold: 0.2 }
+      );
+      io.observe(el);
+    });
+  }
+
+  initFloatUpReveal();
+  document.addEventListener('astro:page-load', initFloatUpReveal);
+</script>
+
+<style>
+  /* Five-lens diagnostic row -- identical pattern to services.astro's
+     "Product Delivery Is a System" section: float-in from the left, one
+     card at a time, delay == duration so each only starts once the
+     previous has landed. transition-delay is set inline per-card (i *
+     1500ms in the .map() above) rather than via :nth-of-type, since the
+     "→" separators between cards are <div>s here too. */
+  .dim-card {
+    opacity: 0;
+    transform: translateX(-28px);
+    transition:
+      opacity 1500ms cubic-bezier(0.23, 1, 0.32, 1),
+      transform 1500ms cubic-bezier(0.23, 1, 0.32, 1);
+  }
+
+  .dim-card.is-visible {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .dim-card {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  function initDimCardsReveal() {
+    const grid = document.querySelector('.dim-grid');
+    if (!grid) return;
+    const cards = grid.querySelectorAll('.dim-card');
+    if (!cards.length) return;
+
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return;
+        cards.forEach((el) => el.classList.add('is-visible'));
+        io.disconnect();
+      },
+      { threshold: 0.2 }
+    );
+    io.observe(grid);
+  }
+
+  initDimCardsReveal();
+  document.addEventListener('astro:page-load', initDimCardsReveal);
+</script>
+
+<style>
+  /* The three "shift" manifesto cards -- same sequential fly-in-from-left
+     family as dim-card/works-card elsewhere on the site: 1500ms stagger,
+     one shared trigger on the grid. */
+  .shift-card {
+    opacity: 0;
+    transform: translateX(-28px);
+    transition:
+      opacity 1500ms cubic-bezier(0.23, 1, 0.32, 1),
+      transform 1500ms cubic-bezier(0.23, 1, 0.32, 1);
+  }
+
+  .shift-card.is-visible {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .shift-card {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  function initShiftCardsReveal() {
+    const grid = document.querySelector('.shift-grid');
+    if (!grid) return;
+    const cards = grid.querySelectorAll('.shift-card');
+    if (!cards.length) return;
+
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return;
+        cards.forEach((el) => el.classList.add('is-visible'));
+        io.disconnect();
+      },
+      { threshold: 0.2 }
+    );
+    io.observe(grid);
+  }
+
+  initShiftCardsReveal();
+  document.addEventListener('astro:page-load', initShiftCardsReveal);
+</script>
+
+<style>
+  /* The five experience-area cards wrap into multiple rows at narrower
+     widths (2-col, then 5-col), unlike the single-row card strips
+     elsewhere on the site -- so these float up from the bottom instead of
+     in from the left, which reads correctly regardless of grid position.
+     Faster 600ms stagger since these are lighter/smaller cards than the
+     shift/dim/work rows. */
+  .exp-card {
+    opacity: 0;
+    transform: translateY(28px);
+    transition:
+      opacity 1000ms cubic-bezier(0.23, 1, 0.32, 1),
+      transform 1000ms cubic-bezier(0.23, 1, 0.32, 1);
+  }
+
+  .exp-card.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .exp-card {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  function initExpCardsReveal() {
+    const grid = document.querySelector('.exp-grid');
+    if (!grid) return;
+    const cards = grid.querySelectorAll('.exp-card');
+    if (!cards.length) return;
+
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return;
+        cards.forEach((el) => el.classList.add('is-visible'));
+        io.disconnect();
+      },
+      { threshold: 0.2 }
+    );
+    io.observe(grid);
+  }
+
+  initExpCardsReveal();
+  document.addEventListener('astro:page-load', initExpCardsReveal);
+</script>
+
+<style>
+  /* The four "How We Work" principle cards -- same sequential
+     fly-in-from-left family as dim-card/shift-card/works-card, 1500ms
+     stagger, matching the "How We Work" section's card-row weight. */
+  .work-card {
+    opacity: 0;
+    transform: translateX(-28px);
+    transition:
+      opacity 1500ms cubic-bezier(0.23, 1, 0.32, 1),
+      transform 1500ms cubic-bezier(0.23, 1, 0.32, 1);
+  }
+
+  .work-card.is-visible {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .work-card {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  function initWorkCardsReveal() {
+    const grid = document.querySelector('.work-grid');
+    if (!grid) return;
+    const cards = grid.querySelectorAll('.work-card');
+    if (!cards.length) return;
+
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return;
+        cards.forEach((el) => el.classList.add('is-visible'));
+        io.disconnect();
+      },
+      { threshold: 0.2 }
+    );
+    io.observe(grid);
+  }
+
+  initWorkCardsReveal();
+  document.addEventListener('astro:page-load', initWorkCardsReveal);
+</script>
+
+<style>
+  /* The five Coherenz Promise checklist rows -- same sequential
+     fly-in-from-left mechanic, but a brisker 500ms stagger since these are
+     compact single-line list rows, not full cards. */
+  .promise-item {
+    opacity: 0;
+    transform: translateX(-28px);
+    transition:
+      opacity 800ms cubic-bezier(0.23, 1, 0.32, 1),
+      transform 800ms cubic-bezier(0.23, 1, 0.32, 1);
+  }
+
+  .promise-item.is-visible {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .promise-item {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  function initPromiseItemsReveal() {
+    const grid = document.querySelector('.promise-grid');
+    if (!grid) return;
+    const items = grid.querySelectorAll('.promise-item');
+    if (!items.length) return;
+
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return;
+        items.forEach((el) => el.classList.add('is-visible'));
+        io.disconnect();
+      },
+      { threshold: 0.2 }
+    );
+    io.observe(grid);
+  }
+
+  initPromiseItemsReveal();
+  document.addEventListener('astro:page-load', initPromiseItemsReveal);
+</script>
