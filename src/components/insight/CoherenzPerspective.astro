@@ -14,7 +14,7 @@ const { label, statement, framework } = Astro.props;
 
 <section class="bg-cream py-20 sm:py-28">
   <div class="mx-auto max-w-[1536px] px-6 text-center sm:px-8 lg:px-10 xl:px-14">
-    <div class="mx-auto max-w-3xl">
+    <div class="perspective-float mx-auto max-w-3xl">
     <p class="text-sm font-bold uppercase tracking-[0.375em] text-orange">{label}</p>
     <div class="mx-auto my-7 h-px w-16 bg-orange" aria-hidden="true" />
     <p class="font-serif text-[28px] leading-tight text-navy sm:text-[36px]">{statement}</p>
@@ -22,3 +22,52 @@ const { label, statement, framework } = Astro.props;
     </div>
   </div>
 </section>
+
+<style>
+  /* Float-in from the bottom: same character as the hero's float-in
+     (InsightHeader.astro) -- 28px travel, strong ease-out -- just upward
+     instead of down-to-up-reversed, and as one combined unit (label,
+     divider, statement, framework move together) since this reads as a
+     single quote, not a list of separate items. Triggered on scroll into
+     view since this section sits below the fold. */
+  .perspective-float {
+    opacity: 0;
+    transform: translateY(28px);
+    transition:
+      opacity 1500ms cubic-bezier(0.23, 1, 0.32, 1),
+      transform 1500ms cubic-bezier(0.23, 1, 0.32, 1);
+  }
+
+  .perspective-float.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .perspective-float {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  function initPerspectiveReveal() {
+    const el = document.querySelector('.perspective-float');
+    if (!el) return;
+
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return;
+        el.classList.add('is-visible');
+        io.disconnect();
+      },
+      { threshold: 0.2 }
+    );
+    io.observe(el);
+  }
+
+  initPerspectiveReveal();
+  document.addEventListener('astro:page-load', initPerspectiveReveal);
+</script>

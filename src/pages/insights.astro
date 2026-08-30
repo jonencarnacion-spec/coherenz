@@ -50,7 +50,7 @@ const sectionIcons = [IconReportMoney, IconActivity, IconRefresh];
       <source src={`${base}video/insights-hero-2.mp4`} type="video/mp4" />
     </video>
     <div class="pointer-events-none absolute inset-0 bg-gradient-to-t from-navy via-navy/70 to-navy/20" />
-    <div class="relative mx-auto w-full max-w-[1536px] px-6 py-20 sm:px-8 lg:px-10 xl:px-14">
+    <div class="float-up relative mx-auto w-full max-w-[1536px] px-6 py-20 sm:px-8 lg:px-10 xl:px-14">
       <p class="text-sm font-bold uppercase tracking-[0.375em] text-orange">{insightsHero.eyebrow}</p>
       <h1 class="mt-3 max-w-2xl font-serif text-4xl text-white sm:text-5xl">{insightsHero.headline}</h1>
       <p class="mt-4 max-w-2xl text-white/75">{insightsHero.supporting}</p>
@@ -88,7 +88,7 @@ const sectionIcons = [IconReportMoney, IconActivity, IconRefresh];
   <section id="insight-collection-intro" class="bg-white pt-16 sm:pt-24">
     <div class="mx-auto max-w-[1536px] px-6 sm:px-8 lg:px-10 xl:px-14">
       <p class="text-sm font-bold uppercase tracking-[0.375em] text-orange">Coherenz Thinking</p>
-      <h2 class="mt-3 max-w-2xl font-serif text-4xl text-navy sm:text-5xl">{insightCollectionIntro.headline}</h2>
+      <h2 class="float-up mt-3 max-w-2xl font-serif text-4xl text-navy sm:text-5xl">{insightCollectionIntro.headline}</h2>
       <p class="mt-4 max-w-2xl text-foreground/70">{insightCollectionIntro.supporting}</p>
     </div>
   </section>
@@ -96,7 +96,7 @@ const sectionIcons = [IconReportMoney, IconActivity, IconRefresh];
   {insightSections.slice(0, 2).map(({ name, items }, i) => (
     <section class="bg-white py-16 sm:py-20">
       <div class="mx-auto max-w-[1536px] px-6 sm:px-8 lg:px-10 xl:px-14">
-        <h3 class="font-serif text-2xl text-navy sm:text-3xl">{name}</h3>
+        <h3 class="float-up font-serif text-2xl text-navy sm:text-3xl">{name}</h3>
         <div class="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {items.map((item) => (
             <InsightGridCard {...item} Icon={sectionIcons[i]} />
@@ -112,7 +112,7 @@ const sectionIcons = [IconReportMoney, IconActivity, IconRefresh];
       alt=""
       class="pointer-events-none absolute -right-10 -top-16 w-72 opacity-[0.18] sm:-right-6 sm:-top-20 sm:w-96"
     />
-    <div class="relative mx-auto max-w-3xl px-6 text-center sm:px-8">
+    <div class="float-up relative mx-auto max-w-3xl px-6 text-center sm:px-8">
       <div class="mx-auto mb-8 h-px w-16 bg-orange" aria-hidden="true" />
       <p class="font-serif text-[28px] text-white sm:text-[36px]">{perspectiveBreak.statement}</p>
       <p class="mt-5 text-white/70">{perspectiveBreak.body}</p>
@@ -122,7 +122,7 @@ const sectionIcons = [IconReportMoney, IconActivity, IconRefresh];
   {insightSections.slice(2).map(({ name, items }, i) => (
     <section class="bg-white py-16 sm:py-24">
       <div class="mx-auto max-w-[1536px] px-6 sm:px-8 lg:px-10 xl:px-14">
-        <h3 class="font-serif text-2xl text-navy sm:text-3xl">{name}</h3>
+        <h3 class="float-up font-serif text-2xl text-navy sm:text-3xl">{name}</h3>
         <div class="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {items.map((item) => (
             <InsightGridCard {...item} Icon={sectionIcons[i + 2]} />
@@ -135,7 +135,7 @@ const sectionIcons = [IconReportMoney, IconActivity, IconRefresh];
   <section id="insight-to-action" class="bg-wash-blue py-16 sm:py-24">
     <div class="mx-auto max-w-[1536px] px-6 sm:px-8 lg:px-10 xl:px-14">
       <p class="text-sm font-bold uppercase tracking-[0.375em] text-orange">{fromInsightToAction.eyebrow}</p>
-      <h2 class="mt-3 max-w-2xl font-serif text-4xl text-navy sm:text-5xl">{fromInsightToAction.headline}</h2>
+      <h2 class="float-up mt-3 max-w-2xl font-serif text-4xl text-navy sm:text-5xl">{fromInsightToAction.headline}</h2>
       <p class="mt-4 max-w-2xl text-foreground/70">{fromInsightToAction.supporting}</p>
 
       <div class="mt-[60px] grid grid-cols-1 gap-6 sm:grid-cols-3">
@@ -184,4 +184,52 @@ const sectionIcons = [IconReportMoney, IconActivity, IconRefresh];
 
   initInsightsHeroVideoPause();
   document.addEventListener('astro:page-load', initInsightsHeroVideoPause);
+</script>
+
+<style>
+  /* Float-in from the bottom, same character used across the /insights
+     article template (InsightHeader.astro's hero, CoherenzPerspective.astro,
+     ActionAndClosing.astro): 28px travel, 1500ms, strong ease-out. Each
+     marked element is its own independent unit, so each gets its own
+     IntersectionObserver -- the hero fires immediately since it's already
+     in view on load, everything else fires as the reader scrolls to it. */
+  .float-up {
+    opacity: 0;
+    transform: translateY(28px);
+    transition:
+      opacity 1500ms cubic-bezier(0.23, 1, 0.32, 1),
+      transform 1500ms cubic-bezier(0.23, 1, 0.32, 1);
+  }
+
+  .float-up.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .float-up {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  function initFloatReveal() {
+    document.querySelectorAll<HTMLElement>('.float-up').forEach((el) => {
+      const io = new IntersectionObserver(
+        ([entry]) => {
+          if (!entry.isIntersecting) return;
+          el.classList.add('is-visible');
+          io.disconnect();
+        },
+        { threshold: 0.2 }
+      );
+      io.observe(el);
+    });
+  }
+
+  initFloatReveal();
+  document.addEventListener('astro:page-load', initFloatReveal);
 </script>

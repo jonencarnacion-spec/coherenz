@@ -105,8 +105,8 @@ const exhibitNumbers = body.map((block) => (block.type === 'visual' || block.typ
         }
         if (block.type === 'stat') {
           return (
-            <div class="my-10 border border-line bg-navy p-8 text-center sm:p-10">
-              <p class="font-serif text-5xl text-orange sm:text-6xl">{block.value}</p>
+            <div class="stat-block my-10 border border-line bg-navy p-8 text-center sm:p-10">
+              <p class="stat-value font-serif text-5xl text-orange sm:text-6xl">{block.value}</p>
               <p class="mx-auto mt-3 max-w-sm text-white/85">{block.label}</p>
               <p class="mt-4 text-xs text-white/40">Source: {block.source}</p>
             </div>
@@ -205,6 +205,33 @@ const exhibitNumbers = body.map((block) => (block.type === 'visual' || block.typ
       transition: none;
     }
   }
+
+  /* Stat callout pops in with emphasis -- grows past full size then
+     settles back, rather than a plain fade/slide -- since this is the
+     single loudest number on the page and earns a bit of personality.
+     cubic-bezier(0.34, 1.56, 0.64, 1) is the standard "ease-out-back"
+     curve (easings.co): its y-value exceeds 1 mid-transition, which is
+     what produces the overshoot/settle without hand-built keyframes. */
+  .stat-value {
+    opacity: 0;
+    transform: scale(0.6);
+    transition:
+      opacity 700ms ease-out,
+      transform 700ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  .stat-value.is-visible {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .stat-value {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+  }
 </style>
 
 <script>
@@ -231,6 +258,7 @@ const exhibitNumbers = body.map((block) => (block.type === 'visual' || block.typ
   function initReveals() {
     initSequentialReveal('.visual-exhibit', '.visual-box, .visual-arrow');
     initSequentialReveal('.chart-exhibit', '.chart-bar-fill');
+    initSequentialReveal('.stat-block', '.stat-value');
   }
 
   initReveals();
