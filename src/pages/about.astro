@@ -72,7 +72,7 @@ const workIcons = [IconGitMerge, IconScale, IconTools, IconSparkles];
     </div>
   </section>
 
-  <section class="bg-wash-blue py-[77px] sm:py-[115px]">
+  <section class="bg-white py-[77px] sm:py-[115px]">
     <div class="mx-auto max-w-[1536px] px-6 sm:px-8 lg:px-10 xl:px-14">
       <div class="grid grid-cols-1 items-center gap-[60px] lg:grid-cols-2 lg:gap-[100px]">
         <div class="hero-float-left">
@@ -100,7 +100,7 @@ const workIcons = [IconGitMerge, IconScale, IconTools, IconSparkles];
     </div>
   </section>
 
-  <section class="bg-wash-blue py-[77px] sm:py-[115px]">
+  <section class="bg-white py-[77px] sm:py-[115px]">
     <div class="mx-auto max-w-[1536px] px-6 sm:px-8 lg:px-10 xl:px-14">
       <div class="grid grid-cols-1 items-center gap-[60px] lg:grid-cols-2 lg:gap-[100px]">
         <div class="hero-float-left order-2 lg:order-1">
@@ -209,13 +209,34 @@ const workIcons = [IconGitMerge, IconScale, IconTools, IconSparkles];
 
   <section class="bg-cream py-16 sm:py-24">
     <div class="mx-auto max-w-[1536px] px-6 sm:px-8 lg:px-10 xl:px-14">
-      <div class="grid grid-cols-1 items-center gap-[60px] lg:grid-cols-2 lg:gap-[100px]">
+      {/* Fixed 420px first column (matching the portrait's own max-width)
+          instead of an even 2-col split -- with an even split the gap value
+          alone understates the real visual gap, since the image (capped at
+          max-w-[420px]) sits left-justified inside a much wider column,
+          leaving empty space before the gap even starts. Sizing the column
+          to the image's actual rendered width makes the 100px gap the true
+          on-screen distance between picture and text, without touching the
+          image's own size or left-anchored position. */}
+      <div class="grid grid-cols-1 items-center gap-[60px] lg:grid-cols-[420px_1fr] lg:gap-[100px]">
         <div class="hero-float-left flex justify-center lg:justify-start">
-          <img
-            src={`${base}img/photography/about-founder-portrait.png`}
-            alt="Jon Encarnacion, Founder & Principal, Coherenz, standing with arms crossed"
-            class="w-full max-w-[420px]"
-          />
+          <div class="relative w-full max-w-[420px]">
+            {/* Warm orange radial backdrop, same character as the founder
+                photo already used sitewide (FinalCta.astro's
+                founder-cta-portrait.png) -- that portrait bakes its own
+                gradient circle into the PNG, but this photo is a full
+                transparent cutout, so the same treatment is applied here
+                via CSS instead, for a consistent "Jon" visual across the
+                site rather than a bare cutout floating on cream. */}
+            <div
+              class="pointer-events-none absolute left-1/2 top-1/2 -z-10 h-[425px] w-[425px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-gradient-to-br from-orange to-[#F0B457]"
+              aria-hidden="true"
+            />
+            <img
+              src={`${base}img/photography/about-founder-portrait.png`}
+              alt="Jon Encarnacion, Founder & Principal, Coherenz, standing with arms crossed"
+              class="relative w-full"
+            />
+          </div>
         </div>
 
         <div class="float-up">
@@ -259,8 +280,8 @@ const workIcons = [IconGitMerge, IconScale, IconTools, IconSparkles];
           </p>
 
           <div class="mt-6">
-            <div class="mb-4 h-px w-16 bg-orange" aria-hidden="true" />
-            <blockquote class="font-serif text-xl italic text-navy">
+            <div class="mx-auto mb-4 h-px w-16 bg-orange" aria-hidden="true" />
+            <blockquote class="text-center font-serif text-xl italic text-navy">
               "I've spent much of my career working with organizations trying to move faster. Over time, I've
               learned that the better question is often not simply how do we move faster—but where is our effort
               actually creating value, and where is complexity quietly getting in the way?"
@@ -283,8 +304,7 @@ const workIcons = [IconGitMerge, IconScale, IconTools, IconSparkles];
           with product, technology, and business leaders across complex delivery environments.
         </p>
         <p class="mt-3 max-w-2xl text-foreground/70">
-          Rather than presenting a traditional employment timeline, this highlights the environments and challenges
-          that have informed the Coherenz perspective.
+          These are the environments and challenges that have shaped the Coherenz perspective.
         </p>
       </div>
 
