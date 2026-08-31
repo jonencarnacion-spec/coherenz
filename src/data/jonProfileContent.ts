@@ -67,10 +67,9 @@ export interface ExperienceEntry {
 }
 
 // Selected career experience, not the full résumé, per the flow doc's own
-// instruction -- five roles chosen to cover its four suggested categories
-// (Product & Delivery Leadership, Enterprise Technology, Telecommunications,
-// Consulting) plus Coherenz itself. Every figure and fact below is from the
-// resume verbatim or a close paraphrase of it.
+// instruction -- five roles spanning Product & Delivery Leadership,
+// Telecommunications, and Enterprise Technology. Every figure and fact
+// below is from the resume verbatim or a close paraphrase of it.
 export const experienceEntries: ExperienceEntry[] = [
   {
     category: 'Product & Delivery Leadership',
@@ -89,7 +88,7 @@ export const experienceEntries: ExperienceEntry[] = [
       'Directed end-to-end product delivery across BA, Scrum, QA, UX/UI, and Engineering. Boosted release predictability to 90–100% and cut operational overhead by 75% through process automation and AI integration.',
   },
   {
-    category: 'Enterprise Technology',
+    category: 'Telecommunications',
     role: 'Program Manager / Delivery Lead',
     org: 'Amdocs Philippines',
     dates: '2019 — 2021',
@@ -105,7 +104,7 @@ export const experienceEntries: ExperienceEntry[] = [
       'Directed multi-million dollar technology programs ($120K–$2.2M+) and spearheaded the end-to-end delivery of an enterprise omni-channel ecosystem connecting retail, web, mobile, and telesales.',
   },
   {
-    category: 'Consulting',
+    category: 'Enterprise Technology',
     role: 'Sr. Project Manager / Agile Delivery Lead',
     org: 'Incuventure',
     dates: '2013 — 2015',
