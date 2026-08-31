@@ -35,13 +35,14 @@ import {
   IconScale,
   IconTools,
   IconSparkles,
+  IconGitMerge,
   IconCircleCheckFilled,
   IconArrowRight,
 } from '@tabler/icons-react';
 
 const dimensionIcons = [IconTarget, IconRoute, IconBackpack, IconClipboardCheck, IconAffiliate];
 const experienceIcons = [IconFlag, IconNetwork, IconBolt, IconDeviceLaptop, IconHierarchy3];
-const workIcons = [IconAffiliate, IconScale, IconTools, IconSparkles];
+const workIcons = [IconGitMerge, IconScale, IconTools, IconSparkles];
 ---
 
 <Layout
@@ -103,7 +104,7 @@ const workIcons = [IconAffiliate, IconScale, IconTools, IconSparkles];
       <p class="mt-[70px] text-center text-xs font-bold uppercase tracking-[0.375em] text-white/50">
         The Five Lenses of the Coherenz Diagnostic
       </p>
-      <div class="dim-grid mt-6 flex flex-col gap-3 lg:flex-row lg:items-stretch lg:gap-0">
+      <div class="dim-grid mt-6 flex flex-col gap-3 lg:flex-row lg:items-stretch lg:gap-0" data-reveal-grid>
         {systemDimensions.map((dim, i) => {
           const Icon = dimensionIcons[i];
           return (
@@ -115,6 +116,7 @@ const workIcons = [IconAffiliate, IconScale, IconTools, IconSparkles];
               )}
               <div
                 class="dim-card flex flex-1 flex-col gap-3 border border-white/50 bg-navy/50 p-5"
+                data-reveal-item
                 style={`transition-delay: ${i * 1500}ms`}
               >
                 <span class="flex h-10 w-10 items-center justify-center rounded-full border border-orange/40 text-orange">
@@ -141,9 +143,9 @@ const workIcons = [IconAffiliate, IconScale, IconTools, IconSparkles];
         </h2>
       </div>
 
-      <div class="shift-grid mt-[50px] grid grid-cols-1 gap-6 lg:grid-cols-3">
+      <div class="shift-grid mt-[50px] grid grid-cols-1 gap-6 lg:grid-cols-3" data-reveal-grid>
         {coherenzShifts.map((shift, i) => (
-          <div class="shift-card border border-line border-t-4 border-t-orange bg-cream p-8" style={`transition-delay: ${i * 1500}ms`}>
+          <div class="shift-card border border-line border-t-4 border-t-orange bg-cream p-8" data-reveal-item style={`transition-delay: ${i * 1500}ms`}>
             <p class="font-serif text-6xl text-orange/25">{shift.number}</p>
             <div class="mt-3 flex flex-wrap items-center gap-2 text-sm font-bold uppercase tracking-wide text-navy/60">
               <span>{shift.from}</span>
@@ -273,7 +275,7 @@ const workIcons = [IconAffiliate, IconScale, IconTools, IconSparkles];
         </p>
       </div>
 
-      <div class="work-grid mt-[50px] flex flex-col gap-3 lg:flex-row lg:items-stretch lg:gap-0">
+      <div class="work-grid mt-[50px] flex flex-col gap-3 lg:flex-row lg:items-stretch lg:gap-0" data-reveal-grid>
         {howWeWork.map((item, i) => {
           const Icon = workIcons[i];
           return (
@@ -285,6 +287,7 @@ const workIcons = [IconAffiliate, IconScale, IconTools, IconSparkles];
               )}
               <div
                 class="work-card flex flex-1 flex-col gap-3 border border-white/15 bg-white/5 p-5"
+                data-reveal-item
                 style={`transition-delay: ${i * 1500}ms`}
               >
                 <span class="flex h-10 w-10 items-center justify-center rounded-full border border-orange/40 text-orange">
@@ -314,9 +317,13 @@ const workIcons = [IconAffiliate, IconScale, IconTools, IconSparkles];
         <p class="mt-3 font-semibold text-navy">The goal is to help leaders see more clearly:</p>
       </div>
 
-      <div class="promise-grid mx-auto mt-[50px] flex max-w-2xl flex-col gap-3">
+      <div class="promise-grid mx-auto mt-[50px] flex max-w-2xl flex-col gap-3" data-reveal-grid>
         {promisePoints.map((point, i) => (
-          <div class="promise-item flex items-start gap-3 border border-line bg-white p-4" style={`transition-delay: ${i * 500}ms`}>
+          <div
+            class="promise-item flex items-start gap-3 border border-line bg-white p-4"
+            data-reveal-item
+            style={`--reveal-duration: 800ms; transition-delay: ${i * 500}ms`}
+          >
             <IconCircleCheckFilled size={18} class="mt-0.5 shrink-0 text-green" />
             <p class="text-navy">{point}</p>
           </div>
@@ -467,27 +474,31 @@ const workIcons = [IconAffiliate, IconScale, IconTools, IconSparkles];
 </script>
 
 <style>
-  /* Five-lens diagnostic row -- identical pattern to services.astro's
-     "Product Delivery Is a System" section: float-in from the left, one
-     card at a time, delay == duration so each only starts once the
-     previous has landed. transition-delay is set inline per-card (i *
-     1500ms in the .map() above) rather than via :nth-of-type, since the
-     "→" separators between cards are <div>s here too. */
-  .dim-card {
+  /* Shared sequential-reveal mechanic for the page's single-row card
+     groups (Five Lenses, Shift, How We Work, Promise checklist) -- fly in
+     from the left, one shared IntersectionObserver trigger per grid, each
+     item's stagger set via its own inline transition-delay. Duration is a
+     custom property (default 1500ms) so the brisker Promise checklist
+     (800ms) doesn't need a second copy of this block; it overrides
+     --reveal-duration inline instead. Doesn't cover exp-card below --
+     that one floats up from the bottom and wraps into multiple rows, a
+     genuinely different mechanic, not more of this one. */
+  [data-reveal-item] {
+    --reveal-duration: 1500ms;
     opacity: 0;
     transform: translateX(-28px);
     transition:
-      opacity 1500ms cubic-bezier(0.23, 1, 0.32, 1),
-      transform 1500ms cubic-bezier(0.23, 1, 0.32, 1);
+      opacity var(--reveal-duration) cubic-bezier(0.23, 1, 0.32, 1),
+      transform var(--reveal-duration) cubic-bezier(0.23, 1, 0.32, 1);
   }
 
-  .dim-card.is-visible {
+  [data-reveal-item].is-visible {
     opacity: 1;
     transform: translateX(0);
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .dim-card {
+    [data-reveal-item] {
       opacity: 1;
       transform: none;
       transition: none;
@@ -496,73 +507,25 @@ const workIcons = [IconAffiliate, IconScale, IconTools, IconSparkles];
 </style>
 
 <script>
-  function initDimCardsReveal() {
-    const grid = document.querySelector('.dim-grid');
-    if (!grid) return;
-    const cards = grid.querySelectorAll('.dim-card');
-    if (!cards.length) return;
+  function initSequentialReveal() {
+    document.querySelectorAll<HTMLElement>('[data-reveal-grid]').forEach((grid) => {
+      const items = grid.querySelectorAll<HTMLElement>('[data-reveal-item]');
+      if (!items.length) return;
 
-    const io = new IntersectionObserver(
-      ([entry]) => {
-        if (!entry.isIntersecting) return;
-        cards.forEach((el) => el.classList.add('is-visible'));
-        io.disconnect();
-      },
-      { threshold: 0.2 }
-    );
-    io.observe(grid);
+      const io = new IntersectionObserver(
+        ([entry]) => {
+          if (!entry.isIntersecting) return;
+          items.forEach((el) => el.classList.add('is-visible'));
+          io.disconnect();
+        },
+        { threshold: 0.2 }
+      );
+      io.observe(grid);
+    });
   }
 
-  initDimCardsReveal();
-  document.addEventListener('astro:page-load', initDimCardsReveal);
-</script>
-
-<style>
-  /* The three "shift" manifesto cards -- same sequential fly-in-from-left
-     family as dim-card/works-card elsewhere on the site: 1500ms stagger,
-     one shared trigger on the grid. */
-  .shift-card {
-    opacity: 0;
-    transform: translateX(-28px);
-    transition:
-      opacity 1500ms cubic-bezier(0.23, 1, 0.32, 1),
-      transform 1500ms cubic-bezier(0.23, 1, 0.32, 1);
-  }
-
-  .shift-card.is-visible {
-    opacity: 1;
-    transform: translateX(0);
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .shift-card {
-      opacity: 1;
-      transform: none;
-      transition: none;
-    }
-  }
-</style>
-
-<script>
-  function initShiftCardsReveal() {
-    const grid = document.querySelector('.shift-grid');
-    if (!grid) return;
-    const cards = grid.querySelectorAll('.shift-card');
-    if (!cards.length) return;
-
-    const io = new IntersectionObserver(
-      ([entry]) => {
-        if (!entry.isIntersecting) return;
-        cards.forEach((el) => el.classList.add('is-visible'));
-        io.disconnect();
-      },
-      { threshold: 0.2 }
-    );
-    io.observe(grid);
-  }
-
-  initShiftCardsReveal();
-  document.addEventListener('astro:page-load', initShiftCardsReveal);
+  initSequentialReveal();
+  document.addEventListener('astro:page-load', initSequentialReveal);
 </script>
 
 <style>
@@ -614,100 +577,4 @@ const workIcons = [IconAffiliate, IconScale, IconTools, IconSparkles];
 
   initExpCardsReveal();
   document.addEventListener('astro:page-load', initExpCardsReveal);
-</script>
-
-<style>
-  /* The four "How We Work" principle cards -- same sequential
-     fly-in-from-left family as dim-card/shift-card/works-card, 1500ms
-     stagger, matching the "How We Work" section's card-row weight. */
-  .work-card {
-    opacity: 0;
-    transform: translateX(-28px);
-    transition:
-      opacity 1500ms cubic-bezier(0.23, 1, 0.32, 1),
-      transform 1500ms cubic-bezier(0.23, 1, 0.32, 1);
-  }
-
-  .work-card.is-visible {
-    opacity: 1;
-    transform: translateX(0);
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .work-card {
-      opacity: 1;
-      transform: none;
-      transition: none;
-    }
-  }
-</style>
-
-<script>
-  function initWorkCardsReveal() {
-    const grid = document.querySelector('.work-grid');
-    if (!grid) return;
-    const cards = grid.querySelectorAll('.work-card');
-    if (!cards.length) return;
-
-    const io = new IntersectionObserver(
-      ([entry]) => {
-        if (!entry.isIntersecting) return;
-        cards.forEach((el) => el.classList.add('is-visible'));
-        io.disconnect();
-      },
-      { threshold: 0.2 }
-    );
-    io.observe(grid);
-  }
-
-  initWorkCardsReveal();
-  document.addEventListener('astro:page-load', initWorkCardsReveal);
-</script>
-
-<style>
-  /* The five Coherenz Promise checklist rows -- same sequential
-     fly-in-from-left mechanic, but a brisker 500ms stagger since these are
-     compact single-line list rows, not full cards. */
-  .promise-item {
-    opacity: 0;
-    transform: translateX(-28px);
-    transition:
-      opacity 800ms cubic-bezier(0.23, 1, 0.32, 1),
-      transform 800ms cubic-bezier(0.23, 1, 0.32, 1);
-  }
-
-  .promise-item.is-visible {
-    opacity: 1;
-    transform: translateX(0);
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .promise-item {
-      opacity: 1;
-      transform: none;
-      transition: none;
-    }
-  }
-</style>
-
-<script>
-  function initPromiseItemsReveal() {
-    const grid = document.querySelector('.promise-grid');
-    if (!grid) return;
-    const items = grid.querySelectorAll('.promise-item');
-    if (!items.length) return;
-
-    const io = new IntersectionObserver(
-      ([entry]) => {
-        if (!entry.isIntersecting) return;
-        items.forEach((el) => el.classList.add('is-visible'));
-        io.disconnect();
-      },
-      { threshold: 0.2 }
-    );
-    io.observe(grid);
-  }
-
-  initPromiseItemsReveal();
-  document.addEventListener('astro:page-load', initPromiseItemsReveal);
 </script>
