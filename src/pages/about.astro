@@ -18,6 +18,7 @@ import Layout from '../layouts/Layout.astro';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 import FinalCta from '../components/FinalCta.astro';
+import LinearCard from '../components/ui/linear-card.tsx';
 import { base } from '../lib/base';
 import { systemDimensions } from '../data/servicesContent';
 import { coherenzShifts, experienceAreas, howWeWork, promisePoints, beliefChain } from '../data/aboutContent';
@@ -37,11 +38,31 @@ import {
   IconSparkles,
   IconGitMerge,
   IconCircleCheckFilled,
-  IconArrowRight,
 } from '@tabler/icons-react';
 
 const dimensionIcons = [IconTarget, IconRoute, IconBackpack, IconClipboardCheck, IconAffiliate];
 const experienceIcons = [IconFlag, IconNetwork, IconBolt, IconDeviceLaptop, IconHierarchy3];
+
+// The Shift's card images -- abstract "system" photography, same curated
+// library as the rest of the page's imagery (assets/image options/insights
+// images/the shift/).
+const shiftCardImages = ['shift-1.jpg', 'shift-2.jpg', 'shift-3.jpg'];
+// Longer version of each shift's description, shown only in the expanded
+// modal -- the collapsed card keeps the shorter doc-sourced sentence as its
+// teaser. Expands on the same point already made, not a new claim.
+const shiftCardDescriptionsLong = [
+  "Being busy is not the same as creating value. Coherenz helps leaders understand whether the work consuming organizational capacity is actually contributing to meaningful outcomes. Teams can be fully utilized—sprints full, backlogs moving, meetings running—while the organization still struggles to point to what changed for the business as a result. The shift starts with a different question: not how much are we doing, but what is that effort actually producing.",
+  "Every delay, dependency, quality issue, and coordination burden has an economic consequence. Product delivery should be managed with greater visibility into the cost of complexity and the value created by investment. Treating delivery as a pipeline to keep full misses the point—what matters is whether that pipeline is producing outcomes worth what they cost. Delivery economics puts a real cost on every friction point, so leaders can weigh a fix against what it's actually worth.",
+  "Adding people, processes, or meetings can temporarily relieve pressure. Sustainable improvement requires understanding the system producing the problem in the first place. A new tool or an extra approval step might ease the immediate strain, but if the underlying structure stays the same, the same pressure resurfaces somewhere else. Lasting change means redesigning how decisions, capacity, and coordination actually work together.",
+];
+const shiftCardItems = coherenzShifts.map((shift, i) => ({
+  id: i,
+  image: `${base}img/photography/${shiftCardImages[i]}`,
+  eyebrow: shift.number,
+  title: `${shift.from} → ${shift.to}`,
+  description: shift.description,
+  descriptionLong: shiftCardDescriptionsLong[i],
+}));
 const workIcons = [IconGitMerge, IconScale, IconTools, IconSparkles];
 ---
 
@@ -191,18 +212,8 @@ const workIcons = [IconGitMerge, IconScale, IconTools, IconSparkles];
         </h2>
       </div>
 
-      <div class="shift-grid mt-[50px] grid grid-cols-1 gap-6 lg:grid-cols-3" data-reveal-grid>
-        {coherenzShifts.map((shift, i) => (
-          <div class="shift-card border border-line border-t-4 border-t-orange bg-cream p-8" data-reveal-item style={`transition-delay: ${i * 1500}ms`}>
-            <p class="font-serif text-6xl text-orange/25">{shift.number}</p>
-            <div class="mt-3 flex flex-wrap items-center gap-2 text-sm font-bold uppercase tracking-wide text-navy/60">
-              <span>{shift.from}</span>
-              <IconArrowRight size={14} stroke={2} class="text-orange" />
-              <span>{shift.to}</span>
-            </div>
-            <p class="mt-4 text-foreground/70">{shift.description}</p>
-          </div>
-        ))}
+      <div class="mt-[50px]">
+        <LinearCard client:visible items={shiftCardItems} />
       </div>
     </div>
   </section>

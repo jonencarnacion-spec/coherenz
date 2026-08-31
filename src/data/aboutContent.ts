@@ -18,21 +18,21 @@ export const coherenzShifts: CoherenzShift[] = [
     from: 'Activity',
     to: 'Outcomes',
     description:
-      'Being busy is not the same as creating value. Coherenz helps leaders understand whether the work consuming organizational capacity is actually contributing to meaningful outcomes.',
+      'Being busy is not the same as creating value. Coherenz helps leaders see whether that work is actually producing meaningful outcomes.',
   },
   {
     number: '02',
     from: 'Delivery Management',
     to: 'Delivery Economics',
     description:
-      'Every delay, dependency, quality issue, and coordination burden has an economic consequence. Product delivery should be managed with greater visibility into the cost of complexity and the value created by investment.',
+      'Every delay, dependency, and coordination burden has an economic consequence—delivery should be managed with visibility into that cost.',
   },
   {
     number: '03',
     from: 'Fixing Symptoms',
     to: 'Redesigning Systems',
     description:
-      'Adding people, processes, or meetings can temporarily relieve pressure. Sustainable improvement requires understanding the system producing the problem in the first place.',
+      'Adding people, processes, or meetings can relieve pressure temporarily. Lasting improvement means understanding the system itself.',
   },
 ];
 
