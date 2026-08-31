@@ -345,10 +345,17 @@ const workIcons = [IconGitMerge, IconScale, IconTools, IconSparkles];
         })}
       </div>
 
-      {/* Doc's "Optional CTA" for this section -- left as plain text, not a
-          link, since no destination (LinkedIn URL or dedicated profile
-          page) exists yet. Swap for an <a> once Jon provides one. */}
-      <p class="float-up mt-[50px] text-center text-sm font-bold text-orange">View Jon's Full Profile →</p>
+      {/* Doc's "Optional CTA" for this section -- now a real link to
+          /about/jon (same light-bg secondary-button variant as
+          HeroDuplicate.astro). */}
+      <div class="float-up mt-[50px] text-center">
+        <a
+          href={`${base}about/jon`}
+          class="inline-block rounded-full border-2 border-orange px-6 py-3 text-sm font-bold text-orange transition-colors hover:bg-orange/10"
+        >
+          View Jon's Full Profile →
+        </a>
+      </div>
     </div>
   </section>
 

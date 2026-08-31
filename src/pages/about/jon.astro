@@ -1,0 +1,361 @@
+---
+// Jon's Profile page, built from "jon's profile page flow.docx" (assets/
+// jon's profile page/). Section order and copy direction follow that doc's
+// 11-part architecture; every career fact (companies, dates, figures)
+// comes from "Jon Encarnacion - Head of Delivery - Resume 2026.pdf" in the
+// same folder, not invented. See src/data/jonProfileContent.ts for the
+// full data-sourcing notes.
+//
+// IMPORTANT -- Section 6 ("What They Say About Jon's Leadership") ships
+// with its 7-value framework structure but NO real testimonial quotes.
+// The flow doc's source material for this section is a farewell card from
+// Jon's former Energin team (assets/jon's profile page/"Thank you and
+// farewell Jon.pdf") -- personal, spontaneous messages written privately
+// for Jon when he left, not testimonials solicited for public marketing
+// use. Several include casual, vulnerable, or very personal content
+// (crying emojis, private jokes, health/family references) alongside real
+// full names and nicknames. Publishing that material on a commercial site
+// is a consent question for Jon and each named person, not something to
+// decide by drafting around it -- so this section renders clearly-marked
+// placeholder cards instead of real quotes. Once Jon confirms which
+// quotes/attributions he (and ideally each person) is comfortable
+// publishing, swap testimonialPlaceholder below for real content.
+import Layout from '../../layouts/Layout.astro';
+import Nav from '../../components/Nav.astro';
+import Footer from '../../components/Footer.astro';
+import FinalCta from '../../components/FinalCta.astro';
+import InsightGridCard from '../../components/InsightGridCard.astro';
+import { base } from '../../lib/base';
+import {
+  credibilityMarkers,
+  capabilityLenses,
+  experienceEntries,
+  questionsBehindTheWork,
+  approachStages,
+  aiCapabilities,
+  selectedThinkingSlugs,
+  leadershipValues,
+} from '../../data/jonProfileContent';
+import { insightArticles } from '../../data/insightArticles';
+import {
+  IconFocus2,
+  IconCalculator,
+  IconHierarchy3,
+  IconShieldCheck,
+  IconEye,
+  IconRocket,
+  IconRadar,
+  IconWaveSine,
+  IconBrain,
+  IconFileText,
+  IconPresentation,
+  IconChartBar,
+  IconQuote,
+  IconBulb,
+} from '@tabler/icons-react';
+
+const lensIcons = [IconFocus2, IconCalculator, IconHierarchy3, IconShieldCheck];
+const approachIcons = [IconEye, IconCalculator, IconFocus2, IconRocket];
+const aiIcons = [IconRadar, IconWaveSine, IconBrain, IconFileText, IconPresentation, IconChartBar];
+
+const selectedThinking = selectedThinkingSlugs
+  .map((slug) => insightArticles.find((a) => a.slug === slug))
+  .filter((a): a is NonNullable<typeof a> => Boolean(a));
+---
+
+<Layout
+  title="Jon Encarnacion — Coherenz"
+  description="Product & Delivery Strategist. Jon Encarnacion advises product and technology leaders on diagnosing delivery complexity, improving the economics of product investment, and restoring execution clarity as organizations scale."
+>
+  <Nav />
+
+  <section class="relative overflow-hidden bg-navy py-20 sm:py-28">
+    <img src={`${base}img/monogram.svg`} alt="" class="pointer-events-none absolute -right-10 -top-16 w-72 opacity-[0.18] sm:-right-6 sm:-top-20 sm:w-96" />
+    <div class="relative mx-auto max-w-[1536px] px-6 sm:px-8 lg:px-10 xl:px-14">
+      <div class="grid grid-cols-1 items-center gap-[60px] lg:grid-cols-[1fr_420px] lg:gap-[100px]">
+        <div>
+          <p class="text-sm font-bold uppercase tracking-[0.375em] text-orange">Jon Encarnacion</p>
+          <h1 class="mt-3 max-w-2xl font-serif text-4xl text-white sm:text-5xl">Product & Delivery Strategist</h1>
+          <p class="mt-4 max-w-xl text-white/75">
+            Advises product and technology leaders on diagnosing delivery complexity, improving the economics of
+            product investment, and restoring execution clarity as organizations scale.
+          </p>
+
+          <div class="mt-[50px] grid grid-cols-2 gap-4 sm:grid-cols-4">
+            {credibilityMarkers.map((marker) => (
+              <div class="border-t-2 border-orange/40 pt-3">
+                <p class="text-xs font-bold uppercase tracking-wide text-orange">{marker.label}</p>
+                <p class="mt-1 text-xs text-white/60">{marker.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div class="mx-auto w-full max-w-[420px]">
+          <img
+            src={`${base}img/photography/jon-profile-hero.jpg`}
+            alt="Jon Encarnacion, standing outdoors with arms crossed, smiling"
+            class="aspect-[3/4] w-full border border-white/10 object-cover"
+          />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-white py-16 sm:py-24">
+    <div class="mx-auto max-w-2xl px-6 text-center sm:px-8">
+      <p class="text-sm font-bold uppercase tracking-[0.375em] text-orange">The Story</p>
+      <h2 class="mt-3 font-serif text-4xl text-navy sm:text-5xl">A career spent making complex things work.</h2>
+      <p class="mt-6 text-foreground/70">
+        Jon's career has taken him through complex product, technology, and delivery environments across
+        telecommunications, enterprise platforms, energy, SaaS, and digital products.
+      </p>
+      <p class="mt-4 text-foreground/70">Across those environments, one challenge repeatedly surfaced:</p>
+      <p class="mt-4 font-serif text-2xl text-navy">
+        Organizations rarely struggle because people aren't working hard. They struggle when effort becomes
+        increasingly difficult to connect to value.
+      </p>
+      <p class="mt-6 text-foreground/70">
+        As organizations grow, priorities multiply, dependencies increase, teams specialize, and delivery systems
+        become harder to see as a whole. Jon's experience working through those environments shaped a simple
+        conviction:
+      </p>
+      <p class="mt-4 text-lg font-bold text-orange">
+        Before asking an organization to move faster, understand what is making it slow.
+      </p>
+      <p class="mt-6 text-foreground/70">That perspective became one of the foundations of Coherenz.</p>
+    </div>
+  </section>
+
+  <section class="bg-wash-blue py-16 sm:py-24">
+    <div class="mx-auto max-w-[1536px] px-6 sm:px-8 lg:px-10 xl:px-14">
+      <div>
+        <p class="text-sm font-bold uppercase tracking-[0.375em] text-orange">What Jon Brings</p>
+        <h2 class="mt-3 max-w-2xl font-serif text-4xl text-navy sm:text-5xl">
+          Four lenses for understanding product and delivery systems.
+        </h2>
+      </div>
+
+      <div class="mt-[50px] grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        {capabilityLenses.map((lens, i) => {
+          const Icon = lensIcons[i];
+          return (
+            <div class="flex flex-col gap-3 border border-line border-t-4 border-t-orange bg-white p-6">
+              <span class="flex h-10 w-10 items-center justify-center rounded-full bg-orange/10 text-orange">
+                <Icon size={20} stroke={1.8} />
+              </span>
+              <p class="text-xs font-bold uppercase tracking-wide text-navy/50">{lens.number} — {lens.name}</p>
+              <p class="font-serif text-xl text-navy">{lens.promise}</p>
+              <p class="text-sm text-foreground/70">{lens.description}</p>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-white py-16 sm:py-24">
+    <div class="mx-auto max-w-[1536px] px-6 sm:px-8 lg:px-10 xl:px-14">
+      <div>
+        <p class="text-sm font-bold uppercase tracking-[0.375em] text-orange">Experience</p>
+        <h2 class="mt-3 max-w-2xl font-serif text-4xl text-navy sm:text-5xl">
+          Experience across complex product & technology environments.
+        </h2>
+        <p class="mt-4 max-w-2xl text-foreground/70">
+          The perspective behind Coherenz has been shaped through years of product, technology, project, and
+          delivery leadership across different industries and organizational environments.
+        </p>
+      </div>
+
+      <div class="mt-[50px] flex flex-col divide-y divide-line border-t border-line">
+        {experienceEntries.map((entry) => (
+          <div class="grid grid-cols-1 gap-2 py-6 sm:grid-cols-[220px_1fr] sm:gap-8">
+            <div>
+              <p class="text-xs font-bold uppercase tracking-wide text-orange">{entry.category}</p>
+              <p class="mt-1 text-sm text-foreground/50">{entry.dates}</p>
+            </div>
+            <div>
+              <p class="font-serif text-xl text-navy">{entry.role}</p>
+              <p class="mt-1 text-sm font-semibold text-navy/70">{entry.org}</p>
+              <p class="mt-2 text-sm text-foreground/70">{entry.description}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-cream py-16 sm:py-24">
+    <div class="mx-auto max-w-[1536px] px-6 sm:px-8 lg:px-10 xl:px-14">
+      <div class="mx-auto max-w-2xl text-center">
+        <p class="text-sm font-bold uppercase tracking-[0.375em] text-orange">What They Say About Jon's Leadership</p>
+        <h2 class="mt-3 font-serif text-4xl text-navy sm:text-5xl">Leadership is experienced from the inside.</h2>
+        <p class="mt-4 text-foreground/70">
+          The strongest measure of leadership isn't the title. It's the experience of the people who worked with
+          you. These reflections come from people Jon previously led, mentored, and worked alongside—people who
+          experienced his approach to leadership firsthand.
+        </p>
+      </div>
+
+      {/* Structure only -- see the file-level comment above for why real
+          testimonial quotes/attributions aren't populated yet. Each card
+          is deliberately styled as a pending placeholder (dashed border,
+          muted icon) rather than a finished-looking card, so this doesn't
+          read as shipped content. */}
+      <div class="mt-[50px] grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {leadershipValues.map((value) => (
+          <div class="flex flex-col gap-3 border border-dashed border-line/80 bg-white/60 p-6">
+            <span class="flex h-10 w-10 items-center justify-center rounded-full border border-line text-foreground/40">
+              <IconQuote size={18} stroke={1.8} />
+            </span>
+            <p class="text-xs font-bold uppercase tracking-wide text-navy/50">{value.number} — {value.name}</p>
+            <p class="font-serif text-lg text-navy">{value.characteristic}</p>
+            <p class="text-sm italic text-foreground/40">Testimonial pending Jon's confirmation.</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="relative overflow-hidden bg-navy py-20 sm:py-28">
+    <div class="relative mx-auto max-w-[1536px] px-6 sm:px-8 lg:px-10 xl:px-14">
+      <p class="text-center text-sm font-bold uppercase tracking-[0.375em] text-orange">The Questions Behind the Work</p>
+      <div class="mx-auto mt-[50px] grid max-w-4xl grid-cols-1 gap-x-12 gap-y-8 sm:grid-cols-2">
+        {questionsBehindTheWork.map((question) => (
+          <p class="font-serif text-2xl text-white sm:text-3xl">{question}</p>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-white py-16 sm:py-24">
+    <div class="mx-auto max-w-[1536px] px-6 sm:px-8 lg:px-10 xl:px-14">
+      <div class="mx-auto max-w-2xl text-center">
+        <p class="text-sm font-bold uppercase tracking-[0.375em] text-orange">Jon's Approach</p>
+        <h2 class="mt-3 font-serif text-4xl text-navy sm:text-5xl">Diagnose before prescribing.</h2>
+        <p class="mt-4 text-foreground/70">
+          Jon starts by understanding the system rather than immediately prescribing a solution. He looks at how
+          investment decisions, priorities, capacity, flow, quality, organizational structure, and coordination
+          interact—and where those relationships create friction or economic leakage.
+        </p>
+        <p class="mt-3 text-foreground/70">
+          From there, the work becomes practical: clarify the problem, quantify the impact, identify the
+          highest-leverage interventions, and help leaders act.
+        </p>
+      </div>
+
+      <div class="mt-[50px] flex flex-col gap-3 lg:flex-row lg:items-stretch lg:gap-0">
+        {approachStages.map((stage, i) => {
+          const Icon = approachIcons[i];
+          return (
+            <Fragment>
+              {i > 0 && (
+                <div class="hidden shrink-0 items-center justify-center px-4 text-navy/20 lg:flex" aria-hidden="true">
+                  →
+                </div>
+              )}
+              <div class="flex flex-1 flex-col items-center gap-3 border border-line bg-wash-blue p-6 text-center">
+                <span class="flex h-10 w-10 items-center justify-center rounded-full bg-orange/10 text-orange">
+                  <Icon size={20} stroke={1.8} />
+                </span>
+                <p class="text-sm font-bold uppercase tracking-wide text-navy">{stage.name}</p>
+              </div>
+            </Fragment>
+          );
+        })}
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-navy py-16 sm:py-24">
+    <div class="mx-auto max-w-[1536px] px-6 sm:px-8 lg:px-10 xl:px-14">
+      <div class="mx-auto max-w-2xl text-center">
+        <p class="text-sm font-bold uppercase tracking-[0.375em] text-orange">AI-Assisted Practice</p>
+        <h2 class="mt-3 font-serif text-4xl text-white sm:text-5xl">Practitioner judgment, amplified by AI.</h2>
+        <p class="mt-4 text-white/70">
+          Jon incorporates AI-assisted tools and methodologies into research, analysis, synthesis, documentation,
+          and decision support where they can improve speed, depth, or clarity.
+        </p>
+        <p class="mt-3 text-lg font-bold text-orange">Use AI to augment thinking—not replace judgment.</p>
+      </div>
+
+      <div class="mt-[50px] grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
+        {aiCapabilities.map((cap, i) => {
+          const Icon = aiIcons[i];
+          return (
+            <div class="flex flex-col items-center gap-3 border border-white/15 bg-white/5 p-5 text-center">
+              <span class="flex h-10 w-10 items-center justify-center rounded-full border border-orange/40 text-orange">
+                <Icon size={20} stroke={1.8} />
+              </span>
+              <p class="text-xs font-bold uppercase tracking-wide text-white/80">{cap.name}</p>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-wash-green py-16 sm:py-24">
+    <div class="mx-auto max-w-[1536px] px-6 sm:px-8 lg:px-10 xl:px-14">
+      <div>
+        <p class="text-sm font-bold uppercase tracking-[0.375em] text-orange">Selected Thinking</p>
+        <h2 class="mt-3 max-w-2xl font-serif text-4xl text-navy sm:text-5xl">Ideas behind the work.</h2>
+        <p class="mt-2">
+          <a href={`${base}insights`} class="font-bold text-orange">Explore all Insights →</a>
+        </p>
+      </div>
+
+      <div class="mt-[50px] grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        {selectedThinking.map((article) => (
+          <InsightGridCard
+            title={article.title}
+            description={article.subhead}
+            image={article.heroImage}
+            imageAlt={article.heroImageAlt}
+            slug={article.slug}
+            Icon={IconBulb}
+          />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-cream py-16 sm:py-24">
+    <div class="mx-auto max-w-2xl px-6 text-center sm:px-8">
+      <p class="text-sm font-bold uppercase tracking-[0.375em] text-orange">Beyond the Frameworks</p>
+      <h2 class="mt-3 font-serif text-4xl text-navy sm:text-5xl">Good consulting should make complexity feel simpler.</h2>
+      <p class="mt-6 text-foreground/70">
+        Outside the frameworks, Jon is curious by habit—drawn to understanding why systems work the way they do,
+        whether that's a delivery organization or something entirely unrelated to work. He's spent much of his
+        career mentoring people earlier in their careers, and still finds that some of the best thinking happens in
+        conversation, not in a document.
+      </p>
+      <p class="mt-4 text-foreground/70">
+        He believes good work should be rigorous and human at the same time—and that the measure of a good
+        explanation is whether it makes something complicated feel a little more simple, not more impressive.
+      </p>
+    </div>
+  </section>
+
+  <div class="relative overflow-hidden bg-navy">
+    <img
+      src={`${base}img/monogram.svg`}
+      alt=""
+      class="pointer-events-none absolute -right-6 -top-20 w-96 opacity-[0.22] sm:-right-4 sm:w-[30rem]"
+    />
+    <FinalCta
+      showPortrait={false}
+      showMonogram={false}
+      transparent
+      eyebrow="Let's Talk"
+      body="Start with the problem. We can work out the right conversation from there."
+      ctaText="Start a Conversation →"
+      ctaHref={`${base}contact`}
+      secondaryCtaText="Explore the Coherenz Diagnostic →"
+      secondaryCtaHref={`${base}programs/product-delivery-economics-assessment`}
+    >
+      <Fragment slot="headline">Have a product or delivery problem you're trying to make sense of?</Fragment>
+    </FinalCta>
+    <Footer transparent />
+  </div>
+</Layout>
