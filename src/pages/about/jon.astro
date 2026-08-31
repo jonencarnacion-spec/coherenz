@@ -55,9 +55,14 @@ const selectedThinking = selectedThinkingSlugs
 >
   <Nav />
 
-  <section class="relative overflow-hidden bg-navy py-20 sm:py-28">
-    <img src={`${base}img/monogram.svg`} alt="" class="pointer-events-none absolute -right-10 -top-16 w-72 opacity-[0.18] sm:-right-6 sm:-top-20 sm:w-96" />
-    <div class="relative mx-auto max-w-[1536px] px-6 sm:px-8 lg:px-10 xl:px-14">
+  <section class="relative flex min-h-[70vh] items-end overflow-hidden bg-navy">
+    <img
+      src={`${base}img/photography/jon-profile-hero-bg.jpg`}
+      alt=""
+      class="absolute inset-0 h-full w-full object-cover"
+    />
+    <div class="pointer-events-none absolute inset-0 bg-gradient-to-t from-navy via-navy/85 to-navy/50" />
+    <div class="relative mx-auto w-full max-w-[1536px] px-6 py-20 sm:px-8 lg:px-10 xl:px-14">
       <div class="grid grid-cols-1 items-center gap-[60px] lg:grid-cols-[420px_1fr] lg:gap-[100px]">
         <div class="mx-auto w-full max-w-[320px]">
           <img
