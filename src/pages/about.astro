@@ -72,30 +72,64 @@ const workIcons = [IconGitMerge, IconScale, IconTools, IconSparkles];
     </div>
   </section>
 
+  <section class="bg-wash-blue py-[77px] sm:py-[115px]">
+    <div class="mx-auto max-w-[1536px] px-6 sm:px-8 lg:px-10 xl:px-14">
+      <div class="grid grid-cols-1 items-center gap-[60px] lg:grid-cols-2 lg:gap-[100px]">
+        <div class="hero-float-left">
+          <p class="text-sm font-bold uppercase tracking-[0.375em] text-orange">The Coherenz Belief</p>
+          <h2 class="mt-3 max-w-2xl font-serif text-4xl text-navy sm:text-5xl">
+            Complexity is inevitable. Disconnection doesn't have to be.
+          </h2>
+          <p class="mt-4 max-w-2xl text-foreground/70">
+            Coherenz believes that product organizations should be understood as connected systems—not as isolated
+            teams, projects, backlogs, or delivery metrics. A decision made in one part of the organization rarely
+            stays contained there—it moves through investment, delivery, and outcomes long after the meeting that
+            made it.
+          </p>
+          <p class="mt-3 max-w-2xl text-foreground/70">Every important decision affects something else.</p>
+        </div>
+
+        <div class="float-up">
+          <img
+            src={`${base}img/photography/about-belief.jpg`}
+            alt="A 3D-rendered abstract sculpture of a figure with an explosion of interconnected pipe-like structures and translucent forms bursting from it, evoking hidden complexity within a system"
+            class="aspect-square w-4/5 object-cover"
+          />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-wash-blue py-[77px] sm:py-[115px]">
+    <div class="mx-auto max-w-[1536px] px-6 sm:px-8 lg:px-10 xl:px-14">
+      <div class="grid grid-cols-1 items-center gap-[60px] lg:grid-cols-2 lg:gap-[100px]">
+        <div class="hero-float-left order-2 lg:order-1">
+          <img
+            src={`${base}img/photography/about-belief-2.jpg`}
+            alt="A crystalline network junction radiating red and blue neon lines from a central node, evoking a single decision propagating through an interconnected system"
+            class="aspect-square w-4/5 object-cover"
+          />
+        </div>
+
+        <div class="float-up order-1 lg:order-2">
+          <h2 class="max-w-2xl font-serif text-4xl text-navy sm:text-5xl">
+            A single decision moves through the whole system.
+          </h2>
+          <p class="mt-4 max-w-2xl text-foreground/70">
+            {beliefChain.join(' ')} When these relationships are invisible, organizations can become extremely busy
+            without becoming meaningfully more effective.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <section id="belief" class="relative overflow-hidden bg-navy py-16 text-white sm:py-24">
     <img src={`${base}img/coherenz-view-bg.jpg`} alt="" class="absolute inset-0 h-full w-full object-cover" />
     <div class="absolute inset-0 bg-gradient-to-r from-navy/90 to-navy/30" />
     <div class="relative mx-auto max-w-[1536px] px-6 sm:px-8 lg:px-10 xl:px-14">
-      <div class="hero-float-left">
-        <p class="text-sm font-bold uppercase tracking-[0.375em] text-orange">The Coherenz Belief</p>
-        <h2 class="mt-3 max-w-2xl font-serif text-4xl text-white sm:text-5xl">
-          Complexity is inevitable. Disconnection doesn't have to be.
-        </h2>
-        <p class="mt-4 max-w-2xl text-white/70">
-          Coherenz believes that product organizations should be understood as connected systems—not as isolated
-          teams, projects, backlogs, or delivery metrics.
-        </p>
-        <p class="mt-3 max-w-2xl text-white/70">Every important decision affects something else.</p>
-      </div>
-
-      <p class="float-up mt-6 max-w-2xl font-serif text-lg italic text-white/60">{beliefChain.join(' → ')}</p>
-
-      <div class="float-up mt-[50px] max-w-2xl">
-        <p class="text-white/70">
-          When these relationships are invisible, organizations can become extremely busy without becoming
-          meaningfully more effective.
-        </p>
-        <p class="mt-3 text-lg font-bold text-orange">
+      <div class="float-up max-w-2xl">
+        <p class="text-lg font-bold text-orange">
           Our work is about making those relationships visible—and helping leaders make better decisions because of
           them.
         </p>
