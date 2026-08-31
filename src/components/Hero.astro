@@ -7,6 +7,7 @@
 // matching where our real copy sits.
 import { base } from '../lib/base';
 import OrbitalHeroSection from './ui/orbital-hero-section';
+import { BlurReveal } from './ui/blur-reveal.tsx';
 ---
 
 <section class="sticky top-0 z-0 min-h-screen bg-navy">
@@ -22,66 +23,29 @@ import OrbitalHeroSection from './ui/orbital-hero-section';
     </div>
 
     <div class="relative mx-auto w-full max-w-[1180px] px-6 py-32">
-      <div class="hero-float-left max-w-2xl">
-        <p class="text-sm font-bold uppercase tracking-[0.375em] text-yellow">Product Delivery Economics™</p>
-        <h1 class="mt-4 font-serif text-5xl leading-tight text-white sm:text-6xl">
-          <span class="whitespace-nowrap">Delivery is an investment.</span><br />Treat it like one.
-        </h1>
-        <p class="mt-4 max-w-xl text-base text-white/80">
-          Coherenz helps product organizations make better investment, prioritization and delivery
-          decisions—turning delivery capacity into measurable business value.
-        </p>
-        <div class="mt-8 flex flex-wrap items-center gap-4">
-          <a href={`${base}approach`} class="rounded-full bg-primary px-6 py-3 text-sm font-bold text-primary-foreground">
-            Explore our approach →
-          </a>
-        </div>
+      <div class="max-w-2xl">
+        <BlurReveal client:visible delay={0} className="block">
+          <p class="text-sm font-bold uppercase tracking-[0.375em] text-yellow">Product Delivery Economics™</p>
+        </BlurReveal>
+        <BlurReveal client:visible delay={0.1} className="block">
+          <h1 class="mt-4 font-serif text-5xl leading-tight text-white sm:text-6xl">
+            <span class="whitespace-nowrap">Delivery is an investment.</span><br />Treat it like one.
+          </h1>
+        </BlurReveal>
+        <BlurReveal client:visible delay={0.2} className="block">
+          <p class="mt-4 max-w-xl text-base text-white/80">
+            Coherenz helps product organizations make better investment, prioritization and delivery
+            decisions—turning delivery capacity into measurable business value.
+          </p>
+        </BlurReveal>
+        <BlurReveal client:visible delay={0.3} className="block">
+          <div class="mt-8 flex flex-wrap items-center gap-4">
+            <a href={`${base}approach`} class="rounded-full bg-primary px-6 py-3 text-sm font-bold text-primary-foreground">
+              Explore our approach →
+            </a>
+          </div>
+        </BlurReveal>
       </div>
     </div>
   </div>
 </section>
-
-<style>
-  /* Float-in from the left, same character as insights.astro's hero:
-     28px travel, 1500ms, strong ease-out. Fires immediately since this
-     hero is always in the first viewport on load. */
-  .hero-float-left {
-    opacity: 0;
-    transform: translateX(-28px);
-    transition:
-      opacity 1500ms cubic-bezier(0.23, 1, 0.32, 1),
-      transform 1500ms cubic-bezier(0.23, 1, 0.32, 1);
-  }
-
-  .hero-float-left.is-visible {
-    opacity: 1;
-    transform: translateX(0);
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .hero-float-left {
-      opacity: 1;
-      transform: none;
-      transition: none;
-    }
-  }
-</style>
-
-<script>
-  function initHeroFloatLeft() {
-    document.querySelectorAll<HTMLElement>('.hero-float-left').forEach((el) => {
-      const io = new IntersectionObserver(
-        ([entry]) => {
-          if (!entry.isIntersecting) return;
-          el.classList.add('is-visible');
-          io.disconnect();
-        },
-        { threshold: 0.2 }
-      );
-      io.observe(el);
-    });
-  }
-
-  initHeroFloatLeft();
-  document.addEventListener('astro:page-load', initHeroFloatLeft);
-</script>

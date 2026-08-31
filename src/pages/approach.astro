@@ -13,6 +13,7 @@ import ElegantCarousel from '../components/ui/elegant-carousel.tsx';
 import { coreIdeaSlides } from '../data/coreIdeaCarousel';
 import PhasesWheel from '../components/ui/phases-wheel.tsx';
 import { base } from '../lib/base';
+import { BlurReveal } from '../components/ui/blur-reveal.tsx';
 ---
 
 <Layout
@@ -33,15 +34,21 @@ import { base } from '../lib/base';
       <source src={`${base}video/approach-hero-intro-4.mp4`} type="video/mp4" />
     </video>
     <div class="pointer-events-none absolute inset-0 bg-gradient-to-t from-navy via-navy/70 to-navy/20" />
-    <div class="hero-float-left relative mx-auto w-full max-w-[1536px] px-6 py-20 sm:px-8 lg:px-10 xl:px-14">
-      <p class="text-sm font-bold uppercase tracking-[0.375em] text-orange">The Coherenz Approach</p>
-      <h1 class="mt-3 max-w-2xl font-serif text-4xl text-white sm:text-5xl">
-        Product delivery is an economic system.
-      </h1>
-      <p class="mt-4 max-w-2xl text-white/80">
-        Every organization has limited money, people, capacity, time, and attention. Therefore every
-        product decision is ultimately an investment decision.
-      </p>
+    <div class="relative mx-auto w-full max-w-[1536px] px-6 py-20 sm:px-8 lg:px-10 xl:px-14">
+      <BlurReveal client:visible delay={0} className="block">
+        <p class="text-sm font-bold uppercase tracking-[0.375em] text-orange">The Coherenz Approach</p>
+      </BlurReveal>
+      <BlurReveal client:visible delay={0.1} className="block">
+        <h1 class="mt-3 max-w-2xl font-serif text-4xl text-white sm:text-5xl">
+          Product delivery is an economic system.
+        </h1>
+      </BlurReveal>
+      <BlurReveal client:visible delay={0.2} className="block">
+        <p class="mt-4 max-w-2xl text-white/80">
+          Every organization has limited money, people, capacity, time, and attention. Therefore every
+          product decision is ultimately an investment decision.
+        </p>
+      </BlurReveal>
     </div>
   </section>
 

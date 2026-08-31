@@ -18,6 +18,7 @@ import FinalCta from '../components/FinalCta.astro';
 import InsightsTeaser from '../components/InsightsTeaser.astro';
 import ServiceSelector from '../components/ui/service-selector.tsx';
 import { ChallengeCard } from '../components/ui/card-21.tsx';
+import { BlurReveal } from '../components/ui/blur-reveal.tsx';
 import { base } from '../lib/base';
 import { systemDimensions, engageStages, programs } from '../data/servicesContent';
 import { IconTarget, IconRoute, IconBackpack, IconClipboardCheck, IconAffiliate } from '@tabler/icons-react';
@@ -84,22 +85,30 @@ const programCardItems = programs.map((program, i) => ({
       <source src={`${base}video/services-hero-network.mp4`} type="video/mp4" />
     </video>
     <div class="absolute inset-0 bg-gradient-to-t from-navy via-navy/70 to-navy/20" />
-    <div class="hero-float-left relative mx-auto w-full max-w-[1536px] px-6 py-20 sm:px-8 lg:px-10 xl:px-14">
-      <p class="text-sm font-bold uppercase tracking-[0.375em] text-orange">Services</p>
-      <h1 class="mt-3 max-w-2xl font-serif text-4xl text-white sm:text-5xl">
-        Better Decisions. Stronger Delivery. Greater Value.
-      </h1>
-      <p class="mt-4 max-w-xl text-white/75">
-        Product organizations rarely have just one problem. Investment decisions affect delivery. Delivery
-        constraints affect value. Operating models affect flow. Coherenz helps leaders understand where the
-        system is losing value—and what to do about it.
-      </p>
-      <a
-        href="#diagnose"
-        class="mt-7 inline-block rounded-full bg-primary px-6 py-3 text-sm font-bold text-primary-foreground"
-      >
-        Find Your Challenge ↓
-      </a>
+    <div class="relative mx-auto w-full max-w-[1536px] px-6 py-20 sm:px-8 lg:px-10 xl:px-14">
+      <BlurReveal client:visible delay={0} className="block">
+        <p class="text-sm font-bold uppercase tracking-[0.375em] text-orange">Services</p>
+      </BlurReveal>
+      <BlurReveal client:visible delay={0.1} className="block">
+        <h1 class="mt-3 max-w-2xl font-serif text-4xl text-white sm:text-5xl">
+          Better Decisions. Stronger Delivery. Greater Value.
+        </h1>
+      </BlurReveal>
+      <BlurReveal client:visible delay={0.2} className="block">
+        <p class="mt-4 max-w-xl text-white/75">
+          Product organizations rarely have just one problem. Investment decisions affect delivery. Delivery
+          constraints affect value. Operating models affect flow. Coherenz helps leaders understand where the
+          system is losing value—and what to do about it.
+        </p>
+      </BlurReveal>
+      <BlurReveal client:visible delay={0.3} className="block">
+        <a
+          href="#diagnose"
+          class="mt-7 inline-block rounded-full bg-primary px-6 py-3 text-sm font-bold text-primary-foreground"
+        >
+          Find Your Challenge ↓
+        </a>
+      </BlurReveal>
     </div>
   </section>
 

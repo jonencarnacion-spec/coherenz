@@ -19,6 +19,7 @@ import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 import FinalCta from '../components/FinalCta.astro';
 import InsightsTeaser from '../components/InsightsTeaser.astro';
+import { BlurReveal } from '../components/ui/blur-reveal.tsx';
 import { base } from '../lib/base';
 import { programs, programMatches, programWorksSteps } from '../data/programsContent';
 import {
@@ -65,21 +66,31 @@ function programHref(slug: string) {
       <source src={`${base}video/programs-hero-tech.mp4`} type="video/mp4" />
     </video>
     <div class="absolute inset-0 bg-gradient-to-t from-navy via-navy/70 to-navy/20" />
-    <div class="hero-float-left relative mx-auto w-full max-w-[1536px] px-6 py-20 sm:px-8 lg:px-10 xl:px-14">
-      <p class="text-sm font-bold uppercase tracking-[0.375em] text-orange">Coherenz Programs</p>
-      <h1 class="mt-3 max-w-2xl font-serif text-4xl text-white sm:text-5xl">
-        Focused programs for the challenges that can't wait.
-      </h1>
-      <p class="mt-4 max-w-xl text-white/75">
-        When you know something needs to change—but don't need another open-ended consulting engagement—Coherenz
-        Programs provide a focused way to diagnose the problem, create clarity, and move toward action.
-      </p>
-      <p class="mt-2 max-w-xl text-white/75">
-        Each program is structured around a specific challenge, with a clear objective and practical outcome.
-      </p>
-      <a href="#programs" class="mt-7 inline-block rounded-full bg-primary px-6 py-3 text-sm font-bold text-primary-foreground">
-        Explore the Programs ↓
-      </a>
+    <div class="relative mx-auto w-full max-w-[1536px] px-6 py-20 sm:px-8 lg:px-10 xl:px-14">
+      <BlurReveal client:visible delay={0} className="block">
+        <p class="text-sm font-bold uppercase tracking-[0.375em] text-orange">Coherenz Programs</p>
+      </BlurReveal>
+      <BlurReveal client:visible delay={0.1} className="block">
+        <h1 class="mt-3 max-w-2xl font-serif text-4xl text-white sm:text-5xl">
+          Focused programs for the challenges that can't wait.
+        </h1>
+      </BlurReveal>
+      <BlurReveal client:visible delay={0.2} className="block">
+        <p class="mt-4 max-w-xl text-white/75">
+          When you know something needs to change—but don't need another open-ended consulting engagement—Coherenz
+          Programs provide a focused way to diagnose the problem, create clarity, and move toward action.
+        </p>
+      </BlurReveal>
+      <BlurReveal client:visible delay={0.3} className="block">
+        <p class="mt-2 max-w-xl text-white/75">
+          Each program is structured around a specific challenge, with a clear objective and practical outcome.
+        </p>
+      </BlurReveal>
+      <BlurReveal client:visible delay={0.4} className="block">
+        <a href="#programs" class="mt-7 inline-block rounded-full bg-primary px-6 py-3 text-sm font-bold text-primary-foreground">
+          Explore the Programs ↓
+        </a>
+      </BlurReveal>
     </div>
   </section>
 
