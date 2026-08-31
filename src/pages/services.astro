@@ -139,7 +139,11 @@ const programCardItems = programs.map((program, i) => ({
           return (
             <Fragment>
               {i > 0 && (
-                <div class="hidden shrink-0 items-center justify-center px-4 text-white/30 lg:flex" aria-hidden="true">
+                <div
+                  class="dim-card hidden shrink-0 items-center justify-center px-4 text-white/30 lg:flex"
+                  aria-hidden="true"
+                  style={`transition-delay: ${i * 1500}ms`}
+                >
                   →
                 </div>
               )}

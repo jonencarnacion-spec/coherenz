@@ -128,10 +128,14 @@ const workIcons = [IconGitMerge, IconScale, IconTools, IconSparkles];
     <img src={`${base}img/coherenz-view-bg.jpg`} alt="" class="absolute inset-0 h-full w-full object-cover" />
     <div class="absolute inset-0 bg-gradient-to-r from-navy/90 to-navy/30" />
     <div class="relative mx-auto max-w-[1536px] px-6 sm:px-8 lg:px-10 xl:px-14">
-      <div class="float-up max-w-2xl">
-        <p class="text-lg font-bold text-orange">
-          Our work is about making those relationships visible—and helping leaders make better decisions because of
-          them.
+      <div class="hero-float-left">
+        <p class="text-sm font-bold uppercase tracking-[0.375em] text-orange">The Coherenz View</p>
+        <h2 class="mt-3 max-w-2xl font-serif text-4xl text-white sm:text-5xl">
+          Every symptom traces back to the same system.
+        </h2>
+        <p class="mt-4 max-w-2xl text-white/70">
+          When a delivery problem shows up, it rarely lives in just one place. These are the five lenses Coherenz
+          looks through together—not in isolation—to see where value is really being gained or lost.
         </p>
       </div>
 
@@ -144,7 +148,12 @@ const workIcons = [IconGitMerge, IconScale, IconTools, IconSparkles];
           return (
             <Fragment>
               {i > 0 && (
-                <div class="hidden shrink-0 items-center justify-center px-4 text-white/30 lg:flex" aria-hidden="true">
+                <div
+                  class="hidden shrink-0 items-center justify-center px-4 text-white/30 lg:flex"
+                  aria-hidden="true"
+                  data-reveal-item
+                  style={`transition-delay: ${i * 1500}ms`}
+                >
                   →
                 </div>
               )}
@@ -165,6 +174,11 @@ const workIcons = [IconGitMerge, IconScale, IconTools, IconSparkles];
           );
         })}
       </div>
+
+      <p class="float-up mt-[70px] max-w-2xl text-lg font-bold text-orange">
+        Our work is about making those relationships visible—and helping leaders make better decisions because of
+        them.
+      </p>
     </div>
   </section>
 
@@ -315,7 +329,12 @@ const workIcons = [IconGitMerge, IconScale, IconTools, IconSparkles];
           return (
             <Fragment>
               {i > 0 && (
-                <div class="hidden shrink-0 items-center justify-center px-4 text-white/30 lg:flex" aria-hidden="true">
+                <div
+                  class="hidden shrink-0 items-center justify-center px-4 text-white/30 lg:flex"
+                  aria-hidden="true"
+                  data-reveal-item
+                  style={`transition-delay: ${i * 1500}ms`}
+                >
                   →
                 </div>
               )}
