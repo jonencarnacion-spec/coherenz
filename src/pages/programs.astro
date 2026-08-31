@@ -133,7 +133,7 @@ function programHref(slug: string) {
     return (
       <section id={program.slug} class="flex min-h-screen flex-col justify-center bg-navy py-16" data-program-section>
         <div class="mx-auto w-full max-w-[1536px] px-6 sm:px-8 lg:px-10 xl:px-14">
-          <div class="grid grid-cols-1 lg:grid-cols-2">
+          <a href={programHref(program.slug)} class="group grid cursor-pointer grid-cols-1 lg:grid-cols-2">
             <div class="flex h-full flex-col border border-line border-t-4 border-t-orange bg-white p-8 sm:p-12" data-program-card style="opacity: 0">
               <div class="flex items-center justify-between">
                 <p class={`text-xs font-bold uppercase tracking-wide ${a.text}`}>
@@ -157,14 +157,22 @@ function programHref(slug: string) {
                 ))}
               </ul>
 
-              <a href={programHref(program.slug)} class={`mt-auto inline-flex items-center gap-2 pt-5 text-sm font-bold ${a.text}`}>
+              <span class={`mt-auto inline-flex items-center gap-2 pt-5 text-sm font-bold ${a.text}`}>
                 {program.ctaText}
-                <IconArrowRight size={16} stroke={2} />
-              </a>
+                <IconArrowRight
+                  size={16}
+                  stroke={2}
+                  class="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                />
+              </span>
             </div>
 
             <div class="relative hidden overflow-hidden border border-line border-t-4 border-t-orange lg:block" data-program-image style="opacity: 0">
-              <img src={`${base}img/programs/${programImages[i]}`} alt="" class="h-full w-full object-cover" />
+              <img
+                src={`${base}img/programs/${programImages[i]}`}
+                alt=""
+                class="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
+              />
               {/* Corner-bracket frame lifted from ElegantCarousel (homepage
                   Perspectives section) -- same size/position/opacity, tinted
                   with this program's own accent instead of a per-slide color. */}
@@ -175,7 +183,7 @@ function programHref(slug: string) {
                 <p class="mt-2 text-[16px] italic text-white/85">"{program.bestForQuestion}"</p>
               </div>
             </div>
-          </div>
+          </a>
         </div>
       </section>
     );
