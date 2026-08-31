@@ -15,18 +15,11 @@
 // content-drafting one -- see jon.astro's section comment for the flagged
 // placeholder and what's needed before real quotes go in.
 
-export interface CredibilityMarker {
-  label: string;
-  description: string;
-}
-
-export const credibilityMarkers: CredibilityMarker[] = [
-  { label: 'Product & Delivery', description: 'Leadership and transformation' },
-  { label: 'Enterprise → SaaS', description: 'Complex product environments' },
-  { label: 'Strategy → Execution', description: 'Connecting decisions to delivery' },
-  { label: 'AI-Assisted', description: 'Modern product & delivery methods' },
-];
-
+// Four practitioner lenses, shown as a compact expertise-tag row in the
+// hero (BCG-style) rather than the flow doc's original 4-card "What Jon
+// Brings" section -- name is the only field the page still renders;
+// promise/description kept here as the source reasoning for each tag in
+// case the fuller card treatment comes back later.
 export interface CapabilityLens {
   number: string;
   name: string;
@@ -128,30 +121,6 @@ export const questionsBehindTheWork: string[] = [
   'How much does coordination really cost us?',
   'Why are teams busy but outcomes still slow?',
   'What needs to change before adding more people or process?',
-];
-
-export interface ApproachStage {
-  name: string;
-}
-
-export const approachStages: ApproachStage[] = [
-  { name: 'See' },
-  { name: 'Quantify' },
-  { name: 'Prioritize' },
-  { name: 'Act' },
-];
-
-export interface AiCapability {
-  name: string;
-}
-
-export const aiCapabilities: AiCapability[] = [
-  { name: 'AI-Assisted Research' },
-  { name: 'Pattern & Signal Analysis' },
-  { name: 'Decision Synthesis' },
-  { name: 'Product Documentation' },
-  { name: 'Workshop Preparation' },
-  { name: 'Delivery Analysis' },
 ];
 
 // Selected Thinking -- real, already-published Insight articles chosen to

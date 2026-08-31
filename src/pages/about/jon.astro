@@ -1,25 +1,33 @@
 ---
 // Jon's Profile page, built from "jon's profile page flow.docx" (assets/
-// jon's profile page/). Section order and copy direction follow that doc's
-// 11-part architecture; every career fact (companies, dates, figures)
+// jon's profile page/). Every career fact (companies, dates, figures)
 // comes from "Jon Encarnacion - Head of Delivery - Resume 2026.pdf" in the
 // same folder, not invented. See src/data/jonProfileContent.ts for the
 // full data-sourcing notes.
 //
-// IMPORTANT -- Section 6 ("What They Say About Jon's Leadership") ships
-// with its 7-value framework structure but NO real testimonial quotes.
-// The flow doc's source material for this section is a farewell card from
-// Jon's former Energin team (assets/jon's profile page/"Thank you and
-// farewell Jon.pdf") -- personal, spontaneous messages written privately
-// for Jon when he left, not testimonials solicited for public marketing
-// use. Several include casual, vulnerable, or very personal content
-// (crying emojis, private jokes, health/family references) alongside real
-// full names and nicknames. Publishing that material on a commercial site
-// is a consent question for Jon and each named person, not something to
-// decide by drafting around it -- so this section renders clearly-marked
+// Consolidated from the flow doc's original 11-section architecture after
+// comparing real leadership-bio pages at Deloitte and BCG (both far more
+// compact than the doc's spec, even at 100x Coherenz's size) and Jon's own
+// read that the full 11-section version felt overdone. "What Jon Brings"
+// is now a tag row inside the hero instead of its own 4-card section;
+// "Jon's Approach" and "AI-Assisted Practice" are folded into a sentence
+// each in The Story instead of two more card-grid sections. See
+// jonProfileContent.ts for what stayed structured data vs. became prose.
+//
+// IMPORTANT -- "What They Say About Jon's Leadership" ships with its
+// 7-value framework structure but NO real testimonial quotes. The flow
+// doc's source material for this section is a farewell card from Jon's
+// former Energin team (assets/jon's profile page/"Thank you and farewell
+// Jon.pdf") -- personal, spontaneous messages written privately for Jon
+// when he left, not testimonials solicited for public marketing use.
+// Several include casual, vulnerable, or very personal content (crying
+// emojis, private jokes, health/family references) alongside real full
+// names and nicknames. Publishing that material on a commercial site is a
+// consent question for Jon and each named person, not something to decide
+// by drafting around it -- so this section renders clearly-marked
 // placeholder cards instead of real quotes. Once Jon confirms which
 // quotes/attributions he (and ideally each person) is comfortable
-// publishing, swap testimonialPlaceholder below for real content.
+// publishing, swap the placeholder content below for real content.
 import Layout from '../../layouts/Layout.astro';
 import Nav from '../../components/Nav.astro';
 import Footer from '../../components/Footer.astro';
@@ -27,36 +35,14 @@ import FinalCta from '../../components/FinalCta.astro';
 import InsightGridCard from '../../components/InsightGridCard.astro';
 import { base } from '../../lib/base';
 import {
-  credibilityMarkers,
   capabilityLenses,
   experienceEntries,
   questionsBehindTheWork,
-  approachStages,
-  aiCapabilities,
   selectedThinkingSlugs,
   leadershipValues,
 } from '../../data/jonProfileContent';
 import { insightArticles } from '../../data/insightArticles';
-import {
-  IconFocus2,
-  IconCalculator,
-  IconHierarchy3,
-  IconShieldCheck,
-  IconEye,
-  IconRocket,
-  IconRadar,
-  IconWaveSine,
-  IconBrain,
-  IconFileText,
-  IconPresentation,
-  IconChartBar,
-  IconQuote,
-  IconBulb,
-} from '@tabler/icons-react';
-
-const lensIcons = [IconFocus2, IconCalculator, IconHierarchy3, IconShieldCheck];
-const approachIcons = [IconEye, IconCalculator, IconFocus2, IconRocket];
-const aiIcons = [IconRadar, IconWaveSine, IconBrain, IconFileText, IconPresentation, IconChartBar];
+import { IconQuote, IconBulb } from '@tabler/icons-react';
 
 const selectedThinking = selectedThinkingSlugs
   .map((slug) => insightArticles.find((a) => a.slug === slug))
@@ -81,12 +67,14 @@ const selectedThinking = selectedThinkingSlugs
             product investment, and restoring execution clarity as organizations scale.
           </p>
 
-          <div class="mt-[50px] grid grid-cols-2 gap-4 sm:grid-cols-4">
-            {credibilityMarkers.map((marker) => (
-              <div class="border-t-2 border-orange/40 pt-3">
-                <p class="text-xs font-bold uppercase tracking-wide text-orange">{marker.label}</p>
-                <p class="mt-1 text-xs text-white/60">{marker.description}</p>
-              </div>
+          {/* Expertise tags, BCG-style -- replaces the flow doc's separate
+              "What Jon Brings" 4-card section; same four practitioner
+              lenses, one compact row instead of a whole scroll stop. */}
+          <div class="mt-6 flex flex-wrap gap-2">
+            {capabilityLenses.map((lens) => (
+              <span class="rounded-full border border-orange/30 px-4 py-1.5 text-xs font-bold uppercase tracking-wide text-orange">
+                {lens.name}
+              </span>
             ))}
           </div>
         </div>
@@ -123,38 +111,16 @@ const selectedThinking = selectedThinkingSlugs
       <p class="mt-4 text-lg font-bold text-orange">
         Before asking an organization to move faster, understand what is making it slow.
       </p>
-      <p class="mt-6 text-foreground/70">That perspective became one of the foundations of Coherenz.</p>
+      <p class="mt-6 text-foreground/70">
+        He starts by understanding the system rather than immediately prescribing a solution—looking at how
+        investment, capacity, flow, quality, and coordination interact before recommending what to change. Where
+        useful, he brings AI-assisted research and analysis into that work, to sharpen judgment, not replace it.
+      </p>
+      <p class="mt-4 text-foreground/70">That perspective became one of the foundations of Coherenz.</p>
     </div>
   </section>
 
   <section class="bg-wash-blue py-16 sm:py-24">
-    <div class="mx-auto max-w-[1536px] px-6 sm:px-8 lg:px-10 xl:px-14">
-      <div>
-        <p class="text-sm font-bold uppercase tracking-[0.375em] text-orange">What Jon Brings</p>
-        <h2 class="mt-3 max-w-2xl font-serif text-4xl text-navy sm:text-5xl">
-          Four lenses for understanding product and delivery systems.
-        </h2>
-      </div>
-
-      <div class="mt-[50px] grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        {capabilityLenses.map((lens, i) => {
-          const Icon = lensIcons[i];
-          return (
-            <div class="flex flex-col gap-3 border border-line border-t-4 border-t-orange bg-white p-6">
-              <span class="flex h-10 w-10 items-center justify-center rounded-full bg-orange/10 text-orange">
-                <Icon size={20} stroke={1.8} />
-              </span>
-              <p class="text-xs font-bold uppercase tracking-wide text-navy/50">{lens.number} — {lens.name}</p>
-              <p class="font-serif text-xl text-navy">{lens.promise}</p>
-              <p class="text-sm text-foreground/70">{lens.description}</p>
-            </div>
-          );
-        })}
-      </div>
-    </div>
-  </section>
-
-  <section class="bg-white py-16 sm:py-24">
     <div class="mx-auto max-w-[1536px] px-6 sm:px-8 lg:px-10 xl:px-14">
       <div>
         <p class="text-sm font-bold uppercase tracking-[0.375em] text-orange">Experience</p>
@@ -224,73 +190,6 @@ const selectedThinking = selectedThinkingSlugs
         {questionsBehindTheWork.map((question) => (
           <p class="font-serif text-2xl text-white sm:text-3xl">{question}</p>
         ))}
-      </div>
-    </div>
-  </section>
-
-  <section class="bg-white py-16 sm:py-24">
-    <div class="mx-auto max-w-[1536px] px-6 sm:px-8 lg:px-10 xl:px-14">
-      <div class="mx-auto max-w-2xl text-center">
-        <p class="text-sm font-bold uppercase tracking-[0.375em] text-orange">Jon's Approach</p>
-        <h2 class="mt-3 font-serif text-4xl text-navy sm:text-5xl">Diagnose before prescribing.</h2>
-        <p class="mt-4 text-foreground/70">
-          Jon starts by understanding the system rather than immediately prescribing a solution. He looks at how
-          investment decisions, priorities, capacity, flow, quality, organizational structure, and coordination
-          interact—and where those relationships create friction or economic leakage.
-        </p>
-        <p class="mt-3 text-foreground/70">
-          From there, the work becomes practical: clarify the problem, quantify the impact, identify the
-          highest-leverage interventions, and help leaders act.
-        </p>
-      </div>
-
-      <div class="mt-[50px] flex flex-col gap-3 lg:flex-row lg:items-stretch lg:gap-0">
-        {approachStages.map((stage, i) => {
-          const Icon = approachIcons[i];
-          return (
-            <Fragment>
-              {i > 0 && (
-                <div class="hidden shrink-0 items-center justify-center px-4 text-navy/20 lg:flex" aria-hidden="true">
-                  →
-                </div>
-              )}
-              <div class="flex flex-1 flex-col items-center gap-3 border border-line bg-wash-blue p-6 text-center">
-                <span class="flex h-10 w-10 items-center justify-center rounded-full bg-orange/10 text-orange">
-                  <Icon size={20} stroke={1.8} />
-                </span>
-                <p class="text-sm font-bold uppercase tracking-wide text-navy">{stage.name}</p>
-              </div>
-            </Fragment>
-          );
-        })}
-      </div>
-    </div>
-  </section>
-
-  <section class="bg-navy py-16 sm:py-24">
-    <div class="mx-auto max-w-[1536px] px-6 sm:px-8 lg:px-10 xl:px-14">
-      <div class="mx-auto max-w-2xl text-center">
-        <p class="text-sm font-bold uppercase tracking-[0.375em] text-orange">AI-Assisted Practice</p>
-        <h2 class="mt-3 font-serif text-4xl text-white sm:text-5xl">Practitioner judgment, amplified by AI.</h2>
-        <p class="mt-4 text-white/70">
-          Jon incorporates AI-assisted tools and methodologies into research, analysis, synthesis, documentation,
-          and decision support where they can improve speed, depth, or clarity.
-        </p>
-        <p class="mt-3 text-lg font-bold text-orange">Use AI to augment thinking—not replace judgment.</p>
-      </div>
-
-      <div class="mt-[50px] grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
-        {aiCapabilities.map((cap, i) => {
-          const Icon = aiIcons[i];
-          return (
-            <div class="flex flex-col items-center gap-3 border border-white/15 bg-white/5 p-5 text-center">
-              <span class="flex h-10 w-10 items-center justify-center rounded-full border border-orange/40 text-orange">
-                <Icon size={20} stroke={1.8} />
-              </span>
-              <p class="text-xs font-bold uppercase tracking-wide text-white/80">{cap.name}</p>
-            </div>
-          );
-        })}
       </div>
     </div>
   </section>
