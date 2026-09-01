@@ -1,0 +1,26 @@
+/* Keyframes for values-marquee.tsx -- kept as a standalone file rather than
+   an inline <style> tag, matching this project's convention for one-off
+   component animation (see elegant-carousel.css, galaxy.css, etc.). */
+
+@keyframes values-marquee-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.values-marquee-track {
+  animation: values-marquee-scroll 32s linear infinite;
+}
+
+.values-marquee-mask:hover .values-marquee-track {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .values-marquee-track {
+    animation: none;
+  }
+}

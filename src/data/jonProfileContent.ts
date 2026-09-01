@@ -114,13 +114,21 @@ export const experienceEntries: ExperienceEntry[] = [
   },
 ];
 
-export const questionsBehindTheWork: string[] = [
-  'Are we investing in the right things?',
-  'Why does delivery feel harder than it should?',
-  'Where is capacity actually going?',
-  'How much does coordination really cost us?',
-  'Why are teams busy but outcomes still slow?',
-  'What needs to change before adding more people or process?',
+// Category = which of the 5 economic dimensions from "The Story" section
+// (investment, capacity, flow, quality, coordination) the question sits
+// under -- reuses that same taxonomy rather than inventing a new one.
+export interface DeliveryQuestion {
+  text: string;
+  category: string;
+}
+
+export const questionsBehindTheWork: DeliveryQuestion[] = [
+  { text: 'Are we investing in the right things?', category: 'Investment' },
+  { text: 'Why does delivery feel harder than it should?', category: 'Flow' },
+  { text: 'Where is capacity actually going?', category: 'Capacity' },
+  { text: 'How much does coordination really cost us?', category: 'Coordination' },
+  { text: 'Why are teams busy but outcomes still slow?', category: 'Capacity' },
+  { text: 'What needs to change before adding more people or process?', category: 'Coordination' },
 ];
 
 // Selected Thinking -- real, already-published Insight articles chosen to
@@ -148,7 +156,7 @@ export const leadershipTestimonials: LeadershipTestimonial[] = [
     value: 'Integrity',
     quote:
       "You've always been honest and transparent with us, even in the hardest situations. You made decisions not just to finish the job, but to do what's right.",
-    by: 'Joh, Sr. Business Analyst',
+    by: 'Joh, Product Manager',
   },
   {
     value: 'Integrity',

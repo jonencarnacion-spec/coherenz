@@ -33,12 +33,35 @@ import {
   leadershipTestimonials,
 } from '../../data/jonProfileContent';
 import { insightArticles } from '../../data/insightArticles';
-import { IconBulb } from '@tabler/icons-react';
+import {
+  IconBulb,
+  IconShieldCheck,
+  IconUserCheck,
+  IconAward,
+  IconHeartHandshake,
+  IconFocus2,
+  IconTrendingUp,
+  IconFlag3,
+} from '@tabler/icons-react';
 import { StaggerTestimonials } from '../../components/ui/stagger-testimonials';
+import ValuesMarquee from '../../components/ui/values-marquee';
+import EditorialCarousel from '../../components/ui/editorial-carousel';
 
 const selectedThinking = selectedThinkingSlugs
   .map((slug) => insightArticles.find((a) => a.slug === slug))
   .filter((a): a is NonNullable<typeof a> => Boolean(a));
+
+// The 7 leadership values (same set behind the testimonials below),
+// paired with a representative Tabler icon for the hero's values marquee.
+const marqueeValues = [
+  { label: 'Integrity', Icon: IconShieldCheck },
+  { label: 'Trust', Icon: IconUserCheck },
+  { label: 'Excellence', Icon: IconAward },
+  { label: 'Empathy', Icon: IconHeartHandshake },
+  { label: 'Clarity', Icon: IconFocus2 },
+  { label: 'Growth', Icon: IconTrendingUp },
+  { label: 'Commitment', Icon: IconFlag3 },
+];
 ---
 
 <Layout
@@ -87,9 +110,15 @@ const selectedThinking = selectedThinkingSlugs
     </div>
   </section>
 
-  <section class="bg-white py-16 sm:py-24">
+  {/* No client:* directive -- the marquee is pure CSS animation (no
+      hooks/handlers), and its `values` prop carries React icon components,
+      which Astro can't serialize across a client-hydration boundary. Astro
+      still renders this to static HTML at request time either way. */}
+  <ValuesMarquee values={marqueeValues} />
+
+  <section class="bg-wash-blue py-16 sm:py-24">
     <div class="mx-auto max-w-[1536px] px-6 sm:px-8 lg:px-10 xl:px-14">
-      <div class="max-w-2xl">
+      <div class="mx-auto max-w-2xl text-center">
         <p class="text-sm font-bold uppercase tracking-[0.375em] text-orange">The Story</p>
         <h2 class="mt-3 font-serif text-4xl text-navy sm:text-5xl">A career spent making complex things work.</h2>
         <p class="mt-6 text-foreground/70">
@@ -119,7 +148,7 @@ const selectedThinking = selectedThinkingSlugs
     </div>
   </section>
 
-  <section class="bg-wash-blue py-16 sm:py-24">
+  <section class="bg-white py-16 sm:py-24">
     <div class="mx-auto max-w-[1536px] px-6 sm:px-8 lg:px-10 xl:px-14">
       <div>
         <p class="text-sm font-bold uppercase tracking-[0.375em] text-orange">Experience</p>
@@ -174,10 +203,8 @@ const selectedThinking = selectedThinkingSlugs
   <section class="relative overflow-hidden bg-navy py-20 sm:py-28">
     <div class="relative mx-auto max-w-[1536px] px-6 sm:px-8 lg:px-10 xl:px-14">
       <p class="text-center text-sm font-bold uppercase tracking-[0.375em] text-orange">The Questions Behind the Work</p>
-      <div class="mx-auto mt-[50px] grid max-w-4xl grid-cols-1 gap-x-12 gap-y-8 sm:grid-cols-2">
-        {questionsBehindTheWork.map((question) => (
-          <p class="font-serif text-2xl text-white sm:text-3xl">{question}</p>
-        ))}
+      <div class="mt-[50px]">
+        <EditorialCarousel client:visible items={questionsBehindTheWork} />
       </div>
     </div>
   </section>
