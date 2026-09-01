@@ -387,18 +387,29 @@ const workIcons = [IconGitMerge, IconScale, IconTools, IconSparkles];
                   →
                 </div>
               )}
+              {/* Gradient-ring border, adapted from yield-card.tsx's
+                  padding-wrapper pattern (its own background-clip:padding-box
+                  version let the gradient bleed through the card's
+                  translucent bg-white/5 interior instead of staying a thin
+                  ring, so this uses the more reliable technique: the
+                  gradient IS this wrapper's background, and `p-px` reveals
+                  exactly 1px of it around an opaque inner card). Single-hue
+                  orange, not the red/orange/yellow tri-color -- DESIGN.md §1
+                  reserves that combination for the monogram only. */}
               <div
-                class="work-card flex flex-1 flex-col gap-3 border border-white/15 bg-white/5 p-5"
+                class="flex flex-1 bg-gradient-to-br from-orange/0 via-orange/70 to-orange/0 p-px"
                 data-reveal-item
                 style={`transition-delay: ${i * 1500}ms`}
               >
-                <span class="flex h-10 w-10 items-center justify-center rounded-full border border-orange/40 text-orange">
-                  <Icon size={20} stroke={1.8} />
-                </span>
-                <p class="text-xs font-bold uppercase tracking-wide text-orange">
-                  {item.number} — {item.name}
-                </p>
-                <p class="text-sm text-white/70">{item.description}</p>
+                <div class="work-card flex flex-1 flex-col gap-3 bg-[#212e48] p-5">
+                  <span class="flex h-10 w-10 items-center justify-center rounded-full border border-orange/40 text-orange">
+                    <Icon size={20} stroke={1.8} />
+                  </span>
+                  <p class="text-xs font-bold uppercase tracking-wide text-orange">
+                    {item.number} — {item.name}
+                  </p>
+                  <p class="text-sm text-white/70">{item.description}</p>
+                </div>
               </div>
             </Fragment>
           );
