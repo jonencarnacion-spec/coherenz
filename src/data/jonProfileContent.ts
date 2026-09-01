@@ -193,6 +193,12 @@ export const leadershipTestimonials: LeadershipTestimonial[] = [
     by: 'Abby, Jr. QA Engineer',
   },
   {
+    value: 'Empathy',
+    quote:
+      'Kakaiba ka humawak ng team mo — sobrang smooth, laging positive, nagbibigay ng confidence, lalo na nung bago pa lang ako. Hindi ka yung tipical na boss na hirap makisama.',
+    by: 'Andre, QA Engineer',
+  },
+  {
     value: 'Clarity',
     quote:
       'He communicates with clarity, makes wise decisions, and takes responsibility for his actions. He is our rock and source of truth — the steady presence we turn to.',
