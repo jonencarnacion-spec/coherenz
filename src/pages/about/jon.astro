@@ -14,20 +14,11 @@
 // each in The Story instead of two more card-grid sections. See
 // jonProfileContent.ts for what stayed structured data vs. became prose.
 //
-// IMPORTANT -- "What They Say About Jon's Leadership" ships with its
-// 7-value framework structure but NO real testimonial quotes. The flow
-// doc's source material for this section is a farewell card from Jon's
-// former Energin team (assets/jon's profile page/"Thank you and farewell
-// Jon.pdf") -- personal, spontaneous messages written privately for Jon
-// when he left, not testimonials solicited for public marketing use.
-// Several include casual, vulnerable, or very personal content (crying
-// emojis, private jokes, health/family references) alongside real full
-// names and nicknames. Publishing that material on a commercial site is a
-// consent question for Jon and each named person, not something to decide
-// by drafting around it -- so this section renders clearly-marked
-// placeholder cards instead of real quotes. Once Jon confirms which
-// quotes/attributions he (and ideally each person) is comfortable
-// publishing, swap the placeholder content below for real content.
+// "What They Say About Jon's Leadership" now renders real excerpts from a
+// farewell letter written by Jon's former team (see jonProfileContent.ts
+// for the full sourcing note) -- Jon confirmed consent was given to use
+// these publicly. Company name and internal project/place names have been
+// removed or generalized throughout.
 import Layout from '../../layouts/Layout.astro';
 import Nav from '../../components/Nav.astro';
 import Footer from '../../components/Footer.astro';
@@ -39,10 +30,11 @@ import {
   experienceEntries,
   questionsBehindTheWork,
   selectedThinkingSlugs,
-  leadershipValues,
+  leadershipTestimonials,
 } from '../../data/jonProfileContent';
 import { insightArticles } from '../../data/insightArticles';
-import { IconQuote, IconBulb } from '@tabler/icons-react';
+import { IconBulb } from '@tabler/icons-react';
+import { StaggerTestimonials } from '../../components/ui/stagger-testimonials';
 
 const selectedThinking = selectedThinkingSlugs
   .map((slug) => insightArticles.find((a) => a.slug === slug))
@@ -170,22 +162,11 @@ const selectedThinking = selectedThinkingSlugs
         </p>
       </div>
 
-      {/* Structure only -- see the file-level comment above for why real
-          testimonial quotes/attributions aren't populated yet. Each card
-          is deliberately styled as a pending placeholder (dashed border,
-          muted icon) rather than a finished-looking card, so this doesn't
-          read as shipped content. */}
-      <div class="mt-[50px] grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {leadershipValues.map((value) => (
-          <div class="flex flex-col gap-3 border border-dashed border-line/80 bg-white/60 p-6">
-            <span class="flex h-10 w-10 items-center justify-center rounded-full border border-line text-foreground/40">
-              <IconQuote size={18} stroke={1.8} />
-            </span>
-            <p class="text-xs font-bold uppercase tracking-wide text-navy/50">{value.number} — {value.name}</p>
-            <p class="font-serif text-lg text-navy">{value.characteristic}</p>
-            <p class="text-sm italic text-foreground/40">Testimonial pending Jon's confirmation.</p>
-          </div>
-        ))}
+      <div class="mt-[50px]">
+        <StaggerTestimonials
+          client:visible
+          testimonials={leadershipTestimonials.map((t, i) => ({ tempId: i, quote: t.quote, by: t.by, value: t.value }))}
+        />
       </div>
     </div>
   </section>

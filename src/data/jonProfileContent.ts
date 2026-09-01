@@ -6,14 +6,15 @@
 // resume, not invented.
 //
 // The "What They Say About Jon's Leadership" section (7-value framework,
-// per the flow doc) is intentionally NOT populated with real testimonial
-// text here. The doc's source material is a farewell card from Jon's former
-// Energin team -- personal, spontaneous messages written for him privately,
-// not testimonials solicited for public marketing use, several including
-// casual/vulnerable personal content. Publishing real (nick)names and quotes
-// from that material on a commercial site is a consent question, not a
-// content-drafting one -- see jon.astro's section comment for the flagged
-// placeholder and what's needed before real quotes go in.
+// per the flow doc) is populated with real testimonial excerpts below,
+// pulled from a farewell letter written by Jon's former team
+// (Farewell_Letter_Jon_Complete.docx, assets/jon's profile page/) with
+// Jon's confirmation that consent was given to use them publicly. Each
+// quote is trimmed to its most impactful sentence(s) (~20-30 words) and
+// tagged to whichever of the 7 values it best fits -- former company name
+// and internal project/place names have been removed or generalized
+// throughout, per Jon's instruction to keep this about his leadership
+// impact rather than any one employer.
 
 // Four practitioner lenses, shown as a compact expertise-tag row in the
 // hero (BCG-style) rather than the flow doc's original 4-card "What Jon
@@ -132,21 +133,116 @@ export const selectedThinkingSlugs: string[] = [
   'your-delivery-problem-may-not-be-a-capacity-problem',
 ];
 
-// Leadership-values framework from the flow doc, structure only -- see the
-// file header and jon.astro's section comment for why real testimonial
-// quotes/names aren't populated here yet.
-export interface LeadershipValue {
-  number: string;
-  name: string;
-  characteristic: string;
+// Leadership-values framework from the flow doc, now populated with real
+// excerpts from the farewell letter (see file header). Growth carries five
+// quotes instead of two at Jon's request, weighted toward senior voices
+// (Solution Architect, Development Team Lead, Sr. Full Stack Engineer).
+export interface LeadershipTestimonial {
+  value: string;
+  quote: string;
+  by: string;
 }
 
-export const leadershipValues: LeadershipValue[] = [
-  { number: '01', name: 'Integrity', characteristic: "Does the right thing, even when it's difficult." },
-  { number: '02', name: 'Trust', characteristic: 'Believes in people before they believe in themselves.' },
-  { number: '03', name: 'Excellence', characteristic: 'Sets a high standard and leads by example.' },
-  { number: '04', name: 'Empathy', characteristic: 'Leads with both strength and humanity.' },
-  { number: '05', name: 'Clarity', characteristic: 'Brings direction when things become complicated.' },
-  { number: '06', name: 'Growth', characteristic: 'Helps people discover what they are capable of.' },
-  { number: '07', name: 'Commitment', characteristic: 'Stays with the team when things get difficult.' },
+export const leadershipTestimonials: LeadershipTestimonial[] = [
+  {
+    value: 'Integrity',
+    quote:
+      "You've always been honest and transparent with us, even in the hardest situations. You made decisions not just to finish the job, but to do what's right.",
+    by: 'Joh, Sr. Business Analyst',
+  },
+  {
+    value: 'Integrity',
+    quote:
+      "You showed us it's important to do the right thing even when no one is watching, even when it's hard, even when cutting corners would have been easy.",
+    by: 'Reina, Scrum Master',
+  },
+  {
+    value: 'Trust',
+    quote:
+      'I know you were the first person who believed in me. During our interview, I had so many lapses and flaws, but you still believed in me.',
+    by: 'JV, Sr. Full Stack Engineer',
+  },
+  {
+    value: 'Trust',
+    quote:
+      "You didn't just manage us — you believed in us, pushed us, and made us feel seen and valued. You always brought out the best in each of us.",
+    by: 'Louisse, QA Lead',
+  },
+  {
+    value: 'Excellence',
+    quote:
+      'Your leadership showed me that managing people effectively requires more than authority — self-discipline, drive, being strategic, and focusing on solutions rather than obstacles.',
+    by: 'Cza, Sr. UX/UI Designer',
+  },
+  {
+    value: 'Excellence',
+    quote:
+      'Among all the values, you personified excellent service. In the onslaught of change, you were there to lead and keep our spirits up.',
+    by: 'Ethan, Full Stack Engineer',
+  },
+  {
+    value: 'Empathy',
+    quote:
+      'You showed strong work ethic and strictness, but at the same time, empathy. I witnessed how deeply you cared for our team — how you constantly fought for us.',
+    by: 'Reina, Scrum Master',
+  },
+  {
+    value: 'Empathy',
+    quote:
+      'You always go the extra mile to ensure our team runs smoothly. You know when to be firm and when to show empathy — which inspires people to do their best.',
+    by: 'Abby, Jr. QA Engineer',
+  },
+  {
+    value: 'Clarity',
+    quote:
+      'He communicates with clarity, makes wise decisions, and takes responsibility for his actions. He is our rock and source of truth — the steady presence we turn to.',
+    by: 'Archie, Mid Full Stack Engineer',
+  },
+  {
+    value: 'Clarity',
+    quote:
+      "You were the guiding voice through the ups and downs of our process. It's clear how much you care and look out for everyone.",
+    by: 'Zen, Jr. RPA Engineer',
+  },
+  {
+    value: 'Growth',
+    quote:
+      'You always tell me na kaya ko, na marami akong kayang gawin. Thank you for the push, trust, at inspiration — you are a true mentor who pushed me to grow.',
+    by: 'Mich, Business Analyst',
+  },
+  {
+    value: 'Growth',
+    quote:
+      "You've made a big impact not only on my career, but also on how I see my own worth and growth in this industry.",
+    by: 'Angel, QA Engineer',
+  },
+  {
+    value: 'Growth',
+    quote:
+      "I know I've come far because of your guidance, and I will forever treasure it. You taught me a lot for my personal and career development.",
+    by: 'Mirho, Solution Architect',
+  },
+  {
+    value: 'Growth',
+    quote:
+      'Thank you so much for your guidance and wisdom. I have learned so much in such a short time — I just wish it had lasted longer.',
+    by: 'Junix, Development Team Lead',
+  },
+  {
+    value: 'Growth',
+    quote: 'Thank you for showing great leadership and reminding me na may potential pa akong ma-unlock.',
+    by: 'Irven, Sr. Full Stack Engineer',
+  },
+  {
+    value: 'Commitment',
+    quote:
+      "You've stuck with us through every challenge, even on the hardest days. It's admirable, and I'm truly grateful. Hard core committed till the end — it's inspiring.",
+    by: 'Vince, Sr. Full Stack & Automation Engineer',
+  },
+  {
+    value: 'Commitment',
+    quote:
+      "You've always stood up for the team, and your unwavering effort kept our spirits high, even during the most challenging times.",
+    by: 'Jessy, Jr. QA Engineer',
+  },
 ];
