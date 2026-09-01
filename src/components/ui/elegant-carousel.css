@@ -35,7 +35,7 @@
 
 .carousel-content {
   display: flex;
-  align-items: center;
+  align-items: stretch;
   padding: 2.5rem 2rem 2rem;
 }
 
@@ -45,8 +45,30 @@
   }
 }
 
+/* Stretched to the full height of .carousel-content (itself a fixed-height
+   grid cell via .carousel-inner's min-height) and laid out as a column so
+   .carousel-nav-arrows can pin to the bottom via margin-top: auto below --
+   without this, the arrows sat directly after the CTA in normal flow and
+   visibly shifted position depending on how long each slide's title/
+   description happened to be. The explicit min-height guards against the
+   opposite failure: slides that use the optional `detail` paragraph (e.g.
+   coreIdeaCarousel.ts, unlike promiseCarousel.ts which never does) can run
+   taller than .carousel-inner's own min-height budget, so their content
+   overflowed the stretched box and pushed the arrows down anyway on just
+   those slides. Sized to the tallest real slide (454px measured) plus a
+   buffer; .carousel-inner's grid row grows to match automatically. */
 .carousel-content-inner {
+  display: flex;
+  flex-direction: column;
   max-width: 460px;
+  width: 100%;
+  min-height: 400px;
+}
+
+@media (min-width: 768px) {
+  .carousel-content-inner {
+    min-height: 470px;
+  }
 }
 
 .carousel-collection-num {
@@ -152,6 +174,8 @@
 .carousel-nav-arrows {
   display: flex;
   gap: 0.75rem;
+  margin-top: auto;
+  padding-top: 1.5rem;
 }
 
 .carousel-arrow-btn {
