@@ -84,6 +84,8 @@ const related = article.relatedSlugs.map((s) => getInsightArticle(s)).filter(Boo
 
     <FinalCta
       showPortrait={false}
+      paddingClass="py-20 sm:py-28"
+      minHeightClass="min-h-[600px]"
       eyebrow="From Insight to Action"
       body={article.cta.description}
       ctaText={`${article.cta.ctaLabel} →`}

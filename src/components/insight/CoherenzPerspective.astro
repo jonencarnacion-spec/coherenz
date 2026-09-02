@@ -4,6 +4,15 @@
 // serif statement gives it strong visual prominence per the doc while
 // reading distinctly from the navy Diagnostic section right before it and
 // the navy CTA further down the page.
+//
+// min-h-[600px] + grid items-center: the `statement` text length varies a
+// lot per article (measured 108-201 chars across published articles), so
+// without a fixed height this section's own height swings by ~90px
+// article to article, and no longer lines up with the closing CTA
+// section's matching min-h-[600px] (see insights/[slug].astro's FinalCta
+// call) the way it's meant to. Grid (not flex) so the single content
+// child keeps its normal full-width block sizing instead of a flex row's
+// shrink-to-fit default.
 interface Props {
   label: string;
   statement: string;
@@ -12,7 +21,7 @@ interface Props {
 const { label, statement, framework } = Astro.props;
 ---
 
-<section class="bg-cream py-20 sm:py-28">
+<section class="grid min-h-[600px] items-center bg-cream py-20 sm:py-28">
   <div class="mx-auto max-w-[1536px] px-6 text-center sm:px-8 lg:px-10 xl:px-14">
     <div class="perspective-float mx-auto max-w-3xl">
     <p class="text-sm font-bold uppercase tracking-[0.375em] text-orange">{label}</p>

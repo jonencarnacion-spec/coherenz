@@ -10,12 +10,32 @@ const {
   ctaHref = `${base}contact`,
   secondaryCtaText,
   secondaryCtaHref,
+  // Per-usage override, e.g. the insight-article closing CTA wanting a
+  // taller section than every other page that reuses this component with
+  // its default padding.
+  paddingClass = 'py-16 sm:py-24',
+  // Optional fixed height (e.g. "min-h-[600px]") so this section renders
+  // the same size regardless of how long a given page's `body`/headline
+  // text happens to be -- padding alone can't guarantee that, since
+  // content length varies per usage. When set, also centers the content
+  // vertically within that reserved height -- grid, not flex, so the
+  // single content child still stretches to its usual full-width block
+  // behavior (a flex row's default item sizing would shrink it to fit its
+  // content instead). Empty by default so every other page keeps its
+  // natural content-driven height.
+  minHeightClass = '',
 } = Astro.props;
 ---
 
 <section
   id="contact"
-  class:list={['relative py-16 sm:py-24', { 'overflow-hidden': showMonogram, 'bg-navy': !transparent }]}
+  class:list={[
+    'relative',
+    paddingClass,
+    minHeightClass,
+    minHeightClass && 'grid items-center',
+    { 'overflow-hidden': showMonogram, 'bg-navy': !transparent },
+  ]}
 >
   {
     showMonogram && (

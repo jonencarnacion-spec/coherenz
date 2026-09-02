@@ -5,6 +5,8 @@
 // doc's example, then 3 practical steps, then a visually prominent closing
 // statement (large italic serif, same treatment the site already uses for
 // the /insights page's editorial perspective break).
+import { splitEmphasis } from '../../lib/emphasis';
+
 interface Step {
   number: string;
   title: string;
@@ -44,7 +46,7 @@ const { heading, insteadOf, ask, steps, closing } = Astro.props;
     </div>
 
     <p class="float-up mx-auto mt-16 max-w-2xl border-t border-line pt-12 text-center font-serif text-2xl italic leading-snug text-navy sm:text-3xl">
-      {closing}
+      {splitEmphasis(closing).map((seg) => (seg.bold ? <span class="text-orange">{seg.text}</span> : seg.text))}
     </p>
   </div>
 </section>
