@@ -99,8 +99,12 @@ const alternativePaths = [
       over a dark hero. Every other page in this codebase opens on navy or
       a navy-overlaid photo for the same reason; a light hero here would
       make the nav illegible at the top of the page. */}
-  <section class="bg-navy pt-32 pb-16 sm:pt-40 sm:pb-24">
-    <div class="hero-fade mx-auto max-w-[1536px] px-6 sm:px-8 lg:px-10 xl:px-14">
+  <section id="contact-hero" class="relative overflow-hidden bg-navy pt-32 pb-16 sm:pt-40 sm:pb-24">
+    <video id="contact-hero-video" class="absolute inset-0 h-full w-full object-cover" autoplay muted loop playsinline>
+      <source src={`${base}video/contact-hero.mp4`} type="video/mp4" />
+    </video>
+    <div class="pointer-events-none absolute inset-0 bg-gradient-to-t from-navy via-navy/80 to-navy/40" />
+    <div class="hero-fade relative mx-auto max-w-[1536px] px-6 sm:px-8 lg:px-10 xl:px-14">
       <p class="text-sm font-bold uppercase tracking-[0.375em] text-orange">Talk to Coherenz</p>
       <h1 class="mt-3 max-w-3xl font-serif text-4xl text-white sm:text-6xl">Let's talk about what's getting in the way.</h1>
       <p class="mt-5 max-w-2xl text-lg text-white/70">
@@ -483,6 +487,25 @@ const alternativePaths = [
 </style>
 
 <script>
+  // Same off-screen pause pattern as the other hero videos on this site
+  // (see insights.astro, about.astro, programs.astro) -- a looping
+  // autoplay video keeps decoding/buffering frames indefinitely even
+  // while scrolled far out of view.
+  function initHeroVideoPause() {
+    const section = document.getElementById('contact-hero');
+    const video = document.getElementById('contact-hero-video') as HTMLVideoElement | null;
+    if (!section || !video) return;
+
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) video.play().catch(() => {});
+        else video.pause();
+      },
+      { threshold: 0 }
+    );
+    io.observe(section);
+  }
+
   // Fade-in for hero/section-intro blocks (.hero-fade) and staggered card
   // grids (.reveal-item inside [data-reveal-grid]) -- same
   // IntersectionObserver-once-then-disconnect pattern used across the site
@@ -663,6 +686,7 @@ const alternativePaths = [
   }
 
   function init() {
+    initHeroVideoPause();
     initReveals();
     initChallengeCards();
     initMessageCounter();
