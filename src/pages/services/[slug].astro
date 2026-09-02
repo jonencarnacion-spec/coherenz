@@ -18,6 +18,7 @@ import FinalCta from '../../components/FinalCta.astro';
 import { BlurReveal } from '../../components/ui/blur-reveal.tsx';
 import { GlowingEffect } from '../../components/ui/glowing-effect.tsx';
 import { ChallengeCard } from '../../components/ui/card-21';
+import { ShaderBackground } from '../../components/ui/mesh-drift-shader.tsx';
 import { base } from '../../lib/base';
 import { services, type ServiceDefinition } from '../../data/servicesContent';
 import {
@@ -232,7 +233,8 @@ const otherServiceCardItems = otherServices.map((other) => ({
       centered text block at its normal full-width block sizing instead of
       a flex row's shrink-to-fit default -- same reasoning as FinalCta's
       minHeightClass and CoherenzPerspective's min-height. */}
-  <section class="grid min-h-[545px] items-center bg-navy py-16 sm:py-24">
+  <section class="relative grid min-h-[545px] items-center overflow-hidden bg-navy py-16 sm:py-24">
+    <ShaderBackground client:visible className="absolute inset-0" />
     <div class="perspective-float relative mx-auto max-w-[1536px] px-6 text-center sm:px-8 lg:px-10 xl:px-14">
       <p class="mx-auto max-w-3xl font-serif text-3xl text-white sm:text-4xl">{service.closing}</p>
     </div>
