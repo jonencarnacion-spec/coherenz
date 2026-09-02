@@ -16,6 +16,8 @@ import Nav from '../../components/Nav.astro';
 import Footer from '../../components/Footer.astro';
 import FinalCta from '../../components/FinalCta.astro';
 import { BlurReveal } from '../../components/ui/blur-reveal.tsx';
+import { GlowingEffect } from '../../components/ui/glowing-effect.tsx';
+import { ChallengeCard } from '../../components/ui/card-21';
 import { base } from '../../lib/base';
 import { services, type ServiceDefinition } from '../../data/servicesContent';
 import {
@@ -24,7 +26,6 @@ import {
   IconShieldCheck,
   IconHierarchy3,
   IconArrowLeft,
-  IconArrowRight,
   IconTarget,
   IconListNumbers,
   IconScale,
@@ -126,25 +127,44 @@ const accentText: Record<StripAccent, string> = {
   green: 'text-green',
   navy: 'text-navy',
 };
-const accentBorderT: Record<StripAccent, string> = {
-  blue: 'border-t-blue',
-  orange: 'border-t-orange',
-  green: 'border-t-green',
-  navy: 'border-t-navy',
-};
 const accentBg: Record<StripAccent, string> = {
   blue: 'bg-blue/10',
   orange: 'bg-orange/10',
   green: 'bg-green/10',
   navy: 'bg-navy/10',
 };
+
+// Same HSL-triplet values as FourProblems.astro/insights.astro's
+// "From Insight to Action" ChallengeCards -- keyed by slug (not position)
+// so each service keeps the one theme color it's known by everywhere else
+// on the site, regardless of which 3 "other services" end up in this grid.
+const otherServiceThemeColors: Record<string, string> = {
+  'product-portfolio-strategy': '36 80% 55%',
+  'product-delivery-economics': '212 44% 32%',
+  'delivery-stabilization': '47 100% 35%',
+  'product-operating-model': '165 55% 20%',
+};
+const otherServiceCardItems = otherServices.map((other) => ({
+  imageUrl: `${base}img/problems/${other.slug}.jpg`,
+  headline: other.name,
+  label: other.question,
+  desc: other.description,
+  href: `${base}services/${other.slug}`,
+  themeColor: otherServiceThemeColors[other.slug],
+  leftAlignText: true,
+  splitLayout: true,
+  framedImage: true,
+  swapLabelCta: true,
+  compactHeadline: true,
+  ctaLabel: other.ctaText,
+}));
 ---
 
 <Layout title={`${service.name} — Coherenz`} description={service.description}>
   <Nav />
 
   <section class="relative flex min-h-[60vh] items-end overflow-hidden bg-navy">
-    <img src={`${base}img/services/${service.slug}.jpg`} alt="" class="absolute inset-0 h-full w-full object-cover object-top" />
+    <img src={`${base}img/problems/${service.slug}.jpg`} alt="" class="absolute inset-0 h-full w-full object-cover object-top" />
     <div class="absolute inset-0 bg-gradient-to-t from-navy via-navy/80 to-navy/40" />
     <div class="relative mx-auto w-full max-w-[1536px] px-6 py-20 sm:px-8 lg:px-10 xl:px-14">
       <BlurReveal client:visible delay={0} className="block">
@@ -175,22 +195,29 @@ const accentBg: Record<StripAccent, string> = {
 
   <section class="bg-white py-16 sm:py-24">
     <div class="mx-auto max-w-[1536px] px-6 sm:px-8 lg:px-10 xl:px-14">
-      <p class="text-sm font-bold uppercase tracking-[0.375em] text-orange">Where Coherenz Focuses</p>
-      <h2 class="mt-3 max-w-2xl font-serif text-4xl text-navy sm:text-5xl">What This Work Covers</h2>
-      <p class="mt-4 max-w-2xl text-foreground/70">
-        Every engagement is scoped to the areas most relevant to your organization, drawn from the following.
-      </p>
+      <div class="hero-float-left">
+        <p class="text-sm font-bold uppercase tracking-[0.375em] text-orange">Where Coherenz Focuses</p>
+        <h2 class="mt-3 max-w-2xl font-serif text-4xl text-navy sm:text-5xl">What This Work Covers</h2>
+        <p class="mt-4 max-w-2xl text-foreground/70">
+          Every engagement is scoped to the areas most relevant to your organization, drawn from the following.
+        </p>
+      </div>
 
-      <div class="mt-[50px] flex flex-col gap-6">
-        {service.pills.map((pill) => {
+      <div class="mt-[50px] grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3" data-reveal-grid>
+        {service.pills.map((pill, i) => {
           const PillIcon = pillIcons[pill.icon];
           return (
-            <div class={`border border-line border-t-4 bg-white p-8 ${accentBorderT[accent]}`}>
-              <span class={`flex h-12 w-12 items-center justify-center rounded-full ${accentBg[accent]} ${accentText[accent]}`}>
+            <div
+              class="relative border border-line bg-white p-8"
+              data-reveal-item
+              style={`transition-delay: ${i * 150}ms`}
+            >
+              <GlowingEffect client:visible glow disabled={false} spread={40} proximity={64} inactiveZone={0.01} borderWidth={2} />
+              <span class={`relative flex h-12 w-12 items-center justify-center rounded-full ${accentBg[accent]} ${accentText[accent]}`}>
                 <PillIcon size={24} stroke={1.8} />
               </span>
-              <h3 class="mt-5 font-serif text-2xl text-navy">{pill.title}</h3>
-              <p class="mt-3 text-sm text-foreground/70">{pill.description}</p>
+              <h3 class="relative mt-5 font-serif text-2xl text-navy">{pill.title}</h3>
+              <p class="relative mt-3 text-sm text-foreground/70">{pill.description}</p>
             </div>
           );
         })}
@@ -198,37 +225,32 @@ const accentBg: Record<StripAccent, string> = {
     </div>
   </section>
 
-  <section class="relative overflow-hidden bg-navy py-16 sm:py-24">
-    <img
-      src={`${base}img/monogram.svg`}
-      alt=""
-      class="pointer-events-none absolute -right-10 -top-16 w-72 opacity-[0.22] sm:-right-6 sm:-top-20 sm:w-96"
-    />
-    <div class="relative mx-auto max-w-[1536px] px-6 text-center sm:px-8 lg:px-10 xl:px-14">
+  {/* min-h matches "Explore the Other Services" below (545px, measured
+      consistent across services since that section's shape -- heading + 3
+      fixed-format cards -- doesn't vary) so this quote doesn't read as a
+      throwaway sliver next to it. grid items-center (not flex) keeps the
+      centered text block at its normal full-width block sizing instead of
+      a flex row's shrink-to-fit default -- same reasoning as FinalCta's
+      minHeightClass and CoherenzPerspective's min-height. */}
+  <section class="grid min-h-[545px] items-center bg-navy py-16 sm:py-24">
+    <div class="perspective-float relative mx-auto max-w-[1536px] px-6 text-center sm:px-8 lg:px-10 xl:px-14">
       <p class="mx-auto max-w-3xl font-serif text-3xl text-white sm:text-4xl">{service.closing}</p>
     </div>
   </section>
 
   <section class="bg-cream py-16 sm:py-24">
     <div class="mx-auto max-w-[1536px] px-6 sm:px-8 lg:px-10 xl:px-14">
-      <p class="text-sm font-bold uppercase tracking-[0.375em] text-orange">Related</p>
-      <h2 class="mt-3 max-w-2xl font-serif text-4xl text-navy sm:text-5xl">Explore the Other Services</h2>
+      <div class="hero-float-left">
+        <p class="text-sm font-bold uppercase tracking-[0.375em] text-orange">Related</p>
+        <h2 class="mt-3 max-w-2xl font-serif text-4xl text-navy sm:text-5xl">Explore the Other Services</h2>
+      </div>
 
-      <div class="mt-[50px] grid grid-cols-1 gap-6 sm:grid-cols-3">
-        {otherServices.map((other) => {
-          const OtherIcon = icons[other.iconName];
+      <div class="mt-[60px] grid grid-cols-1 gap-6 sm:grid-cols-3" data-reveal-grid>
+        {otherServiceCardItems.map((item, i) => {
           return (
-            <a href={`${base}services/${other.slug}`} class="group block border border-line bg-white p-6 transition-colors hover:border-green">
-              <span class="flex h-11 w-11 items-center justify-center rounded-full border border-line bg-wash-green/40 text-navy">
-                <OtherIcon size={22} stroke={1.8} />
-              </span>
-              <p class="mt-4 text-xs font-bold uppercase tracking-wide text-green">{other.name}</p>
-              <p class="mt-1 text-lg font-semibold text-navy">{other.question}</p>
-              <span class="mt-4 inline-flex items-center gap-2 text-sm font-bold text-green">
-                {other.ctaText}
-                <IconArrowRight size={16} stroke={2} class="transition-transform group-hover:translate-x-1" />
-              </span>
-            </a>
+            <div class="h-[384px]" data-reveal-item style={`transition-delay: ${i * 150}ms`}>
+              <ChallengeCard {...item} />
+            </div>
           );
         })}
       </div>
@@ -246,3 +268,118 @@ const accentBg: Record<StripAccent, string> = {
   </FinalCta>
   <Footer />
 </Layout>
+
+<style>
+  /* Same reveal-on-scroll vocabulary used across the rest of the site
+     (about.astro, insights.astro, FourProblems.astro, CoherenzPerspective.
+     astro, etc.) -- this page previously had none of it beyond the hero's
+     BlurReveal, so "What This Work Covers", the closing quote, and
+     "Explore the Other Services" all appeared instantly with no motion. */
+  .hero-float-left {
+    opacity: 0;
+    transform: translateX(-28px);
+    transition:
+      opacity 1500ms cubic-bezier(0.23, 1, 0.32, 1),
+      transform 1500ms cubic-bezier(0.23, 1, 0.32, 1);
+  }
+
+  .hero-float-left.is-visible {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  /* Same treatment as CoherenzPerspective.astro's centered quote -- fade
+     up rather than in-from-the-side, since this reads as one self-
+     contained statement, not a left-anchored section intro. */
+  .perspective-float {
+    opacity: 0;
+    transform: translateY(28px);
+    transition:
+      opacity 1500ms cubic-bezier(0.23, 1, 0.32, 1),
+      transform 1500ms cubic-bezier(0.23, 1, 0.32, 1);
+  }
+
+  .perspective-float.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  [data-reveal-item] {
+    --reveal-duration: 1500ms;
+    opacity: 0;
+    transform: translateX(-28px);
+    transition:
+      opacity var(--reveal-duration) cubic-bezier(0.23, 1, 0.32, 1),
+      transform var(--reveal-duration) cubic-bezier(0.23, 1, 0.32, 1);
+  }
+
+  [data-reveal-item].is-visible {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-float-left,
+    .perspective-float,
+    [data-reveal-item] {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  function initHeroFloatLeft() {
+    document.querySelectorAll<HTMLElement>('.hero-float-left').forEach((el) => {
+      const io = new IntersectionObserver(
+        ([entry]) => {
+          if (!entry.isIntersecting) return;
+          el.classList.add('is-visible');
+          io.disconnect();
+        },
+        { threshold: 0.2 }
+      );
+      io.observe(el);
+    });
+  }
+
+  function initPerspectiveFloat() {
+    document.querySelectorAll<HTMLElement>('.perspective-float').forEach((el) => {
+      const io = new IntersectionObserver(
+        ([entry]) => {
+          if (!entry.isIntersecting) return;
+          el.classList.add('is-visible');
+          io.disconnect();
+        },
+        { threshold: 0.2 }
+      );
+      io.observe(el);
+    });
+  }
+
+  function initRevealGrids() {
+    document.querySelectorAll<HTMLElement>('[data-reveal-grid]').forEach((grid) => {
+      const items = grid.querySelectorAll<HTMLElement>('[data-reveal-item]');
+      if (!items.length) return;
+      const io = new IntersectionObserver(
+        ([entry]) => {
+          if (!entry.isIntersecting) return;
+          items.forEach((el) => el.classList.add('is-visible'));
+          io.disconnect();
+        },
+        { threshold: 0.2 }
+      );
+      io.observe(grid);
+    });
+  }
+
+  function init() {
+    initHeroFloatLeft();
+    initPerspectiveFloat();
+    initRevealGrids();
+  }
+
+  init();
+  document.addEventListener('astro:page-load', init);
+</script>
