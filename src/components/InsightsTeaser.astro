@@ -22,25 +22,28 @@ import InsightGridCard from './InsightGridCard.astro';
       </p>
     </div>
 
-    <div class="mt-[100px] grid grid-cols-1 border border-line md:grid-cols-2 md:h-[563px]">
-      <div class="flex flex-col justify-start overflow-y-auto p-6 sm:p-8">
+    <a
+      href={`${base}insights/${topInsight.slug}`}
+      class="group mt-[100px] grid cursor-pointer grid-cols-1 border border-line md:grid-cols-2 md:h-[563px]"
+    >
+      <div class="flex flex-col justify-start overflow-y-auto bg-white p-6 sm:p-8">
         <p class="text-xs font-bold uppercase tracking-wide text-orange">{topInsight.tag}</p>
         <h3 class="mt-2 font-serif text-3xl text-navy sm:text-4xl">{topInsight.title}</h3>
         <p class="mt-2 font-medium text-navy/80">{topInsight.subhead}</p>
         <p class="mt-2 text-sm text-foreground/70">{topInsight.body}</p>
-        <a href={`${base}insights/${topInsight.slug}`} class="mt-4 inline-flex items-center gap-2 font-bold text-orange">
-          <IconArrowUpRight size={20} stroke={2} />
+        <span class="mt-4 inline-flex items-center gap-2 font-bold text-orange">
+          <IconArrowUpRight size={20} stroke={2} class="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
           Read the perspective
-        </a>
+        </span>
       </div>
-      <div class="min-h-[240px] md:h-full">
+      <div class="min-h-[240px] overflow-hidden md:h-full">
         <img
           src={`${base}img/photography/${topInsight.image}`}
           alt={topInsight.imageAlt}
-          class="h-full w-full object-cover"
+          class="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
         />
       </div>
-    </div>
+    </a>
 
     <div class="mt-[100px] grid grid-cols-1 gap-4 sm:grid-cols-3">
       {insights.map(({ title, description, image, imageAlt, slug }) => (
