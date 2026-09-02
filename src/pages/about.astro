@@ -20,6 +20,7 @@ import Footer from '../components/Footer.astro';
 import FinalCta from '../components/FinalCta.astro';
 import LinearCard from '../components/ui/linear-card.tsx';
 import { BlurReveal } from '../components/ui/blur-reveal.tsx';
+import { GlowingEffect } from '../components/ui/glowing-effect.tsx';
 import { base } from '../lib/base';
 import { systemDimensions } from '../data/servicesContent';
 import { coherenzShifts, experienceAreas, howWeWork, promisePoints, beliefChain } from '../data/aboutContent';
@@ -334,12 +335,13 @@ const workIcons = [IconGitMerge, IconScale, IconTools, IconSparkles];
         {experienceAreas.map((area, i) => {
           const Icon = experienceIcons[i];
           return (
-            <div class="exp-card flex flex-col gap-3 border border-line bg-white p-5" style={`transition-delay: ${i * 600}ms`}>
-              <span class="flex h-10 w-10 items-center justify-center rounded-full border border-blue/30 bg-blue/10 text-blue">
+            <div class="exp-card relative flex flex-col gap-3 border border-line bg-white p-5" style={`transition-delay: ${i * 600}ms`}>
+              <GlowingEffect client:visible glow disabled={false} spread={40} proximity={64} inactiveZone={0.01} borderWidth={2} />
+              <span class="relative flex h-10 w-10 items-center justify-center rounded-full border border-blue/30 bg-blue/10 text-blue">
                 <Icon size={20} stroke={1.8} />
               </span>
-              <p class="text-sm font-bold uppercase tracking-wide text-navy">{area.name}</p>
-              <p class="text-sm text-foreground/70">{area.description}</p>
+              <p class="relative text-sm font-bold uppercase tracking-wide text-navy">{area.name}</p>
+              <p class="relative text-sm text-foreground/70">{area.description}</p>
             </div>
           );
         })}
