@@ -46,6 +46,7 @@ import {
 import { StaggerTestimonials } from '../../components/ui/stagger-testimonials';
 import ValuesMarquee from '../../components/ui/values-marquee';
 import EditorialCarousel from '../../components/ui/editorial-carousel';
+import { BlurReveal } from '../../components/ui/blur-reveal.tsx';
 
 const selectedThinking = selectedThinkingSlugs
   .map((slug) => insightArticles.find((a) => a.slug === slug))
@@ -79,32 +80,40 @@ const marqueeValues = [
     <div class="pointer-events-none absolute inset-0 bg-gradient-to-t from-navy via-navy/85 to-navy/50" />
     <div class="relative mx-auto w-full max-w-[1536px] px-6 py-20 sm:px-8 lg:px-10 xl:px-14">
       <div class="grid grid-cols-1 items-center gap-[60px] lg:grid-cols-[420px_1fr] lg:gap-[100px]">
-        <div class="mx-auto w-full max-w-[320px]">
+        <BlurReveal client:visible delay={0} className="mx-auto block w-full max-w-[320px]">
           <img
             src={`${base}img/photography/jon-profile-hero.jpg`}
             alt="Jon Encarnacion, standing outdoors with arms crossed, smiling"
             class="aspect-square w-full rounded-full border-2 border-orange object-cover"
           />
-        </div>
+        </BlurReveal>
 
         <div>
-          <p class="text-sm font-bold uppercase tracking-[0.375em] text-orange">Jon Encarnacion</p>
-          <h1 class="mt-3 max-w-2xl font-serif text-4xl text-white sm:text-5xl">Product & Delivery Strategist</h1>
-          <p class="mt-4 max-w-xl text-white/75">
-            Advises product and technology leaders on diagnosing delivery complexity, improving the economics of
-            product investment, and restoring execution clarity as organizations scale.
-          </p>
+          <BlurReveal client:visible delay={0.1} className="block">
+            <p class="text-sm font-bold uppercase tracking-[0.375em] text-orange">Jon Encarnacion</p>
+          </BlurReveal>
+          <BlurReveal client:visible delay={0.2} className="block">
+            <h1 class="mt-3 max-w-2xl font-serif text-4xl text-white sm:text-5xl">Product & Delivery Strategist</h1>
+          </BlurReveal>
+          <BlurReveal client:visible delay={0.3} className="block">
+            <p class="mt-4 max-w-xl text-white/75">
+              Advises product and technology leaders on diagnosing delivery complexity, improving the economics of
+              product investment, and restoring execution clarity as organizations scale.
+            </p>
+          </BlurReveal>
 
           {/* Expertise tags, BCG-style -- replaces the flow doc's separate
               "What Jon Brings" 4-card section; same four practitioner
               lenses, one compact row instead of a whole scroll stop. */}
-          <div class="mt-6 flex flex-wrap gap-2">
-            {capabilityLenses.map((lens) => (
-              <span class="rounded-full border border-orange/30 px-4 py-1.5 text-xs font-bold uppercase tracking-wide text-orange">
-                {lens.name}
-              </span>
-            ))}
-          </div>
+          <BlurReveal client:visible delay={0.4} className="block">
+            <div class="mt-6 flex flex-wrap gap-2">
+              {capabilityLenses.map((lens) => (
+                <span class="rounded-full border border-orange/30 px-4 py-1.5 text-xs font-bold uppercase tracking-wide text-orange">
+                  {lens.name}
+                </span>
+              ))}
+            </div>
+          </BlurReveal>
         </div>
       </div>
     </div>
@@ -118,7 +127,7 @@ const marqueeValues = [
 
   <section class="bg-wash-blue py-16 sm:py-24">
     <div class="mx-auto max-w-[1536px] px-6 sm:px-8 lg:px-10 xl:px-14">
-      <div class="mx-auto max-w-2xl text-center">
+      <div class="perspective-float mx-auto max-w-2xl text-center">
         <p class="text-sm font-bold uppercase tracking-[0.375em] text-orange">The Story</p>
         <h2 class="mt-3 font-serif text-4xl text-navy sm:text-5xl">A career spent making complex things work.</h2>
         <p class="mt-6 text-foreground/70">
@@ -150,7 +159,7 @@ const marqueeValues = [
 
   <section class="bg-white py-16 sm:py-24">
     <div class="mx-auto max-w-[1536px] px-6 sm:px-8 lg:px-10 xl:px-14">
-      <div>
+      <div class="hero-float-left">
         <p class="text-sm font-bold uppercase tracking-[0.375em] text-orange">Experience</p>
         <h2 class="mt-3 max-w-2xl font-serif text-4xl text-navy sm:text-5xl">
           Experience across complex product & technology environments.
@@ -161,9 +170,9 @@ const marqueeValues = [
         </p>
       </div>
 
-      <div class="mt-[50px] flex flex-col divide-y divide-line border-t border-line">
-        {experienceEntries.map((entry) => (
-          <div class="grid grid-cols-1 gap-2 py-6 sm:grid-cols-[220px_1fr] sm:gap-8">
+      <div class="mt-[50px] flex flex-col divide-y divide-line border-t border-line" data-reveal-grid>
+        {experienceEntries.map((entry, i) => (
+          <div class="grid grid-cols-1 gap-2 py-6 sm:grid-cols-[220px_1fr] sm:gap-8" data-reveal-item style={`transition-delay: ${i * 150}ms`}>
             <div>
               <p class="text-xs font-bold uppercase tracking-wide text-orange">{entry.category}</p>
               <p class="mt-1 text-sm text-foreground/50">{entry.dates}</p>
@@ -181,7 +190,7 @@ const marqueeValues = [
 
   <section class="bg-cream py-16 sm:py-24">
     <div class="mx-auto max-w-[1536px] px-6 sm:px-8 lg:px-10 xl:px-14">
-      <div class="mx-auto max-w-2xl text-center">
+      <div class="perspective-float mx-auto max-w-2xl text-center">
         <p class="text-sm font-bold uppercase tracking-[0.375em] text-orange">What They Say About Jon's Leadership</p>
         <h2 class="mt-3 font-serif text-4xl text-navy sm:text-5xl">Leadership is experienced from the inside.</h2>
         <p class="mt-4 text-foreground/70">
@@ -202,7 +211,7 @@ const marqueeValues = [
 
   <section class="relative overflow-hidden bg-navy py-20 sm:py-28">
     <div class="relative mx-auto max-w-[1536px] px-6 sm:px-8 lg:px-10 xl:px-14">
-      <p class="text-center text-sm font-bold uppercase tracking-[0.375em] text-orange">The Questions Behind the Work</p>
+      <p class="perspective-float text-center text-sm font-bold uppercase tracking-[0.375em] text-orange">The Questions Behind the Work</p>
       <div class="mt-[50px]">
         <EditorialCarousel client:visible items={questionsBehindTheWork} />
       </div>
@@ -211,7 +220,7 @@ const marqueeValues = [
 
   <section class="bg-wash-green py-16 sm:py-24">
     <div class="mx-auto max-w-[1536px] px-6 sm:px-8 lg:px-10 xl:px-14">
-      <div>
+      <div class="hero-float-left">
         <p class="text-sm font-bold uppercase tracking-[0.375em] text-orange">Selected Thinking</p>
         <h2 class="mt-3 max-w-2xl font-serif text-4xl text-navy sm:text-5xl">Ideas behind the work.</h2>
         <p class="mt-2">
@@ -219,23 +228,25 @@ const marqueeValues = [
         </p>
       </div>
 
-      <div class="mt-[50px] grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        {selectedThinking.map((article) => (
-          <InsightGridCard
-            title={article.title}
-            description={article.subhead}
-            image={article.heroImage}
-            imageAlt={article.heroImageAlt}
-            slug={article.slug}
-            Icon={IconBulb}
-          />
+      <div class="mt-[50px] grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4" data-reveal-grid>
+        {selectedThinking.map((article, i) => (
+          <div data-reveal-item style={`transition-delay: ${i * 150}ms`}>
+            <InsightGridCard
+              title={article.title}
+              description={article.subhead}
+              image={article.heroImage}
+              imageAlt={article.heroImageAlt}
+              slug={article.slug}
+              Icon={IconBulb}
+            />
+          </div>
         ))}
       </div>
     </div>
   </section>
 
   <section class="bg-cream py-16 sm:py-24">
-    <div class="mx-auto max-w-2xl px-6 text-center sm:px-8">
+    <div class="perspective-float mx-auto max-w-2xl px-6 text-center sm:px-8">
       <p class="text-sm font-bold uppercase tracking-[0.375em] text-orange">Beyond the Frameworks</p>
       <h2 class="mt-3 font-serif text-4xl text-navy sm:text-5xl">Good consulting should make complexity feel simpler.</h2>
       <p class="mt-6 text-foreground/70">
@@ -273,3 +284,115 @@ const marqueeValues = [
     <Footer transparent />
   </div>
 </Layout>
+
+<style>
+  /* Same reveal-on-scroll vocabulary used across the rest of the site
+     (services/[slug].astro, programs/[slug].astro, insights.astro, etc.)
+     -- this page previously had no scroll animation at all beyond the
+     self-contained islands (ValuesMarquee, StaggerTestimonials,
+     EditorialCarousel) and FinalCta's own built-in reveal. */
+  .hero-float-left {
+    opacity: 0;
+    transform: translateX(-28px);
+    transition:
+      opacity 1500ms cubic-bezier(0.23, 1, 0.32, 1),
+      transform 1500ms cubic-bezier(0.23, 1, 0.32, 1);
+  }
+
+  .hero-float-left.is-visible {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .perspective-float {
+    opacity: 0;
+    transform: translateY(28px);
+    transition:
+      opacity 1500ms cubic-bezier(0.23, 1, 0.32, 1),
+      transform 1500ms cubic-bezier(0.23, 1, 0.32, 1);
+  }
+
+  .perspective-float.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  [data-reveal-item] {
+    --reveal-duration: 1500ms;
+    opacity: 0;
+    transform: translateX(-28px);
+    transition:
+      opacity var(--reveal-duration) cubic-bezier(0.23, 1, 0.32, 1),
+      transform var(--reveal-duration) cubic-bezier(0.23, 1, 0.32, 1);
+  }
+
+  [data-reveal-item].is-visible {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-float-left,
+    .perspective-float,
+    [data-reveal-item] {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  function initHeroFloatLeft() {
+    document.querySelectorAll<HTMLElement>('.hero-float-left').forEach((el) => {
+      const io = new IntersectionObserver(
+        ([entry]) => {
+          if (!entry.isIntersecting) return;
+          el.classList.add('is-visible');
+          io.disconnect();
+        },
+        { threshold: 0.2 }
+      );
+      io.observe(el);
+    });
+  }
+
+  function initPerspectiveFloat() {
+    document.querySelectorAll<HTMLElement>('.perspective-float').forEach((el) => {
+      const io = new IntersectionObserver(
+        ([entry]) => {
+          if (!entry.isIntersecting) return;
+          el.classList.add('is-visible');
+          io.disconnect();
+        },
+        { threshold: 0.2 }
+      );
+      io.observe(el);
+    });
+  }
+
+  function initRevealGrids() {
+    document.querySelectorAll<HTMLElement>('[data-reveal-grid]').forEach((grid) => {
+      const items = grid.querySelectorAll<HTMLElement>('[data-reveal-item]');
+      if (!items.length) return;
+      const io = new IntersectionObserver(
+        ([entry]) => {
+          if (!entry.isIntersecting) return;
+          items.forEach((el) => el.classList.add('is-visible'));
+          io.disconnect();
+        },
+        { threshold: 0.2 }
+      );
+      io.observe(grid);
+    });
+  }
+
+  function init() {
+    initHeroFloatLeft();
+    initPerspectiveFloat();
+    initRevealGrids();
+  }
+
+  init();
+  document.addEventListener('astro:page-load', init);
+</script>
