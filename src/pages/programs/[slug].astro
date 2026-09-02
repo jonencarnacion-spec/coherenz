@@ -189,7 +189,7 @@ const capabilityIcons = {
   </section>
 
   <section class="bg-cream py-16 sm:py-24">
-    <div class="mx-auto max-w-[1536px] px-6 text-center sm:px-8 lg:px-10 xl:px-14">
+    <div class="perspective-float mx-auto max-w-[1536px] px-6 text-center sm:px-8 lg:px-10 xl:px-14">
       <p class="text-sm font-bold uppercase tracking-[0.375em] text-orange">Does This Sound Familiar?</p>
       <p class="mx-auto mt-5 max-w-3xl font-serif text-3xl italic text-navy sm:text-4xl">"{program.bestForQuestion}"</p>
     </div>
@@ -197,15 +197,21 @@ const capabilityIcons = {
 
   <section class="bg-white py-16 sm:py-24">
     <div class="mx-auto max-w-[1536px] px-6 sm:px-8 lg:px-10 xl:px-14">
-      <p class="text-sm font-bold uppercase tracking-[0.375em] text-orange">{detail.focus.eyebrow}</p>
-      <h2 class="mt-3 max-w-2xl font-serif text-4xl text-navy sm:text-5xl">{detail.focus.headline}</h2>
-      {detail.focus.intro && <p class="mt-4 max-w-2xl text-foreground/70">{detail.focus.intro}</p>}
+      <div class="hero-float-left">
+        <p class="text-sm font-bold uppercase tracking-[0.375em] text-orange">{detail.focus.eyebrow}</p>
+        <h2 class="mt-3 max-w-2xl font-serif text-4xl text-navy sm:text-5xl">{detail.focus.headline}</h2>
+        {detail.focus.intro && <p class="mt-4 max-w-2xl text-foreground/70">{detail.focus.intro}</p>}
+      </div>
 
-      <div class="mt-[50px] grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-5">
-        {detail.focus.dimensions.map((dim) => {
+      <div class="mt-[50px] grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-5" data-reveal-grid>
+        {detail.focus.dimensions.map((dim, i) => {
           const DimIcon = dimensionIcons[dim.label.toLowerCase()] ?? IconTarget;
           return (
-            <div class={`border border-line border-t-4 bg-white p-6 ${a.borderT}`}>
+            <div
+              class={`border border-line border-t-4 bg-white p-6 ${a.borderT}`}
+              data-reveal-item
+              style={`transition-delay: ${i * 150}ms`}
+            >
               <span class={`flex h-11 w-11 items-center justify-center rounded-full ${a.bg} ${a.text}`}>
                 <DimIcon size={20} stroke={1.8} />
               </span>
@@ -226,15 +232,17 @@ const capabilityIcons = {
         class="pointer-events-none absolute -right-10 -top-16 w-72 opacity-[0.22] sm:-right-6 sm:-top-20 sm:w-96"
       />
       <div class="relative mx-auto max-w-[1536px] px-6 sm:px-8 lg:px-10 xl:px-14">
-        <p class="text-sm font-bold uppercase tracking-[0.375em] text-orange">{detail.aiSection.eyebrow}</p>
-        <h2 class="mt-3 max-w-2xl font-serif text-4xl text-white sm:text-5xl">{detail.aiSection.headline}</h2>
-        <p class="mt-4 max-w-2xl text-white/70">{detail.aiSection.description}</p>
+        <div class="hero-float-left">
+          <p class="text-sm font-bold uppercase tracking-[0.375em] text-orange">{detail.aiSection.eyebrow}</p>
+          <h2 class="mt-3 max-w-2xl font-serif text-4xl text-white sm:text-5xl">{detail.aiSection.headline}</h2>
+          <p class="mt-4 max-w-2xl text-white/70">{detail.aiSection.description}</p>
+        </div>
 
-        <div class="mt-[50px] grid grid-cols-1 gap-4 sm:grid-cols-2">
-          {detail.aiSection.capabilities.map((cap) => {
+        <div class="mt-[50px] grid grid-cols-1 gap-4 sm:grid-cols-2" data-reveal-grid>
+          {detail.aiSection.capabilities.map((cap, i) => {
             const CapIcon = capabilityIcons[cap.icon];
             return (
-              <div class="flex gap-4 border border-white/15 bg-white/5 p-6">
+              <div class="flex gap-4 border border-white/15 bg-white/5 p-6" data-reveal-item style={`transition-delay: ${i * 150}ms`}>
                 <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-orange/40 text-orange">
                   <CapIcon size={20} stroke={1.8} />
                 </span>
@@ -247,7 +255,7 @@ const capabilityIcons = {
           })}
         </div>
 
-        <p class="mt-10 max-w-2xl font-serif text-xl text-white/90">{detail.aiSection.closingStatement}</p>
+        <p class="perspective-float mt-10 max-w-2xl font-serif text-xl text-white/90">{detail.aiSection.closingStatement}</p>
       </div>
     </section>
   )}
@@ -255,12 +263,14 @@ const capabilityIcons = {
   {detail.howItWorks && (
     <section class="bg-cream py-16 sm:py-24">
       <div class="mx-auto max-w-[1536px] px-6 sm:px-8 lg:px-10 xl:px-14">
-        <p class="text-sm font-bold uppercase tracking-[0.375em] text-orange">{detail.howItWorks.heading}</p>
-        <h2 class="mt-3 font-serif text-4xl text-navy sm:text-5xl">{detail.howItWorks.subheadline}</h2>
+        <div class="hero-float-left">
+          <p class="text-sm font-bold uppercase tracking-[0.375em] text-orange">{detail.howItWorks.heading}</p>
+          <h2 class="mt-3 font-serif text-4xl text-navy sm:text-5xl">{detail.howItWorks.subheadline}</h2>
+        </div>
 
-        <div class="mt-[50px] flex flex-col gap-4 lg:flex-row">
-          {detail.howItWorks.steps.map((step) => (
-            <div class={`flex-1 border border-line border-t-4 bg-white p-6 ${a.borderT}`}>
+        <div class="mt-[50px] flex flex-col gap-4 lg:flex-row" data-reveal-grid>
+          {detail.howItWorks.steps.map((step, i) => (
+            <div class={`flex-1 border border-line border-t-4 bg-white p-6 ${a.borderT}`} data-reveal-item style={`transition-delay: ${i * 150}ms`}>
               <p class={`text-xs font-bold uppercase tracking-wide ${a.text}`}>{step.number}</p>
               <p class="mt-2 font-serif text-xl text-navy">{step.name}</p>
               {step.description && <p class="mt-3 text-sm text-foreground/70">{step.description}</p>}
@@ -269,7 +279,7 @@ const capabilityIcons = {
         </div>
 
         {detail.aiSection && detail.aiSection.variant === 'callout' && (
-          <div class={`mt-10 max-w-3xl border border-line border-t-4 bg-white p-6 sm:p-8 ${a.borderT}`}>
+          <div class={`hero-float-left mt-10 max-w-3xl border border-line border-t-4 bg-white p-6 sm:p-8 ${a.borderT}`}>
             <p class="text-xs font-bold uppercase tracking-wide text-orange">{detail.aiSection.eyebrow}</p>
             <p class="mt-3 text-navy">{detail.aiSection.description}</p>
             <p class="mt-4 font-serif text-lg text-navy">{detail.aiSection.closingStatement}</p>
@@ -281,12 +291,14 @@ const capabilityIcons = {
 
   <section class="bg-white py-16 sm:py-24">
     <div class="mx-auto max-w-[1536px] px-6 sm:px-8 lg:px-10 xl:px-14">
-      <p class="text-sm font-bold uppercase tracking-[0.375em] text-orange">What You Leave With</p>
-      <h2 class="mt-3 max-w-2xl font-serif text-4xl text-navy sm:text-5xl">{program.promise}</h2>
+      <div class="hero-float-left">
+        <p class="text-sm font-bold uppercase tracking-[0.375em] text-orange">What You Leave With</p>
+        <h2 class="mt-3 max-w-2xl font-serif text-4xl text-navy sm:text-5xl">{program.promise}</h2>
+      </div>
 
-      <div class="mt-[50px] grid grid-cols-1 gap-4 sm:grid-cols-2">
-        {program.gains.map((gain) => (
-          <div class="flex items-start gap-3 border border-line bg-white p-5">
+      <div class="mt-[50px] grid grid-cols-1 gap-4 sm:grid-cols-2" data-reveal-grid>
+        {program.gains.map((gain, i) => (
+          <div class="flex items-start gap-3 border border-line bg-white p-5" data-reveal-item style={`transition-delay: ${i * 150}ms`}>
             <IconCircleCheckFilled size={20} class={`mt-0.5 shrink-0 ${a.text}`} />
             <p class="text-navy">{gain}</p>
           </div>
@@ -297,12 +309,14 @@ const capabilityIcons = {
 
   <section class="bg-navy py-16 sm:py-24">
     <div class="mx-auto max-w-[1536px] px-6 sm:px-8 lg:px-10 xl:px-14">
-      <p class="text-sm font-bold uppercase tracking-[0.375em] text-orange">Not the Right Fit?</p>
-      <h2 class="mt-3 max-w-2xl font-serif text-4xl text-white sm:text-5xl">Explore the Other Programs</h2>
+      <div class="hero-float-left">
+        <p class="text-sm font-bold uppercase tracking-[0.375em] text-orange">Not the Right Fit?</p>
+        <h2 class="mt-3 max-w-2xl font-serif text-4xl text-white sm:text-5xl">Explore the Other Programs</h2>
+      </div>
 
-      <div class="mt-[50px] grid grid-cols-1 gap-6 sm:grid-cols-3">
-        {otherProgramCardItems.map((item) => (
-          <div class="h-[384px]">
+      <div class="mt-[50px] grid grid-cols-1 gap-6 sm:grid-cols-3" data-reveal-grid>
+        {otherProgramCardItems.map((item, i) => (
+          <div class="h-[384px]" data-reveal-item style={`transition-delay: ${i * 150}ms`}>
             <ChallengeCard {...item} />
           </div>
         ))}
@@ -322,3 +336,115 @@ const capabilityIcons = {
   </FinalCta>
   <Footer />
 </Layout>
+
+<style>
+  /* Same reveal-on-scroll vocabulary used across the rest of the site
+     (services/[slug].astro, about.astro, insights.astro, etc.) -- every
+     section on this page previously appeared instantly with no motion,
+     except the hero, which keeps its own per-line BlurReveal and is left
+     untouched here. */
+  .hero-float-left {
+    opacity: 0;
+    transform: translateX(-28px);
+    transition:
+      opacity 1500ms cubic-bezier(0.23, 1, 0.32, 1),
+      transform 1500ms cubic-bezier(0.23, 1, 0.32, 1);
+  }
+
+  .hero-float-left.is-visible {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .perspective-float {
+    opacity: 0;
+    transform: translateY(28px);
+    transition:
+      opacity 1500ms cubic-bezier(0.23, 1, 0.32, 1),
+      transform 1500ms cubic-bezier(0.23, 1, 0.32, 1);
+  }
+
+  .perspective-float.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  [data-reveal-item] {
+    --reveal-duration: 1500ms;
+    opacity: 0;
+    transform: translateX(-28px);
+    transition:
+      opacity var(--reveal-duration) cubic-bezier(0.23, 1, 0.32, 1),
+      transform var(--reveal-duration) cubic-bezier(0.23, 1, 0.32, 1);
+  }
+
+  [data-reveal-item].is-visible {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-float-left,
+    .perspective-float,
+    [data-reveal-item] {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  function initHeroFloatLeft() {
+    document.querySelectorAll<HTMLElement>('.hero-float-left').forEach((el) => {
+      const io = new IntersectionObserver(
+        ([entry]) => {
+          if (!entry.isIntersecting) return;
+          el.classList.add('is-visible');
+          io.disconnect();
+        },
+        { threshold: 0.2 }
+      );
+      io.observe(el);
+    });
+  }
+
+  function initPerspectiveFloat() {
+    document.querySelectorAll<HTMLElement>('.perspective-float').forEach((el) => {
+      const io = new IntersectionObserver(
+        ([entry]) => {
+          if (!entry.isIntersecting) return;
+          el.classList.add('is-visible');
+          io.disconnect();
+        },
+        { threshold: 0.2 }
+      );
+      io.observe(el);
+    });
+  }
+
+  function initRevealGrids() {
+    document.querySelectorAll<HTMLElement>('[data-reveal-grid]').forEach((grid) => {
+      const items = grid.querySelectorAll<HTMLElement>('[data-reveal-item]');
+      if (!items.length) return;
+      const io = new IntersectionObserver(
+        ([entry]) => {
+          if (!entry.isIntersecting) return;
+          items.forEach((el) => el.classList.add('is-visible'));
+          io.disconnect();
+        },
+        { threshold: 0.2 }
+      );
+      io.observe(grid);
+    });
+  }
+
+  function init() {
+    initHeroFloatLeft();
+    initPerspectiveFloat();
+    initRevealGrids();
+  }
+
+  init();
+  document.addEventListener('astro:page-load', init);
+</script>
