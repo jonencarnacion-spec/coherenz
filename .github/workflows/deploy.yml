@@ -1,0 +1,50 @@
+name: Deploy to Hostinger
+
+# Builds the Astro static site and pushes it to Hostinger's public_html over
+# FTP on every push to main. See astro.config.mjs for the site/base setup
+# this depends on.
+#
+# Requires three repository secrets (Settings -> Secrets and variables ->
+# Actions -> New repository secret), sourced from Hostinger's hPanel
+# (Files -> FTP Accounts):
+#   FTP_SERVER    the FTP host (often ftp.coherenz.ph or a server IP)
+#   FTP_USERNAME  the FTP account username
+#   FTP_PASSWORD  the FTP account password
+#
+# server-dir below assumes coherenz.ph's web root is /public_html/ -- verify
+# this in hPanel's File Manager before the first real deploy. If coherenz.ph
+# is set up as an addon domain rather than the account's primary domain,
+# Hostinger nests it instead, e.g. /domains/coherenz.ph/public_html/.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Deploy to Hostinger
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: ./dist/
+          server-dir: /public_html/

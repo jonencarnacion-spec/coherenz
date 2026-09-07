@@ -8,11 +8,11 @@ import tailwindcss from '@tailwindcss/vite';
 
 // https://astro.build/config
 export default defineConfig({
-  // GitHub Pages hosting — MIGRATION.md. Repo: github.com/jonencarnacion-spec/coherenz.
-  // Project-site style (repo name != jonencarnacion-spec.github.io), so it serves
-  // at /coherenz/. If coherenz.com is wired up via CNAME later, drop `base` entirely.
-  site: 'https://jonencarnacion-spec.github.io',
-  base: '/coherenz',
+  // Hostinger hosting, deployed via .github/workflows/deploy.yml (FTP push to
+  // public_html on every push to main) — supersedes the original GitHub Pages
+  // plan in MIGRATION.md. Custom domain at the web root, so no `base` subpath
+  // is needed (unlike the old /coherenz/ project-pages path).
+  site: 'https://coherenz.ph',
   output: 'static',
 
   integrations: [react()],
