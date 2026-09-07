@@ -11,10 +11,10 @@ name: Deploy to Hostinger
 #   FTP_USERNAME  the FTP account username
 #   FTP_PASSWORD  the FTP account password
 #
-# server-dir below assumes coherenz.ph's web root is /public_html/ -- verify
-# this in hPanel's File Manager before the first real deploy. If coherenz.ph
-# is set up as an addon domain rather than the account's primary domain,
-# Hostinger nests it instead, e.g. /domains/coherenz.ph/public_html/.
+# server-dir is /domains/coherenz.ph/public_html/, confirmed via hPanel's File
+# Manager -- coherenz.ph is an addon domain on this hosting account, so its web
+# root is nested under domains/, not the account's top-level public_html
+# (which belongs to the account's primary domain instead).
 
 on:
   push:
@@ -47,4 +47,4 @@ jobs:
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: ./dist/
-          server-dir: /public_html/
+          server-dir: /domains/coherenz.ph/public_html/
