@@ -33,7 +33,7 @@ const navLinks = [
     </div>
   </div>
 
-  <ul id="nav-links-mobile" class="hidden flex-col gap-1 border-t border-white/10 px-6 py-4 text-white md:hidden">
+  <ul id="nav-links-mobile" class="hidden flex-col gap-1 border-t border-white/10 bg-navy px-6 py-4 text-white md:hidden">
     {navLinks.map((link) => (
       <li><a href={`${base}${link.href}`} class="block py-2">{link.label}</a></li>
     ))}
