@@ -14,6 +14,7 @@ import { coreIdeaSlides } from '../data/coreIdeaCarousel';
 import PhasesWheel from '../components/ui/phases-wheel.tsx';
 import { base } from '../lib/base';
 import { BlurReveal } from '../components/ui/blur-reveal.tsx';
+import { ShaderBackground } from '../components/ui/mesh-drift-shader.tsx';
 ---
 
 <Layout
@@ -78,11 +79,7 @@ import { BlurReveal } from '../components/ui/blur-reveal.tsx';
        after it reads as the direct answer to "these decisions are often
        made separately" rather than a new, unrelated topic. -->
   <section id="bridge" class="relative overflow-hidden bg-navy py-[70px] sm:py-[100px]">
-    <img
-      src={`${base}img/monogram.svg`}
-      alt=""
-      class="pointer-events-none absolute -right-10 -top-16 w-72 opacity-[0.18] sm:-right-6 sm:-top-20 sm:w-96"
-    />
+    <ShaderBackground client:visible className="absolute inset-0" />
     <div class="float-up relative mx-auto max-w-2xl px-6 text-center sm:px-8">
       <div class="mx-auto mb-8 h-px w-16 bg-orange" aria-hidden="true" />
       <p class="font-serif text-[28px] text-white sm:text-[34px]">
