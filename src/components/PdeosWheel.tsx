@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from 'react';
-import { cn } from '../lib/utils';
 import { base } from '../lib/base';
 import PdeosOrbitalComparison from './PdeosOrbitalComparison';
 import { IconTargetArrow, IconAdjustmentsHorizontal, IconChartBar, IconRefresh } from '@tabler/icons-react';
@@ -75,12 +74,7 @@ export default function PdeosWheel({
           }}
         >
           <p className="text-sm font-bold uppercase tracking-[0.375em] text-orange">{eyebrow}</p>
-          {/* whitespace-nowrap only fits the original, shorter default headline
-              -- an overridden headline (e.g. the longer Approach-page copy)
-              needs to wrap normally on narrower screens instead of overflowing. */}
-          <h2 className={cn('mt-3 font-serif text-4xl text-white sm:text-5xl', headline === DEFAULT_HEADLINE && 'whitespace-nowrap')}>
-            {headline}
-          </h2>
+          <h2 className="mt-3 font-serif text-4xl text-white sm:text-5xl">{headline}</h2>
           <p className="mt-3 text-white/70">
             {body ?? (
               <>
