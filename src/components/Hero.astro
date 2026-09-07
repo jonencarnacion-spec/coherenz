@@ -10,8 +10,14 @@ import OrbitalHeroSection from './ui/orbital-hero-section';
 import { BlurReveal } from './ui/blur-reveal.tsx';
 ---
 
-<section class="sticky top-0 z-0 min-h-screen bg-navy">
-  <div class="relative flex h-full min-h-screen items-center overflow-hidden">
+{/* min-h-[100dvh], not min-h-screen (100vh) -- on real mobile browsers,
+    100vh includes space behind the address bar, which resizes as it
+    shows/hides during scroll. That mismatch desyncs this section's sticky
+    pin from the actual visible viewport (a real-device bug desktop mobile
+    emulation doesn't reproduce, since emulation uses a fixed viewport
+    height). dvh tracks the real, currently-visible viewport instead. */}
+<section class="sticky top-0 z-0 min-h-[100dvh] bg-navy">
+  <div class="relative flex h-full min-h-[100dvh] items-center overflow-hidden">
     <div class="absolute inset-0">
       <OrbitalHeroSection
         client:load
