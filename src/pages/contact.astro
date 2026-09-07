@@ -6,7 +6,7 @@
 // suggested /talk-to-coherenz -- every existing "Start a conversation" CTA
 // sitewide already points at /contact).
 //
-// FORM BACKEND -- routes to jon.encarnacion@gmail.com via FormSubmit.co's
+// FORM BACKEND -- routes to jon.encarnacion@coherenz.ph via FormSubmit.co's
 // AJAX endpoint (https://formsubmit.co/ajax/<email>), chosen as a stopgap
 // specifically because it needs no account, no API key, and no server --
 // it just emails whatever fields are POSTed to it, which fits a static
@@ -17,8 +17,11 @@
 // party control -- e.g. a paid Formspree plan or a small serverless
 // function. Two things Jon needs to know:
 //   1. ONE-TIME ACTIVATION: FormSubmit emails a confirmation link to
-//      jon.encarnacion@gmail.com after the very first real submission.
-//      Until that link is clicked, submissions silently don't arrive.
+//      jon.encarnacion@coherenz.ph after the very first real submission
+//      to this address (switching the destination email resets this --
+//      re-activation is required even though the old gmail address was
+//      already confirmed). Until that link is clicked, submissions
+//      silently don't arrive.
 //   2. Their captcha is disabled below (_captcha: 'false') so the in-page
 //      sending/success flow doesn't get redirected to FormSubmit's own
 //      page -- the only spam mitigation is the honeypot field (_honey)
@@ -338,7 +341,7 @@ const alternativePaths = [
 
           <p id="cf-submit-error" class="mb-4 hidden text-sm text-destructive">
             Something went wrong sending your message. Please try again, or email{' '}
-            <a href="mailto:jon.encarnacion@gmail.com" class="font-bold underline">jon.encarnacion@gmail.com</a> directly.
+            <a href="mailto:jon.encarnacion@coherenz.ph" class="font-bold underline">jon.encarnacion@coherenz.ph</a> directly.
           </p>
 
           <button
@@ -669,7 +672,7 @@ const alternativePaths = [
       };
 
       try {
-        const response = await fetch('https://formsubmit.co/ajax/jon.encarnacion@gmail.com', {
+        const response = await fetch('https://formsubmit.co/ajax/jon.encarnacion@coherenz.ph', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
           body: JSON.stringify(payload),
