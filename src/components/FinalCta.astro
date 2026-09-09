@@ -113,11 +113,17 @@ const {
     opacity: 1;
     /* Tailwind's -translate-x-6/translate-y-6 utilities (applied via
        class=) set the standalone CSS `translate` property, not
-       `transform` -- resetting only `transform` here (as this used to)
-       never actually cancels that utility, so the element stayed
+       `transform` -- `transform` was never actually the moving part here
+       (confirmed at rest even pre-fix), so resetting it alone (as this
+       used to) never cancelled that utility, leaving the element
        permanently offset by its initial translate amount even once
-       "visible". Both need resetting. */
-    transform: translate(0, 0);
+       "visible". Deliberately NOT also setting `transform` in this same
+       rule: Astro's build-time CSS minifier folds a same-rule
+       transform+translate pair into a single `transform` value, which
+       silently drops this as a standalone cascade override -- the
+       Tailwind utility's `translate: -24px` (a separate rule, lower
+       specificity but never actually beaten) then still wins. Keeping
+       this rule to translate-only avoids that fold. */
     translate: 0;
   }
 
