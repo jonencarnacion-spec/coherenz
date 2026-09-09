@@ -181,6 +181,22 @@ function DialogContent({ children, className, style }: DialogContentProps) {
       layoutId={`dialog-${uniqueId}`}
       className={cn('overflow-hidden', className)}
       style={style}
+      // Swipe left/right to dismiss -- the X button is easy to miss
+      // against a full-bleed photo, and this is the more natural mobile
+      // gesture anyway. drag="x" only captures horizontal movement (sets
+      // touch-action: pan-y under the hood), so it doesn't fight the
+      // vertical overflow-y-auto scrolling this same element already
+      // does for longer descriptions. dragElastic gives the drag a soft
+      // rubber-band feel that snaps back if it doesn't clear the
+      // threshold, rather than 1:1 tracking the finger.
+      drag="x"
+      dragConstraints={{ left: 0, right: 0 }}
+      dragElastic={0.7}
+      onDragEnd={(_event, info) => {
+        if (Math.abs(info.offset.x) > 120 || Math.abs(info.velocity.x) > 500) {
+          setIsOpen(false);
+        }
+      }}
       role="dialog"
       aria-modal="true"
       aria-labelledby={`dialog-title-${uniqueId}`}
