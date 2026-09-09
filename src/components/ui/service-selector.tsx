@@ -152,6 +152,19 @@ function ServiceBlock({
                     </button>
                   ))}
                 </div>
+
+                {/* Below lg:, the glass card further down that normally
+                    surfaces a selected pill's explanation is hidden along
+                    with the whole image column it lives in -- so without
+                    this, tapping a pill highlighted it but the explanation
+                    itself had nowhere to render at all. Same content,
+                    shown inline right under the pills instead. */}
+                {activePill && (
+                  <div className="mt-4 border-t-2 border-orange bg-cream p-5 lg:hidden">
+                    <p className="text-[13px] font-bold uppercase tracking-wide text-orange">{activePill.title}</p>
+                    <p className="mt-2 text-sm text-navy/80">{activePill.description}</p>
+                  </div>
+                )}
               </div>
 
               {/* Stays pinned to the bottom of the column so it lines up
