@@ -55,11 +55,21 @@ const {
   >
     {
       showPortrait && (
-        <div class="contact-reveal order-2 flex shrink-0 -translate-x-6 justify-start opacity-0 transition-all duration-[1600ms] ease-out lg:order-1">
+        <div class="contact-reveal order-2 mx-auto w-full max-w-[340px] shrink-0 -translate-x-6 opacity-0 transition-all duration-[1600ms] ease-out sm:max-w-[400px] lg:order-1 lg:mx-0 lg:w-auto">
+          {/* The width constraint lives here on the wrapper (mx-auto +
+              max-w) rather than being inferred from the <img> below --
+              putting it on the img instead (as this used to) hit a real
+              centering bug where a flex item whose cross-size is driven by
+              a percentage-width child renders flush against the parent's
+              border edge instead of its padded content edge, so mx-auto
+              had no space to distribute even though it read as "correct"
+              width-wise. lg:w-auto + lg:mx-0 keeps desktop's existing
+              flush-left placement (portrait leading a row, text following
+              it) untouched, per Jon. */}
           <img
             src={`${base}img/photography/founder-cta-portrait.png`}
             alt="Jon Encarnacion, Founder & Principal, Coherenz"
-            class="w-full max-w-[340px] sm:max-w-[400px]"
+            class="w-full lg:max-w-[400px]"
           />
         </div>
       )
@@ -101,7 +111,14 @@ const {
 <style>
   .contact-reveal.is-visible {
     opacity: 1;
+    /* Tailwind's -translate-x-6/translate-y-6 utilities (applied via
+       class=) set the standalone CSS `translate` property, not
+       `transform` -- resetting only `transform` here (as this used to)
+       never actually cancels that utility, so the element stayed
+       permanently offset by its initial translate amount even once
+       "visible". Both need resetting. */
     transform: translate(0, 0);
+    translate: 0;
   }
 
   @media (prefers-reduced-motion: reduce) {
