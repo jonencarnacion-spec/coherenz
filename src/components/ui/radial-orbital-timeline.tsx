@@ -147,11 +147,18 @@ export default function RadialOrbitalTimeline({ timelineData, centerContent }: R
 
   return (
     <div
-      className="relative flex h-[560px] w-full items-center justify-center overflow-hidden bg-navy"
+      className="relative flex h-[380px] w-full items-center justify-center overflow-hidden bg-navy min-[500px]:h-[460px] sm:h-[560px]"
       ref={containerRef}
       onClick={handleContainerClick}
     >
-      <div className="relative flex h-full w-full max-w-4xl items-center justify-center">
+      {/* All node/ring positions below are computed in a fixed local
+          coordinate space (radius = 231.55px etc.), not measured from this
+          container's rendered size, so scaling this wrapper down on
+          narrow screens is safe -- it doesn't desync from the math. Below
+          640px the full-size ~463px-diameter wheel (the dotted outer
+          ring) doesn't fit most phones' width, so it gets progressively
+          scaled down; sm: and up matches the original, unscaled size. */}
+      <div className="relative flex h-full w-full max-w-4xl scale-[0.62] items-center justify-center min-[500px]:scale-[0.78] sm:scale-100">
         <div
           className="absolute flex h-full w-full items-center justify-center"
           ref={orbitRef}
