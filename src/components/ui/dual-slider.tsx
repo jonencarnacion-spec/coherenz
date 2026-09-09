@@ -36,6 +36,27 @@ function DualSlider({ items }: DualSliderProps) {
   const total = items.length;
   const item = items[active];
 
+  // Swipe/drag to advance, mirroring the reference's touch behavior --
+  // pointer events cover touch, mouse-drag, and pen in one handler rather
+  // than separate touch/mouse listeners. Only horizontal drags past a
+  // small threshold count, so this doesn't fight vertical page scroll or
+  // register accidental taps as swipes.
+  const dragStartRef = React.useRef<{ x: number; y: number } | null>(null);
+  const SWIPE_THRESHOLD_PX = 40;
+
+  function handlePointerDown(e: React.PointerEvent) {
+    dragStartRef.current = { x: e.clientX, y: e.clientY };
+  }
+  function handlePointerUp(e: React.PointerEvent) {
+    const start = dragStartRef.current;
+    dragStartRef.current = null;
+    if (!start) return;
+    const dx = e.clientX - start.x;
+    const dy = e.clientY - start.y;
+    if (Math.abs(dx) < SWIPE_THRESHOLD_PX || Math.abs(dx) < Math.abs(dy)) return;
+    go(dx < 0 ? 1 : -1);
+  }
+
   React.useEffect(() => {
     function measure() {
       const parent = trackRef.current?.parentElement;
@@ -96,20 +117,28 @@ function DualSlider({ items }: DualSliderProps) {
         </div>
       </div>
 
-      <div className="relative w-full overflow-hidden md:flex-1">
+      <div
+        className="relative w-full touch-pan-y overflow-hidden md:flex-1"
+        onPointerDown={handlePointerDown}
+        onPointerUp={handlePointerUp}
+      >
         <div
           ref={trackRef}
           className="flex transition-transform duration-700 ease-[cubic-bezier(0.25,1,0.5,1)]"
           style={{ gap: `${GAP_PX}px`, transform: `translateX(-${active * (slideWidth + GAP_PX)}px)` }}
         >
-          {items.map((it) => (
+          {items.map((it, i) => (
             <button
               key={it.id}
               type="button"
-              onClick={() => setActive(items.indexOf(it))}
+              // The active slide has no "elsewhere" to jump to, so clicking
+              // it advances instead of re-selecting itself (a no-op); every
+              // other slide (the next one peeking at the right edge) still
+              // jumps straight to that slide, same as before.
+              onClick={() => (i === active ? go(1) : setActive(i))}
               className="h-[260px] shrink-0 cursor-pointer overflow-hidden border border-line text-left md:h-[529px]"
               style={{ width: slideWidth || '100%' }}
-              aria-label={`Show ${it.title}`}
+              aria-label={i === active ? 'Show next' : `Show ${it.title}`}
             >
               <img src={it.src} alt={it.alt} className="h-full w-full object-cover" />
             </button>
