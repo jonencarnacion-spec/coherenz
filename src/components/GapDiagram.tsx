@@ -75,6 +75,7 @@ function GapDetailCard({ i, className }: { i: number; className: string }) {
 export default function GapDiagram() {
   const [activeGap, setActiveGap] = useState<number | null>(null);
   const rowRef = useRef<HTMLDivElement>(null);
+  const leakRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   // Float-in from the bottom, same character used across the site
   // (CoherenzPerspective.astro, ActionAndClosing.astro, insights.astro,
@@ -140,11 +141,27 @@ export default function GapDiagram() {
   // doesn't work here -- the wheel has a sparse canvas with lots of exposed
   // background; this row is fully tiled edge-to-edge by stage/gap columns,
   // so there's barely any of the row's own background exposed to click on.
-  // A document-level listener closes on any click outside the row instead.
+  // A document-level listener closes on any click outside the *active gap's
+  // own* button+card instead -- scoped to that one leak-column (not the
+  // whole row), so clicking anything else in the row (another stage node,
+  // a label, empty space between columns) also closes the open card.
+  //
+  // A click on a *different* gap's own trigger button is explicitly
+  // ignored here (data-gap-trigger below) rather than left to the "outside
+  // the active leak-column" check: that click bubbles to this same
+  // document listener, which would otherwise race the button's own
+  // onClick -- both fire for the same click, and since this listener
+  // attaches after React's, it would run last and stomp the new gap's
+  // setActiveGap(i) with setActiveGap(null) a tick later. Letting the
+  // button's own onClick be the sole authority for gap-to-gap switching
+  // avoids that.
   useEffect(() => {
     if (activeGap === null) return;
     function handleOutsideClick(e: MouseEvent) {
-      if (rowRef.current && !rowRef.current.contains(e.target as Node)) {
+      const target = e.target as HTMLElement;
+      if (target.closest('[data-gap-trigger]')) return;
+      const activeEl = leakRefs.current[activeGap as number];
+      if (activeEl && !activeEl.contains(target)) {
         setActiveGap(null);
       }
     }
@@ -251,6 +268,9 @@ export default function GapDiagram() {
               {i < gapLeaks.length && (
                 <div
                   key={`leak-${stage.name}`}
+                  ref={(el) => {
+                    leakRefs.current[i] = el;
+                  }}
                   className="relative flex items-start gap-[18px] py-3.5 pl-[37px] text-left min-[960px]:flex-1 min-[960px]:min-w-0 min-[960px]:flex-col min-[960px]:items-center min-[960px]:gap-0 min-[960px]:px-1.5 min-[960px]:py-0 min-[960px]:pl-1.5 min-[960px]:pt-[134px] min-[960px]:text-center"
                 >
                   {/* Desktop-only: the "!" badge moves onto the connector
@@ -260,6 +280,7 @@ export default function GapDiagram() {
                       card, same interaction as the PDE-OS wheel's nodes. */}
                   <button
                     type="button"
+                    data-gap-trigger
                     onClick={() => setActiveGap(activeGap === i ? null : i)}
                     aria-expanded={activeGap === i}
                     aria-label={`Gap between ${gapStages[i].name} and ${gapStages[i + 1].name}`}
@@ -288,6 +309,7 @@ export default function GapDiagram() {
                     <span className="h-[5px] w-[5px] shrink-0 rounded-full bg-orange/90" />
                     <button
                       type="button"
+                      data-gap-trigger
                       onClick={() => setActiveGap(activeGap === i ? null : i)}
                       aria-expanded={activeGap === i}
                       aria-label={`Gap between ${gapStages[i].name} and ${gapStages[i + 1].name}`}
