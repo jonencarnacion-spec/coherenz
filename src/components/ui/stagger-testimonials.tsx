@@ -26,7 +26,7 @@
 //   length far more than the original's punchy one-liners and would have
 //   collided with the fixed bottom-8 position.
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { IconChevronLeft, IconChevronRight } from '@tabler/icons-react';
 import { cn } from '@/lib/utils';
 
@@ -167,8 +167,47 @@ export const StaggerTestimonials: React.FC<StaggerTestimonialsProps> = ({ testim
     return () => window.removeEventListener('resize', updateSize);
   }, []);
 
+  // Swipe/drag through the deck -- pointer events cover touch, mouse-drag,
+  // and pen in one handler. Swiping left advances (same direction the
+  // prev/next buttons already move), right goes back. Only counts past a
+  // threshold and only when more horizontal than vertical, so this doesn't
+  // fight page scroll or register a plain tap as a swipe. A swipe that
+  // clears the threshold also suppresses the click event pointerup
+  // triggers next on whatever card ends up underneath -- without that, a
+  // successful swipe would immediately double-navigate again from that
+  // card's own onClick.
+  const dragStartRef = useRef<{ x: number; y: number } | null>(null);
+  const suppressClickRef = useRef(false);
+  const SWIPE_THRESHOLD_PX = 40;
+
+  const handlePointerDown = (e: React.PointerEvent) => {
+    dragStartRef.current = { x: e.clientX, y: e.clientY };
+  };
+  const handlePointerUp = (e: React.PointerEvent) => {
+    const start = dragStartRef.current;
+    dragStartRef.current = null;
+    if (!start) return;
+    const dx = e.clientX - start.x;
+    const dy = e.clientY - start.y;
+    if (Math.abs(dx) < SWIPE_THRESHOLD_PX || Math.abs(dx) < Math.abs(dy)) return;
+    suppressClickRef.current = true;
+    handleMove(dx < 0 ? 1 : -1);
+  };
+  const handleClickCapture = (e: React.MouseEvent) => {
+    if (suppressClickRef.current) {
+      suppressClickRef.current = false;
+      e.stopPropagation();
+    }
+  };
+
   return (
-    <div className="relative w-full overflow-hidden" style={{ height: 600 }}>
+    <div
+      className="relative w-full touch-pan-y overflow-hidden"
+      style={{ height: 600 }}
+      onPointerDown={handlePointerDown}
+      onPointerUp={handlePointerUp}
+      onClickCapture={handleClickCapture}
+    >
       {testimonialsList.map((testimonial, index) => {
         const position = testimonialsList.length % 2
           ? index - (testimonialsList.length + 1) / 2

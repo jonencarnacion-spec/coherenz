@@ -17,7 +17,7 @@
 // - The quote's `font-light` swapped for `font-serif` to match this
 //   project's headline face (DESIGN.md §2 -- DM Serif Display, weight 400
 //   only) instead of a light-weight sans cut.
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { IconChevronLeft, IconChevronRight } from '@tabler/icons-react';
 
 export interface EditorialCarouselItem {
@@ -54,8 +54,47 @@ export default function EditorialCarousel({ items }: EditorialCarouselProps) {
 
   const current = items[active];
 
+  // Swipe/drag to move between questions -- pointer events cover touch,
+  // mouse-drag, and pen in one handler. Swiping left goes to the next
+  // question (same direction the arrow button already moves), right goes
+  // back. Only counts past a threshold and only when more horizontal than
+  // vertical, so this doesn't fight page scroll or register a plain tap
+  // as a swipe. A swipe that clears the threshold also suppresses the
+  // click event pointerup triggers next on whatever's underneath (a dot,
+  // an arrow) -- without that, a swipe landing on one of those would
+  // immediately navigate again from its own onClick.
+  const dragStartRef = useRef<{ x: number; y: number } | null>(null);
+  const suppressClickRef = useRef(false);
+  const SWIPE_THRESHOLD_PX = 40;
+
+  const handlePointerDown = (e: React.PointerEvent) => {
+    dragStartRef.current = { x: e.clientX, y: e.clientY };
+  };
+  const handlePointerUp = (e: React.PointerEvent) => {
+    const start = dragStartRef.current;
+    dragStartRef.current = null;
+    if (!start) return;
+    const dx = e.clientX - start.x;
+    const dy = e.clientY - start.y;
+    if (Math.abs(dx) < SWIPE_THRESHOLD_PX || Math.abs(dx) < Math.abs(dy)) return;
+    suppressClickRef.current = true;
+    if (dx < 0) handleNext();
+    else handlePrev();
+  };
+  const handleClickCapture = (e: React.MouseEvent) => {
+    if (suppressClickRef.current) {
+      suppressClickRef.current = false;
+      e.stopPropagation();
+    }
+  };
+
   return (
-    <div className="mx-auto w-full max-w-3xl">
+    <div
+      className="mx-auto w-full max-w-3xl touch-pan-y"
+      onPointerDown={handlePointerDown}
+      onPointerUp={handlePointerUp}
+      onClickCapture={handleClickCapture}
+    >
       <div className="flex items-start gap-8">
         <span
           className="select-none text-[100px] font-light leading-none text-white/10 transition-all duration-500 sm:text-[120px]"
