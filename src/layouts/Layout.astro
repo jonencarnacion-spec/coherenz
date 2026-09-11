@@ -5,9 +5,26 @@ import { base } from '../lib/base';
 interface Props {
   title: string;
   description?: string;
+  // Path relative to the site root (e.g. "img/photography/insight-top.jpg")
+  // -- resolved to an absolute URL below, since social crawlers (LinkedIn,
+  // Facebook, Slack, ...) fetch og:image directly and won't resolve a
+  // relative path against the page URL themselves. Defaults to a branded
+  // 1200x630 card so every page has a correct, deliberate share image
+  // instead of whatever a given crawler's fallback heuristic happens to
+  // grab first from the page (previously the nav logo, or nothing).
+  image?: string;
+  type?: 'website' | 'article';
 }
 
-const { title, description = "Coherenz helps product organizations make better investment, prioritization and delivery decisions." } = Astro.props;
+const {
+  title,
+  description = "Coherenz helps product organizations make better investment, prioritization and delivery decisions.",
+  image = 'img/og-default.png',
+  type = 'website',
+} = Astro.props;
+
+const absoluteImageUrl = new URL(image, Astro.site).toString();
+const canonicalUrl = new URL(Astro.url.pathname, Astro.site).toString();
 ---
 
 <!doctype html>
@@ -16,10 +33,27 @@ const { title, description = "Coherenz helps product organizations make better i
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalUrl} />
     <link rel="icon" href={`${base}favicon.ico`} sizes="any" />
     <link rel="icon" href={`${base}favicon-32x32.png`} type="image/png" sizes="32x32" />
     <link rel="apple-touch-icon" href={`${base}apple-touch-icon.png`} />
     <meta name="generator" content={Astro.generator} />
+
+    <!-- Open Graph (LinkedIn, Facebook, Slack, ...) -->
+    <meta property="og:type" content={type} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:image" content={absoluteImageUrl} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:site_name" content="Coherenz" />
+
+    <!-- Twitter/X Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={absoluteImageUrl} />
 
     <!-- DESIGN.md §2 — DM Serif Display (headlines), Manrope (everything else), Montserrat (wordmark only) -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />

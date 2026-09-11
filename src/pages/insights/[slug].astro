@@ -50,7 +50,12 @@ const { article } = Astro.props;
 const related = article.relatedSlugs.map((s) => getInsightArticle(s)).filter(Boolean) as typeof insightArticles;
 ---
 
-<Layout title={`${article.title} — Coherenz Insights`} description={article.subhead}>
+<Layout
+  title={`${article.title} — Coherenz Insights`}
+  description={article.subhead}
+  image={article.heroImage ? `img/photography/${article.heroImage}` : undefined}
+  type="article"
+>
   <Nav />
 
   <InsightHeader
